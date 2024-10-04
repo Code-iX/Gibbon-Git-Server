@@ -1,0 +1,174 @@
+﻿@using Gibbon.Git.Server.Configuration
+@using Gibbon.Git.Server.Data
+@using Microsoft.Extensions.Options
+@inject IOptions<ApplicationSettings> AppSettings
+@model Gibbon.Git.Server.Models.RepositoryDetailModel
+
+@{
+    ViewBag.Title = Resources.Repository_Edit_Title;
+}
+
+@if (Model == null)
+{
+    @await Html.PartialAsync("~/Views/Shared/_ItemNotFound.cshtml")
+}
+else
+{
+    <h1>
+        @if (Model.Logo.Exists)
+        {
+            <img src='data:image/png;base64,@Model.Logo.Base64Image' class='repo-logo' />
+        }
+        @Model.Name
+    </h1>
+
+    @if (ViewBag.UpdateSuccess != null && ViewBag.UpdateSuccess)
+    {
+        <div class="summary-success">
+            <p>@Resources.Repository_Edit_UpdateSuccess</p>
+        </div>
+    }
+
+    @using (Html.BeginForm("Edit", "Repository", FormMethod.Post, new { @class = "pure-form pure-form-aligned", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(false, Resources.Repository_Edit_Fail)
+        @Html.HiddenFor(m => m.Id)
+        
+        <fieldset>
+            <div class="pure-control-group">
+                @Html.LabelFor(m => m.Name)
+                @Html.TextBoxFor(m => m.Name)
+                @Html.ValidationMessageFor(m => m.Name)
+            </div>
+            <div class="pure-control-group">
+                @Html.LabelFor(m => m.Group)
+                @Html.TextBoxFor(m => m.Group, new { @class = "medium" })
+            </div>
+            <div class="pure-control-group">
+                @Html.LabelFor(m => m.Description)
+                @Html.TextAreaFor(m => m.Description, new { @class = "medium" })
+            </div>
+
+            <div class="pure-control-group">
+                @Html.LabelFor(m => m.Logo.PostedFile)
+                <input type="file" name="Logo.PostedFile" id="Logo_PostedFile" />
+                <sup>.png, .jpg, .jpeg, .gif</sup>
+            </div>
+
+            <div class="pure-control-group">
+                @Html.LabelFor(m => m.Logo.RemoveLogo)
+                @Html.CheckBoxFor(m => m.Logo.RemoveLogo)
+            </div>
+
+            <div class="pure-control-group">
+                @Html.LabelFor(m => m.AllowAnonymous)
+                @Html.CheckBoxFor(m => m.AllowAnonymous, new { @onClick = "document.getElementById('AllowAnonymousPush').disabled = !this.checked" })
+                <i class="fa fa-info-circle" title="@Resources.Repository_AllowAnonymousHint"></i>
+            </div>
+
+            <div class="pure-control-group">
+                @Html.LabelFor(m => m.AllowAnonymousPush)
+                @{
+                    object attribs = new { id = "AllowAnonymousPush" };
+                    if (!Model.AllowAnonymous)
+                    {
+                        attribs = new { id = "AllowAnonymousPush", @disabled = "" };
+                    }
+                }
+                <select id="AllowAnonymousPush" name="AllowAnonymousPush" class="form-control" @(Model.AllowAnonymous ? "" : "disabled")>
+                    @foreach (var value in Enum.GetValues(typeof(RepositoryPushMode)))
+                    {
+                        bool isSelected = value.Equals(Model.AllowAnonymousPush);
+                        <option value="@value" selected="@(isSelected)">@value</option>
+                    }
+                </select>
+                <i class="fa fa-info-circle" title="@Resources.Repository_AllowAnonymousPushHint"></i>
+            </div>
+
+            @if (AppSettings.Value.IsPushAuditEnabled)
+            {
+                <div class="pure-control-group">
+                    @Html.LabelFor(m => m.AuditPushUser)
+                    @Html.CheckBoxFor(m => m.AuditPushUser)
+                    <i class="fa fa-info-circle" title="@Resources.Repository_AuditPushUserHint"></i>
+                </div>
+            }
+
+            <div class="pure-control-group">
+                @Html.LabelFor(m => m.LinksUseGlobal)
+                @Html.CheckBoxFor(m => m.LinksUseGlobal, new { @onClick = "document.getElementById('LinksRegex').disabled = this.checked; document.getElementById('LinksUrl').disabled = this.checked" })
+            </div>
+
+            <div class="pure-control-group">
+                @Html.LabelFor(m => m.LinksRegex)
+                @{
+                    var at1tribs = new { c1lass = "medium" };
+                    // if (Model.LinksUseGlobal)
+                    // {
+                    //     attribs = new { c1lass = "medium", @disabled = "disabled" };
+                    // }
+                    @Html.TextBoxFor(m => m.LinksRegex, at1tribs);
+                }
+                @Html.ValidationMessageFor(m => m.LinksRegex)
+            </div>
+
+            <div class="pure-control-group">
+                @Html.LabelFor(m => m.LinksUrl)
+                @Html.TextBoxFor(m => m.LinksUrl, attribs)
+                <i class="fa fa-info-circle" title="@Resources.Settings_Global_LinksUrl_Hint"></i>
+            </div>
+
+            <!-- Benutzer-Auswahl -->
+            <div class="pure-control-group checkboxlist">
+                @Html.LabelFor(m => m.Users)
+                <span>
+                    @foreach (var user in Model.AllUsers)
+                    {
+                        <div>
+                            <input type="checkbox" name="PostedSelectedUsers" value="@user.Id" @(Model.Users.Any(u => u.Id == user.Id) ? "checked" : "") />
+                            <label>@user.DisplayName</label>
+                        </div>
+                    }
+                </span>
+                <i class="fa fa-info-circle" title="@Resources.Repository_UsersHint"></i>
+            </div>
+
+            <!-- Administratoren-Auswahl -->
+            <div class="pure-control-group checkboxlist">
+                @Html.LabelFor(m => m.Administrators)
+                <span>
+                    @foreach (var admin in Model.AllAdministrators)
+                    {
+                        <div>
+                            <input type="checkbox" name="PostedSelectedAdministrators" value="@admin.Id" @(Model.Administrators.Any(a => a.Id == admin.Id) ? "checked" : "") />
+                            <label>@admin.DisplayName</label>
+                        </div>
+                    }
+                </span>
+                <i class="fa fa-info-circle" title="@Resources.Repository_AdministratorsHint"></i>
+                @Html.ValidationMessageFor(m => m.Administrators)
+            </div>
+
+            <!-- Teams-Auswahl -->
+            <div class="pure-control-group checkboxlist">
+                @Html.LabelFor(m => m.Teams)
+                <span>
+                    @foreach (var team in Model.AllTeams)
+                    {
+                        <div>
+                            <input type="checkbox" name="PostedSelectedTeams" value="@team.Id" @(Model.Teams.Any(t => t.Id == team.Id) ? "checked" : "") />
+                            <label>@team.DisplayName</label>
+                        </div>
+                    }
+                </span>
+                <i class="fa fa-info-circle" title="@Resources.Repository_TeamsHint"></i>
+            </div>
+
+            <div class="pure-controls">
+                <a class="pure-button" href="@Url.Action("Detail", new { id = Model.Id })"><i class="fa fa-long-arrow-left"></i> @Resources.Repository_Edit_Back</a>
+                <button type="submit" class="pure-button pure-button-primary"><i class="fa fa-save"></i> @Resources.Repository_Edit_Submit</button>
+            </div>
+        </fieldset>
+    }
+}

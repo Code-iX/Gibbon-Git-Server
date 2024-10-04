@@ -1,0 +1,72 @@
+﻿using System.ComponentModel.DataAnnotations;
+using Gibbon.Git.Server.Data;
+using Gibbon.Git.Server.Helpers;
+using Gibbon.Git.Server.Middleware.Attributes;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Gibbon.Git.Server.Models;
+
+public class RepositoryDetailModel
+{
+    public Guid Id { get; set; }
+
+    [Remote("UniqueNameRepo", "Validation", AdditionalFields = "Id", ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Duplicate_Name")]
+    [RegularExpression(StringHelper.NameIsValidPattern, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_FileName_Regex")]
+    [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Required")]
+    [FileName(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_FileName")]
+    [StringLength(50, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_StringLength")]
+    [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_Name")]
+    public string Name { get; set; } = "";
+
+    [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_Group")]
+    [StringLength(255, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_StringLength")]
+    public string Group { get; set; }
+
+    [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_Description")]
+    [StringLength(255, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_StringLength")]
+    public string Description { get; set; }
+
+    [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_Users")]
+    public UserModel[] Users { get; set; } = [];
+    public Guid[] PostedSelectedUsers { get; set; } = [];
+    public UserModel[] AllUsers { get; set; } = [];
+
+    [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_Teams")]
+    public TeamModel[] Teams { get; set; } = [];
+    public Guid[] PostedSelectedTeams { get; set; } = [];
+    public TeamModel[] AllTeams { get; set; } = [];
+
+    [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_Administrators")]
+    public UserModel[] Administrators { get; set; } = [];
+    public Guid[] PostedSelectedAdministrators { get; set; } = [];
+    public UserModel[] AllAdministrators { get; set; } = [];
+
+    [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_IsCurrentUserAdmin")]
+    public bool IsCurrentUserAdministrator { get; set; }
+
+    [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_Anonymous")]
+    public bool AllowAnonymous { get; set; }
+
+    [EnumDataType(typeof(RepositoryPushMode), ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Repository_Edit_InvalidAnonymousPushMode")]
+    [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_AllowAnonymousPush")]
+    public RepositoryPushMode AllowAnonymousPush { get; set; } = RepositoryPushMode.Global;
+
+    [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_Status")]
+    public RepositoryDetailStatus Status { get; set; }
+
+    [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_AuditPushUser")]
+    public bool AuditPushUser { get; set; }
+
+    public RepositoryLogoDetailModel Logo { get; set; }
+    public string GitUrl { get; set; }
+    public string PersonalGitUrl { get; set; }
+
+    [Remote("IsValidRegex", "Validation")]
+    [IsValidRegex]
+    [Display(ResourceType = typeof(Resources), Name = "Settings_Global_LinksRegex")]
+    public string LinksRegex { get; set; }
+    [Display(ResourceType = typeof(Resources), Name = "Settings_Global_LinksUrl")]
+    public string LinksUrl { get; set; }
+    [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_LinksUseGlobal")]
+    public bool LinksUseGlobal { get; set; } = true;
+}

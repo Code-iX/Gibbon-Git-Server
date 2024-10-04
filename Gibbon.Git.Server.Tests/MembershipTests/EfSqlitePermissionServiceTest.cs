@@ -1,0 +1,376 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Gibbon.Git.Server.Configuration;
+using Gibbon.Git.Server.Data;
+using Gibbon.Git.Server.Models;
+using Gibbon.Git.Server.Security;
+using Gibbon.Git.Server.Tests.TestHelper;
+using Microsoft.Extensions.DependencyInjection;
+using NSubstitute;
+
+namespace Gibbon.Git.Server.Tests.MembershipTests;
+
+[TestClass]
+public class EfSqlitePermissionServiceTest : DbTestBase<SqliteConnectionFactory>
+{
+    private IRepositoryPermissionService _service = null!;
+    private IRoleProvider _roleProvider = null!;
+    private IRepositoryService _repositoryService = null!;
+    private ServerSettings _serverSettings = null!;
+    private ITeamService _teamsService = null!;
+
+    protected override void ConfigureServices(ServiceCollection services)
+    {
+        _roleProvider = services.AddSubstitute<IRoleProvider>();
+        services.AddSubstitute<IMembershipService>();
+        _teamsService = services.AddSubstitute<ITeamService>();
+        _repositoryService = services.AddSubstitute<IRepositoryService>();
+        _serverSettings = new ServerSettings();
+        services.AddSingleton(_serverSettings);
+        services.AddSingleton<IRepositoryPermissionService, RepositoryPermissionService>();
+    }
+
+    protected override void UseServices(IServiceProvider serviceProvider)
+    {
+        _service = serviceProvider.GetRequiredService<IRepositoryPermissionService>();
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that anonymous users cannot create repositories.")]
+    public void AnonymousUserCannotCreateRepository()
+    {
+        var userId = Guid.Empty;
+        var canCreate = _service.HasCreatePermission(userId);
+        Assert.IsFalse(canCreate);
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that system administrators can create repositories.")]
+    public void SystemAdministratorCanCreateRepository()
+    {
+        var userId = Guid.NewGuid();
+        _roleProvider.GetRolesForUser(userId).Returns([Definitions.Roles.Administrator]);
+
+        var canCreate = _service.HasCreatePermission(userId);
+        Assert.IsTrue(canCreate);
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that non-administrator users can create repositories if allowed by settings.")]
+    public void NonAdminUserCanCreateRepositoryIfAllowedBySettings()
+    {
+        var userId = Guid.NewGuid();
+        _serverSettings.AllowUserRepositoryCreation = true;
+
+        var canCreate = _service.HasCreatePermission(userId);
+        Assert.IsTrue(canCreate);
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that a user has permission to access a repository with Pull level.")]
+    public void UserHasPullPermissionForRepository()
+    {
+        var userId = Guid.NewGuid();
+        var repositoryName = "TestRepo";
+        var newGuid = Guid.NewGuid();
+        var repositoryModel = new RepositoryModel
+        {
+            Id = newGuid,
+            Name = repositoryName,
+            AnonymousAccess = true
+        };
+        _repositoryService.GetRepository(repositoryName).Returns(repositoryModel);
+        _repositoryService.GetRepository(newGuid).Returns(repositoryModel);
+
+        var hasPermission = _service.HasPermission(userId, repositoryName, RepositoryAccessLevel.Pull);
+        Assert.IsTrue(hasPermission);
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that an anonymous user has pull permission for a repository allowing anonymous access.")]
+    public void AnonymousUserHasPullPermissionForRepositoryWithAnonymousAccess()
+    {
+        var userId = Guid.Empty;
+        var repositoryName = "PublicRepo";
+        var newGuid = Guid.NewGuid();
+        var repositoryModel = new RepositoryModel { Id = newGuid, Name = repositoryName, AnonymousAccess = true };
+        _repositoryService.GetRepository(repositoryName).Returns(repositoryModel);
+        _repositoryService.GetRepository(newGuid).Returns(repositoryModel);
+
+        var hasPermission = _service.HasPermission(userId, repositoryName, RepositoryAccessLevel.Pull);
+        Assert.IsTrue(hasPermission);
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that a user without appropriate roles cannot administer a repository.")]
+    public void UserWithoutRoleCannotAdministerRepository()
+    {
+        var userId = Guid.NewGuid();
+        var repositoryId = Guid.NewGuid();
+        _repositoryService.GetRepository(repositoryId).Returns(new RepositoryModel { Id = repositoryId });
+
+        var hasPermission = _service.HasPermission(userId, repositoryId, RepositoryAccessLevel.Administer);
+        Assert.IsFalse(hasPermission);
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that non-existent repository by name returns false for permission check.")]
+    public void NonExistentRepositoryByNameReturnsFalse()
+    {
+        var adminId = Guid.NewGuid();
+        _roleProvider.GetRolesForUser(adminId).Returns([Definitions.Roles.Administrator]);
+        var hasPermission = _service.HasPermission(adminId, "NonExistentRepos", RepositoryAccessLevel.Pull);
+        Assert.IsFalse(hasPermission);
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that non-existent repository by Guid throws exception for permission check.")]
+    [Ignore]
+    public void NonExistentRepositoryByGuidThrowsException()
+    {
+        var adminId = Guid.NewGuid();
+        _roleProvider.GetRolesForUser(adminId).Returns([Definitions.Roles.Administrator]);
+        Assert.ThrowsException<InvalidOperationException>(() => _service.HasPermission(adminId, Guid.NewGuid(), RepositoryAccessLevel.Pull));
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that admin is authorised for any repository.")]
+    public void AdminIsAuthorisedForAnyRepo()
+    {
+        var adminId = Guid.NewGuid();
+        _roleProvider.GetRolesForUser(adminId).Returns([Definitions.Roles.Administrator]);
+        var repoId = Guid.NewGuid();
+        _repositoryService.GetRepository(repoId).Returns(new RepositoryModel { Id = repoId });
+
+        var hasPermission = _service.HasPermission(adminId, repoId, RepositoryAccessLevel.Pull);
+        Assert.IsTrue(hasPermission);
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that unrelated user is not authorised for repository.")]
+    public void UnrelatedUserIsNotAuthorisedForRepo()
+    {
+        var userId = Guid.NewGuid();
+        var repoId = Guid.NewGuid();
+        _repositoryService.GetRepository(repoId).Returns(new RepositoryModel { Id = repoId });
+        _teamsService.GetTeamsForUser(userId).Returns([]);
+
+        var hasPermission = _service.HasPermission(userId, repoId, RepositoryAccessLevel.Pull);
+        Assert.IsFalse(hasPermission);
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that repository member user is authorised for repository.")]
+    public void RepoMemberUserIsAuthorised()
+    {
+        var userId = Guid.NewGuid();
+        var repoId = Guid.NewGuid();
+        var repositoryModel = new RepositoryModel { Id = repoId, Users = [new UserModel { Id = userId }] };
+        _repositoryService.GetRepository(repoId).Returns(repositoryModel);
+
+        var hasPermission = _service.HasPermission(userId, repoId, RepositoryAccessLevel.Pull);
+        Assert.IsTrue(hasPermission);
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that repository admin user is authorised for repository.")]
+    public void RepoAdminIsAuthorised()
+    {
+        var userId = Guid.NewGuid();
+        var repoId = Guid.NewGuid();
+        var repositoryModel = new RepositoryModel { Id = repoId, Administrators = [new UserModel { Id = userId }] };
+        _repositoryService.GetRepository(repoId).Returns(repositoryModel);
+
+        var hasPermission = _service.HasPermission(userId, repoId, RepositoryAccessLevel.Pull);
+        Assert.IsTrue(hasPermission);
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that non-team member is not authorised for repository.")]
+    public void NonTeamMemberIsNotAuthorised()
+    {
+        var userId = Guid.NewGuid();
+        var repoId = Guid.NewGuid();
+        var team = new TeamModel { Id = Guid.NewGuid() };
+        var repositoryModel = new RepositoryModel { Id = repoId, Teams = [team] };
+        _repositoryService.GetRepository(repoId).Returns(repositoryModel);
+        _teamsService.GetTeamsForUser(userId).Returns([]);
+
+        var hasPermission = _service.HasPermission(userId, repoId, RepositoryAccessLevel.Pull);
+        Assert.IsFalse(hasPermission);
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that team member is authorised for repository.")]
+    [Ignore]
+    public void TeamMemberIsAuthorised()
+    {
+        var userId = Guid.NewGuid();
+        var repoId = Guid.NewGuid();
+        var team = new TeamModel { Id = Guid.NewGuid(), Members = [new UserModel { Id = userId }] };
+        var repositoryModel = new RepositoryModel { Id = repoId, Teams = [team] };
+        _repositoryService.GetRepository(repoId).Returns(repositoryModel);
+
+        var hasPermission = _service.HasPermission(userId, repoId, RepositoryAccessLevel.Pull);
+        Assert.IsTrue(hasPermission);
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that system admin is always repository admin.")]
+    [Ignore]
+    public void SystemAdminIsAlwaysRepositoryAdmin()
+    {
+        var repoId = Guid.NewGuid();
+        _roleProvider.GetRolesForUser(Arg.Any<Guid>()).Returns([Definitions.Roles.Administrator]);
+        var hasPermission = _service.HasPermission(Guid.NewGuid(), repoId, RepositoryAccessLevel.Administer);
+        Assert.IsTrue(hasPermission);
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that a normal user is not repository admin.")]
+    public void NormalUserIsNotRepositoryAdmin()
+    {
+        var userId = Guid.NewGuid();
+        var repoId = Guid.NewGuid();
+        var repositoryModel = new RepositoryModel { Id = repoId, Users = [new UserModel { Id = userId }] };
+        _repositoryService.GetRepository(repoId).Returns(repositoryModel);
+
+        var hasPermission = _service.HasPermission(userId, repoId, RepositoryAccessLevel.Administer);
+        Assert.IsFalse(hasPermission);
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that a default repository does not allow anonymous access.")]
+    public void DefaultRepositoryDoesNotAllowAnonAccess()
+    {
+        var repoId = Guid.NewGuid();
+        _repositoryService.GetRepository(repoId).Returns(new RepositoryModel { Id = repoId });
+
+        Assert.IsFalse(_service.HasPermission(Guid.Empty, repoId, RepositoryAccessLevel.Pull));
+        Assert.IsFalse(_service.HasPermission(Guid.Empty, "TestRepo", RepositoryAccessLevel.Pull));
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that allowing anonymous push globally does not affect a repository without anonymous access.")]
+    public void AllowAnonymousPushDoesNotAffectDefaultRepository()
+    {
+        var repoId = Guid.NewGuid();
+        _repositoryService.GetRepository(repoId).Returns(new RepositoryModel { Id = repoId });
+
+        _serverSettings.AllowAnonymousPush = true;
+
+        Assert.IsFalse(_service.HasPermission(Guid.Empty, repoId, RepositoryAccessLevel.Push));
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that anonymous access can be permitted by repository property.")]
+    public void AnonAccessCanBePermittedWithRepoProperty()
+    {
+        var repoId = Guid.NewGuid();
+        var repository = new RepositoryModel { Id = repoId, AnonymousAccess = true };
+        _repositoryService.GetRepository(repoId).Returns(repository);
+
+        Assert.IsTrue(_service.HasPermission(Guid.Empty, repoId, RepositoryAccessLevel.Pull));
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that anonymous access does not allow push by default.")]
+    public void AnonAccessDoesNotAllowPushByDefault()
+    {
+        var repoId = Guid.NewGuid();
+        var repository = new RepositoryModel { Id = repoId, AnonymousAccess = true };
+        _repositoryService.GetRepository(repoId).Returns(repository);
+
+        Assert.IsFalse(_service.HasPermission(Guid.Empty, repoId, RepositoryAccessLevel.Push));
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that anonymous push can be enabled via server configuration.")]
+    public void AnonPushCanBeEnabledWithConfig()
+    {
+        var repoId = Guid.NewGuid();
+        var repository = new RepositoryModel { Id = repoId, AnonymousAccess = true };
+        _repositoryService.GetRepository(repoId).Returns(repository);
+
+        _serverSettings.AllowAnonymousPush = true;
+
+        Assert.IsTrue(_service.HasPermission(Guid.Empty, repoId, RepositoryAccessLevel.Push));
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that GetAllPermitted returns only repositories permitted for a specific user.")]
+    public void GetAllPermittedReturnsOnlyRepositoriesPermittedForUser()
+    {
+        var userId = Guid.NewGuid();
+        var repo1 = new RepositoryModel { Id = Guid.NewGuid(), Name = "Repo1", Users = [new UserModel { Id = userId }] };
+        var repo2 = new RepositoryModel { Id = Guid.NewGuid(), Name = "Repo2" };
+        _repositoryService.GetAllRepositories().Returns(new List<RepositoryModel> { repo1, repo2 });
+        _teamsService.GetTeamsForUser(userId).Returns([]);
+
+        var permittedRepos = _service.GetAllPermittedRepositories(userId, RepositoryAccessLevel.Pull);
+        CollectionAssert.AreEqual(new[] { "Repo1" }, permittedRepos.Select(r => r.Name).ToArray());
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that GetAllPermitted returns all repositories for system administrators.")]
+    public void GetAllPermittedReturnsAllRepositoriesToSystemAdmin()
+    {
+        var adminId = Guid.NewGuid();
+        _roleProvider.GetRolesForUser(adminId).Returns([Definitions.Roles.Administrator]);
+
+        var repo1 = new RepositoryModel { Id = Guid.NewGuid(), Name = "Repo1" };
+        var repo2 = new RepositoryModel { Id = Guid.NewGuid(), Name = "Repo2" };
+        _repositoryService.GetAllRepositories().Returns(new List<RepositoryModel> { repo1, repo2 });
+
+        var permittedRepos = _service.GetAllPermittedRepositories(adminId, RepositoryAccessLevel.Pull);
+        CollectionAssert.AreEqual(new[] { "Repo1", "Repo2" }, permittedRepos.Select(r => r.Name).ToArray());
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that an anonymous repository is permitted to anybody to pull.")]
+    public void AnonymousRepoIsPermittedToAnybodyToPull()
+    {
+        var repo = new RepositoryModel { Id = Guid.NewGuid(), Name = "Repo1", AnonymousAccess = true };
+        _repositoryService.GetRepository(repo.Id).Returns(repo);
+
+        var hasPermission = _service.HasPermission(Guid.Empty, repo.Id, RepositoryAccessLevel.Pull);
+        Assert.IsTrue(hasPermission);
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryPermission)]
+    [Description("Verify that a new repository is not permitted to an anonymous user.")]
+    public void NewRepositoryNotPermittedToAnonymousUser()
+    {
+        var repo = new RepositoryModel { Id = Guid.NewGuid(), Name = "Repo1" };
+        _repositoryService.GetRepository(repo.Id).Returns(repo);
+
+        var hasPermission = _service.HasPermission(Guid.Empty, repo.Id, RepositoryAccessLevel.Pull);
+        Assert.IsFalse(hasPermission);
+    }
+}

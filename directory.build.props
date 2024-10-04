@@ -1,0 +1,36 @@
+<Project>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Authors>Code-iX</Authors>
+		<Company>$(Authors)</Company>
+		<RepositoryUrl>https://github.com/Code-iX/Gibbon-Git-Server</RepositoryUrl>
+		<AssemblyTitle>Gibbon Git Server</AssemblyTitle>
+		<AssemblyDescription>Git server for IIS.</AssemblyDescription>
+		<AssemblyCompany>Matthias Voigt</AssemblyCompany>
+		<AssemblyProduct>Gibbon Git Server</AssemblyProduct>
+		<AssemblyCopyright>Copyright © Matthias Voigt 2024</AssemblyCopyright>
+		<AssemblyVersion>0.3.0.0</AssemblyVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
+		<IsTestProject>true</IsTestProject>
+		<IsPackable>false</IsPackable>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
+		<PackageReference Include="coverlet.collector" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" />
+		<PackageReference Include="MSTest" />
+		<PackageReference Include="NSubstitute" />
+		<PackageReference Include="NSubstitute.Analyzers.CSharp">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+	</ItemGroup>
+</Project>

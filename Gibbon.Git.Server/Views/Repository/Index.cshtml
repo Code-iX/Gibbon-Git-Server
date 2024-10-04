@@ -1,0 +1,195 @@
+﻿@using Gibbon.Git.Server.Configuration
+@using Gibbon.Git.Server.Data
+@using Gibbon.Git.Server.Data.Entities
+@using Gibbon.Git.Server.Models
+@using Gibbon.Git.Server.Security
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.Extensions.Options
+@inject ServerSettings ServerSettings
+@model Dictionary<string, Gibbon.Git.Server.Models.RepositoryDetailModel[]>
+
+@{
+    ViewBag.Title = Resources.Repository_Index_Title;
+}
+
+@functions
+{
+    string GetNameToDisplay(string name, RepositoryDetailStatus status)
+    {
+        switch (status)
+        {
+            case RepositoryDetailStatus.Valid:
+                return name;
+
+            case RepositoryDetailStatus.Missing:
+                return name + " (Missing)";
+
+            case RepositoryDetailStatus.Unknown:
+            default:
+                return name + " (Status Unknown)";
+        }
+    }
+}
+
+<div class="pure-g">
+    <div class="pure-u-2-5">
+        <h1>@Resources.Repository_Index_Title</h1>
+    </div>
+    <div class="pure-u-3-5 add">
+
+        @if (User.IsInRole(Definitions.Roles.Administrator) || ServerSettings.AllowUserRepositoryCreation)
+        {
+            <a class="pure-button pure-button-primary" href="@Url.Action("Create")"><i class="fa fa-plus-circle"></i> @Resources.Repository_Index_CreateNew</a>
+        }
+        @if (User.IsInRole(Definitions.Roles.Administrator))
+        {
+            <form action="@Url.Action("Rescan", new { id = "x" })" method="post" class="inline-form">
+                <button type="submit" class="pure-button pure-button-primary"><i class="fa fa-refresh"></i> @Resources.Repository_Rescan_Directory</button>
+            </form>
+        }
+    </div>
+</div>
+
+@if (TempData["CreateSuccess"] as bool? == true)
+{
+    <div class="summary-success">
+        <p>@Resources.Repository_Create_Success</p>
+        <p>@Html.ActionLink(string.Format(Resources.Repository_Create_Success_Go_To, TempData["SuccessfullyCreatedRepositoryName"]), "Detail", new { id = TempData["SuccessfullyCreatedRepositoryId"].ToString() })</p>
+    </div>
+}
+@if (TempData["CloneSuccess"] as bool? == true)
+{
+    <div class="summary-success">
+        <p>@Resources.Repository_Clone_Success</p>
+    </div>
+}
+@if (TempData["DeleteSuccess"] as bool? == true)
+{
+    <div class="summary-success">
+        <p>@Resources.Repository_Delete_Success</p>
+    </div>
+}
+
+<div class="pure-g">
+    <div class="pure-u-2-5">
+        <form class="pure-form" method="post">
+            <p>
+                <input type="text" name="SearchString" />
+                <input type="submit" value="@Resources.Search" class="pure-button pure-button-primary" />
+            </p>
+        </form>
+    </div>
+    <div class="pure-u-3-5 add">
+        @{
+            var sortGroupQuery = ViewContext.HttpContext.Request.Query["sortGroup"].ToString();
+
+            var sortGroup = new
+            {
+                sortGroup = string.IsNullOrEmpty(sortGroupQuery) ? "DESC" : (sortGroupQuery.Equals("ASC") ? "DESC" : "ASC")
+            };
+        }
+        <a class="pure-button pure-button-primary" href="@Url.Action("Index", sortGroup)"><i class="fa fa-sort"></i> @Resources.Repository_Index_SortGroup</a>
+    </div>
+</div>
+
+
+<div class="pure-g">
+    @foreach (var model in Model)
+    {
+        var emptyGroup = string.IsNullOrEmpty(model.Key);
+
+        if (!emptyGroup)
+        {
+            <div class="pure-u-1">
+                <h2 class="group">
+                    <span class="toggle" data-group="@(model.Key)"></span>
+                    @(model.Key)
+                </h2>
+            </div>
+        }
+
+        <div class="pure-u-1">
+            <table class="pure-table repositories">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>@Resources.Repository_Header_Name</th>
+                        <th></th>
+                        <th>@Resources.Repository_Header_Description</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var repo in model.Value)
+                    {
+                        <tr>
+                            <td>
+                                @if (repo.Logo.Exists)
+                                {
+                                    <img src="data:image/png;base64,@repo.Logo.Base64Image" class="repo-logo" />
+                                }
+                            </td>
+                            <td>
+
+                                @Html.ActionLink(GetNameToDisplay(repo.Name, repo.Status), "Detail", new { id = repo.Id }, new { @class = "RepositoryName detail" + (repo.Logo.Exists ? " customLogo" : ""), @id = "repo_" + repo.Id })
+
+                            </td>
+                            <td>
+                                <!-- Start: Hinzufügen der Features für AllowAnonymous und AllowAnonymousPush -->
+                                @{
+                                    var anonColor = repo.AllowAnonymous ? "rgba(0, 120, 230, 1)" : "lightblue";
+                                    var anonTitle = Resources.Repository_Detail_Anonymous + ": " + (repo.AllowAnonymous ? Resources.Yes : Resources.No);
+
+                                    var pushSetting = ServerSettings.AllowAnonymousPush;
+                                    if (repo.AllowAnonymousPush != RepositoryPushMode.Global)
+                                    {
+                                        pushSetting = repo.AllowAnonymousPush == RepositoryPushMode.Yes;
+                                    }
+
+                                    var pushIcon = repo.AllowAnonymousPush == RepositoryPushMode.Global ? "fa-globe" : "fa-sign-in";
+                                    var pushTitle = Resources.Repository_Detail_AllowAnonymousPush + ": " + (pushSetting ? Resources.Yes : Resources.No);
+                                    var pushColor = pushSetting ? "rgba(0, 120, 230, 1)" : "lightblue";
+                                }
+
+                                <span class="fa-fw">
+                                    <div class="fa fa-sign-out" style="display: block; color: @anonColor" title="@anonTitle"></div>
+                                    <div class="fa @pushIcon" style="display: block; color: @pushColor" title="@pushTitle"></div>
+                                </span>
+                                <!-- Ende: Hinzufügen der Features für AllowAnonymous und AllowAnonymousPush -->
+                            </td>
+
+                            <td>
+                                @if (repo.Description is { Length: > 100 })
+                                {
+                                    @(repo.Description[..100] + " ...")
+                                }
+                                else
+                                {
+                                    @repo.Description
+                                }
+                            </td>
+                            <td class="pull-right">
+
+                                <a href="@Url.Action("Edit", new { id = repo.Id })" class="edit" title="@Resources.Grid_Edit">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+
+                                <a href="@Url.Action("Delete", new { id = repo.Id })" class="delete" title="@Resources.Grid_Delete">
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
+                                <button class="pure-button copy-to-clip-button" title="@Resources.Repository_Git_Url_Copy" data-clipboard-text="@repo.GitUrl">
+                                    <i class="fa fa-copy"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@section scripts {
+    <script src="~/js/RepositoryGroupToggle.js" defer="defer"></script>
+    <script>new Clipboard('.copy-to-clip-button');</script>
+}

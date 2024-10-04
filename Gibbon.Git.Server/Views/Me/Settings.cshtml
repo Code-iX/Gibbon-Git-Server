@@ -1,0 +1,30 @@
+﻿@model Gibbon.Git.Server.Models.UserSettingsModel
+@{
+    Layout = "~/Views/Me/_MeLayout.cshtml";
+    ViewBag.Title = Resources.Settings_Index_Title;
+}
+
+@Html.SummaryMessage("UpdateSuccess", Resources.Settings_Index_UpdateSuccess)
+@Html.SummaryMessage("ResetSuccess", Resources.Settings_Index_ResetSuccess)
+
+@using (Html.BeginForm("Settings", "Me", FormMethod.Post, new { @class = "pure-form pure-form-aligned" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(false, Resources.Settings_Index_Failed)
+
+    <fieldset>
+
+        <div class="pure-control-group">
+            @Html.LabelFor(m => m.DefaultLanguage)
+            @Html.DropDownListFor(m => m.DefaultLanguage, Model.AvailableLanguages, new { @class = "medium", autofocus = "" })
+            <i class="fa fa-info-circle" title="@Resources.Settings_Global_DefaultLanguage_Hint"></i>
+        </div>
+
+        <div class="pure-controls">
+            <button type="submit" class="pure-button pure-button-primary">
+                <i class="fa fa-save"></i>@Resources.Settings_Index_Save
+            </button>
+        </div>
+    </fieldset>
+
+}

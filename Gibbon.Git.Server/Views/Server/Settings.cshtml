@@ -1,0 +1,84 @@
+﻿@using Gibbon.Git.Server.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Gibbon.Git.Server.Models.ServerSettingsModel
+@{
+    Layout = "_ServerLayout";
+    ViewBag.Title = Resources.Settings_Index_Title;
+}
+
+@Html.SummaryMessage("UpdateSuccess", Resources.Settings_Index_UpdateSuccess)
+@Html.SummaryMessage("ResetSuccess", Resources.Settings_Index_ResetSuccess)
+
+@using (Html.BeginForm("Settings", "Server", FormMethod.Post, new { @class = "pure-form pure-form-aligned" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(false, Resources.Settings_Index_Failed)
+
+    <fieldset>
+        <div class="pure-control-group">
+            @Html.LabelFor(m => m.SiteTitle)
+            @Html.TextBoxFor(m => m.SiteTitle, new { @class = "medium", autofocus = "" })
+            <i class="fa fa-info-circle" title="@Resources.Settings_Global_SiteTitle_Hint"></i>
+        </div>
+        <div class="pure-control-group">
+            @Html.LabelFor(m => m.SiteLogoUrl)
+            @Html.TextBoxFor(m => m.SiteLogoUrl, new { @class = "medium", autofocus = "" })
+            <i class="fa fa-info-circle" title="@Resources.Settings_Global_SiteLogoUrl_Hint"></i>
+        </div>
+        <div class="pure-control-group">
+            @Html.LabelFor(m => m.SiteCssUrl)
+            @Html.TextBoxFor(m => m.SiteCssUrl, new { @class = "medium", autofocus = "" })
+            <i class="fa fa-info-circle" title="@Resources.Settings_Global_SiteCssUrl_Hint"></i>
+        </div>
+        <div class="pure-control-group">
+            @Html.LabelFor(m => m.DefaultLanguage)
+            @Html.DropDownListFor(m => m.DefaultLanguage, Model.AvailableLanguages, new { @class = "medium", autofocus = "" })
+            <i class="fa fa-info-circle" title="@Resources.Settings_Global_DefaultLanguage_Hint"></i>
+        </div>
+        <div class="pure-controls">
+            <label for="AllowAnonymousRegistration" class="pure-checkbox">@Html.CheckBoxFor(m => m.AllowAnonymousRegistration) @Model.GetType().GetDisplayValue("AllowAnonymousRegistration") <i class="fa fa-info-circle" title="@Resources.Settings_Global_AllowAnonymousRegistration_Hint"></i></label>
+            <label for="AllowUserRepositoryCreation" class="pure-checkbox">@Html.CheckBoxFor(m => m.AllowUserRepositoryCreation) @Model.GetType().GetDisplayValue("AllowUserRepositoryCreation") <i class="fa fa-info-circle" title="@Resources.Settings_Global_AllowUserRepositoryCreation_Hint"></i></label>
+            <label for="AllowPushToCreate" class="pure-checkbox">@Html.CheckBoxFor(m => m.AllowPushToCreate) @Model.GetType().GetDisplayValue("AllowPushToCreate") <i class="fa fa-info-circle" title="@Resources.Settings_Global_AllowPushToCreate_Hint"></i></label>
+            <label for="AllowAnonymousPush" class="pure-checkbox">@Html.CheckBoxFor(m => m.AllowAnonymousPush) @Model.GetType().GetDisplayValue("AllowAnonymousPush")</label>
+            <label for="IsCommitAuthorAvatarVisible" class="pure-checkbox">@Html.CheckBoxFor(m => m.IsCommitAuthorAvatarVisible) @Model.GetType().GetDisplayValue("IsCommitAuthorAvatarVisible")</label>
+        </div>
+        <div class="pure-control-group">
+            @Html.LabelFor(m => m.LinksRegex)
+            @Html.TextBoxFor(m => m.LinksRegex, new { @class = "medium", autofocus = "" })
+            @Html.ValidationMessageFor(m => m.LinksRegex)
+        </div>
+        <div class="pure-control-group">
+            @Html.LabelFor(m => m.LinksUrl)
+            @Html.TextBoxFor(m => m.LinksUrl, new { @class = "medium", autofocus = "" })
+            <i class="fa fa-info-circle" title="@Resources.Settings_Global_LinksUrl_Hint"></i>
+        </div>
+        <div class="pure-controls">
+            <button type="submit" class="pure-button pure-button-primary">
+                <i class="fa fa-save"></i>@Resources.Settings_Index_Save
+            </button>
+        </div>
+    </fieldset>
+
+}
+<div class="pure-g">
+    <div class="pure-u-3-5">
+        <a class="pure-button" href="@Url.Action("DownloadGit")"><i class="fa fa-download"></i>Download git</a>
+
+        <form asp-action="ResetSettings" method="post" onsubmit="return confirmReset();" class="inline-form">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="pure-button">
+                <i class="fa fa-undo"></i> @Resources.Settings_Index_Reset
+            </button>
+        </form>
+
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        function confirmReset() {
+            return confirm("@Html.Raw(Resources.Settings_Index_ResetConfirmation)");
+        }
+    </script>
+}

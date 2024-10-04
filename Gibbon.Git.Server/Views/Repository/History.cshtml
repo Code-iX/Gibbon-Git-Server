@@ -1,0 +1,31 @@
+﻿@using Gibbon.Git.Server.Models
+@model Gibbon.Git.Server.Models.RepositoryCommitsModel
+@{
+    Layout = "~/Views/Repository/_RepositoryLayout.cshtml";
+    ViewBag.Title = Resources.Repository_History_Title;
+}
+@if (Model != null)
+{
+    <div class="repositoryContent">
+        <h2>@Resources.Repository_History_Title</h2> <!-- Header für die Commits -->
+        <div class="commit-list-header">
+            <div class="commit-message">Resources.Repository_Commit_Message</div>
+            <div class="commit-author">Resources.Repository_Commit_Author</div>
+            <div class="commit-date">Resources.Repository_Commit_Date</div>
+        </div>
+        <hr />
+        @if (Model.Commits != null && Model.Commits.Any())
+        {
+            <div>
+                @foreach (var commit in Model.Commits)
+                {
+                    @await Html.PartialAsync("_Commit", commit)
+                }
+            </div>
+        }
+        else
+        {
+            <p>Resources.NoCommitsFound</p>
+        }
+    </div>
+}

@@ -1,0 +1,15 @@
+﻿@model ServerGitModel
+@{
+    Layout = "~/Views/Server/_ServerLayout.cshtml";
+    ViewBag.Title = Resources.Settings_Index_Title;
+}
+
+
+<div class="pure-form pure-form-aligned detail">
+    <fieldset>
+        <div class="pure-control-group">
+            @Html.LabelFor(m => m.IsGitAvailable)
+            <span>@(Model.IsGitAvailable ? @Resources.Yes : @Resources.No)</span>
+        </div>
+    </fieldset>
+</div>

@@ -1,3 +1,90 @@
+# Gibbon Git Server
+
+**Gibbon Git Server** is a self-hosted Git server built with **ASP.NET Core**. This fork is currently under heavy development, and branch squashing will occur soon. Feel free to explore, but please refrain from forking for development purposes at this time.
+
+[![GitHub Pages](https://github.com/Code-iX/Gibbon-Git-Server/actions/workflows/jekyll-gh-pages.yml/badge.svg)](https://github.com/Code-iX/Gibbon-Git-Server/actions/workflows/jekyll-gh-pages.yml)
+
+For further information and documentation, please visit the [official website](https://code-ix.github.io/Gibbon-Git-Server/).
+
+---
+
+## Key Changes
+
+- Migrated from .NET Framework to **ASP.NET Core 8**.
+- Removed support for **Active Directory (AD) login**.
+- Dropped **SQL Server** support in favor of **Entity Framework migrations**.
+
+## Features
+
+- Web-based interface for managing Git repositories and users.
+- Full Git support (clone, push, pull, etc.).
+- Enhanced performance through .NET 8 optimizations.
+- Open-source under the **MIT license**.
+- Fully cross-platform thanks to .NET Core.
+
+## Prerequisites
+
+- **ASP.NET Core Runtime** (version 8 or higher).
+- Windows Server with IIS or use **Kestrel** for cross-platform hosting.
+
+## Installation Steps
+
+1. **Clone the repository**:
+   <code>git clone https://github.com/Code-iX/Gibbon-Git-Server.git</code>
+
+2. **Publish the application** using the .NET Core CLI:
+   <code>dotnet publish -c Release -o ./publish</code>
+
+3. **Deploy** the published files on IIS (Windows) or any web server (e.g., Kestrel for Linux/macOS).
+
+4. **Database Setup**:
+   - Update the connection string in <code>appsettings.json</code> for your preferred database (SQLite is default).
+   - Run Entity Framework migrations:
+     <code>dotnet ef database update</code>
+
+5. **Run the Application**:
+   - Launch the app via IIS or directly using:
+     <code>dotnet Gibbon-Git-Server.dll</code>
+
+6. **Access the Web Interface** at `http://localhost:5000` (or your configured port).
+
+## Configuration
+
+- Update **`appsettings.json`** to adjust application settings.
+- The default database is SQLite, but you can switch to another by updating the connection string.
+
+## FAQ
+
+### How do I clone a repository?
+
+1. Go to the **Repository Details** page.
+2. Copy the **Git Repository Location**.
+3. Run the following in your terminal:
+   <code>git clone http://your-server-name/repository-name.git</code>
+
+### How do I change the password?
+
+1. Navigate to the **Account Settings**.
+2. Enter your new password and save.
+
+### How do I back up my data?
+
+- Backup the **App_Data** folder and your repositories.
+- If you're using a different database (e.g., MySQL), back it up separately.
+
+## Contributing
+
+Pull requests are welcome. For significant changes, please open an issue first to discuss what you'd like to change.
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+old readme:
+
+---
+
 Bonobo Git Server
 ==============================================
 
@@ -120,11 +207,3 @@ Bonobo provides the following environment variables:
 * `AUTH_USER_DISPLAYNAME`: Given Name + Surname if available. Else the username.
 
 **Beware that due to the way HTTP basic authentication works, if anonymous operations (push/pull) are enabled the variables above will always be empty!**
-
-New release
------------------------------------------------
-
-* update [changelog](https://github.com/jakubgarfield/Bonobo-Git-Server/blob/master/changelog.md)
-* update version numbers in [appveyor.yml](https://github.com/jakubgarfield/Bonobo-Git-Server/blob/master/appveyor.yml)
-* add tag so it appears under [releases](https://github.com/jakubgarfield/Bonobo-Git-Server/releases) with `git tag -a 6.0.0 -m "Release 6.0.0"`
-* add zipped version to bonobogitserver.com at [Bonobo-Git-Server-Web](https://github.com/jakubgarfield/Bonobo-Git-Server-Web)

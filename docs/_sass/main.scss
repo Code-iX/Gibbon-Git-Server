@@ -1,0 +1,48 @@
+$primary-color: #F03C2E;
+$primary-color-dark: darken($primary-color, 10%);
+
+.logo {
+  width: 40px;
+  height: 40px;
+  margin-right: 20px;
+  object-fit: contain;
+}
+
+.fit-cover {
+  object-fit: cover;
+}
+
+.text-success {
+  color: $primary-color !important;
+}
+
+.btn-primary {
+  background-color: $primary-color;
+  border-color: $primary-color;
+}
+
+.btn-primary:hover {
+  background-color: $primary-color-dark;
+  border-color: $primary-color-dark;
+}
+
+/* Reducing the size of h2 to h6 */
+h2 {
+  font-size: 1.75rem; /* Smaller than the default (2.25rem) */
+}
+
+h3 {
+  font-size: 1.5rem; /* Smaller than the default (1.75rem) */
+}
+
+h4 {
+  font-size: 1.25rem; /* Smaller than the default (1.5rem) */
+}
+
+h5 {
+  font-size: 1rem; /* Smaller than the default (1.25rem) */
+}
+
+h6 {
+  font-size: 0.875rem; /* Smaller than the default (1rem) */
+}

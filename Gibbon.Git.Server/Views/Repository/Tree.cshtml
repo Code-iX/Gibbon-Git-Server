@@ -1,0 +1,80 @@
+﻿@using Gibbon.Git.Server.Helpers
+@model Gibbon.Git.Server.Models.RepositoryTreeModel
+@{
+    Layout = "~/Views/Repository/_RepositoryLayout.cshtml";
+    ViewBag.Title = Resources.Repository_Tree_Title;
+}
+@if (Model != null)
+{
+    <div class="content">
+        @await Html.PartialAsync("_BranchSwitcher")
+        @await Html.PartialAsync("_AddressBar")
+
+        <table id="files" class="pure-table">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Files.First().Name)</th>
+                    <th>@Html.DisplayNameFor(model => model.Files.First().CommitMessage)</th>
+                    <th>@Html.DisplayNameFor(model => model.Files.First().CommitDate)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Files)
+                {
+                    <tr>
+                        <td class="path">
+                            @if (item.IsLink)
+                            {
+                                <span class="directory">@item.Name</span>
+                            }
+                            else if (item.IsTree)
+                            {
+                                @Html.ActionLink(item.Name, "Tree", new { id = ViewBag.ID, encodedName = PathEncoder.Encode(Model.Branch), encodedPath = PathEncoder.Encode(item.Path, allowSlash: true) }, new { @class = "directory" })
+                            }
+                            else
+                            {
+                                @Html.ActionLink(item.Name, "Blob", new { id = ViewBag.ID, encodedName = PathEncoder.Encode(Model.Branch), encodedPath = PathEncoder.Encode(item.Path, allowSlash: true) }, new { @class = item.IsImage ? "image" : "file" })
+                            }
+                        </td>
+                        <td class="message"></td>
+                        <td class="date"></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (!string.IsNullOrEmpty(Model.Readme))
+        {
+            <div class="markdown">@Html.Raw(Model.Readme)</div>
+        }
+
+        <div class="pure-menu pure-menu-open pure-menu-horizontal repository-menu">
+            <ul>
+                <li><a href="@Url.Action("Download", new { encodedName = PathEncoder.Encode(Model.Branch), encodedPath = PathEncoder.Encode(Model.Path, allowSlash: true) })"><i class="fa fa-download"></i>@Resources.Repository_Tree_Zip</a></li>
+            </ul>
+        </div>
+    </div>
+}
+
+
+@section scripts
+{
+    <script>
+        $(function () {
+            var url = '@Url.Action("Tree", ViewContext.RouteData.Values)';
+            $.ajax({ url: url, success: detailsLoaded, type: 'GET', dataType: 'json', cache: false });
+
+            function detailsLoaded(model) {
+                $("#files tbody > tr").each(function (index) {
+                    $(this).find(".message").html(model.Files[index].CommitMessage);
+                    $(this).find(".date").html(model.Files[index].CommitDateString);
+                });
+            }
+        });
+    </script>
+
+    @if (!string.IsNullOrEmpty(Model.Readme))
+    {
+        <script>hljs.configure({ tabReplace: '    ' }); hljs.initHighlightingOnLoad();</script>
+    }
+}

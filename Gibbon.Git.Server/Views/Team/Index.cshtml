@@ -1,0 +1,55 @@
+﻿@using Gibbon.Git.Server.Extensions
+@model List<TeamDetailModel>
+@{
+    ViewBag.Title = Resources.Team_Index_Title;
+}
+
+<div class="pure-g">
+    <div class="pure-u-3-5">
+        <h1>@Resources.Team_Index_Title</h1>
+    </div>
+    <div class="pure-u-2-5 add">
+        <a class="pure-button pure-button-primary" href="@Url.Action("Create")">
+            <i class="fa fa-plus-circle"></i> @Resources.Team_Index_CreateNew
+        </a>
+    </div>
+</div>
+
+@if (TempData["CreateSuccess"] != null && (bool)TempData["CreateSuccess"])
+{
+    <div class="summary-success">
+        <p id="@TempData["NewTeamId"]">@Resources.Team_Create_Success</p>
+    </div>
+}
+@if (TempData["DeleteSuccess"] != null && (bool)TempData["DeleteSuccess"])
+{
+    <div class="summary-success">
+        <p>@Resources.Team_Delete_Success</p>
+    </div>
+}
+
+<!-- Erstelle die Tabelle manuell ohne WebGrid -->
+<div class="w-grid">
+    <table class="pure-table teams">
+        <thead>
+            <tr>
+                <th>@typeof(TeamDetailModel).GetDisplayValue("Name")</th>
+                <th>@typeof(TeamDetailModel).GetDisplayValue("Description")</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.ActionLink(item.Name, "Detail", new { id = item.Id }, new { @class = "detail" })</td>
+                    <td>@(item.Description != null && item.Description.Length > 100 ? item.Description.Substring(0, 100) + " (...) " : item.Description)</td>
+                    <td class="pull-right">
+                        <a class="edit" href="@Url.Action("Edit", new { id = item.Id })" title="@Resources.Grid_Edit"><i class="fa fa-pencil"></i></a>
+                        <a class="delete" href="@Url.Action("Delete", new { id = item.Id })" title="@Resources.Grid_Delete"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

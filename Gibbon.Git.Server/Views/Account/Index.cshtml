@@ -1,0 +1,68 @@
+﻿@using Gibbon.Git.Server.Extensions
+@model List<UserDetailModel>
+@{
+    ViewBag.Title = Resources.Account_Index_Title;
+}
+
+<div class="pure-g">
+    <div class="pure-u-3-5">
+        <h1>@Resources.Account_Index_Title</h1>
+    </div>
+    <div class="pure-u-2-5 add">
+        <a class="pure-button pure-button-primary" href="@Url.Action("Create")"><i class="fa fa-plus-circle"></i> @Resources.Account_Index_Create</a>
+    </div>
+</div>
+
+@if (TempData["CreateSuccess"] != null && (bool)TempData["CreateSuccess"])
+{
+    <div class="summary-success">
+        <p id="@TempData["NewUserId"]">@Resources.Account_Create_Success</p>
+    </div>
+}
+
+@if (TempData["DeleteSuccess"] != null)
+{
+    if ((bool)TempData["DeleteSuccess"])
+    {
+        <div class="summary-success">
+            <p>@Resources.Account_Delete_Success</p>
+        </div>
+    }
+    else
+    {
+        <div class="summary-error">
+            <p>@Resources.Account_Delete_DeleteCurrentUser</p>
+        </div>
+    }
+}
+
+<table class="pure-table users">
+    <thead>
+        <tr>
+            <th>@typeof(UserDetailModel).GetDisplayValue("Username")</th>
+            <th>@typeof(UserDetailModel).GetDisplayValue("Name")</th>
+            <th>@typeof(UserDetailModel).GetDisplayValue("Surname")</th>
+            <th>@typeof(UserDetailModel).GetDisplayValue("Email")</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.ActionLink(item.Username, "Detail", new { id = item.Id }, new { @class = "detail" })</td>
+                <td>@item.Name</td>
+                <td>@item.Surname</td>
+                <td>@item.Email</td>
+                <td class="pull-right">
+                    <a href="@Url.Action("Edit", new { id = item.Id })" class="edit" title="@Resources.Grid_Edit">
+                        <i class="fa fa-pencil"></i>
+                    </a>
+                    <a href="@Url.Action("Delete", new { id = item.Id })" class="delete" title="@Resources.Grid_Delete">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

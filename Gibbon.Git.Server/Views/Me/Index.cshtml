@@ -1,0 +1,43 @@
+﻿@model Gibbon.Git.Server.Models.UserDetailModel
+@{
+    Layout = "~/Views/Me/_MeLayout.cshtml";
+    ViewBag.Title = @Resources.Account_Detail_Title;
+}
+
+<div class="pure-form pure-form-aligned detail">
+    <fieldset>
+        <div class="pure-control-group">
+            @Html.LabelFor(m => m.Username)
+            <span>@Model.Username</span>
+        </div>
+        <div class="pure-control-group">
+            @Html.LabelFor(m => m.Name)
+            <span>@Model.Name</span>
+        </div>
+        <div class="pure-control-group">
+            @Html.LabelFor(m => m.Surname)
+            <span>@Model.Surname</span>
+        </div>
+        <div class="pure-control-group">
+            @Html.LabelFor(m => m.Email)
+            <span>@Model.Email</span>
+        </div>
+        <div class="pure-control-group">
+            @Html.LabelFor(m => m.Roles)
+            <span>
+                @for (var i = 0; i < Model.Roles.Length; i++)
+                {
+                    @Model.Roles[i]
+                    if (i + 1 != Model.Roles.Length)
+                    {
+                        @:,
+
+                    }
+                }
+            </span>
+        </div>
+    </fieldset>
+  @*   <div class="pure-controls">
+        <a class="pure-button" href="@Url.Action("Edit")"><i class="fa fa-pencil-square-o"></i> @Resources.Account_Detail_Edit</a>
+    </div> *@
+</div>
