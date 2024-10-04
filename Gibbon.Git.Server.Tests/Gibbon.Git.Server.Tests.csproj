@@ -1,0 +1,5 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<ItemGroup>
+		<ProjectReference Include="..\Gibbon.Git.Server\Gibbon.Git.Server.csproj" />
+	</ItemGroup>
+</Project>

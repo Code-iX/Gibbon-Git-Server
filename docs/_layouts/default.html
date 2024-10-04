@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+
+<head>
+    <base href="{{ site.url }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>
+        {% if page.title %}
+          {{ page.title }} :: 
+        {% endif %}
+        Gibbon Git Server
+    </title>      
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <link rel="icon" type="image/png" href="assets/img/logo.png">    
+</head>
+
+<body>
+    {% include header.html %}
+    {{ content }}
+    {% include footer.html %}
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/bold-and-bright.js"></script>
+</body>
+
+</html>

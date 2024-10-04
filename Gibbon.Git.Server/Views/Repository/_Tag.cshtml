@@ -1,0 +1,74 @@
+﻿@model Gibbon.Git.Server.Models.RepositoryCommitModel
+@using System.Globalization
+@using Gibbon.Git.Server.Configuration
+@using Gibbon.Git.Server.Data.Entities
+@using Gibbon.Git.Server.Extensions
+@using Gibbon.Git.Server.Helpers
+@using Microsoft.Extensions.Options
+@inject ServerSettings ServerSettings
+<div class="tag" style="margin-top: 0.5em">
+    @foreach (var stag in Model.Tags)
+    {
+        @Html.ActionLink(stag, "Commits", new { id = ViewBag.ID, encodedName = PathEncoder.Encode(stag), encodedPath = string.Empty })
+    }
+</div>
+<div class="commit pure-g">
+    <div class="pure-u-3-5">
+        <h2>
+            <a class="commit-url" href="@Url.Action("Commit", new { id = ViewBag.ID, commit = Model.ID })">@Model.Message</a>
+            @if (!string.IsNullOrEmpty(Model.MessageShort))
+            {
+                <a class="more-commit-info-toggler" onclick="$('#more@(Html.Encode(Model.ID))').toggle();">&hellip;</a>
+            }
+        </h2>
+        <div class="commitdate">
+            @Model.Date.ToString(CultureInfo.CurrentCulture)
+        </div>
+        @if (ServerSettings.HasLinks())
+        {
+            <span class="links">
+                @foreach (var link in Model.Links)
+                {
+                    <a target="_blank" href="@string.Format(ServerSettings.LinksUrl, link)">@link</a>
+                }
+            </span>
+        }
+        @if (!string.IsNullOrEmpty(Model.MessageShort))
+        {
+            <pre style="display:none;" id="more@(Html.Encode(Model.ID))">@Model.MessageShort</pre>
+        }
+        <div class="notes">
+            @foreach (var note in Model.Notes)
+            {
+                <p>
+                    *@note.Namespace* @note.Message
+                </p>
+            }
+        </div>
+    </div>
+    <div class="pure-u-2-5 metadata">
+        @if (ServerSettings.IsCommitAuthorAvatarVisible)
+        {
+            <div>
+                <img src="@Model.AuthorAvatar" alt="@Model.Author" class="avatar" />
+            </div>
+        }
+        <div>
+            <h4>@Model.Author</h4>
+            <p>@Model.GetType().GetDisplayValue("ID"): @Html.ActionLink(Model.ID[..7], "Commit", new { id = ViewBag.ID, commit = Model.ID })</p>
+            <p>@Model.GetType().GetDisplayValue("TreeID"): @Html.ActionLink(Model.TreeID[..7], "Tree", new { id = ViewBag.ID, encodedName = PathEncoder.Encode(Model.TreeID) })</p>
+            @if (Model.Parents != null && Model.Parents.Any())
+            {
+                <p>
+                    @Model.GetType().GetDisplayValue("Parents"):
+                    @foreach (var parent in Model.Parents)
+                    {
+                        @Html.ActionLink(parent[..7], "Commit", new { id = ViewBag.ID, commit = parent })
+
+                        <br />
+                    }
+                </p>
+            }
+        </div>
+    </div>
+</div>

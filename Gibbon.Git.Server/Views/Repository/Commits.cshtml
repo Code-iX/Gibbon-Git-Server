@@ -1,0 +1,24 @@
+﻿@model Gibbon.Git.Server.Models.RepositoryCommitsModel
+@{
+    Layout = "~/Views/Repository/_RepositoryLayout.cshtml";
+    ViewBag.Title = Resources.Repository_Commits_Title;
+}
+
+@if (Model != null)
+{
+    <div class="repositoryContent">
+        @await Html.PartialAsync("_BranchSwitcher")
+
+        @if (Model.Commits != null && Model.Commits.Any())
+        {
+            @foreach (var commit in Model.Commits)
+            {
+                @await Html.PartialAsync("_Commit", commit)
+            }
+        }
+        else
+        {
+            <p>@Resources.No_Commits_Found</p>
+        }
+    </div>
+}
