@@ -54,8 +54,7 @@ else
                         @foreach (var role in Model.Roles)
                         {
                             <label>
-                                <input type="checkbox" name="PostedSelectedRoles" value="@role"
-                                @(Model.SelectedRoles.Contains(role) ? "checked" : "") />
+                                <input type="checkbox" name="PostedSelectedRoles" value="@role" checked="@Model.SelectedRoles.Contains(role)" />
                                 @role
                             </label>
                         }

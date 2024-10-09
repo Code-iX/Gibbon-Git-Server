@@ -576,15 +576,6 @@ namespace Gibbon.Git.Server.App_Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        public static string Home_About_Thanks_p {
-            get {
-                return ResourceManager.GetString("Home_About_Thanks_p", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to About.
         /// </summary>
         public static string Home_About_Title {
@@ -1037,6 +1028,15 @@ namespace Gibbon.Git.Server.App_Resources {
         /// <summary>
         ///   Looks up a localized string similar to Profile.
         /// </summary>
+        public static string Me_General_Header {
+            get {
+                return ResourceManager.GetString("Me_General_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile.
+        /// </summary>
         public static string Me_Header_Index {
             get {
                 return ResourceManager.GetString("Me_Header_Index", resourceCulture);
@@ -1076,6 +1076,15 @@ namespace Gibbon.Git.Server.App_Resources {
         public static string MeController_Password_ErrorUpdating {
             get {
                 return ResourceManager.GetString("MeController_Password_ErrorUpdating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password must not be the same as the old password..
+        /// </summary>
+        public static string MeController_Password_MustBeDifferent {
+            get {
+                return ResourceManager.GetString("MeController_Password_MustBeDifferent", resourceCulture);
             }
         }
         

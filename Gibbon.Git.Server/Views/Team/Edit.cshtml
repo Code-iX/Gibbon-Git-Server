@@ -35,12 +35,11 @@
         <div class="pure-control-group checkboxlist">
             @Html.LabelFor(m => m.AllUsers)
             <span>
-                @for (var i = 0; i < Model.AllUsers.Length; i++)
+                @foreach (var user in Model.AllUsers)
                 {
                     <div>
-                        <input type="checkbox" name="PostedSelectedUsers" value="@Model.AllUsers[i].Id"
-                               @(Model.SelectedUsers.Any(u => u.Id == Model.AllUsers[i].Id) ? "checked" : "") />
-                        <label>@Model.AllUsers[i].DisplayName</label>
+                        <input type="checkbox" name="PostedSelectedUsers" value="@user.Id" checked="@Model.SelectedUsers.Any(u => u.Id == user.Id)"/>
+                        <label>@user.DisplayName</label>
                     </div>
                 }
             </span>
