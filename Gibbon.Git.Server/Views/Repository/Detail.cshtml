@@ -97,38 +97,44 @@
 
             <div class="pure-control-group">
                 @Html.LabelFor(m => m.Users)
-                @for (var i = 0; i < Model.Users.Length; i++)
-                {
-                    @Html.ActionLink(@Model.Users[i].DisplayName, "Detail", "Account", new { id = @Model.Users[i].Id }, new { title = @Model.Users[i].Username })
-                    if (i + 1 != Model.Users.Length)
+                <span>
+                    @foreach (var user in Model.Users)
                     {
-                        <text>, </text>
+                        @Html.ActionLink(user.DisplayName, "Detail", "Account", new { id = user.Id }, new { title = user.Username })
+                        if (user != Model.Users.Last())
+                        {
+                            <text>, </text>
+                        }
                     }
-                }
+                </span>
             </div>
 
             <div class="pure-control-group">
                 @Html.LabelFor(m => m.Administrators)
-                @for (var i = 0; i < Model.Administrators.Length; i++)
-                {
-                    @Html.ActionLink(@Model.Administrators[i].DisplayName, "Detail", "Account", new { id = @Model.Administrators[i].Id }, new { title = @Model.Administrators[i].Username })
-                    if (i + 1 != Model.Administrators.Length)
+                <span>
+                    @foreach (var admin in Model.Administrators)
                     {
-                        <text>, </text>
+                        @Html.ActionLink(admin.DisplayName, "Detail", "Account", new { id = admin.Id }, new { title = admin.Username })
+                        if (admin != Model.Administrators.Last())
+                        {
+                            <text>, </text>
+                        }
                     }
-                }
+                </span>
             </div>
 
             <div class="pure-control-group">
                 @Html.LabelFor(m => m.Teams)
-                @for (var i = 0; i < Model.Teams.Length; i++)
-                {
-                    @Html.ActionLink(@Model.Teams[i].DisplayName, "Detail", "Team", new { id = @Model.Teams[i].Id }, null)
-                    if (i + 1 != Model.Teams.Length)
+                <span>
+                    @foreach (var team in Model.Teams)
                     {
-                        <text>, </text>
+                        @Html.ActionLink(team.DisplayName, "Detail", "Team", new { id = team.Id }, null)
+                        if (team != Model.Teams.Last())
+                        {
+                            <text>, </text>
+                        }
                     }
-                }
+                </span>
             </div>
 
             <div class="pure-controls">

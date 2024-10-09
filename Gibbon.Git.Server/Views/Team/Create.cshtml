@@ -25,8 +25,7 @@
                 @foreach (var user in Model.AllUsers)
                 {
                     <div>
-                        <input type="checkbox" name="PostedSelectedUsers" value="@user.Id"
-                               @(Model.SelectedUsers.Any(u => u.Id == user.Id) ? "checked" : "")/>
+                        <input type="checkbox" name="PostedSelectedUsers" value="@user.Id" checked="@Model.SelectedUsers.Any(u => u.Id == user.Id)" />
                         <label>@user.DisplayName</label>
                     </div>
                 }
