@@ -2,7 +2,7 @@
 
 namespace Gibbon.Git.Server.Models;
 
-public class UserPasswordModel
+public class MePasswordModel
 {
     public Guid Id { get; set; }
 
