@@ -30,9 +30,8 @@ public class MeController(IMembershipService membershipService, IRoleProvider ro
             return NotFound();
         }
 
-        var model = new UserDetailModel
+        var model = new MeDetailModel
         {
-            Id = user.Id,
             Username = user.Username,
             Name = user.GivenName,
             Surname = user.Surname,
@@ -54,18 +53,37 @@ public class MeController(IMembershipService membershipService, IRoleProvider ro
             return NotFound();
         }
 
-        var model = new UserEditModel
+        var model = new MeEditModel
         {
-            Id = user.Id,
             Username = user.Username,
             Name = user.GivenName,
             Surname = user.Surname,
             Email = user.Email,
-            Roles = _roleProvider.GetAllRoles(),
-            SelectedRoles = _roleProvider.GetRolesForUser(user.Id)
         };
 
         return View(model);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(MeEditModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        var user = GetCurrentUser();
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        _membershipService.UpdateUser(user.Id, model.Name, model.Surname, model.Email);
+
+        TempData["EditSuccess"] = true;
+        return RedirectToAction("Edit");
     }
 
     [HttpGet]
@@ -80,14 +98,14 @@ public class MeController(IMembershipService membershipService, IRoleProvider ro
             return NotFound();
         }
 
-        var model = new UserPasswordModel();
+        var model = new MePasswordModel();
 
         return View(model);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Password(UserPasswordModel model)
+    public IActionResult Password(MePasswordModel model)
     {
         if (!ModelState.IsValid)
         {
@@ -96,7 +114,7 @@ public class MeController(IMembershipService membershipService, IRoleProvider ro
 
         if (string.Equals(model.OldPassword, model.NewPassword, StringComparison.Ordinal))
         {
-            ModelState.AddModelError(nameof(model.NewPassword), "Password must not be the same.");
+            ModelState.AddModelError(nameof(model.NewPassword), Resources.MeController_Password_MustBeDifferent);
             return View(model);
         }
 
@@ -132,7 +150,7 @@ public class MeController(IMembershipService membershipService, IRoleProvider ro
 
         var settings = "en";
 
-        return View(new UserSettingsModel
+        return View(new MeSettingsModel
         {
             DefaultLanguage = settings,
             AvailableLanguages = cultureItems
@@ -141,7 +159,7 @@ public class MeController(IMembershipService membershipService, IRoleProvider ro
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Settings(UserSettingsModel settings)
+    public async Task<IActionResult> Settings(MeSettingsModel settings)
     {
         if (!ModelState.IsValid)
         {

@@ -134,7 +134,7 @@ public class AccountController(IAuthenticationProvider authenticationProvider, I
 
             if (valid)
             {
-                _membershipService.UpdateUser(model.Id, model.Username, model.Name, model.Surname, model.Email);
+                _membershipService.UpdateUser(model.Id, model.Name, model.Surname, model.Email);
                 // Only Administrators can make any changes to roles
                 if (User.IsInRole(Definitions.Roles.Administrator))
                 {

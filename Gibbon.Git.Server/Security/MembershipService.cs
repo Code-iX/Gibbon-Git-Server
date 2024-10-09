@@ -122,14 +122,12 @@ public class MembershipService(ILogger<MembershipService> logger, GibbonGitServe
         return _passwordService.GenerateToken(username);
     }
 
-    public void UpdateUser(Guid id, string username, string givenName, string surname, string email)
+    public void UpdateUser(Guid id, string givenName, string surname, string email)
     {
         var user = _context.Users.FirstOrDefault(i => i.Id == id);
         if (user == null)
             return;
 
-        var lowerUsername = username?.ToLowerInvariant();
-        user.Username = lowerUsername ?? user.Username;
         user.GivenName = givenName ?? user.GivenName;
         user.Surname = surname ?? user.Surname;
         user.Email = email ?? user.Email;

@@ -11,6 +11,6 @@ public interface IMembershipService
     void DeleteUser(Guid id);
     string GenerateResetToken(string username);
     bool IsPasswordValid(string username, string password);
-    void UpdateUser(Guid id, string username, string givenName, string surname, string email);
+    void UpdateUser(Guid id, string givenName, string surname, string email);
     void UpdatePassword(Guid id, string newPassword);
 }
