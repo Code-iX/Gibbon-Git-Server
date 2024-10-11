@@ -21,7 +21,7 @@ public class TeamController(IMembershipService membershipService, IRepositorySer
     }
 
     [WebAuthorize(Roles = Definitions.Roles.Administrator)]
-    public IActionResult Edit(Guid id)
+    public IActionResult Edit(int id)
     {
         var model = ConvertEditTeamModel(_teamRepository.GetTeam(id));
         return View(model);
@@ -81,7 +81,7 @@ public class TeamController(IMembershipService membershipService, IRepositorySer
     }
 
     [WebAuthorize(Roles = Definitions.Roles.Administrator)]
-    public IActionResult Delete(Guid id)
+    public IActionResult Delete(int id)
     {
         return View(ConvertEditTeamModel(_teamRepository.GetTeam(id)));
     }
@@ -102,7 +102,7 @@ public class TeamController(IMembershipService membershipService, IRepositorySer
     }
 
     [WebAuthorize]
-    public IActionResult Detail(Guid id)
+    public IActionResult Detail(int id)
     {
         return View(ConvertDetailTeamModel(_teamRepository.GetTeam(id)));
     }

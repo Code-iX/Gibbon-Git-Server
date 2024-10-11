@@ -5,11 +5,11 @@ namespace Gibbon.Git.Server.Data;
 public interface ITeamService
 {
     List<TeamModel> GetAllTeams();
-    TeamModel GetTeam(Guid id);
-    List<TeamModel> GetTeamsForUser(Guid userId);
-    bool IsTeamNameUnique(string name, Guid? existingTeamId = null);
+    TeamModel GetTeam(int id);
+    List<TeamModel> GetTeamsForUser(int userId);
+    bool IsTeamNameUnique(string name, int? existingTeamId = null);
     bool Create(TeamModel team);
     void Update(TeamModel team);
-    void Delete(Guid id);
-    void UpdateUserTeams(Guid userId, List<string> newTeams);
+    void Delete(int id);
+    void UpdateUserTeams(int userId, List<string> newTeams);
 }

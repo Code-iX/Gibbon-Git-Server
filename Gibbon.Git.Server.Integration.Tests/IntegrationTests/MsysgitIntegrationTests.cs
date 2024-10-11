@@ -339,7 +339,7 @@ namespace Bonobo.Git.Server.Test.Integration.ClAndWeb
 
                 // Ensure repo is created with same name as was pushed
                 Guid repoId = ITH.FindRepository(RepositoryName);
-                Assert.AreNotEqual(Guid.Empty, repoId);
+                Assert.AreNotEqual(0, repoId);
             });
         }
 

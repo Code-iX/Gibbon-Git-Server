@@ -73,7 +73,7 @@ public class SqliteBenchmark
 
         for (int i = 0; i < LoopCount; i++)
         {
-            context.TestGuidEntities.Add(new TestGuidEntity { Id = Guid.NewGuid(), Data = $"data_{i}" });
+            context.TestGuidEntities.Add(new TestGuidEntity {  Data = $"data_{i}" });
         }
 
         context.SaveChanges();

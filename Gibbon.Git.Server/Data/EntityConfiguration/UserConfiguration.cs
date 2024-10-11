@@ -13,7 +13,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasKey(t => t.Id);
 
         builder.Property(t => t.Id)
-            .HasColumnName("Id");
+            .HasColumnName("Id")
+            .IsRequired()
+            .ValueGeneratedOnAdd();
 
         builder.Property(t => t.GivenName)
             .HasColumnName("Name")
@@ -65,7 +67,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         
         builder.HasData(new User
         {
-            Id = Guid.Parse("3eb9995e-99e3-425a-b978-1409bdd61fb6"),
+            Id = 1,
             GivenName = "admin",
             Surname = "",
             Username = "admin",

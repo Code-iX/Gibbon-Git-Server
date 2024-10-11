@@ -5,7 +5,7 @@ namespace Gibbon.Git.Server.Models;
 
 public class RepositoryModel
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
     public string Name { get; set; }
     public string Group { get; set; }
     public string Description { get; set; }

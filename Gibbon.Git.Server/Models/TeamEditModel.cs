@@ -5,7 +5,7 @@ namespace Gibbon.Git.Server.Models;
 
 public class TeamEditModel
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 
     [Remote("UniqueNameTeam", "Validation", AdditionalFields = "Id", ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Duplicate_Name")]
     [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Required")]
@@ -21,5 +21,5 @@ public class TeamEditModel
 
     public UserModel[] SelectedUsers { get; set; }
 
-    public Guid[] PostedSelectedUsers { get; set; }
+    public int[] PostedSelectedUsers { get; set; }
 }

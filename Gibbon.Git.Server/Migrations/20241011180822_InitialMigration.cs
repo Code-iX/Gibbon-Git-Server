@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -15,7 +14,8 @@ namespace Gibbon.Git.Server.Migrations
                 name: "Repository",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
                     Group = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
                     Description = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
@@ -36,7 +36,8 @@ namespace Gibbon.Git.Server.Migrations
                 name: "Role",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
                     Description = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true)
                 },
@@ -72,7 +73,8 @@ namespace Gibbon.Git.Server.Migrations
                 name: "Team",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
                     Description = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true)
                 },
@@ -85,7 +87,8 @@ namespace Gibbon.Git.Server.Migrations
                 name: "User",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
                     Surname = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
                     Username = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
@@ -99,11 +102,28 @@ namespace Gibbon.Git.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserSettings",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    PreferredLanguage = table.Column<string>(type: "TEXT", maxLength: 10, nullable: true),
+                    PreferredThemeMode = table.Column<int>(type: "INTEGER", nullable: false),
+                    ReceiveEmailNotifications = table.Column<bool>(type: "INTEGER", nullable: false),
+                    TimeZone = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
+                    DateFormat = table.Column<string>(type: "TEXT", maxLength: 20, nullable: true),
+                    DefaultHomePage = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserSettings", x => x.UserId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TeamRepository_Permission",
                 columns: table => new
                 {
-                    Repository_Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Team_Id = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Repository_Id = table.Column<int>(type: "INTEGER", nullable: false),
+                    Team_Id = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -126,8 +146,8 @@ namespace Gibbon.Git.Server.Migrations
                 name: "UserRepository_Administrator",
                 columns: table => new
                 {
-                    Repository_Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    User_Id = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Repository_Id = table.Column<int>(type: "INTEGER", nullable: false),
+                    User_Id = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -150,8 +170,8 @@ namespace Gibbon.Git.Server.Migrations
                 name: "UserRepository_Permission",
                 columns: table => new
                 {
-                    Repository_Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    User_Id = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Repository_Id = table.Column<int>(type: "INTEGER", nullable: false),
+                    User_Id = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -174,8 +194,8 @@ namespace Gibbon.Git.Server.Migrations
                 name: "UserRole_InRole",
                 columns: table => new
                 {
-                    Role_Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    User_Id = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Role_Id = table.Column<int>(type: "INTEGER", nullable: false),
+                    User_Id = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -198,8 +218,8 @@ namespace Gibbon.Git.Server.Migrations
                 name: "UserTeam_Member",
                 columns: table => new
                 {
-                    Team_Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    User_Id = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Team_Id = table.Column<int>(type: "INTEGER", nullable: false),
+                    User_Id = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -221,17 +241,17 @@ namespace Gibbon.Git.Server.Migrations
             migrationBuilder.InsertData(
                 table: "Role",
                 columns: new[] { "Id", "Description", "Name" },
-                values: new object[] { new Guid("a3139d2b-5a59-427f-bb2d-af251dce00e4"), "System administrator", "Administrator" });
+                values: new object[] { 1, "System administrator", "Administrator" });
 
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "Email", "Name", "Password", "PasswordSalt", "Surname", "Username" },
-                values: new object[] { new Guid("3eb9995e-99e3-425a-b978-1409bdd61fb6"), "", "admin", "2dpBKPc2rPqPa03udauh6LUo4uNHFSNQZaH4P1BIkNizmUmuir/61Vgkr5MaXlr+bVWnefxQD1H1ciMEtEr/hQ==", "/4fKgvYmp7iCSD7JJMPhrw==", "", "admin" });
+                values: new object[] { 1, "", "admin", "2dpBKPc2rPqPa03udauh6LUo4uNHFSNQZaH4P1BIkNizmUmuir/61Vgkr5MaXlr+bVWnefxQD1H1ciMEtEr/hQ==", "/4fKgvYmp7iCSD7JJMPhrw==", "", "admin" });
 
             migrationBuilder.InsertData(
                 table: "UserRole_InRole",
                 columns: new[] { "Role_Id", "User_Id" },
-                values: new object[] { new Guid("a3139d2b-5a59-427f-bb2d-af251dce00e4"), new Guid("3eb9995e-99e3-425a-b978-1409bdd61fb6") });
+                values: new object[] { 1, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Repository_Name",
@@ -300,6 +320,9 @@ namespace Gibbon.Git.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserRole_InRole");
+
+            migrationBuilder.DropTable(
+                name: "UserSettings");
 
             migrationBuilder.DropTable(
                 name: "UserTeam_Member");

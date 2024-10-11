@@ -31,7 +31,7 @@ public class TeamService(GibbonGitServerContext context) : ITeamService
         }).ToList();
     }
 
-    public List<TeamModel> GetTeamsForUser(Guid userId)
+    public List<TeamModel> GetTeamsForUser(int userId)
     {
         return GetAllTeams().Where(i => i.Members.Any(x => x.Id == userId)).ToList();
     }
@@ -47,7 +47,7 @@ public class TeamService(GibbonGitServerContext context) : ITeamService
         };
     }
 
-    public TeamModel GetTeam(Guid id)
+    public TeamModel GetTeam(int id)
     {
         var team = _context.Teams
             .Include(x => x.Users)
@@ -56,12 +56,12 @@ public class TeamService(GibbonGitServerContext context) : ITeamService
         return GetTeamModel(team);
     }
 
-    public bool IsTeamNameUnique(string name, Guid? existingTeamId = null)
+    public bool IsTeamNameUnique(string name, int? existingTeamId = null)
     {
         return !_context.Teams.Any(i => i.Name == name && (existingTeamId == null || i.Id != existingTeamId));
     }
 
-    public void Delete(Guid teamId)
+    public void Delete(int teamId)
     {
         var team = _context.Teams.FirstOrDefault(i => i.Id == teamId);
         if (team != null)
@@ -79,10 +79,8 @@ public class TeamService(GibbonGitServerContext context) : ITeamService
         if (model.Name == null) throw new ArgumentException("name");
 
         // Write this into the model so that the caller knows the ID of the new itel
-        model.Id = Guid.NewGuid();
         var team = new Team
         {
-            Id = model.Id,
             Name = model.Name,
             Description = model.Description
         };
@@ -137,7 +135,7 @@ public class TeamService(GibbonGitServerContext context) : ITeamService
         _context.SaveChanges();
     }
 
-    private void AddMembers(Team team, IEnumerable<Guid> members)
+    private void AddMembers(Team team, IEnumerable<int> members)
     {
         var users = _context.Users
             .Where(user => members.Contains(user.Id));
@@ -148,7 +146,7 @@ public class TeamService(GibbonGitServerContext context) : ITeamService
         }
     }
 
-    public void UpdateUserTeams(Guid userId, List<string> newTeams)
+    public void UpdateUserTeams(int userId, List<string> newTeams)
     {
         ArgumentNullException.ThrowIfNull(newTeams, nameof(newTeams));
 

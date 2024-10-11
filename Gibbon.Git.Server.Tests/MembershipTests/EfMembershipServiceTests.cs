@@ -99,7 +99,7 @@ public class EfMembershipServiceTests : DbTestBase<SqliteConnectionFactory>
         Assert.AreEqual(1, _membershipService.GetAllUsers().Count);
     }
 
-    Guid CreateTestUser()
+    int CreateTestUser()
     {
         _membershipService.CreateUser("testUser", "hello", "John", "User", "test@user.com");
         return _membershipService.GetUserModel("testUser").Id;

@@ -2,7 +2,7 @@
 
 public class UserSettingsEntity
 {
-    public Guid UserId { get; set; }
+    public int UserId { get; set; }
     public string PreferredLanguage { get; set; }
     public ThemeMode PreferredThemeMode { get; set; }
     public bool ReceiveEmailNotifications { get; set; }

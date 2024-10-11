@@ -36,7 +36,7 @@ public class EfSqliteTeamRepositoryTests : DbTestBase<SqliteConnectionFactory>
         var team1 = new TeamModel { Name = "Team1", Description = "Test Team" };
         CreateTeam(team1);
 
-        _repo.Delete(Guid.NewGuid());
+        _repo.Delete(17);
 
         Assert.AreEqual("Team1", _repo.GetAllTeams().Single().Name);
     }

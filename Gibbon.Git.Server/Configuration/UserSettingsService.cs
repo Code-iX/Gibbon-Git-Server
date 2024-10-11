@@ -8,13 +8,12 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Gibbon.Git.Server.Configuration;
 
-public class UserSettingsService(IMemoryCache memoryCache, GibbonGitServerContext context, ServerSettings serverSettings) : IUserSettingsService
+public class UserSettingsService(IMemoryCache memoryCache, GibbonGitServerContext context) : IUserSettingsService
 {
     private readonly IMemoryCache _memoryCache = memoryCache;
     private readonly GibbonGitServerContext _context = context;
-    private readonly ServerSettings _serverSettings = serverSettings;
 
-    public async Task SaveSettings(Guid userId, UserSettings settings)
+    public async Task SaveSettings(int userId, UserSettings settings)
     {
         var entity = await _context.UserSettings.SingleOrDefaultAsync(u => u.UserId == userId);
 
@@ -31,7 +30,7 @@ public class UserSettingsService(IMemoryCache memoryCache, GibbonGitServerContex
         _memoryCache.Set($"UserSettings_{userId}", settings);
     }
 
-    public async Task<UserSettings> GetSettings(Guid userId)
+    public async Task<UserSettings> GetSettings(int userId)
     {
         ArgumentNullException.ThrowIfNull(userId, nameof(userId));
 

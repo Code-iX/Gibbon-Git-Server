@@ -15,20 +15,20 @@ public class RepositoryPermissionService(IRepositoryService repository, IRolePro
     private readonly IRoleProvider _roleProvider = roleProvider;
     private readonly ITeamService _teamService = teamService;
 
-    public bool HasPermission(Guid userId, string repositoryName, RepositoryAccessLevel requiredLevel)
+    public bool HasPermission(int userId, string repositoryName, RepositoryAccessLevel requiredLevel)
     {
         var repository = _repository.GetRepository(repositoryName);
         return repository != null && HasPermission(userId, repository.Id, requiredLevel);
     }
 
-    public bool HasPermission(Guid userId, Guid repositoryId, RepositoryAccessLevel requiredLevel)
+    public bool HasPermission(int userId, int repositoryId, RepositoryAccessLevel requiredLevel)
     {
         return HasPermission(userId, _teamService.GetTeamsForUser(userId), _repository.GetRepository(repositoryId), requiredLevel);
     }
 
-    public bool HasCreatePermission(Guid userId)
+    public bool HasCreatePermission(int userId)
     {
-        if (userId == Guid.Empty)
+        if (userId == 0)
         {
             // Anonymous users cannot create repos
             return false;
@@ -36,13 +36,13 @@ public class RepositoryPermissionService(IRepositoryService repository, IRolePro
         return IsSystemAdministrator(userId) || _serverSettings.AllowUserRepositoryCreation;
     }
 
-    public IEnumerable<RepositoryModel> GetAllPermittedRepositories(Guid userId, RepositoryAccessLevel requiredLevel)
+    public IEnumerable<RepositoryModel> GetAllPermittedRepositories(int userId, RepositoryAccessLevel requiredLevel)
     {
         var userTeams = _teamService.GetTeamsForUser(userId);
         return _repository.GetAllRepositories().Where(repo => HasPermission(userId, userTeams, repo, requiredLevel));
     }
 
-    private bool HasPermission(Guid userId, List<TeamModel> userTeams, RepositoryModel repositoryModel, RepositoryAccessLevel requiredLevel)
+    private bool HasPermission(int userId, List<TeamModel> userTeams, RepositoryModel repositoryModel, RepositoryAccessLevel requiredLevel)
     {
         // All users can take advantage of the anonymous permissions
         if (CheckAnonymousPermission(repositoryModel, requiredLevel))
@@ -54,7 +54,7 @@ public class RepositoryPermissionService(IRepositoryService repository, IRolePro
                 repositoryModel.Name);
             return true;
         }
-        if (userId == Guid.Empty)
+        if (userId == 0)
         {
             // We have no named user
             return false;
@@ -81,9 +81,9 @@ public class RepositoryPermissionService(IRepositoryService repository, IRolePro
         };
     }
 
-    private bool CheckNamedUserPermission(Guid userId, List<TeamModel> userTeams, RepositoryModel repository, RepositoryAccessLevel requiredLevel)
+    private bool CheckNamedUserPermission(int userId, List<TeamModel> userTeams, RepositoryModel repository, RepositoryAccessLevel requiredLevel)
     {
-        ArgumentOutOfRangeException.ThrowIfEqual(userId, Guid.Empty, nameof(userId));
+        ArgumentOutOfRangeException.ThrowIfEqual(userId, 0, nameof(userId));
 
         var userIsAnAdministrator = IsSystemAdministrator(userId) || repository.Administrators.Any(x => x.Id == userId);
 
@@ -101,7 +101,7 @@ public class RepositoryPermissionService(IRepositoryService repository, IRolePro
         };
     }
 
-    private static bool UserIsARepoUser(Guid userId, RepositoryModel repository)
+    private static bool UserIsARepoUser(int userId, RepositoryModel repository)
     {
         return repository.Users.Any(x => x.Id == userId);
     }
@@ -113,7 +113,7 @@ public class RepositoryPermissionService(IRepositoryService repository, IRolePro
             .Contains(x.Name, StringComparer.OrdinalIgnoreCase));
     }
 
-    private bool IsSystemAdministrator(Guid userId)
+    private bool IsSystemAdministrator(int userId)
     {
         return _roleProvider
             .GetRolesForUser(userId)
