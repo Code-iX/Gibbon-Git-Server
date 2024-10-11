@@ -1,23 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Gibbon.Git.Server.Data;
+using Gibbon.Git.Server.Data.Entities;
 using Gibbon.Git.Server.Models;
 using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Tests.TestHelper;
+
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Gibbon.Git.Server.Tests.MembershipTests;
+using NSubstitute;
+
+namespace Gibbon.Git.Server.Tests.UserTests;
 
 [TestClass]
 public class EfSqliteTeamRepositoryTests : DbTestBase<SqliteConnectionFactory>
 {
     private ITeamService _repo = null!;
-    private IMembershipService _membershipService = null!;
+    private IUserService _userService = null!;
 
     protected override void ConfigureServices(ServiceCollection services)
     {
-        _membershipService = services.AddSubstitute<IMembershipService>();
+        _userService = services.AddSubstitute<IUserService>();
         services.AddSubstitute<IRepositoryService>();
         services.AddSingleton<ITeamService, TeamService>(); // Verwende echten TeamService statt Substitute
     }
@@ -25,7 +30,7 @@ public class EfSqliteTeamRepositoryTests : DbTestBase<SqliteConnectionFactory>
     protected override void UseServices(IServiceProvider serviceProvider)
     {
         _repo = serviceProvider.GetRequiredService<ITeamService>();
-        _membershipService = serviceProvider.GetRequiredService<IMembershipService>();
+        _userService = serviceProvider.GetRequiredService<IUserService>();
     }
 
     [TestMethod]
@@ -36,7 +41,7 @@ public class EfSqliteTeamRepositoryTests : DbTestBase<SqliteConnectionFactory>
         var team1 = new TeamModel { Name = "Team1", Description = "Test Team" };
         CreateTeam(team1);
 
-        _repo.Delete(Guid.NewGuid());
+        _repo.Delete(17);
 
         Assert.AreEqual("Team1", _repo.GetAllTeams().Single().Name);
     }
@@ -59,7 +64,6 @@ public class EfSqliteTeamRepositoryTests : DbTestBase<SqliteConnectionFactory>
     [TestMethod]
     [TestCategory(TestCategories.TeamRepository)]
     [Description("Verify that a team can be updated to include a user.")]
-    [Ignore]
     public void TeamCanBeUpdatedToIncludeAUser()
     {
         var team1 = new TeamModel { Name = "Team1", Description = "Test Team" };
@@ -75,22 +79,22 @@ public class EfSqliteTeamRepositoryTests : DbTestBase<SqliteConnectionFactory>
 
     [TestMethod]
     [TestCategory(TestCategories.TeamRepository)]
-    [Description("Verify that a team can be updated to change its name.")]
-    public void TeamCanBeUpdatedToChangeName()
+    [Description("Verify that a team can not be updated to change its name.")]
+    public void TeamCanNotBeUpdatedToChangeName()
     {
-        var teamModel = new TeamModel { Name = "Team1", Description = "Test Team" };
+        const string teamName = "Team1";
+        var teamModel = new TeamModel { Name = teamName, Description = "Test Team" };
         CreateTeam(teamModel);
 
         teamModel.Name = "SonOfTeam1";
         _repo.Update(teamModel);
 
-        Assert.AreEqual("SonOfTeam1", _repo.GetAllTeams().Single().Name);
+        Assert.AreEqual(teamName, _repo.GetAllTeams().Single().Name);
     }
 
     [TestMethod]
     [TestCategory(TestCategories.TeamRepository)]
     [Description("Verify that multiple teams cannot have the same name.")]
-    [Ignore]
     public void TestMultipleTeamsCannotHaveSameTeamName()
     {
         var createResult1 = CreateTeam(new TeamModel { Name = "Team1" });
@@ -103,11 +107,14 @@ public class EfSqliteTeamRepositoryTests : DbTestBase<SqliteConnectionFactory>
     [TestMethod]
     [TestCategory(TestCategories.TeamRepository)]
     [Description("Verify that adding duplicate members is silently ignored.")]
-    [Ignore]
     public void DuplicateMemberIsSilentlyIgnored()
     {
         var newMember = AddUserFred();
-        var createResult = CreateTeam(new TeamModel { Name = "Team1", Members = new[] { newMember, newMember } });
+        var createResult = CreateTeam(new TeamModel
+        {
+            Name = "Team1",
+            Members = [newMember, newMember]
+        });
 
         Assert.IsTrue(createResult);
         Assert.AreEqual(1, _repo.GetAllTeams().Single().Members.Length);
@@ -192,11 +199,14 @@ public class EfSqliteTeamRepositoryTests : DbTestBase<SqliteConnectionFactory>
     [TestMethod]
     [TestCategory(TestCategories.TeamRepository)]
     [Description("Verify that a new team can be added with a member.")]
-    [Ignore]
     public void TestNewTeamCanBeAddedWithAMember()
     {
         var newMember = AddUserFred();
-        var createResult = CreateTeam(new TeamModel { Name = "Team1", Members = new[] { newMember } });
+        var createResult = CreateTeam(new TeamModel
+        {
+            Name = "Team1",
+            Members = [newMember]
+        });
 
         Assert.IsTrue(createResult);
         var addedTeam = _repo.GetAllTeams().Single();
@@ -207,7 +217,6 @@ public class EfSqliteTeamRepositoryTests : DbTestBase<SqliteConnectionFactory>
     [TestMethod]
     [TestCategory(TestCategories.TeamRepository)]
     [Description("Verify that a new user is not a team member initially.")]
-    [Ignore]
     public void NewUserIsNotATeamMember()
     {
         var newMember = AddUserFred();
@@ -216,8 +225,21 @@ public class EfSqliteTeamRepositoryTests : DbTestBase<SqliteConnectionFactory>
 
     private UserModel AddUserFred()
     {
-        _membershipService.CreateUser("fred", "letmein", "Fred", "FredBlogs", "fred@aol");
-        return _membershipService.GetUserModel("fred");
+        var entity = new User
+        {
+            Id = 2,
+            Username = "fred",
+            GivenName = "Fred",
+            Surname = "FredBlogs",
+            Email = "fred@aol",
+            Password = "password",
+            PasswordSalt = "salt",
+        };
+        DbContext.Users.Add(entity);
+        DbContext.SaveChanges();
+        var user = entity.ToModel();
+        _userService.GetUserModel("fred").Returns(user);
+        return user;
     }
 
     protected bool CreateTeam(TeamModel team)

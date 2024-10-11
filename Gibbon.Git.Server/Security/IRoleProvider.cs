@@ -5,8 +5,8 @@ public interface IRoleProvider
     string[] GetAllRoles();
     void CreateRole(string roleName);
     bool DeleteRole(string roleName);
-    bool IsUserInRole(Guid userId, string roleName);
-    string[] GetRolesForUser(Guid userId);
-    void AddRolesToUser(Guid userId, string[] roleNames);
-    void RemoveRolesFromUser(Guid userId, string[] roleNames);
+    bool IsUserInRole(int userId, string roleName);
+    string[] GetRolesForUser(int userId);
+    void AddRolesToUser(int userId, string[] roleNames);
+    void RemoveRolesFromUser(int userId, string[] roleNames);
 }

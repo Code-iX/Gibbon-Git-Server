@@ -963,9 +963,6 @@ The regular C# string formatting rules apply: To get {} in your link you need to
   <data name="Settings_Global_SiteCssUrl_Hint" xml:space="preserve">
     <value>URL to a CSS file to use for the site.  Site-relative (~) paths are supported.</value>
   </data>
-  <data name="Home_About_Thanks_p" xml:space="preserve">
-    <value />
-  </data>
   <data name="Product_Name" xml:space="preserve">
     <value>Gibbon Git Server</value>
     <comment>The name of this product</comment>
@@ -1038,5 +1035,20 @@ The regular C# string formatting rules apply: To get {} in your link you need to
   </data>
   <data name="ServerOverviewModel_GitHomePath" xml:space="preserve">
 	  <value>Git Home Path</value>
+  </data>
+  <data name="Me_General_Header" xml:space="preserve">
+	  <value>Profile</value>
+  </data>
+  <data name="MeController_Password_MustBeDifferent" xml:space="preserve">
+	  <value>Password must not be the same as the old password.</value>
+  </data>
+  <data name="ServerGitModel_IsGitAvailable" xml:space="preserve">
+	  <value>Git installed</value>
+  </data>
+  <data name="ServerOverviewModel_ApplicationVersion" xml:space="preserve">
+	  <value>Application Version</value>
+  </data>
+  <data name="MeController_Settings_UseServerLanguage" xml:space="preserve">
+	  <value>Use server language</value>
   </data>
 </root>

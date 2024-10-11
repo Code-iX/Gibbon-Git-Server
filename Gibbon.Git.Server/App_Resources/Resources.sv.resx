@@ -594,9 +594,6 @@
   <data name="Home_About_Thanks" xml:space="preserve">
     <value>Tack!</value>
   </data>
-  <data name="Home_About_Thanks_p" xml:space="preserve">
-    <value>Bonobo Gitserver använder sig av några projekt baserade på öppen källkod och några gratisprojekt. Stort tack till alla upphovsmän och bidragsgivare för deras utmärkta arbete.</value>
-  </data>
   <data name="Home_About_Title" xml:space="preserve">
     <value>Om</value>
   </data>

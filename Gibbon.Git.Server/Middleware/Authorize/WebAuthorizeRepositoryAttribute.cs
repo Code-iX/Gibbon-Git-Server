@@ -1,5 +1,7 @@
 ﻿using System.Security.Claims;
+
 using Gibbon.Git.Server.Security;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -21,14 +23,17 @@ public class WebAuthorizeRepositoryAttribute : WebAuthorizeAttribute
         var tempDataFactory = context.HttpContext.RequestServices.GetRequiredService<ITempDataDictionaryFactory>();
         var tempData = tempDataFactory.GetTempData(context.HttpContext);
 
-        if (Guid.TryParse(context.RouteData.Values["id"]?.ToString(), out var repoId))
+        if (int.TryParse(context.RouteData.Values["id"]?.ToString(), out var repoId))
         {
             var userId = context.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var requiredAccess = RequiresRepositoryAdministrator ? RepositoryAccessLevel.Administer : RepositoryAccessLevel.Push;
-
-            if (!repositoryPermissionService.HasPermission(Guid.Parse(userId), repoId, requiredAccess))
+            if (int.TryParse(userId, out var parsedUserId))
             {
-                context.Result = new UnauthorizedResult();
+                var requiredAccess = RequiresRepositoryAdministrator ? RepositoryAccessLevel.Administer : RepositoryAccessLevel.Push;
+
+                if (!repositoryPermissionService.HasPermission(parsedUserId, repoId, requiredAccess))
+                {
+                    context.Result = new UnauthorizedResult();
+                }
             }
         }
         else

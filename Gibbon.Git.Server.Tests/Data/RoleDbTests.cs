@@ -20,7 +20,7 @@ public abstract class RoleDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         // Arrange
         var role = new Role
         {
-            Id = Guid.NewGuid(),
+            
             Name = "TestRole",
             Description = "A test role"
         };
@@ -42,14 +42,14 @@ public abstract class RoleDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         // Arrange
         var role1 = new Role
         {
-            Id = Guid.NewGuid(),
+            
             Name = "DuplicateRole",
             Description = "First role with duplicate name"
         };
 
         var role2 = new Role
         {
-            Id = Guid.NewGuid(),
+            
             Name = "DuplicateRole",
             Description = "Second role with duplicate name"
         };
@@ -70,7 +70,7 @@ public abstract class RoleDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         // Arrange
         var role = new Role
         {
-            Id = Guid.NewGuid(),
+            
             Name = "OldRoleName",
             Description = "Old description"
         };
@@ -96,7 +96,7 @@ public abstract class RoleDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         // Arrange
         var role = new Role
         {
-            Id = Guid.NewGuid(),
+            
             Name = "RoleToDelete",
             Description = "This role will be deleted"
         };
@@ -117,7 +117,7 @@ public abstract class RoleDbTests<TConnectionFactory> : GibbonDbContextTestsBase
     public void HasData_SeedRoleExists()
     {
         // Arrange
-        var seedRoleId = Guid.Parse("a3139d2b-5a59-427f-bb2d-af251dce00e4");
+        var seedRoleId = 1;
 
         // Act
         var seedRole = Context.Roles.FirstOrDefault(r => r.Id == seedRoleId);
@@ -134,14 +134,14 @@ public abstract class RoleDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         // Arrange
         var role = new Role
         {
-            Id = Guid.NewGuid(),
+            
             Name = "NewRole",
             Description = "A role to assign"
         };
 
         var user = new User
         {
-            Id = Guid.NewGuid(),
+            
             GivenName = "Test",
             Surname = "User",
             Username = "testuser",

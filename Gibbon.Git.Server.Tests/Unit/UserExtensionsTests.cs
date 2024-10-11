@@ -39,16 +39,8 @@ public class UserExtensionsTests
     [TestMethod]
     public void GetGuidFromNameIdentityClaimWhenGuidStringEncoded()
     {
-        var testGuid = Guid.NewGuid();
+        var testGuid = 1;
         var user = MakeUserWithClaims(new Claim(ClaimTypes.NameIdentifier, testGuid.ToString()));
-        Assert.AreEqual(testGuid, user.Id());
-    }
-
-    [TestMethod]
-    public void GetGuidFromNameIdentityClaimWhenGuidIsBase64Encoded()
-    {
-        var testGuid = Guid.NewGuid();
-        var user = MakeUserWithClaims(new Claim(ClaimTypes.NameIdentifier, Convert.ToBase64String(testGuid.ToByteArray())));
         Assert.AreEqual(testGuid, user.Id());
     }
 
@@ -56,14 +48,14 @@ public class UserExtensionsTests
     public void GuidIsEmptyForUserWithNoNameIdentifier()
     {
         var user = new ClaimsPrincipal(new ClaimsIdentity());
-        Assert.AreEqual(Guid.Empty, user.Id());
+        Assert.AreEqual(0, user.Id());
     }
 
     [TestMethod]
     public void GuidIsEmptyForUserWithUnparsableNameIdentifier()
     {
         var user = MakeUserWithClaims(new Claim(ClaimTypes.NameIdentifier, "NotAGuid"));
-        Assert.AreEqual(Guid.Empty, user.Id());
+        Assert.AreEqual(0, user.Id());
     }
 
     [TestMethod]

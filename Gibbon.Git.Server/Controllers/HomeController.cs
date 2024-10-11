@@ -16,11 +16,11 @@ using Microsoft.Extensions.Logging;
 
 namespace Gibbon.Git.Server.Controllers;
 
-public class HomeController(ILogger<HomeController> logger, IMembershipService membershipService, IAuthenticationProvider authenticationProvider, IMemoryCache memoryCache, GibbonGitServerContext dbContext, IDiagnosticReporter diagnosticReporter, IMailService mailService)
+public class HomeController(ILogger<HomeController> logger, IUserService userService, IAuthenticationProvider authenticationProvider, IMemoryCache memoryCache, GibbonGitServerContext dbContext, IDiagnosticReporter diagnosticReporter, IMailService mailService)
     : Controller
 {
     private readonly ILogger<HomeController> _logger = logger;
-    private readonly IMembershipService _membershipService = membershipService;
+    private readonly IUserService _userService = userService;
     private readonly IAuthenticationProvider _authenticationProvider = authenticationProvider;
     private readonly IMemoryCache _memoryCache = memoryCache;
     private readonly GibbonGitServerContext _dbContext = dbContext;
@@ -49,7 +49,7 @@ public class HomeController(ILogger<HomeController> logger, IMembershipService m
         bool validationResult;
         try
         {
-            validationResult = _membershipService.IsPasswordValid(model.Username, model.Password);
+            validationResult = _userService.IsPasswordValid(model.Username, model.Password);
         }
         catch (Exception ex)
         {
@@ -128,7 +128,7 @@ public class HomeController(ILogger<HomeController> logger, IMembershipService m
             return View(model);
         }
 
-        _membershipService.UpdatePassword(user.Id, model.Password);
+        _userService.UpdatePassword(user.Id, model.Password);
         TempData["ResetSuccess"] = true;
 
         _memoryCache.Remove(model.Digest);
@@ -150,14 +150,14 @@ public class HomeController(ILogger<HomeController> logger, IMembershipService m
             return View(model);
         }
 
-        var user = _membershipService.GetUserModel(model.Username);
+        var user = _userService.GetUserModel(model.Username);
         if (user == null)
         {
             ModelState.AddModelError("", Resources.Home_ForgotPassword_UserNameFailure);
             return View(model);
         }
 
-        var token = _membershipService.GenerateResetToken(user.Username);
+        var token = _userService.GenerateResetToken(user.Username);
 
         _memoryCache.Set(token, model.Username, TimeSpan.FromHours(1));
         var resetUrl = Url.Action("ResetPassword", "Home", new { digest = token }, Request.Scheme);

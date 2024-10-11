@@ -21,9 +21,9 @@ public class GitServiceExecutor : IGitService
     private readonly IPathResolver _pathResolver;
     private readonly ITeamService _teamService;
     private readonly IRoleProvider _roleProvider;
-    private readonly IMembershipService _membershipService;
+    private readonly IUserService _userService;
 
-    public GitServiceExecutor(IOptions<GitSettings> options, IProcessService processService, IPathResolver pathResolver, ITeamService teamService, IRoleProvider roleProvider, IMembershipService membershipService)
+    public GitServiceExecutor(IOptions<GitSettings> options, IProcessService processService, IPathResolver pathResolver, ITeamService teamService, IRoleProvider roleProvider, IUserService userService)
     {
         var parameters = options.Value;
         _gitPath = parameters.BinaryPath;
@@ -32,10 +32,10 @@ public class GitServiceExecutor : IGitService
         _pathResolver = pathResolver;
         _teamService = teamService;
         _roleProvider = roleProvider;
-        _membershipService = membershipService;
+        _userService = userService;
     }
 
-    public async Task ExecuteServiceByName(string correlationId, string repositoryName, string serviceName, ExecutionOptions options, Stream inStream, Stream outStream, string userName, Guid userId)
+    public async Task ExecuteServiceByName(string correlationId, string repositoryName, string serviceName, ExecutionOptions options, Stream inStream, Stream outStream, string userName, int userId)
     {
         if (!PermittedServiceNames.Contains(serviceName))
         {
@@ -70,7 +70,7 @@ public class GitServiceExecutor : IGitService
         return info;
     }
 
-    private void SetUserEnvironment(string userName, Guid userId, ProcessStartInfo info)
+    private void SetUserEnvironment(string userName, int userId, ProcessStartInfo info)
     {
         var teamsstr = "";
         var rolesstr = "";
@@ -80,7 +80,7 @@ public class GitServiceExecutor : IGitService
             var teams = _teamService.GetTeamsForUser(userId);
             teamsstr = teams.Select(x => x.Name).StringlistToEscapedStringForEnvVar();
             rolesstr = _roleProvider.GetRolesForUser(userId).StringlistToEscapedStringForEnvVar();
-            displayname = _membershipService.GetUserModel(userId).DisplayName;
+            displayname = _userService.GetUserModel(userId).DisplayName;
 
         }
         // If anonymous option is set then these will always be empty

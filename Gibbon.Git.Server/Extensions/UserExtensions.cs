@@ -5,30 +5,17 @@ namespace Gibbon.Git.Server.Extensions;
 
 public static class UserExtensions
 {
-    public static Guid Id(this IPrincipal user)
+    public static int Id(this IPrincipal user)
     {
         var id = user.GetClaimValue(ClaimTypes.NameIdentifier);
-        if (Guid.TryParse(id, out var result))
+        if (int.TryParse(id, out var result))
         {
             // It's a normal string Guid
             return result;
         }
 
-        if (string.IsNullOrEmpty(id))
-        {
-            // This is the anonymous user
-            return Guid.Empty;
-        }
-        try
-        {
-            // We might be a ADFS-style Guid is which a base64 string
-            // If this fails, we'll get a FormatException thrown anyway
-            return new Guid(Convert.FromBase64String(id));
-        }
-        catch (Exception)
-        {
-            return Guid.Empty;
-        }
+        // TODO - This is the anonymous user, might be null
+        return 0;
     }
 
     public static string Username(this IPrincipal user)

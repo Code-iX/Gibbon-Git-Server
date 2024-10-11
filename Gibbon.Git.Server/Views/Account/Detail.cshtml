@@ -32,14 +32,7 @@ else
             <div class="pure-control-group">
                 @Html.LabelFor(m => m.Roles)
                 <span>
-                    @for (var i = 0; i < Model.Roles.Length; i++)
-                    {
-                        @Model.Roles[i]
-                        if (i + 1 != Model.Roles.Length)
-                        {
-                            <text>, </text>
-                        }
-                    }
+                    @string.Join(", ", Model.Roles)
                 </span>
             </div>
         </fieldset>

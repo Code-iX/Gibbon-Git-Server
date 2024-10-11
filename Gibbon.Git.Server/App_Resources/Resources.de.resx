@@ -851,9 +851,6 @@ Die regulären C# String-Formatierungsregeln gelten: Um {} in Ihrem Link zu erha
   <data name="Settings_Global_SiteCssUrl" xml:space="preserve">
     <value>Site CSS URL</value>
   </data>
-  <data name="Home_About_Thanks_p" xml:space="preserve">
-    <value>Bonobo Git Server benutzt einige Open Source und Freeware Projekte. Vielen Dank an alle Autoren für ihre großartige Arbeit.</value>
-  </data>
   <data name="Product_Name" xml:space="preserve">
     <value>Gibbon Git Server</value>
   </data>
@@ -916,5 +913,59 @@ Die regulären C# String-Formatierungsregeln gelten: Um {} in Ihrem Link zu erha
   </data>
   <data name="ServerOverviewModel_RepositoryPath" xml:space="preserve">
 	  <value>Repositoty-Pfad</value>
+  </data>
+  <data name="Me_General_Header" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="Me_Password_Changed_Success" xml:space="preserve">
+    <value>Das Passwort wurde erfolgreich geändert.</value>
+  </data>
+  <data name="Home_ResetPassword_Failed" xml:space="preserve">
+    <value>Passwort zurücksetzen ist nicht möglich</value>
+  </data>
+  <data name="Repository_Commit_Parents" xml:space="preserve">
+    <value>Parents</value>
+  </data>
+  <data name="Repository_Clone_Success" xml:space="preserve">
+    <value>Das Repository wurde erfolgreich dupliziert.</value>
+  </data>
+  <data name="Repository_Clone_Title" xml:space="preserve">
+    <value>Repository klonen</value>
+  </data>
+  <data name="Repository_AuditPushUserHint" xml:space="preserve">
+    <value>Nutzer aufnehmen, die Commits an den Server pushen</value>
+  </data>
+  <data name="Settings_Global_IsCommitAuthorAvatarVisible" xml:space="preserve">
+    <value>Avatar des Commitautors anzeigen</value>
+  </data>
+  <data name="Home_ForgotPassword_EmailError" xml:space="preserve">
+    <value>E-Mailversand nicht möglich. SMTP Einstellungen prüfen.</value>
+  </data>
+  <data name="Home_ForgotPassword_UserNameFailure" xml:space="preserve">
+    <value>Benutzer konnte nicht gefunden werden</value>
+  </data>
+  <data name="Repository_Detail_LinksUseGlobal" xml:space="preserve">
+    <value>Globale Linkify-Einstellungen nutzen</value>
+  </data>
+  <data name="Settings_Global_SiteCssUrl_Hint" xml:space="preserve">
+    <value>URL zu einer CSS-Datei. Relative (~) Pfade werden unterstützt.</value>
+  </data>
+  <data name="Home_ForgotPassword_Failed" xml:space="preserve">
+    <value>Password zurücksetzen fehlgeschlagen. Fehler korrigieren und erneut versuchen.</value>
+  </data>
+  <data name="Item_NotFound_Text" xml:space="preserve">
+    <value>Das Objekt wurde nicht gefunden.</value>
+  </data>
+  <data name="MeController_Password_MustBeDifferent" xml:space="preserve">
+    <value>Das Passwort darf nicht dem alten Passwort gleichen.</value>
+  </data>
+  <data name="ServerGitModel_IsGitAvailable" xml:space="preserve">
+    <value>Git installiert</value>
+  </data>
+  <data name="ServerOverviewModel_ApplicationVersion" xml:space="preserve">
+    <value>Applikationsversion</value>
+  </data>
+  <data name="MeController_Settings_UseServerLanguage" xml:space="preserve">
+    <value>Serversprache nutzen</value>
   </data>
 </root>

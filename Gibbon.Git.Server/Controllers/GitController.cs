@@ -21,14 +21,14 @@ namespace Gibbon.Git.Server.Controllers;
 [ServiceFilter(typeof(GitControllerExceptionFilter))]
 [RepositoryNameNormalizer("repositoryName")]
 [GitAuthorize]
-public class GitController(ILogger<GitController> logger, IRepositoryPermissionService repositoryPermissionService, IRepositoryService repositoryService, IMembershipService membershipService, IGitService gitService, ServerSettings serverOptions, IPathResolver pathResolver)
+public class GitController(ILogger<GitController> logger, IRepositoryPermissionService repositoryPermissionService, IRepositoryService repositoryService, IUserService userService, IGitService gitService, ServerSettings serverOptions, IPathResolver pathResolver)
     : Controller
 {
     private readonly ServerSettings _serverSettings = serverOptions;
     private readonly ILogger<GitController> _logger = logger;
     private readonly IRepositoryPermissionService _repositoryPermissionService = repositoryPermissionService;
     private readonly IRepositoryService _repositoryService = repositoryService;
-    private readonly IMembershipService _membershipService = membershipService;
+    private readonly IUserService _userService = userService;
     private readonly IGitService _gitService = gitService;
     private readonly IPathResolver _pathResolver = pathResolver;
 
@@ -118,7 +118,7 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
             _logger.LogWarning("Can't create '{RepositoryName}' - name is invalid", repositoryName);
             return false;
         }
-        var user = _membershipService.GetUserModel(User.Id());
+        var user = _userService.GetUserModel(User.Id());
         repository.Description = "Auto-created by push for " + user.DisplayName;
         repository.AnonymousAccess = false;
         repository.Administrators = [user];

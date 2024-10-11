@@ -8,7 +8,7 @@ namespace Gibbon.Git.Server.Data;
 /// <summary>
 /// Provide reset services, to allow the database to be set to a known state
 /// </summary>
-public class DatabaseResetManager(ILogger<DatabaseResetManager> logger, IMembershipService users, ITeamService teamService, IRoleProvider roleProvider, IRepositoryService repository, IOptions<ApplicationSettings> options)
+public class DatabaseResetManager(ILogger<DatabaseResetManager> logger, IUserService users, ITeamService teamService, IRoleProvider roleProvider, IRepositoryService repository, IOptions<ApplicationSettings> options)
     
 {
     private readonly ILogger<DatabaseResetManager> _logger = logger;
@@ -16,7 +16,7 @@ public class DatabaseResetManager(ILogger<DatabaseResetManager> logger, IMembers
     private readonly ApplicationSettings _applicationSettings = options.Value;
     private readonly IRoleProvider _roleProvider = roleProvider;
     private readonly ITeamService _teamService = teamService;
-    private readonly IMembershipService _users = users;
+    private readonly IUserService _users = users;
 
     public void DoReset(int mode)
     {

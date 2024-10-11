@@ -5,8 +5,7 @@ namespace Gibbon.Git.Server.Services;
 
 public interface ICultureService
 {
-    CultureInfo GetSelectedCultureInfo();
+    Task<CultureInfo> GetSelectedCultureInfo(int userId);
 
     Task<List<CultureInfo>> GetSupportedCultures();
-    CultureInfo GetCultureForUser(Guid userId);
 }

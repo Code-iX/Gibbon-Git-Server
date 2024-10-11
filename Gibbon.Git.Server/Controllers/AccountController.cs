@@ -12,19 +12,19 @@ using Microsoft.Extensions.Options;
 
 namespace Gibbon.Git.Server.Controllers;
 
-public class AccountController(IAuthenticationProvider authenticationProvider, IRoleProvider roleProvider, IMembershipService membershipService, IOptions<ApplicationSettings> options, ServerSettings serverSettings)
+public class AccountController(IAuthenticationProvider authenticationProvider, IRoleProvider roleProvider, IUserService userService, IOptions<ApplicationSettings> options, ServerSettings serverSettings)
     : Controller
 {
     private readonly ServerSettings _serverSettings = serverSettings;
-    private readonly IMembershipService _membershipService = membershipService;
+    private readonly IUserService _userService = userService;
     private readonly IRoleProvider _roleProvider = roleProvider;
     private readonly IAuthenticationProvider _authenticationProvider = authenticationProvider;
     private readonly ApplicationSettings _applicationSettings = options.Value;
 
     [WebAuthorize]
-    public IActionResult Detail(Guid id)
+    public IActionResult Detail(int id)
     {
-        var user = _membershipService.GetUserModel(id);
+        var user = _userService.GetUserModel(id);
         if (user != null)
         {
             var model = new UserDetailModel
@@ -42,9 +42,9 @@ public class AccountController(IAuthenticationProvider authenticationProvider, I
     }
 
     [WebAuthorize(Roles = Definitions.Roles.Administrator)]
-    public IActionResult Delete(Guid id)
+    public IActionResult Delete(int id)
     {
-        var user = _membershipService.GetUserModel(id);
+        var user = _userService.GetUserModel(id);
         if (user != null)
         {
             return View(user);
@@ -62,8 +62,8 @@ public class AccountController(IAuthenticationProvider authenticationProvider, I
         {
             if (model.Id != User.Id())
             {
-                var user = _membershipService.GetUserModel(model.Id);
-                _membershipService.DeleteUser(user.Id);
+                var user = _userService.GetUserModel(model.Id);
+                _userService.DeleteUser(user.Id);
                 TempData["DeleteSuccess"] = true;
             }
             else
@@ -81,14 +81,14 @@ public class AccountController(IAuthenticationProvider authenticationProvider, I
     }
 
     [WebAuthorize]
-    public IActionResult Edit(Guid id)
+    public IActionResult Edit(int id)
     {
         if (id != User.Id() && !User.IsInRole(Definitions.Roles.Administrator))
         {
             return Unauthorized();
         }
 
-        var user = _membershipService.GetUserModel(id);
+        var user = _userService.GetUserModel(id);
         if (user != null)
         {
             var model = new UserEditModel
@@ -134,7 +134,7 @@ public class AccountController(IAuthenticationProvider authenticationProvider, I
 
             if (valid)
             {
-                _membershipService.UpdateUser(model.Id, model.Username, model.Name, model.Surname, model.Email);
+                _userService.UpdateUser(model.Id, model.Name, model.Surname, model.Email);
                 // Only Administrators can make any changes to roles
                 if (User.IsInRole(Definitions.Roles.Administrator))
                 {
@@ -196,7 +196,7 @@ public class AccountController(IAuthenticationProvider authenticationProvider, I
         if (!ModelState.IsValid)
             return View(model);
 
-        if (!_membershipService.CreateUser(model.Username, model.Password, model.Name, model.Surname, model.Email))
+        if (!_userService.CreateUser(model.Username, model.Password, model.Name, model.Surname, model.Email))
         {
             ModelState.AddModelError(nameof(model.Username), Resources.Account_Create_AccountAlreadyExists);
             return View(model);
@@ -209,14 +209,14 @@ public class AccountController(IAuthenticationProvider authenticationProvider, I
         }
 
         TempData["CreateSuccess"] = true;
-        TempData["NewUserId"] = _membershipService.GetUserModel(model.Username).Id;
+        TempData["NewUserId"] = _userService.GetUserModel(model.Username).Id;
         return RedirectToAction("Index");
 
     }
 
     private List<UserDetailModel> GetDetailUsers()
     {
-        var users = _membershipService.GetAllUsers();
+        var users = _userService.GetAllUsers();
         var model = new List<UserDetailModel>
         {
         };
