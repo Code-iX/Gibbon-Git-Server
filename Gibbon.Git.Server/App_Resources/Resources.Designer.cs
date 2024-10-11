@@ -2106,11 +2106,29 @@ namespace Gibbon.Git.Server.App_Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Git installed.
+        /// </summary>
+        public static string ServerGitModel_IsGitAvailable {
+            get {
+                return ResourceManager.GetString("ServerGitModel_IsGitAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Application Path.
         /// </summary>
         public static string ServerOverviewModel_ApplicationPath {
             get {
                 return ResourceManager.GetString("ServerOverviewModel_ApplicationPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application Version.
+        /// </summary>
+        public static string ServerOverviewModel_ApplicationVersion {
+            get {
+                return ResourceManager.GetString("ServerOverviewModel_ApplicationVersion", resourceCulture);
             }
         }
         

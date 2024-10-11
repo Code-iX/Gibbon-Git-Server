@@ -4,6 +4,6 @@ namespace Gibbon.Git.Server.Models;
 
 public class ServerGitModel
 {
-    [Display(Name = "Git installed")]
+    [Display(ResourceType = typeof(Resources), Name = "ServerGitModel_IsGitAvailable")]
     public bool IsGitAvailable { get; set; }
 }

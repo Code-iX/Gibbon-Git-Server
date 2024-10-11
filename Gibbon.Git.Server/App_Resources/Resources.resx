@@ -1042,4 +1042,10 @@ The regular C# string formatting rules apply: To get {} in your link you need to
   <data name="MeController_Password_MustBeDifferent" xml:space="preserve">
 	  <value>Password must not be the same as the old password.</value>
   </data>
+  <data name="ServerGitModel_IsGitAvailable" xml:space="preserve">
+	  <value>Git installed</value>
+  </data>
+  <data name="ServerOverviewModel_ApplicationVersion" xml:space="preserve">
+	  <value>Application Version</value>
+  </data>
 </root>
