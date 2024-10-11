@@ -92,16 +92,12 @@ services.AddHttpContextAccessor();
 
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.Limits.MaxRequestBodySize = 102400 * 1024; // 100MB
-    //options.ListenAnyIP(7274, listenOptions =>
-    //{
-    //    listenOptions.UseHttps(certificate);
-    //});
+    options.Limits.MaxRequestBodySize = 100 * 1024 * 1024;
 });
 
 services.Configure<FormOptions>(options =>
 {
-    options.MultipartBodyLengthLimit = 102400 * 1024; // 100MB
+    options.MultipartBodyLengthLimit = 100 * 1024 * 1024;
 });
 
 services.AddAntiforgery(options =>
@@ -141,8 +137,6 @@ services.AddControllersWithViews(options =>
 
 var app = builder.Build();
 
-//app.UseCertificateForKestrel();
-
 app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
 app.UseExceptionHandler("/Home/Error");
 
@@ -166,7 +160,6 @@ app.UseStaticFiles(new StaticFileOptions
 });
 app.UseCookiePolicy();
 
-//app.UseMiddleware<BasicAuthMiddleware>();
 app.UseRouting();
 
 app.UseAuthentication();
@@ -178,41 +171,17 @@ await app.RunAsync();
 
 /*  AppSettings.IsPushAuditEnabled:
  *  
- *  var recoveryDirectory = ConfigurationManager.AppSettings["RecoveryDataPath"];
- *  var isReceivePackRecoveryProcessEnabled = !string.IsNullOrEmpty(recoveryDirectory);
- *  if (isReceivePackRecoveryProcessEnabled)
+ *  var recoveryDirectory = AppSettings:RecoveryDataPath;
+ *  if (!string.IsNullOrEmpty(recoveryDirectory))
  *  {
  *      // git service execution durability registrations to enable receive-pack hook execution after failures
  *      MyDependencyResolver.RegisterType<IGitService, DurableGitServiceResult>();
- *      MyDependencyResolver.RegisterType<IHookReceivePack, ReceivePackRecovery>(); ### new NamedArguments.FailedPackWaitTimeBeforeExecution(TimeSpan.FromSeconds(5 * 60))
- *      MyDependencyResolver.RegisterType<IRecoveryFilePathBuilder, AutoCreateMissingRecoveryDirectories>();
- *      MyDependencyResolver.RegisterType<IRecoveryFilePathBuilder, OneFolderRecoveryFilePathBuilder>(); ### new NamedArguments.ReceivePackRecoveryDirectory(Path.IsPathRooted(recoveryDirectory) ? recoveryDirectory : HttpContext.Current.Server.MapPath(recoveryDirectory))
+ *      MyDependencyResolver.RegisterType<IHookReceivePack, ReceivePackRecovery>();
+ *      
+ *      var recoveryProcess = MyDependencyResolver.GetService<ReceivePackRecovery>();       
+ *      recoveryProcess.RecoverAll(TimeSpan.Zero);
  *  }
- *
- *  // base git service executor
  *  MyDependencyResolver.RegisterType<IGitService, ReceivePackParser>();
- *  MyDependencyResolver.RegisterType<GitServiceResultParser>();
- *
- *  // receive pack hooks
  *  MyDependencyResolver.RegisterType<IHookReceivePack, AuditPusherToGitNotes>();
  *  MyDependencyResolver.RegisterType<IHookReceivePack, NullReceivePackHook>();
- *
- *  // run receive-pack recovery if possible
- *  if (isReceivePackRecoveryProcessEnabled)
- *  {
- *      var recoveryProcess = MyDependencyResolver.GetService<ReceivePackRecovery>(
- *              "failedPackWaitTimeBeforeExecution",
- *              new NamedArguments.FailedPackWaitTimeBeforeExecution(TimeSpan.FromSeconds(0))); // on start up set time to wait = 0 so that recovery for all waiting packs is attempted
- *
- *      try
- *      {
- *          recoveryProcess.RecoverAll();
- *      }
- *      catch
- *      {
- *          // don't let a failed recovery attempt stop start-up process
- *      }
- *  }
  */
-
-// openssl req -x509 -newkey rsa:4096 -keyout mykey.key -out mycert.crt -days 365
