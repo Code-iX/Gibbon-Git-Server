@@ -50,7 +50,7 @@ public class EfSqliteRoleProviderTests : DbTestBase<SqliteConnectionFactory>
     [Description("When adding a Role to a non-existent user, we'll get an exception.")]
     public void TestAddingNonExistentUserToRoleIsSilentlyIgnored()
     {
-        Assert.ThrowsException<InvalidOperationException>(() => _roleProvider.AddRolesToUser(Guid.NewGuid(), ["Administrator"]));
+        Assert.ThrowsException<InvalidOperationException>(() => _roleProvider.AddRolesToUser(17, ["Administrator"]));
     }
 
     [TestMethod]
@@ -143,11 +143,11 @@ public class EfSqliteRoleProviderTests : DbTestBase<SqliteConnectionFactory>
         CollectionAssert.AreEqual(new[] { "Administrator" }, roles);
     }
 
-    private Guid AddUserFred()
+    private int AddUserFred()
     {
         var user = new User
         {
-            Id = Guid.NewGuid(),
+            
             Username = "fred",
             Password = "letmein",
             GivenName = "Fred",
@@ -159,7 +159,7 @@ public class EfSqliteRoleProviderTests : DbTestBase<SqliteConnectionFactory>
         return user.Id;
     }
 
-    private Guid GetAdminId()
+    private int GetAdminId()
     {
         return DbContext.Users.Single(u => u.Username == "admin").Id;
     }

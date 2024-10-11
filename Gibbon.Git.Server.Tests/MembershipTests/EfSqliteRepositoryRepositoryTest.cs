@@ -77,7 +77,7 @@ public class EfSqliteRepositoryRepositoryTest : DbTestBase<SqliteConnectionFacto
     public void NewRepoNameIsUnique()
     {
         _repositoryService.Create(MakeRepo("abc"));
-        Assert.IsTrue(_repositoryService.NameIsUnique("x", Guid.Empty));
+        Assert.IsTrue(_repositoryService.NameIsUnique("x", 0));
     }
 
     [TestMethod]
@@ -86,7 +86,7 @@ public class EfSqliteRepositoryRepositoryTest : DbTestBase<SqliteConnectionFacto
     public void DuplicateRepoNameIsNotUniqueEvenIfCaseDiffers()
     {
         _repositoryService.Create(MakeRepo("abc"));
-        Assert.IsFalse(_repositoryService.NameIsUnique("ABC", Guid.Empty));
+        Assert.IsFalse(_repositoryService.NameIsUnique("ABC", 0));
     }
 
     [TestMethod]
@@ -161,7 +161,7 @@ public class EfSqliteRepositoryRepositoryTest : DbTestBase<SqliteConnectionFacto
     {
         var newRepo1 = MakeRepo("Repo1");
         _repositoryService.Create(newRepo1);
-        Assert.ThrowsException<InvalidOperationException>(() => _repositoryService.GetRepository(Guid.NewGuid()));
+        Assert.ThrowsException<InvalidOperationException>(() => _repositoryService.GetRepository(17));
     }
 
     [TestMethod]
@@ -206,7 +206,7 @@ public class EfSqliteRepositoryRepositoryTest : DbTestBase<SqliteConnectionFacto
     {
         _repositoryService.Create(MakeRepo("Repo1"));
 
-        _repositoryService.Delete(Guid.NewGuid());
+        _repositoryService.Delete(17);
 
         Assert.AreEqual("Repo1", _repositoryService.GetAllRepositories().Single().Name);
     }
@@ -359,7 +359,7 @@ public class EfSqliteRepositoryRepositoryTest : DbTestBase<SqliteConnectionFacto
     {
         User user = new User
         {
-            Id = Guid.NewGuid(),
+            
             Username = "fred",
             Password = "letmein",
             PasswordSalt = "salt",
@@ -385,7 +385,7 @@ public class EfSqliteRepositoryRepositoryTest : DbTestBase<SqliteConnectionFacto
     {
         Team team = new Team
         {
-            Id = Guid.NewGuid(),
+            
             Name = "Team1",
             Description = "Team1 description",
             Repositories = []

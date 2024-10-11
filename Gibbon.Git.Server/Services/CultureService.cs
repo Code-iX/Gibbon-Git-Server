@@ -10,15 +10,17 @@ namespace Gibbon.Git.Server.Services;
 internal sealed class CultureService(ServerSettings serverSettings, IUserSettingsService userSettingsService, IWebHostEnvironment webHostEnvironment)
     : ICultureService
 {
+    private const string DefaultLanguage = "en-US";
+
     private readonly ServerSettings _serverSettings = serverSettings;
     private readonly IUserSettingsService _userSettingsService = userSettingsService;
     private readonly IWebHostEnvironment _webHostEnvironment = webHostEnvironment;
 
-    public async Task<CultureInfo> GetSelectedCultureInfo(Guid userId)
+    public async Task<CultureInfo> GetSelectedCultureInfo(int userId)
     {
-        var userSettings = userId != Guid.Empty ? await _userSettingsService.GetSettings(userId) : _userSettingsService.GetDefaultSettings();
+        var userSettings = userId != 0 ? await _userSettingsService.GetSettings(userId) : _userSettingsService.GetDefaultSettings();
 
-        var language = userSettings.PreferredLanguage ?? _serverSettings.DefaultLanguage;
+        var language = userSettings.PreferredLanguage ?? _serverSettings.DefaultLanguage ?? DefaultLanguage;
 
         return new CultureInfo(language);
     }

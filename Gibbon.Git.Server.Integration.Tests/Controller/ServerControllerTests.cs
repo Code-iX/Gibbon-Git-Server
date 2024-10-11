@@ -95,7 +95,7 @@ internal class ServerControllerTests : IntegrationTestBase
     [TestMethod]
     public async Task DownloadGit_ShouldRedirectToSettings()
     {
-        var client = await CreateClientAsync(false, false);
+        var client = await CreateClientAsync(true, false);
 
         // Schritt 1: Führe den Download aus
         var response = await client.GetAsync("/Server/DownloadGit");

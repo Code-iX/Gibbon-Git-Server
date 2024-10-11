@@ -59,7 +59,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     }
 
     [WebAuthorizeRepository(RequiresRepositoryAdministrator = true)]
-    public IActionResult Edit(Guid id)
+    public IActionResult Edit(int id)
     {
         var model = ConvertRepositoryModel(_repositoryService.GetRepository(id), User);
         PopulateCheckboxListData(ref model);
@@ -200,7 +200,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     }
 
     [WebAuthorizeRepository(RequiresRepositoryAdministrator = true)]
-    public IActionResult Delete(Guid id)
+    public IActionResult Delete(int id)
     {
         return View(ConvertRepositoryModel(_repositoryService.GetRepository(id), User));
     }
@@ -225,7 +225,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     }
 
     [WebAuthorizeRepository]
-    public IActionResult Detail(Guid id)
+    public IActionResult Detail(int id)
     {
         ViewBag.ID = id;
 
@@ -276,7 +276,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     }
 
     [WebAuthorizeRepository]
-    public IActionResult Tree(Guid id, string encodedName, string encodedPath)
+    public IActionResult Tree(int id, string encodedName, string encodedPath)
     {
         var isApiRequest = HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
 
@@ -317,7 +317,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     }
 
     [WebAuthorizeRepository]
-    public IActionResult Blob(Guid id, string encodedName, string encodedPath)
+    public IActionResult Blob(int id, string encodedName, string encodedPath)
     {
         ViewBag.ID = id;
         var repo = _repositoryService.GetRepository(id);
@@ -333,7 +333,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     }
 
     [WebAuthorizeRepository]
-    public IActionResult Raw(Guid id, string encodedName, string encodedPath, bool display = false)
+    public IActionResult Raw(int id, string encodedName, string encodedPath, bool display = false)
     {
         var repo = _repositoryService.GetRepository(id);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
@@ -360,7 +360,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     }
 
     [WebAuthorizeRepository]
-    public IActionResult Blame(Guid id, string encodedName, string encodedPath)
+    public IActionResult Blame(int id, string encodedName, string encodedPath)
     {
         ViewBag.ID = id;
         ViewBag.ShowShortMessageOnly = true;
@@ -377,7 +377,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     }
 
     [WebAuthorizeRepository]
-    public IActionResult Download(Guid id, string encodedName, string encodedPath)
+    public IActionResult Download(int id, string encodedName, string encodedPath)
     {
         var name = PathEncoder.Decode(encodedName);
         var path = PathEncoder.Decode(encodedPath);
@@ -448,7 +448,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     }
 
     [WebAuthorizeRepository]
-    public IActionResult Tags(Guid id, string encodedName, int page = 1)
+    public IActionResult Tags(int id, string encodedName, int page = 1)
     {
         page = page >= 1 ? page : 1;
 
@@ -469,7 +469,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     }
 
     [WebAuthorizeRepository]
-    public IActionResult Commits(Guid id, string encodedName, int? page = null)
+    public IActionResult Commits(int id, string encodedName, int? page = null)
     {
         page = page >= 1 ? page : 1;
 
@@ -527,7 +527,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     }
 
     [WebAuthorizeRepository]
-    public IActionResult Commit(Guid id, string commit)
+    public IActionResult Commit(int id, string commit)
     {
         ViewBag.ID = id;
         ViewBag.ShowShortMessageOnly = false;
@@ -540,7 +540,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     }
 
     [WebAuthorize]
-    public IActionResult Clone(Guid id)
+    public IActionResult Clone(int id)
     {
         if (!_repositoryPermissionService.HasCreatePermission(User.Id()))
         {
@@ -558,7 +558,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     [WebAuthorize]
     [WebAuthorizeRepository]
     [ValidateAntiForgeryToken]
-    public IActionResult Clone(Guid id, RepositoryDetailModel model)
+    public IActionResult Clone(int id, RepositoryDetailModel model)
     {
         ArgumentNullException.ThrowIfNull(model, nameof(model));
 
@@ -577,7 +577,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
             return View(model);
         }
 
-        if (!_repositoryService.NameIsUnique(model.Name, Guid.Empty))
+        if (!_repositoryService.NameIsUnique(model.Name, 0))
         {
             ModelState.AddModelError("Name", Resources.Validation_Duplicate_Name);
             return View(model);
@@ -626,7 +626,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     }
 
     [WebAuthorizeRepository]
-    public IActionResult History(Guid id, string encodedPath, string encodedName)
+    public IActionResult History(int id, string encodedPath, string encodedName)
     {
         ViewBag.ID = id;
         ViewBag.ShowShortMessageOnly = true;
@@ -645,7 +645,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
 
     private void PopulateCheckboxListData(ref RepositoryDetailModel model)
     {
-        model = model.Id != Guid.Empty ? ConvertRepositoryModel(_repositoryService.GetRepository(model.Id), User) : model;
+        model = model.Id != 0 ? ConvertRepositoryModel(_repositoryService.GetRepository(model.Id), User) : model;
         model.AllAdministrators = _membershipService.GetAllUsers().ToArray();
         model.AllUsers = _membershipService.GetAllUsers().ToArray();
         model.AllTeams = _teamRepository.GetAllTeams().ToArray();

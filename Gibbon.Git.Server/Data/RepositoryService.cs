@@ -83,12 +83,12 @@ public class RepositoryService(ILogger<RepositoryService> logger, GibbonGitServe
             .AuditPushUser ?? false;
     }
 
-    public RepositoryModel GetRepository(Guid id)
+    public RepositoryModel GetRepository(int id)
     {
         return ConvertToModel(Get(id));
     }
 
-    private Repository Get(Guid id)
+    private Repository Get(int id)
     {
         return _context.Repositories
             .Include(x => x.Administrators)
@@ -98,7 +98,7 @@ public class RepositoryService(ILogger<RepositoryService> logger, GibbonGitServe
             .First(i => i.Id.Equals(id));
     }
 
-    public void Delete(Guid id)
+    public void Delete(int id)
     {
         var repo = _context.Repositories.FirstOrDefault(i => i.Id == id);
         if (repo != null)
@@ -111,7 +111,7 @@ public class RepositoryService(ILogger<RepositoryService> logger, GibbonGitServe
         }
     }
 
-    public bool NameIsUnique(string newName, Guid ignoreRepoId)
+    public bool NameIsUnique(string newName, int ignoreRepoId)
     {
         var repo = GetRepository(newName);
         return repo == null || repo.Id == ignoreRepoId;
@@ -151,10 +151,8 @@ public class RepositoryService(ILogger<RepositoryService> logger, GibbonGitServe
         ArgumentNullException.ThrowIfNull(model, nameof(model));
         ArgumentNullException.ThrowIfNull(model.Name, nameof(model.Name));
 
-        model.Id = Guid.NewGuid();
         var repository = new Repository
         {
-            Id = model.Id,
             Name = model.Name,
             Logo = model.Logo,
             Group = model.Group,
@@ -170,7 +168,8 @@ public class RepositoryService(ILogger<RepositoryService> logger, GibbonGitServe
         AddMembers(model.Users.Select(x => x.Id), model.Administrators.Select(x => x.Id), model.Teams.Select(x => x.Id), repository, _context);
         try
         {
-            _context.SaveChanges();            
+            _context.SaveChanges();
+            model.Id = repository.Id;
         }
         catch (DbUpdateException ex)
         {
@@ -256,7 +255,7 @@ public class RepositoryService(ILogger<RepositoryService> logger, GibbonGitServe
         };
     }
 
-    private static void AddMembers(IEnumerable<Guid> users, IEnumerable<Guid> admins, IEnumerable<Guid> teams, Repository repo, GibbonGitServerContext database)
+    private static void AddMembers(IEnumerable<int> users, IEnumerable<int> admins, IEnumerable<int> teams, Repository repo, GibbonGitServerContext database)
     {
         if (admins != null)
         {
@@ -286,7 +285,7 @@ public class RepositoryService(ILogger<RepositoryService> logger, GibbonGitServe
         }
     }
 
-    public List<RepositoryModel> GetTeamRepositories(Guid teamsId)
+    public List<RepositoryModel> GetTeamRepositories(int teamsId)
     {
         return GetAllRepositories()
             .Where(repo => repo.Teams.Any(team => teamsId == team.Id))

@@ -14,7 +14,8 @@ public class RepositoryConfiguration : IEntityTypeConfiguration<Repository>
         builder.HasKey(t => t.Id);
 
         builder.Property(t => t.Id)
-            .HasColumnName("Id");
+            .HasColumnName("Id")
+            .ValueGeneratedOnAdd();
 
         builder.HasIndex(t => t.Name)
             .IsUnique();

@@ -12,7 +12,7 @@ public class DurableGitServiceResult(IGitService gitService, IRecoveryFilePathBu
     private readonly IGitService _gitService = gitService;
     private readonly IRecoveryFilePathBuilder _resultFilePathBuilder = resultFilePathBuilder;
 
-    public async Task ExecuteServiceByName(string correlationId, string repositoryName, string serviceName, ExecutionOptions options, Stream inStream, Stream outStream, string userName, Guid userId)
+    public async Task ExecuteServiceByName(string correlationId, string repositoryName, string serviceName, ExecutionOptions options, Stream inStream, Stream outStream, string userName, int userId)
     {
         if (serviceName == "receive-pack")
         {

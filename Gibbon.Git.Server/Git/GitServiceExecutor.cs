@@ -35,7 +35,7 @@ public class GitServiceExecutor : IGitService
         _membershipService = membershipService;
     }
 
-    public async Task ExecuteServiceByName(string correlationId, string repositoryName, string serviceName, ExecutionOptions options, Stream inStream, Stream outStream, string userName, Guid userId)
+    public async Task ExecuteServiceByName(string correlationId, string repositoryName, string serviceName, ExecutionOptions options, Stream inStream, Stream outStream, string userName, int userId)
     {
         if (!PermittedServiceNames.Contains(serviceName))
         {
@@ -70,7 +70,7 @@ public class GitServiceExecutor : IGitService
         return info;
     }
 
-    private void SetUserEnvironment(string userName, Guid userId, ProcessStartInfo info)
+    private void SetUserEnvironment(string userName, int userId, ProcessStartInfo info)
     {
         var teamsstr = "";
         var rolesstr = "";

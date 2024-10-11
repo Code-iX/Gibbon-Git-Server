@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using Gibbon.Git.Server.Configuration;
 using Gibbon.Git.Server.Controllers;
+using Gibbon.Git.Server.Git;
 using Gibbon.Git.Server.Git.GitDownloadService;
 using Gibbon.Git.Server.Models;
 using Gibbon.Git.Server.Services;
@@ -32,6 +33,8 @@ public class ServerControllerTests : ControllerTestBase<ServerController>
         {
             options.Value.Returns(_applicationSettings);
         });
+        var versionService = services.AddSubstitute<IGitVersionService>();
+        versionService.IsGitAvailable.Returns(true);
         _downloadService = services.AddSubstitute<IGitDownloadService>();
         _serverSettingsService = services.AddSubstitute<IServerSettingsService>();
         _cultureService = services.AddSubstitute<ICultureService>();

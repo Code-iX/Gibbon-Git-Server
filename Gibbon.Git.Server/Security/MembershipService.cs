@@ -44,7 +44,6 @@ public class MembershipService(ILogger<MembershipService> logger, GibbonGitServe
 
         var user = new User
         {
-            Id = Guid.NewGuid(),
             Username = username.ToLowerInvariant(),
             GivenName = givenName,
             Surname = surname,
@@ -90,7 +89,7 @@ public class MembershipService(ILogger<MembershipService> logger, GibbonGitServe
         Email = user.Email,
     };
 
-    public UserModel GetUserModel(Guid id)
+    public UserModel GetUserModel(int id)
     {
         var user = _context.Users.FirstOrDefault(i => i.Id == id);
         return GetUserModel(user);
@@ -103,7 +102,7 @@ public class MembershipService(ILogger<MembershipService> logger, GibbonGitServe
         return GetUserModel(user);
     }
 
-    public void DeleteUser(Guid id)
+    public void DeleteUser(int id)
     {
         var user = _context.Users.FirstOrDefault(u => u.Id == id);
         if (user != null)
@@ -122,7 +121,7 @@ public class MembershipService(ILogger<MembershipService> logger, GibbonGitServe
         return _passwordService.GenerateToken(username);
     }
 
-    public void UpdateUser(Guid id, string givenName, string surname, string email)
+    public void UpdateUser(int id, string givenName, string surname, string email)
     {
         var user = _context.Users.FirstOrDefault(i => i.Id == id);
         if (user == null)
@@ -134,7 +133,7 @@ public class MembershipService(ILogger<MembershipService> logger, GibbonGitServe
         _context.SaveChanges();
     }
 
-    public void UpdatePassword(Guid id, string newPassword)
+    public void UpdatePassword(int id, string newPassword)
     {
         var user = _context.Users.FirstOrDefault(i => i.Id == id);
         if (user == null)

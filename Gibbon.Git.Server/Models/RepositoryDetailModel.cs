@@ -8,7 +8,7 @@ namespace Gibbon.Git.Server.Models;
 
 public class RepositoryDetailModel
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 
     [Remote("UniqueNameRepo", "Validation", AdditionalFields = "Id", ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Duplicate_Name")]
     [RegularExpression(StringHelper.NameIsValidPattern, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_FileName_Regex")]
@@ -28,17 +28,17 @@ public class RepositoryDetailModel
 
     [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_Users")]
     public UserModel[] Users { get; set; } = [];
-    public Guid[] PostedSelectedUsers { get; set; } = [];
+    public int[] PostedSelectedUsers { get; set; } = [];
     public UserModel[] AllUsers { get; set; } = [];
 
     [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_Teams")]
     public TeamModel[] Teams { get; set; } = [];
-    public Guid[] PostedSelectedTeams { get; set; } = [];
+    public int[] PostedSelectedTeams { get; set; } = [];
     public TeamModel[] AllTeams { get; set; } = [];
 
     [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_Administrators")]
     public UserModel[] Administrators { get; set; } = [];
-    public Guid[] PostedSelectedAdministrators { get; set; } = [];
+    public int[] PostedSelectedAdministrators { get; set; } = [];
     public UserModel[] AllAdministrators { get; set; } = [];
 
     [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_IsCurrentUserAdmin")]

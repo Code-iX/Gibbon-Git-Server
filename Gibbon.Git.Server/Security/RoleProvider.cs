@@ -23,7 +23,7 @@ public class RoleProvider(GibbonGitServerContext context) : IRoleProvider
         _context.SaveChanges();
     }
 
-    public void AddRolesToUser(Guid userId, string[] roleNames)
+    public void AddRolesToUser(int userId, string[] roleNames)
     {
         var roles = _context.Roles.Where(i => roleNames.Contains(i.Name)).ToList();
         var user = _context.Users.Include(x => x.Roles).SingleOrDefault(i => i.Id == userId);
@@ -66,7 +66,7 @@ public class RoleProvider(GibbonGitServerContext context) : IRoleProvider
 
     }
 
-    public string[] GetRolesForUser(Guid userId)
+    public string[] GetRolesForUser(int userId)
     {
         var roles = _context.Roles
             .Where(role => role.Users.Any(us => us.Id == userId))
@@ -75,12 +75,12 @@ public class RoleProvider(GibbonGitServerContext context) : IRoleProvider
         return roles;
     }
 
-    public bool IsUserInRole(Guid userId, string roleName)
+    public bool IsUserInRole(int userId, string roleName)
     {
         return _context.Roles.Any(role => role.Name == roleName && role.Users.Any(us => us.Id == userId));
     }
 
-    public void RemoveRolesFromUser(Guid userId, string[] roleNames)
+    public void RemoveRolesFromUser(int userId, string[] roleNames)
     {
         var roles = _context.Roles.Where(i => roleNames.Contains(i.Name)).ToList();
         var user = _context.Users.SingleOrDefault(i => i.Id == userId);

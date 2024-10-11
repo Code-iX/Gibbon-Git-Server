@@ -63,7 +63,7 @@ public class GitServiceExecutorTests
         var outStream = new MemoryStream();
         var userName = "testUser";
         var options = new ExecutionOptions(true, true);
-        var userId = Guid.NewGuid();
+        var userId = 1;
 
         SetupInfo("TeamA", userId, userName);
         _pathResolver.Resolve(Arg.Any<string>(), Arg.Any<string>()).Returns("/fakeGitPath");
@@ -97,7 +97,7 @@ public class GitServiceExecutorTests
         var outStream = new MemoryStream();
         var userName = "testUser";
         var options = new ExecutionOptions(advertiseRefs, endStreamWithClose);
-        var userId = Guid.NewGuid();
+        var userId = 1;
 
         SetupInfo("TeamA", userId, userName);
         _pathResolver.Resolve(Arg.Any<string>(), Arg.Any<string>()).Returns("/fakeGitPath");
@@ -124,7 +124,7 @@ public class GitServiceExecutorTests
         var outStream = new MemoryStream();
         var userName = "testUser";
         var options = new ExecutionOptions(true, endStreamWithClose);
-        var userId = Guid.NewGuid();
+        var userId = 1;
 
         SetupInfo("TeamA", userId, userName);
         _pathResolver.Resolve(Arg.Any<string>(), Arg.Any<string>()).Returns("/fakeGitPath");
@@ -149,7 +149,7 @@ public class GitServiceExecutorTests
         var outStream = new MemoryStream();
         var userName = "testUser";
         var options = new ExecutionOptions(true, true);
-        var userId = Guid.NewGuid();
+        var userId = 1;
 
         SetupInfo(teamName, userId, userName, roleName);
         _pathResolver.Resolve(Arg.Any<string>(), Arg.Any<string>()).Returns("/fakeGitPath");
@@ -173,7 +173,7 @@ public class GitServiceExecutorTests
         ), inStream, outStream, options.EndStreamWithClose);
     }
 
-    private void SetupInfo(string teamName, Guid userId, string userName, params string[] roleName)
+    private void SetupInfo(string teamName, int userId, string userName, params string[] roleName)
     {
         List<TeamModel> teams = [
             new() { Name = teamName }

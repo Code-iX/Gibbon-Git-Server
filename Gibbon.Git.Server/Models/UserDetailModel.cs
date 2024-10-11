@@ -4,7 +4,7 @@ namespace Gibbon.Git.Server.Models;
 
 public class UserDetailModel
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 
     [Display(ResourceType = typeof(Resources), Name = "Account_Detail_Username")]
     public string Username { get; set; }

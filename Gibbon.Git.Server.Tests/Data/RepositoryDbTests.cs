@@ -17,7 +17,7 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
     public void CanAddRepository()
     {
         // Arrange
-        var repository = new Repository { Id = Guid.NewGuid(), Name = "TestRepo" };
+        var repository = new Repository {  Name = "TestRepo" };
 
         // Act
         Context.Repositories.Add(repository);
@@ -33,8 +33,8 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
     public void RepositoryNameMustBeUnique()
     {
         // Arrange
-        var repo1 = new Repository { Id = Guid.NewGuid(), Name = "UniqueRepo" };
-        var repo2 = new Repository { Id = Guid.NewGuid(), Name = "UniqueRepo" }; // Gleicher Name
+        var repo1 = new Repository {  Name = "UniqueRepo" };
+        var repo2 = new Repository {  Name = "UniqueRepo" }; // Gleicher Name
 
         // Act
         Context.Repositories.Add(repo1);
@@ -49,10 +49,10 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
     public void CanAddUserWithRole()
     {
         // Arrange
-        var role = new Role { Id = Guid.NewGuid(), Name = "Admin" };
+        var role = new Role {  Name = "Admin" };
         var user = new User
         {
-            Id = Guid.NewGuid(),
+            
             Username = "TestUser",
             GivenName = "Test",
             Surname = "User",
@@ -76,7 +76,7 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
     public void CanDeleteRepository()
     {
         // Arrange
-        var repository = new Repository { Id = Guid.NewGuid(), Name = "TestRepo" };
+        var repository = new Repository {  Name = "TestRepo" };
         Context.Repositories.Add(repository);
         Context.SaveChanges();
 
@@ -93,10 +93,10 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
     public void CanAddTeamWithRepository()
     {
         // Arrange
-        var repository = new Repository { Id = Guid.NewGuid(), Name = "TestRepo" };
+        var repository = new Repository {  Name = "TestRepo" };
         var team = new Team
         {
-            Id = Guid.NewGuid(),
+            
             Name = "Dev Team",
             Repositories = [repository]
         };
@@ -115,10 +115,10 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
     public void CanAssignAdministratorToRepository()
     {
         // Arrange
-        var repository = new Repository { Id = Guid.NewGuid(), Name = "AdminRepo" };
+        var repository = new Repository {  Name = "AdminRepo" };
         var admin = new User
         {
-            Id = Guid.NewGuid(),
+            
             Username = "AdminUser",
             GivenName = "Admin",
             Surname = "User",
@@ -142,10 +142,10 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
     public void CanAddMultipleUsersToRepository()
     {
         // Arrange
-        var repository = new Repository { Id = Guid.NewGuid(), Name = "TestRepo" };
+        var repository = new Repository {  Name = "TestRepo" };
         var user1 = new User
         {
-            Id = Guid.NewGuid(),
+            
             Username = "User1",
             GivenName = "Test1",
             Surname = "User1",
@@ -155,7 +155,7 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
         };
         var user2 = new User
         {
-            Id = Guid.NewGuid(),
+            
             Username = "User2",
             GivenName = "Test2",
             Surname = "User2",
@@ -182,8 +182,8 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
         // Arrange
         using var transaction = Context.Database.BeginTransaction();
 
-        var repository = new Repository { Id = Guid.NewGuid(), Name = "RollbackRepo" };
-        var team = new Team { Id = Guid.NewGuid(), Name = "RollbackTeam" };
+        var repository = new Repository {  Name = "RollbackRepo" };
+        var team = new Team {  Name = "RollbackTeam" };
 
         Context.Repositories.Add(repository);
         Context.SaveChanges();
@@ -213,9 +213,9 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
     public void DeleteRepositoryRemovesOnlyRelationsNotUsersOrTeams()
     {
         // Arrange
-        var repository = new Repository { Id = Guid.NewGuid(), Name = "RelationTestRepo" };
-        var admin = new User { Id = Guid.NewGuid(), Username = "AdminUser", GivenName = "Admin", Surname = "User", Email = "admin@example.com", Password = "password", PasswordSalt = "salt" };
-        var team = new Team { Id = Guid.NewGuid(), Name = "RelationTestTeam" };
+        var repository = new Repository {  Name = "RelationTestRepo" };
+        var admin = new User {  Username = "AdminUser", GivenName = "Admin", Surname = "User", Email = "admin@example.com", Password = "password", PasswordSalt = "salt" };
+        var team = new Team {  Name = "RelationTestTeam" };
 
         repository.Administrators.Add(admin);
         repository.Teams.Add(team);
@@ -250,9 +250,9 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
     public void DeleteUserOrTeamDoesNotDeleteRepository()
     {
         // Arrange
-        var repository = new Repository { Id = Guid.NewGuid(), Name = "TestRepo" };
-        var user = new User { Id = Guid.NewGuid(), Username = "TestUser", GivenName = "Test", Surname = "User", Email = "testuser@example.com", Password = "password", PasswordSalt = "salt" };
-        var team = new Team { Id = Guid.NewGuid(), Name = "TestTeam" };
+        var repository = new Repository {  Name = "TestRepo" };
+        var user = new User {  Username = "TestUser", GivenName = "Test", Surname = "User", Email = "testuser@example.com", Password = "password", PasswordSalt = "salt" };
+        var team = new Team {  Name = "TestTeam" };
 
         repository.Users.Add(user);
         repository.Teams.Add(team);
@@ -285,10 +285,10 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
     public void RepositoryDataIntegrityWithUsersTeamsAndAdmins()
     {
         // Arrange
-        var repository = new Repository { Id = Guid.NewGuid(), Name = "DataIntegrityRepo" };
-        var user = new User { Id = Guid.NewGuid(), Username = "DataUser", GivenName = "User", Surname = "Test", Email = "user@example.com", Password = "password", PasswordSalt = "salt" };
-        var team = new Team { Id = Guid.NewGuid(), Name = "DataTeam" };
-        var admin = new User { Id = Guid.NewGuid(), Username = "AdminUser", GivenName = "Admin", Surname = "Test", Email = "admin@example.com", Password = "password", PasswordSalt = "salt" };
+        var repository = new Repository {  Name = "DataIntegrityRepo" };
+        var user = new User {  Username = "DataUser", GivenName = "User", Surname = "Test", Email = "user@example.com", Password = "password", PasswordSalt = "salt" };
+        var team = new Team {  Name = "DataTeam" };
+        var admin = new User {  Username = "AdminUser", GivenName = "Admin", Surname = "Test", Email = "admin@example.com", Password = "password", PasswordSalt = "salt" };
 
         repository.Users.Add(user);
         repository.Teams.Add(team);
@@ -317,10 +317,10 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
     public void CompleteRepositoryLifecycleTest()
     {
         // Arrange 
-        var repository = new Repository { Id = Guid.NewGuid(), Name = "LifecycleRepo" };
-        var admin = new User { Id = Guid.NewGuid(), Username = "AdminLifecycle", GivenName = "Admin", Surname = "Test", Email = "admin@example.com", Password = "password", PasswordSalt = "salt" };
-        var user = new User { Id = Guid.NewGuid(), Username = "UserLifecycle", GivenName = "User", Surname = "Test", Email = "user@example.com", Password = "password", PasswordSalt = "salt" };
-        var team = new Team { Id = Guid.NewGuid(), Name = "LifecycleTeam" };
+        var repository = new Repository {  Name = "LifecycleRepo" };
+        var admin = new User {  Username = "AdminLifecycle", GivenName = "Admin", Surname = "Test", Email = "admin@example.com", Password = "password", PasswordSalt = "salt" };
+        var user = new User {  Username = "UserLifecycle", GivenName = "User", Surname = "Test", Email = "user@example.com", Password = "password", PasswordSalt = "salt" };
+        var team = new Team {  Name = "LifecycleTeam" };
 
         // Act: Create
         repository.Administrators.Add(admin);
@@ -358,9 +358,9 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
     public void RepositoryDeleteFailsRollbackUsersAndTeams()
     {
         // Arrange
-        var repository = new Repository { Id = Guid.NewGuid(), Name = "FailRepo" };
-        var user = new User { Id = Guid.NewGuid(), Username = "FailUser", GivenName = "User", Surname = "Fail", Email = "fail@example.com", Password = "password", PasswordSalt = "salt" };
-        var team = new Team { Id = Guid.NewGuid(), Name = "FailTeam" };
+        var repository = new Repository {  Name = "FailRepo" };
+        var user = new User {  Username = "FailUser", GivenName = "User", Surname = "Fail", Email = "fail@example.com", Password = "password", PasswordSalt = "salt" };
+        var team = new Team {  Name = "FailTeam" };
 
         repository.Users.Add(user);
         repository.Teams.Add(team);
@@ -388,10 +388,10 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
     public void CanAddAndRemoveUserFromRepository()
     {
         // Arrange
-        var repository = new Repository { Id = Guid.NewGuid(), Name = "TestRepo" };
+        var repository = new Repository {  Name = "TestRepo" };
         var user = new User
         {
-            Id = Guid.NewGuid(),
+            
             Username = "TestUser",
             GivenName = "Test",
             Surname = "User",
@@ -426,9 +426,9 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
     public void CanAddTwoTeamsAndRemoveFirstFromRepository()
     {
         // Arrange
-        var repository = new Repository { Id = Guid.NewGuid(), Name = "TestRepo" };
-        var team1 = new Team { Id = Guid.NewGuid(), Name = "FirstTeam" };
-        var team2 = new Team { Id = Guid.NewGuid(), Name = "SecondTeam" };
+        var repository = new Repository {  Name = "TestRepo" };
+        var team1 = new Team {  Name = "FirstTeam" };
+        var team2 = new Team {  Name = "SecondTeam" };
 
         Context.Repositories.Add(repository);
         Context.Teams.Add(team1);

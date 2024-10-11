@@ -22,7 +22,7 @@ public class AccountController(IAuthenticationProvider authenticationProvider, I
     private readonly ApplicationSettings _applicationSettings = options.Value;
 
     [WebAuthorize]
-    public IActionResult Detail(Guid id)
+    public IActionResult Detail(int id)
     {
         var user = _membershipService.GetUserModel(id);
         if (user != null)
@@ -42,7 +42,7 @@ public class AccountController(IAuthenticationProvider authenticationProvider, I
     }
 
     [WebAuthorize(Roles = Definitions.Roles.Administrator)]
-    public IActionResult Delete(Guid id)
+    public IActionResult Delete(int id)
     {
         var user = _membershipService.GetUserModel(id);
         if (user != null)
@@ -81,7 +81,7 @@ public class AccountController(IAuthenticationProvider authenticationProvider, I
     }
 
     [WebAuthorize]
-    public IActionResult Edit(Guid id)
+    public IActionResult Edit(int id)
     {
         if (id != User.Id() && !User.IsInRole(Definitions.Roles.Administrator))
         {
