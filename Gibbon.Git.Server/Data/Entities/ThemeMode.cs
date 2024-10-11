@@ -2,7 +2,7 @@
 
 public enum ThemeMode
 {
-    System,
-    Light,
-    Dark
+    System = 0,
+    Light = 1,
+    Dark = 2
 }

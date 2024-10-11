@@ -1089,6 +1089,15 @@ namespace Gibbon.Git.Server.App_Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use server language.
+        /// </summary>
+        public static string MeController_Settings_UseServerLanguage {
+            get {
+                return ResourceManager.GetString("MeController_Settings_UseServerLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
         public static string No {

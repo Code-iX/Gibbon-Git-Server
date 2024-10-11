@@ -10,18 +10,17 @@ public class UserSettingsEntityConfiguration : IEntityTypeConfiguration<UserSett
     {
         builder.ToTable("UserSettings");
 
-        builder.HasKey(e => e.Id);
+        builder.HasKey(e => e.UserId);
 
-        builder.Property(e => e.UserId).IsRequired();
+        builder.Property(e => e.UserId)
+            .IsRequired()
+            .ValueGeneratedNever();
 
         builder.Property(e => e.PreferredLanguage)
-            .HasMaxLength(10)
-            .IsRequired();
+            .HasMaxLength(10);
 
         builder.Property(e => e.PreferredThemeMode)
-            .HasConversion<string>()
-            .HasMaxLength(10)
-            .IsRequired();
+            .HasConversion<int>();
 
         builder.Property(e => e.ReceiveEmailNotifications)
             .IsRequired();

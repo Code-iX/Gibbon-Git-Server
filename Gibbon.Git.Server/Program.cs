@@ -143,7 +143,6 @@ var app = builder.Build();
 
 //app.UseCertificateForKestrel();
 
-app.UseMiddleware<CultureMiddleware>();
 app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
 app.UseExceptionHandler("/Home/Error");
 
@@ -173,6 +172,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapRoutes();
+app.UseMiddleware<CultureMiddleware>();
 
 await app.RunAsync();
 

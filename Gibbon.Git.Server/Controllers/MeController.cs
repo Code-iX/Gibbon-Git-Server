@@ -146,13 +146,19 @@ public class MeController(IMembershipService membershipService, IRoleProvider ro
             })
             .ToList();
 
+        cultureItems.Insert(0, new SelectListItem
+        {
+            Text = Resources.MeController_Settings_UseServerLanguage,
+            Value = ""
+        });
+
         var user = GetCurrentUser();
 
-        var settings = "en";
+        var settings = await _userSettingsService.GetSettings(user.Id);
 
         return View(new MeSettingsModel
         {
-            DefaultLanguage = settings,
+            PreferredLanguage = settings.PreferredLanguage,
             AvailableLanguages = cultureItems
         });
     }
@@ -163,10 +169,25 @@ public class MeController(IMembershipService membershipService, IRoleProvider ro
     {
         if (!ModelState.IsValid)
         {
+            var cultures = await _cultureService.GetSupportedCultures();
+            settings.AvailableLanguages = cultures
+                .Select(cultureInfo => new SelectListItem
+                {
+                    Text = $"{cultureInfo.Name} - {cultureInfo.DisplayName}",
+                    Value = cultureInfo.Name
+                })
+                .ToList();
+
             return View(settings);
         }
 
         var user = GetCurrentUser();
+
+        await _userSettingsService.SaveSettings(user.Id, new UserSettings
+        {
+            PreferredLanguage = settings.PreferredLanguage
+        });
+
         return RedirectToAction("Settings");
     }
 

@@ -15,7 +15,7 @@ namespace Gibbon.Git.Server.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
 
             modelBuilder.Entity("Gibbon.Git.Server.Data.Entities.Repository", b =>
                 {
@@ -253,9 +253,8 @@ namespace Gibbon.Git.Server.Migrations
 
             modelBuilder.Entity("Gibbon.Git.Server.Data.Entities.UserSettingsEntity", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("DateFormat")
                         .HasMaxLength(20)
@@ -266,7 +265,6 @@ namespace Gibbon.Git.Server.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PreferredLanguage")
-                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("TEXT");
 
@@ -282,10 +280,7 @@ namespace Gibbon.Git.Server.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.ToTable("UserSettings", (string)null);
                 });

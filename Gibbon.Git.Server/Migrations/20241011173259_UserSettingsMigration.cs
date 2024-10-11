@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Gibbon.Git.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class UserSettings : Migration
+    public partial class UserSettingsMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,10 +15,8 @@ namespace Gibbon.Git.Server.Migrations
                 name: "UserSettings",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
-                    PreferredLanguage = table.Column<string>(type: "TEXT", maxLength: 10, nullable: false),
+                    UserId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    PreferredLanguage = table.Column<string>(type: "TEXT", maxLength: 10, nullable: true),
                     PreferredThemeMode = table.Column<string>(type: "TEXT", maxLength: 10, nullable: false),
                     ReceiveEmailNotifications = table.Column<bool>(type: "INTEGER", nullable: false),
                     TimeZone = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
@@ -26,7 +25,7 @@ namespace Gibbon.Git.Server.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserSettings", x => x.Id);
+                    table.PrimaryKey("PK_UserSettings", x => x.UserId);
                 });
         }
 
