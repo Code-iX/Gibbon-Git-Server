@@ -5,12 +5,11 @@ using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 
 namespace Gibbon.Git.Server.Git.GitService.ReceivePackHook;
 
-public class ReceivePackParser(IGitService gitService, IHookReceivePack receivePackHandler, GitServiceResultParser resultParser)
+public class ReceivePackParser(IGitService gitService, IHookReceivePack receivePackHandler)
     : IGitService
 {
     private readonly IGitService _gitService = gitService;
     private readonly IHookReceivePack _receivePackHandler = receivePackHandler;
-    private readonly GitServiceResultParser _resultParser = resultParser;
 
     public async Task ExecuteServiceByName(string correlationId, string repositoryName, string serviceName, ExecutionOptions options, Stream inStream, Stream outStream, string userName, int userId)
     {
@@ -99,7 +98,7 @@ public class ReceivePackParser(IGitService gitService, IHookReceivePack receiveP
                     numObjects -= 1;
 
                     ReadStream(inStream, buff1);
-                    var type = (GIT_OBJ_TYPE)((buff1[0] >> 4) & 7);
+                    var type = (GitObjectType)((buff1[0] >> 4) & 7);
                     long len = buff1[0] & 15;
 
                     var shiftAmount = 4;
@@ -111,12 +110,12 @@ public class ReceivePackParser(IGitService gitService, IHookReceivePack receiveP
                         shiftAmount += 7;
                     }
 
-                    if (type == GIT_OBJ_TYPE.OBJ_REF_DELTA)
+                    if (type == GitObjectType.RefDelta)
                     {
                         // read ref name
                         ReadStream(inStream, buff20);
                     }
-                    if (type == GIT_OBJ_TYPE.OBJ_OFS_DELTA)
+                    if (type == GitObjectType.OfsDelta)
                     {
                         // read negative offset
                         ReadStream(inStream, buff1);
@@ -141,7 +140,7 @@ public class ReceivePackParser(IGitService gitService, IHookReceivePack receiveP
                             readRemaining -= bytesUncompressed;
                         } while (readRemaining > 0);
 
-                        if (type == GIT_OBJ_TYPE.OBJ_COMMIT)
+                        if (type == GitObjectType.Commit)
                         {
                             var parsedCommit = ParseCommitDetails(buff16K, len);
                             packCommits.Add(parsedCommit);
@@ -174,7 +173,7 @@ public class ReceivePackParser(IGitService gitService, IHookReceivePack receiveP
 
             // parse captured output
             capturedOutputStream.Seek(0, SeekOrigin.Begin);
-            execResult = _resultParser.ParseResult(capturedOutputStream);
+            execResult = GitServiceResultParser.ParseResult(capturedOutputStream);
         }
 
         if (receivedPack != null)

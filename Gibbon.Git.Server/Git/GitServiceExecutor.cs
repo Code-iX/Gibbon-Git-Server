@@ -42,17 +42,22 @@ public class GitServiceExecutor : IGitService
             throw new InvalidOperationException("Invalid service name.");
         }
 
-        var args = $"{serviceName} --stateless-rpc{options.ToCommandLineArgs()}";
-        args += $" \"{_pathResolver.GetRepositoryPath(repositoryName)}\"";
+        var argsBuilder = new StringBuilder();
+        argsBuilder.Append($"{serviceName} --stateless-rpc");
+        if (options.AdvertiseRefs)
+        {
+            argsBuilder.Append(" --advertise-refs");
+        }
+        argsBuilder.Append($" \"{_pathResolver.GetRepositoryPath(repositoryName)}\"");
 
-        var info = CreateProcessStartInfo(args, "git.exe");
+        var info = CreateProcessStartInfo("git.exe", argsBuilder.ToString());
 
         SetUserEnvironment(userName, userId, info);
 
         await _processService.StartProcessWithStreamAsync(info, inStream, outStream, options.EndStreamWithClose);
     }
 
-    private ProcessStartInfo CreateProcessStartInfo(string args, string gitPath)
+    private ProcessStartInfo CreateProcessStartInfo(string gitPath, string args)
     {
         var info = new ProcessStartInfo(gitPath, args)
         {

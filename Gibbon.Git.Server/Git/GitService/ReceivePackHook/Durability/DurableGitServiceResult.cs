@@ -1,22 +1,25 @@
 ﻿using System.Threading.Tasks;
 
+using Gibbon.Git.Server.Helpers;
+using Gibbon.Git.Server.Services;
+
 namespace Gibbon.Git.Server.Git.GitService.ReceivePackHook.Durability;
 
 /// <summary>
 /// provides durability for result of git command execution
 /// by writing result of git command to a file
 /// </summary>
-public class DurableGitServiceResult(IGitService gitService, IRecoveryFilePathBuilder resultFilePathBuilder)
+public class DurableGitServiceResult(IGitService gitService, IPathResolver pathResolver)
     : IGitService
 {
     private readonly IGitService _gitService = gitService;
-    private readonly IRecoveryFilePathBuilder _resultFilePathBuilder = resultFilePathBuilder;
+    private readonly IPathResolver _pathResolver = pathResolver;
 
     public async Task ExecuteServiceByName(string correlationId, string repositoryName, string serviceName, ExecutionOptions options, Stream inStream, Stream outStream, string userName, int userId)
     {
         if (serviceName == "receive-pack")
         {
-            var resultFilePath = _resultFilePathBuilder.GetPathToResultFile(correlationId, repositoryName, serviceName);
+            var resultFilePath = _pathResolver.GetRecovery(StringHelper.RemoveIllegalChars($"{repositoryName}.{serviceName}.{correlationId}.result"));
             await using (var resultFileStream = File.OpenWrite(resultFilePath))
             {
                 await _gitService.ExecuteServiceByName(correlationId, repositoryName, serviceName, options, inStream, new ReplicatingStream(outStream, resultFileStream), userName, userId);

@@ -4,7 +4,7 @@ using Gibbon.Git.Server.Services;
 using LibGit2Sharp;
 using Repository = LibGit2Sharp.Repository;
 
-namespace Gibbon.Git.Server.Git.GitService.ReceivePackHook.Hooks;
+namespace Gibbon.Git.Server.Git.GitService.ReceivePackHook;
 
 public class AuditPusherToGitNotes(IHookReceivePack hookReceivePack, IPathResolver pathResolver, IRepositoryService repositoryService, IUserService userService)
     : IHookReceivePack

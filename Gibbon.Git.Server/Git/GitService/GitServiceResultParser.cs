@@ -1,8 +1,8 @@
 ﻿namespace Gibbon.Git.Server.Git.GitService;
 
-public class GitServiceResultParser
+public static class GitServiceResultParser
 {
-    public GitExecutionResult ParseResult(Stream outputStream)
+    public static GitExecutionResult ParseResult(Stream outputStream)
     {
         var hasError = true;
         if (outputStream.Length >= 10)

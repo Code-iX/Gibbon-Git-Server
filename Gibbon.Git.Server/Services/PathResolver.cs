@@ -64,6 +64,11 @@ internal class PathResolver(IWebHostEnvironment hostingEnvironment, IOptions<App
         return _hostingEnvironment.ContentRootPath;
     }
 
+    public string GetRecovery(params string[] paths)
+    {
+        return ResolveCore(_appSettings.RecoveryPath, paths);
+    }
+
     internal static string ResolveCore(string rootPath, params string[] paths)
     {
         ArgumentNullException.ThrowIfNull(rootPath);
