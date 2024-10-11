@@ -13,10 +13,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace Gibbon.Git.Server.Controllers;
 
 [WebAuthorize]
-public class MeController(IMembershipService membershipService, IRoleProvider roleProvider, ICultureService cultureService, IUserSettingsService userSettingsService)
+public class MeController(IUserService userService, IRoleProvider roleProvider, ICultureService cultureService, IUserSettingsService userSettingsService)
     : Controller
 {
-    private readonly IMembershipService _membershipService = membershipService;
+    private readonly IUserService _userService = userService;
     private readonly IRoleProvider _roleProvider = roleProvider;
     private readonly ICultureService _cultureService = cultureService;
     private readonly IUserSettingsService _userSettingsService = userSettingsService;
@@ -46,7 +46,7 @@ public class MeController(IMembershipService membershipService, IRoleProvider ro
     {
         var username = User.Identity.Name;
 
-        var user = _membershipService.GetUserModel(username);
+        var user = _userService.GetUserModel(username);
 
         if (user == null)
         {
@@ -80,7 +80,7 @@ public class MeController(IMembershipService membershipService, IRoleProvider ro
             return NotFound();
         }
 
-        _membershipService.UpdateUser(user.Id, model.Name, model.Surname, model.Email);
+        _userService.UpdateUser(user.Id, model.Name, model.Surname, model.Email);
 
         TempData["EditSuccess"] = true;
         return RedirectToAction("Edit");
@@ -91,7 +91,7 @@ public class MeController(IMembershipService membershipService, IRoleProvider ro
     {
         var username = User.Identity.Name;
 
-        var user = _membershipService.GetUserModel(username);
+        var user = _userService.GetUserModel(username);
 
         if (user == null)
         {
@@ -120,14 +120,14 @@ public class MeController(IMembershipService membershipService, IRoleProvider ro
 
         var username = User.Identity.Name;
 
-        if (!_membershipService.IsPasswordValid(username, model.OldPassword))
+        if (!_userService.IsPasswordValid(username, model.OldPassword))
         {
             ModelState.AddModelError(nameof(model.OldPassword), Resources.Account_Edit_OldPasswordIncorrect);
             return View(model);
         }
 
         var userId = User.Id();
-        _membershipService.UpdatePassword(userId, model.NewPassword);
+        _userService.UpdatePassword(userId, model.NewPassword);
         
         TempData["PasswordChangeSuccess"] = true;
         return RedirectToAction("Password");
@@ -194,6 +194,6 @@ public class MeController(IMembershipService membershipService, IRoleProvider ro
     private UserModel GetCurrentUser()
     {
         var username = User.Identity.Name;
-        return _membershipService.GetUserModel(username);
+        return _userService.GetUserModel(username);
     }
 }

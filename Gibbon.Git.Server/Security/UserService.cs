@@ -7,10 +7,10 @@ using Microsoft.Extensions.Logging;
 
 namespace Gibbon.Git.Server.Security;
 
-public class MembershipService(ILogger<MembershipService> logger, GibbonGitServerContext context, IPasswordService passwordService)
-    : IMembershipService
+public class UserService(ILogger<UserService> logger, GibbonGitServerContext context, IPasswordService passwordService)
+    : IUserService
 {
-    private readonly ILogger<MembershipService> _logger = logger;
+    private readonly ILogger<UserService> _logger = logger;
     private readonly GibbonGitServerContext _context = context;
     private readonly IPasswordService _passwordService = passwordService;
 

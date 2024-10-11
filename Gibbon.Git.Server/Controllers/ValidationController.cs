@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.OutputCaching;
 namespace Gibbon.Git.Server.Controllers;
 
 [OutputCache(NoStore = true)]
-public class ValidationController(IRepositoryService repoRepo, IMembershipService membershipService, ITeamService teamRepo)
+public class ValidationController(IRepositoryService repoRepo, IUserService userService, ITeamService teamRepo)
     : Controller
 {
     public IRepositoryService RepoRepo { get; set; } = repoRepo;
 
-    public IMembershipService MembershipService { get; set; } = membershipService;
+    public IUserService UserService { get; set; } = userService;
 
     public ITeamService TeamRepo { get; set; } = teamRepo;
 
@@ -26,7 +26,7 @@ public class ValidationController(IRepositoryService repoRepo, IMembershipServic
 
     public IActionResult UniqueNameUser(string username, int? id)
     {
-        var possiblyExistentUser = MembershipService.GetUserModel(username);
+        var possiblyExistentUser = UserService.GetUserModel(username);
         var exists = (possiblyExistentUser != null) && (id != possiblyExistentUser.Id);
         return Json(!exists);
     }

@@ -57,7 +57,7 @@ services.AddSingleton<IGitVersionService, GitVersionService>();
 
 services.AddScoped<IPasswordService, PasswordService>();
 services.AddScoped<ICultureService, CultureService>();
-services.AddScoped<IMembershipService, MembershipService>();
+services.AddScoped<IUserService, UserService>();
 services.AddScoped<IRoleProvider, RoleProvider>();
 services.AddScoped<IAuthenticationProvider, CookieAuthenticationProvider>();
 services.AddScoped<ITeamService, TeamService>();

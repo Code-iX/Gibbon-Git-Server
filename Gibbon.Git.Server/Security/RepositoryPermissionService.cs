@@ -23,7 +23,12 @@ public class RepositoryPermissionService(IRepositoryService repository, IRolePro
 
     public bool HasPermission(int userId, int repositoryId, RepositoryAccessLevel requiredLevel)
     {
-        return HasPermission(userId, _teamService.GetTeamsForUser(userId), _repository.GetRepository(repositoryId), requiredLevel);
+        var repositoryModel = _repository.GetRepository(repositoryId);
+        if (repositoryModel == null)
+        {
+            throw new InvalidOperationException("Repository not found.");
+        }
+        return HasPermission(userId, _teamService.GetTeamsForUser(userId), repositoryModel, requiredLevel);
     }
 
     public bool HasCreatePermission(int userId)

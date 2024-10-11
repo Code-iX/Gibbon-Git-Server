@@ -6,17 +6,17 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Gibbon.Git.Server.Provider;
 
-public class CookieAuthenticationProvider(IHttpContextAccessor httpContextAccessor, IMembershipService membershipService, IRoleProvider roleProvider)
+public class CookieAuthenticationProvider(IHttpContextAccessor httpContextAccessor, IUserService userService, IRoleProvider roleProvider)
     : IAuthenticationProvider
 {
-    private readonly IMembershipService _membershipService = membershipService;
+    private readonly IUserService _userService = userService;
     private readonly IRoleProvider _roleProvider = roleProvider;
     private readonly HttpContext _httpContext = httpContextAccessor.HttpContext ?? throw new InvalidOperationException("No HttpContext available.");
 
     public List<Claim> GetClaimsForUser(string username)
     {
         ArgumentNullException.ThrowIfNull(username, nameof(username));
-        var user = _membershipService.GetUserModel(username);
+        var user = _userService.GetUserModel(username);
         if (user == null)
         {
             return [];
