@@ -980,4 +980,7 @@ Die regulären C# String-Formatierungsregeln gelten: Um {} in Ihrem Link zu erha
   <data name="ServerDatabaseModel_DatabaseSize" xml:space="preserve">
     <value>Dateigröße</value>
   </data>
+  <data name="ServerDatabase_Download" xml:space="preserve">
+    <value>Datenbank downloaden</value>
+  </data>
 </root>
