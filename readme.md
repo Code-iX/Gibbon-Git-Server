@@ -9,7 +9,7 @@ For further information and documentation, please visit the [official website](h
 This is a fork of the original [Bonobo Git Server](https://github.com/jakubgarfield/Bonobo-Git-Server), which was last 
 updated in 2019. The original project was built on .NET Framework, which is now outdated. This fork aims to modernize 
 the project by migrating it to ASP.NET Core 8.0. The goal is to provide a more efficient, secure, and cross-platform Git 
-server solution. You can find the key changes [below](#key-changes).
+server solution. You can find the key changes [below](#key-changes-to-bonobo-git-server).
 
 ---
 
@@ -124,7 +124,7 @@ Pull requests are welcome. For significant changes, please open an issue first t
 
 This project is licensed under the MIT License.
 
-## Key Changes to Bonobo Git Server
+## Key changes to Bonobo Git Server
 
 - Migrated from .NET Framework to **ASP.NET Core 8**.
 - Removed support for **Active Directory (AD) login**.
