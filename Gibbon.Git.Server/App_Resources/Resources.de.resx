@@ -730,7 +730,7 @@
     <value>E -Mail gesendet</value>
   </data>
   <data name="Home_ForgotPassword_ForgotPassword" xml:space="preserve">
-    <value>Passwort vergessen</value>
+    <value>Passwort vergessen?</value>
   </data>
   <data name="Home_ForgotPassword_Title" xml:space="preserve">
     <value>Vergessenes Passwort</value>
@@ -982,5 +982,26 @@ Die regulären C# String-Formatierungsregeln gelten: Um {} in Ihrem Link zu erha
   </data>
   <data name="ServerDatabase_Download" xml:space="preserve">
     <value>Datenbank downloaden</value>
+  </data>
+  <data name="Layout_Administration" xml:space="preserve">
+    <value>Administration</value>
+  </data>
+  <data name="Layout_AdministrationRepositories" xml:space="preserve">
+    <value>Repositories</value>
+  </data>
+  <data name="Layout_AdministrationTeams" xml:space="preserve">
+    <value>Teams</value>
+  </data>
+  <data name="Team_Detail_Repositories" xml:space="preserve">
+    <value>Repositories</value>
+  </data>
+  <data name="Team_Detail_Title" xml:space="preserve">
+    <value>Teamdetail</value>
+  </data>
+  <data name="Team_Index_Title" xml:space="preserve">
+    <value>Teams</value>
+  </data>
+  <data name="Team_Index_Teams" xml:space="preserve">
+    <value>Teams</value>
   </data>
 </root>

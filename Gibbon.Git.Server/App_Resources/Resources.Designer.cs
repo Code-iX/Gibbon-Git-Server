@@ -630,7 +630,7 @@ namespace Gibbon.Git.Server.App_Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Forgot Password.
+        ///   Looks up a localized string similar to Forgot Password?.
         /// </summary>
         public static string Home_ForgotPassword_ForgotPassword {
             get {

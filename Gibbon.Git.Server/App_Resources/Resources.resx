@@ -266,18 +266,15 @@
   </data>
   <data name="Layout_Administration" xml:space="preserve">
     <value>Administration</value>
-    <comment>@Invariant</comment>
   </data>
   <data name="Layout_AdministrationGlobalSettings" xml:space="preserve">
     <value>Settings</value>
   </data>
   <data name="Layout_AdministrationRepositories" xml:space="preserve">
     <value>Repositories</value>
-    <comment>@Invariant</comment>
   </data>
   <data name="Layout_AdministrationTeams" xml:space="preserve">
     <value>Teams</value>
-    <comment>@Invariant</comment>
   </data>
   <data name="Layout_AdministrationUsers" xml:space="preserve">
     <value>Users</value>
@@ -548,11 +545,9 @@
   </data>
   <data name="Team_Detail_Repositories" xml:space="preserve">
     <value>Repositories</value>
-    <comment>@Invariant</comment>
   </data>
   <data name="Team_Detail_Title" xml:space="preserve">
     <value>Team Detail</value>
-    <comment>@Invariant</comment>
   </data>
   <data name="Team_Edit_Back" xml:space="preserve">
     <value>Back</value>
@@ -574,7 +569,6 @@
   </data>
   <data name="Team_Index_Title" xml:space="preserve">
     <value>Teams</value>
-    <comment>@Invariant</comment>
   </data>
   <data name="Validation_Compare" xml:space="preserve">
     <value>"{0}" and "{1}" must have the same value.</value>
@@ -593,7 +587,6 @@
   </data>
   <data name="Team_Index_Teams" xml:space="preserve">
     <value>Teams</value>
-    <comment>@Invariant</comment>
   </data>
   <data name="Account_Edit_RolesHint" xml:space="preserve">
     <value>Administrators have access to all repositories and are allowed to do all operations with repositories, teams and users.</value>
@@ -817,7 +810,7 @@
     <value>Forgotten Password Failed. Please correct errors and try again.</value>
   </data>
   <data name="Home_ForgotPassword_ForgotPassword" xml:space="preserve">
-    <value>Forgot Password</value>
+    <value>Forgot Password?</value>
   </data>
   <data name="Home_ForgotPassword_Title" xml:space="preserve">
     <value>Forgotten Password</value>
@@ -1016,58 +1009,58 @@ The regular C# string formatting rules apply: To get {} in your link you need to
     <value>Server</value>
   </data>
   <data name="ServerOverviewModel_DotNetVersion" xml:space="preserve">
-	  <value>.Net Version</value>
+    <value>.Net Version</value>
   </data>
   <data name="ServerOverviewModel_IsDemoActive" xml:space="preserve">
-	  <value>Is Demo Active</value>
+    <value>Is Demo Active</value>
   </data>
   <data name="ServerOverviewModel_ApplicationPath" xml:space="preserve">
-	  <value>Application Path</value>
+    <value>Application Path</value>
   </data>
   <data name="ServerOverviewModel_DataPath" xml:space="preserve">
-	  <value>Data Path</value>
+    <value>Data Path</value>
   </data>
   <data name="ServerOverviewModel_RepositoryPath" xml:space="preserve">
-	  <value>Repository Path</value>
+    <value>Repository Path</value>
   </data>
   <data name="ServerOverviewModel_GitPath" xml:space="preserve">
-	  <value>Git Path</value>
+    <value>Git Path</value>
   </data>
   <data name="ServerOverviewModel_GitHomePath" xml:space="preserve">
-	  <value>Git Home Path</value>
+    <value>Git Home Path</value>
   </data>
   <data name="Me_General_Header" xml:space="preserve">
-	  <value>Profile</value>
+    <value>Profile</value>
   </data>
   <data name="MeController_Password_MustBeDifferent" xml:space="preserve">
-	  <value>Password must not be the same as the old password.</value>
+    <value>Password must not be the same as the old password.</value>
   </data>
   <data name="ServerGitModel_IsGitAvailable" xml:space="preserve">
-	  <value>Git installed</value>
+    <value>Git installed</value>
   </data>
   <data name="ServerOverviewModel_ApplicationVersion" xml:space="preserve">
-	  <value>Application Version</value>
+    <value>Application Version</value>
   </data>
   <data name="MeController_Settings_UseServerLanguage" xml:space="preserve">
-	  <value>Use server language</value>
+    <value>Use server language</value>
   </data>
   <data name="ServerLayout_Header_Overview" xml:space="preserve">
-	  <value>Overview</value>
+    <value>Overview</value>
   </data>
   <data name="ServerLayout_Header_Git" xml:space="preserve">
-	  <value>Git</value>
+    <value>Git</value>
     <comment>@Invariant</comment>
   </data>
   <data name="ServerLayout_Header_Database" xml:space="preserve">
-	  <value>Database</value>
+    <value>Database</value>
   </data>
   <data name="ServerDatabaseModel_DatabasePath" xml:space="preserve">
-	  <value>File path</value>
+    <value>File path</value>
   </data>
   <data name="ServerDatabaseModel_DatabaseSize" xml:space="preserve">
-	  <value>File size</value>
+    <value>File size</value>
   </data>
   <data name="ServerDatabase_Download" xml:space="preserve">
-	  <value>Download Database</value>
+    <value>Download Database</value>
   </data>
 </root>

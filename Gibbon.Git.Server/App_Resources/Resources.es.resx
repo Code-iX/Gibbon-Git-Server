@@ -157,7 +157,7 @@
     <value>No puede eliminarse a sí mismo.</value>
   </data>
   <data name="Account_Delete_Success" xml:space="preserve">
-    <value>El usuario no puede ser borrado.</value>
+    <value>El usuario fue eliminado.</value>
   </data>
   <data name="Account_Detail_Back" xml:space="preserve">
     <value>Volver a la lista</value>
@@ -193,7 +193,7 @@
     <value>Cancelar</value>
   </data>
   <data name="Account_Edit_CannotRemoveYourselfFromAdminRole" xml:space="preserve">
-    <value>No se puede eliminar a sí mismo de adiministradores.</value>
+    <value>No se puede eliminar a sí mismo de administradores.</value>
   </data>
   <data name="Account_Edit_ConfirmPassword" xml:space="preserve">
     <value>Confirmar Contraseña</value>
@@ -253,7 +253,7 @@
     <value>Eliminar</value>
   </data>
   <data name="Delete_ConfirmationText" xml:space="preserve">
-    <value>¿Esta seguro de querer eliminar {0}?</value>
+    <value>¿Está seguro de querer eliminar {0}?</value>
   </data>
   <data name="Delete_Title" xml:space="preserve">
     <value>Confirmación de Eliminación</value>
@@ -268,13 +268,13 @@
     <value>¡Gracias!</value>
   </data>
   <data name="Home_About_Title" xml:space="preserve">
-    <value>Accerca de</value>
+    <value>Acerca de</value>
   </data>
   <data name="Home_Error_Text" xml:space="preserve">
     <value>Un error desconocido ocurrió durante el proceso de su solicitud. Por favor, inténtelo de nuevo o contacte con el administrador del sistema.</value>
   </data>
   <data name="Home_Error_Title" xml:space="preserve">
-    <value>Ocurrio un Error</value>
+    <value>Ocurrió un Error</value>
   </data>
   <data name="Home_Login_AccountInformation" xml:space="preserve">
     <value>Información de la Cuenta</value>
@@ -289,7 +289,7 @@
     <value>Contraseña</value>
   </data>
   <data name="Home_Login_RememberMe" xml:space="preserve">
-    <value>¿Recordarme?</value>
+    <value>Recordarme</value>
   </data>
   <data name="Home_Login_Title" xml:space="preserve">
     <value>Iniciar Sesión</value>
@@ -402,9 +402,6 @@
     <value>Aplicar Detalles</value>
     <comment>(Aplicar es la traducción más adecuada al español para Commit)</comment>
   </data>
-  <data name="Repository_Commit_ID" xml:space="preserve">
-    <value>Aplicar</value>
-  </data>
   <data name="Repository_Commit_Message" xml:space="preserve">
     <value>Mensaje</value>
   </data>
@@ -451,7 +448,7 @@
     <value>Crear Nuevo Repositorio</value>
   </data>
   <data name="Repository_Delete_Success" xml:space="preserve">
-    <value>El Repositorio fue borrado exitosamente.</value>
+    <value>El Repositorio fue eliminado exitosamente.</value>
   </data>
   <data name="Repository_Detail_Administrators" xml:space="preserve">
     <value>Administradores</value>
@@ -469,7 +466,7 @@
     <value>Descripción</value>
   </data>
   <data name="Repository_Detail_Detail" xml:space="preserve">
-    <value>Informacción detallada</value>
+    <value>Información detallada</value>
   </data>
   <data name="Repository_Detail_Edit" xml:space="preserve">
     <value>Editar</value>
@@ -496,7 +493,7 @@
     <value>Colaboradores</value>
   </data>
   <data name="Repository_Detail_Yes" xml:space="preserve">
-    <value>Si</value>
+    <value>Sí</value>
   </data>
   <data name="Repository_Edit_Back" xml:space="preserve">
     <value>Volver a la lista</value>
@@ -534,14 +531,11 @@
   <data name="Repository_Layout_Browse" xml:space="preserve">
     <value>Explorador de Repositorios</value>
   </data>
-  <data name="Repository_Layout_Commits" xml:space="preserve">
-    <value>Cambios</value>
-  </data>
   <data name="Repository_SwitchBranch" xml:space="preserve">
     <value>Cambiar a la rama actual</value>
   </data>
   <data name="Repository_TeamsHint" xml:space="preserve">
-    <value>Los equipos tienen acceso al repositorio. Pueden clonar, empujar o obtener el repositorio y ver los metadatosTodos los usuarios de equipo pueden tener acceso a repositorio actual.</value>
+    <value>Los equipos tienen acceso al repositorio. Pueden clonar, empujar o obtener el repositorio y ver los metadatos. Todos los usuarios del equipo pueden tener acceso al repositorio actual.</value>
   </data>
   <data name="Repository_Tree_Author" xml:space="preserve">
     <value>Autor</value>
@@ -551,9 +545,6 @@
   </data>
   <data name="Repository_Tree_CommitMessage" xml:space="preserve">
     <value>Mensaje</value>
-  </data>
-  <data name="Repository_Tree_Download" xml:space="preserve">
-    <value>Descargar archivo</value>
   </data>
   <data name="Repository_Tree_Name" xml:space="preserve">
     <value>Nombre</value>
@@ -571,16 +562,16 @@
     <value>Reinicializar</value>
   </data>
   <data name="Settings_Global_AllowAnonymousPush" xml:space="preserve">
-    <value>Permitir a los usuarios anónimos hacer push a este repositorio.</value>
+    <value>Permitir a los usuarios anónimos hacer push a este repositorio</value>
   </data>
   <data name="Settings_Global_AllowAnonymousRegistration" xml:space="preserve">
-    <value>Permitir registro anónimo.</value>
+    <value>Permitir registro anónimo</value>
   </data>
   <data name="Settings_Global_AllowAnonymousRegistration_Hint" xml:space="preserve">
     <value>Si la casilla no está marcada sólo administrador puede agregar nuevos usuarios y el registro de usuario anónimo está desactivado.</value>
   </data>
   <data name="Settings_Global_AllowUserRepositoryCreation" xml:space="preserve">
-    <value>Permitir la creación de repositorios a los usuarios.</value>
+    <value>Permitir la creación de repositorios a los usuarios</value>
   </data>
   <data name="Settings_Global_AllowUserRepositoryCreation_Hint" xml:space="preserve">
     <value>Si la casilla no está marcada sólo el administrador puede crear repositorios.</value>
@@ -613,10 +604,10 @@
     <value>Permitir push para crear repositorios</value>
   </data>
   <data name="Settings_Global_AllowPushToCreate_Hint" xml:space="preserve">
-    <value>Si la casilla está marcada, los aministradores pueden hacer push para crear nuevos repositorios.</value>
+    <value>Si la casilla está marcada, los aministradores pueden hacer push para crear nuevos repositorios</value>
   </data>
   <data name="Settings_Global_IsCommitAuthorAvatarVisible" xml:space="preserve">
-    <value>Mostrar avatar del autor de los commits.</value>
+    <value>Mostrar avatar del autor de los commits</value>
   </data>
   <data name="Settings_Global_LinksRegex" xml:space="preserve">
     <value>Expresión regular de enlace</value>
@@ -715,7 +706,7 @@
     <value>Administración de Equipos</value>
   </data>
   <data name="Validation_Compare" xml:space="preserve">
-    <value>"{0}" y "{1}" deben tener el mismo valor</value>
+    <value>"{0}" y "{1}" deben tener el mismo valor.</value>
   </data>
   <data name="Validation_Email" xml:space="preserve">
     <value>"{0}" no es una dirección de correo electrónico valida.</value>
@@ -762,4 +753,96 @@
   <data name="Repository_AllowAnonymousPushHint" xml:space="preserve">
     <value>Permitir a usuarios anónimos hacer push a este repositorio si tiene acceso anónimo permitido. Si se selecciona "Global" se utilizará la opción de la configuración global.</value>
   </data>
+  <data name="Repository_Create_Success_Go_To" xml:space="preserve">
+    <value>Ir a "{0}"</value>
+</data>
+  <data name="Repository_Needs_Administrator" xml:space="preserve">
+    <value>El repositorio necesita al menos un administrador.</value>
+</data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copiar</value>
+</data>
+  <data name="Repository_Git_Url_Copy" xml:space="preserve">
+    <value>Copiar URL del repositorio</value>
+</data>
+  <data name="Repository_No_Group" xml:space="preserve">
+    <value>Sin grupo</value>
+</data>
+  <data name="Repository_Personal_Git_Url_Copy" xml:space="preserve">
+    <value>Copiar URL personal del repositorio</value>
+</data>
+  <data name="Validation_Duplicate_Name" xml:space="preserve">
+    <value>Este nombre ya está en uso.</value>
+</data>
+  <data name="Repository_Detail_Status" xml:space="preserve">
+    <value>Estado</value>
+</data>
+  <data name="Repository_Commit_NoMessageDeclared" xml:space="preserve">
+    <value>No declarado</value>
+</data>
+  <data name="Repository_Detail_AuditPushUser" xml:space="preserve">
+    <value>Auditar empujes</value>
+</data>
+  <data name="Repository_AuditPushUserHint" xml:space="preserve">
+    <value>Registrar al usuario que empujó los commits al servidor</value>
+</data>
+  <data name="Repository_Blame_Title" xml:space="preserve">
+    <value>Responsabilidad</value>
+</data>
+  <data name="Repository_Tree_Blame" xml:space="preserve">
+    <value>Responsabilidad</value>
+</data>
+  <data name="Email_PasswordReset_Body" xml:space="preserve">
+    <value>&lt;p&gt;Se ha recibido una solicitud para restablecer su contraseña. 
+    Si usted no inició la solicitud, por favor ignore este correo.&lt;/p&gt;
+    &lt;p&gt;Haga clic en el siguiente enlace para restablecer su contraseña:&lt;/p&gt;</value>
+</data>
+  <data name="Email_PasswordReset_Title" xml:space="preserve">
+    <value>Solicitud de restablecimiento de contraseña</value>
+</data>
+  <data name="Home_ForgotPassword_EmailError" xml:space="preserve">
+    <value>No se pudo enviar el correo. Verifique la configuración de SMTP.</value>
+</data>
+  <data name="Home_ForgotPassword_EmailSuccess" xml:space="preserve">
+    <value>Correo enviado</value>
+</data>
+  <data name="Home_ForgotPassword_Failed" xml:space="preserve">
+    <value>La recuperación de contraseña falló. Por favor, corrija los errores e inténtelo de nuevo.</value>
+</data>
+  <data name="Home_ForgotPassword_ForgotPassword" xml:space="preserve">
+    <value>¿Olvidó su contraseña?</value>
+</data>
+  <data name="Home_ForgotPassword_Title" xml:space="preserve">
+    <value>Contraseña olvidada</value>
+</data>
+  <data name="Home_ForgotPassword_Username" xml:space="preserve">
+    <value>Nombre de usuario</value>
+</data>
+  <data name="Home_ForgotPassword_UserNameFailure" xml:space="preserve">
+    <value>No se pudo encontrar el nombre de usuario</value>
+</data>
+  <data name="Home_Login_ForgotPassword" xml:space="preserve">
+    <value>¿Olvidó su contraseña?</value>
+</data>
+  <data name="Home_ResetPassword_ConfirmPassword" xml:space="preserve">
+    <value>Confirmar contraseña</value>
+</data>
+  <data name="Home_ResetPassword_Failed" xml:space="preserve">
+    <value>No se pudo restablecer la contraseña</value>
+</data>
+  <data name="Home_ResetPassword_Password" xml:space="preserve">
+    <value>Contraseña</value>
+</data>
+  <data name="Home_ResetPassword_ResetPassword" xml:space="preserve">
+    <value>Restablecer contraseña</value>
+</data>
+  <data name="Home_ResetPassword_Success" xml:space="preserve">
+    <value>Contraseña restablecida</value>
+</data>
+  <data name="Home_ResetPassword_Title" xml:space="preserve">
+    <value>Restablecer contraseña</value>
+</data>
+  <data name="Home_ResetPassword_Username" xml:space="preserve">
+    <value>Nombre de usuario</value>
+</data>
 </root>
