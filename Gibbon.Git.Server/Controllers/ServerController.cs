@@ -15,7 +15,7 @@ using Microsoft.Extensions.Options;
 namespace Gibbon.Git.Server.Controllers;
 
 [Authorize(Roles = Definitions.Roles.Administrator)]
-public class ServerController(IOptions<ApplicationSettings> options, IGitDownloadService downloadService, IServerSettingsService serverSettingsService, ICultureService cultureService, IOptions<GitSettings> gitOptions, IGitVersionService gitVersionService)
+public class ServerController(IOptions<ApplicationSettings> options, IGitDownloadService downloadService, IServerSettingsService serverSettingsService, ICultureService cultureService, IOptions<GitSettings> gitOptions, IGitVersionService gitVersionService, IDatabaseHelperService databaseHelperService)
     : Controller
 {
     private readonly IGitDownloadService _downloadService = downloadService;
@@ -24,6 +24,7 @@ public class ServerController(IOptions<ApplicationSettings> options, IGitDownloa
     private readonly IServerSettingsService _serverSettingsService = serverSettingsService;
     private readonly ICultureService _cultureService = cultureService;
     private readonly IGitVersionService _gitVersionService = gitVersionService;
+    private readonly IDatabaseHelperService _databaseHelperService = databaseHelperService;
 
     [HttpGet]
     public IActionResult Index()
@@ -51,6 +52,18 @@ public class ServerController(IOptions<ApplicationSettings> options, IGitDownloa
         return View(model);
     }
 
+    [HttpGet]
+    public async Task<IActionResult> Database()
+    {
+        var info = _databaseHelperService.GetDatabaseInformation();
+
+        var model = new ServerDatabaseModel
+        {
+            DatabasePath = info.Path,
+            DatabaseSize = info.Size
+        };
+        return View(model);
+    }
     [HttpGet]
     public async Task<IActionResult> Settings()
     {

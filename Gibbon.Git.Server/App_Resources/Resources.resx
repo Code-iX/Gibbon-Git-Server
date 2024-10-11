@@ -1051,4 +1051,20 @@ The regular C# string formatting rules apply: To get {} in your link you need to
   <data name="MeController_Settings_UseServerLanguage" xml:space="preserve">
 	  <value>Use server language</value>
   </data>
+  <data name="ServerLayout_Header_Overview" xml:space="preserve">
+	  <value>Overview</value>
+  </data>
+  <data name="ServerLayout_Header_Git" xml:space="preserve">
+	  <value>Git</value>
+    <comment>@Invariant</comment>
+  </data>
+  <data name="ServerLayout_Header_Database" xml:space="preserve">
+	  <value>Database</value>
+  </data>
+  <data name="ServerDatabaseModel_DatabasePath" xml:space="preserve">
+	  <value>File path</value>
+  </data>
+  <data name="ServerDatabaseModel_DatabaseSize" xml:space="preserve">
+	  <value>File size</value>
+  </data>
 </root>

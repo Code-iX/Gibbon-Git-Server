@@ -55,6 +55,7 @@ services.AddSingleton<IPathResolver, PathResolver>();
 services.AddSingleton<IGitVersionService, GitVersionService>();
 //services.AddSingleton<ICertificateService, CertificateService>();
 
+services.AddScoped<IDatabaseHelperService, DatabaseHelperService>();
 services.AddScoped<IPasswordService, PasswordService>();
 services.AddScoped<ICultureService, CultureService>();
 services.AddScoped<IUserService, UserService>();
