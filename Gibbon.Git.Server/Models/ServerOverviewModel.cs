@@ -26,6 +26,6 @@ public class ServerOverviewModel
     [Display(ResourceType = typeof(Resources), Name = "ServerOverviewModel_GitHomePath")]
     public string GitHomePath { get; set; }
 
-    [Display(Name = "Application Version")]
+    [Display(ResourceType = typeof(Resources), Name = "ServerOverviewModel_ApplicationVersion")]
     public string ApplicationVersion { get; set; } = VersionHelper.GetAssemblyVersion();
 }

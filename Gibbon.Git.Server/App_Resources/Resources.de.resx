@@ -959,4 +959,10 @@ Die regulären C# String-Formatierungsregeln gelten: Um {} in Ihrem Link zu erha
   <data name="MeController_Password_MustBeDifferent" xml:space="preserve">
     <value>Das Passwort darf nicht dem alten Passwort gleichen.</value>
   </data>
+  <data name="ServerGitModel_IsGitAvailable" xml:space="preserve">
+    <value>Git installiert</value>
+  </data>
+  <data name="ServerOverviewModel_ApplicationVersion" xml:space="preserve">
+    <value>Applikationsversion</value>
+  </data>
 </root>
