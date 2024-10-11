@@ -118,814 +118,892 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Account_Create_AccountAlreadyExists" xml:space="preserve">
-    <value>[Åččőūŉŧ ŵįŧĥ ŧĥįş ūşęřŉämę äľřęäđy ęχįşŧş. !!! !!!]</value>
-  </data>
+        <value>'n Rekening met hierdie gebruikersnaam bestaan reeds!</value>
+    </data>
   <data name="Account_Create_AccountInformation" xml:space="preserve">
-    <value>[Åččőūŉŧ įŉƒőřmäŧįőŉ !!! !!!]</value>
-  </data>
+        <value>Rekeninginligting</value>
+    </data>
   <data name="Account_Create_ConfirmPassword" xml:space="preserve">
-    <value>[Cőŉƒįřm Päşşŵőřđ !!! !!!]</value>
-  </data>
+        <value>Bevestig Wagwoord</value>
+    </data>
   <data name="Account_Create_Email" xml:space="preserve">
-    <value>[Ēmäįľ !!! !!! !!! !!!]</value>
-  </data>
+        <value>E-pos</value>
+    </data>
   <data name="Account_Create_Name" xml:space="preserve">
-    <value>[Ńämę !!! !!! !!!]</value>
-  </data>
+        <value>Naam</value>
+    </data>
   <data name="Account_Create_Password" xml:space="preserve">
-    <value>[Päşşŵőřđ !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Wagwoord</value>
+    </data>
   <data name="Account_Create_Submit" xml:space="preserve">
-    <value>[Cřęäŧę !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Skep</value>
+    </data>
   <data name="Account_Create_Success" xml:space="preserve">
-    <value>[Ŧĥę ūşęř ŵäş čřęäŧęđ şūččęşşƒūľľy. !!! !!!]</value>
-  </data>
+        <value>Die gebruiker is suksesvol geskep.</value>
+    </data>
   <data name="Account_Create_Surname" xml:space="preserve">
-    <value>[Ŝūřŉämę !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Van</value>
+    </data>
   <data name="Account_Create_Title" xml:space="preserve">
-    <value>[Cřęäŧę Ńęŵ Åččőūŉŧ !!! !!!]</value>
-  </data>
+        <value>Skep Nuwe Rekening</value>
+    </data>
   <data name="Account_Create_Unsuccessfull" xml:space="preserve">
-    <value>[Åččőūŉŧ čřęäŧįőŉ ŵäş ūŉşūččęşşƒūľ. Pľęäşę čőřřęčŧ ŧĥę ęřřőřş äŉđ ŧřy äģäįŉ. !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Rekeningskepping was onsuksesvol. Stel asseblief die foute reg en probeer weer.</value>
+    </data>
   <data name="Account_Create_Username" xml:space="preserve">
-    <value>[Ůşęřŉämę !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Gebruikersnaam</value>
+    </data>
   <data name="Account_Delete_DeleteCurrentUser" xml:space="preserve">
-    <value>[Ÿőū čäŉ'ŧ đęľęŧę yőūřşęľƒ. !!! !!!]</value>
-  </data>
+        <value>Jy kan nie jouself uitvee nie.</value>
+    </data>
   <data name="Account_Delete_Success" xml:space="preserve">
-    <value>[Ŧĥę ūşęř ŵäş đęľęŧęđ. !!! !!!]</value>
-  </data>
+        <value>Die gebruiker is suksesvol uitgevee.</value>
+    </data>
   <data name="Account_Detail_Back" xml:space="preserve">
-    <value>[ßäčĸ !!! !!! !!!]</value>
-  </data>
+        <value>Terug</value>
+    </data>
   <data name="Account_Detail_Delete" xml:space="preserve">
-    <value>[Đęľęŧę !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Vee uit</value>
+    </data>
   <data name="Account_Detail_Edit" xml:space="preserve">
-    <value>[Ēđįŧ !!! !!! !!!]</value>
-  </data>
+        <value>Wysig</value>
+    </data>
   <data name="Account_Detail_Email" xml:space="preserve">
-    <value>[Ēmäįľ !!! !!! !!! !!!]</value>
-  </data>
+        <value>E-pos</value>
+    </data>
   <data name="Account_Detail_Name" xml:space="preserve">
-    <value>[Ńämę !!! !!! !!!]</value>
-  </data>
+        <value>Naam</value>
+    </data>
   <data name="Account_Detail_Roles" xml:space="preserve">
-    <value>[Ŗőľęş !!! !!! !!! !!!]</value>
-  </data>
+        <value>Rolle</value>
+    </data>
   <data name="Account_Detail_Surname" xml:space="preserve">
-    <value>[Ŝūřŉämę !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Van</value>
+    </data>
   <data name="Account_Detail_Title" xml:space="preserve">
-    <value>[Ůşęř Đęŧäįľ !!! !!!]</value>
-  </data>
+        <value>Gebruikerbesonderhede</value>
+    </data>
   <data name="Account_Detail_Username" xml:space="preserve">
-    <value>[Ůşęřŉämę !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Gebruikersnaam</value>
+    </data>
   <data name="Account_Edit_Back" xml:space="preserve">
-    <value>[ßäčĸ !!! !!! !!!]</value>
-  </data>
+        <value>Terug</value>
+    </data>
   <data name="Account_Edit_Cancel" xml:space="preserve">
-    <value>[Cäŉčęľ !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Kanselleer</value>
+    </data>
   <data name="Account_Edit_CannotRemoveYourselfFromAdminRole" xml:space="preserve">
-    <value>[Cäŉ'ŧ řęmővę yőūřşęľƒ ƒřőm äđmįŉįşŧřäŧőřş. !!! !!!]</value>
-  </data>
+        <value>Jy kan nie jouself van administrateurs verwyder nie.</value>
+    </data>
   <data name="Account_Edit_ConfirmPassword" xml:space="preserve">
-    <value>[Cőŉƒįřm Päşşŵőřđ !!! !!!]</value>
-  </data>
+        <value>Bevestig Wagwoord</value>
+    </data>
   <data name="Account_Edit_CurrentPassword" xml:space="preserve">
-    <value>[Cūřřęŉŧ Päşşŵőřđ !!! !!!]</value>
-  </data>
+        <value>Huidige Wagwoord</value>
+    </data>
   <data name="Account_Edit_Email" xml:space="preserve">
-    <value>[Ēmäįľ !!! !!! !!! !!!]</value>
-  </data>
+        <value>E-pos</value>
+    </data>
   <data name="Account_Edit_Name" xml:space="preserve">
-    <value>[Ńämę !!! !!! !!!]</value>
-  </data>
+        <value>Naam</value>
+    </data>
   <data name="Account_Edit_NewPassword" xml:space="preserve">
-    <value>[Ńęŵ Päşşŵőřđ !!! !!!]</value>
-  </data>
+        <value>Nuwe Wagwoord</value>
+    </data>
   <data name="Account_Edit_OldPasswordEmpty" xml:space="preserve">
-    <value>[Cūřřęŉŧ päşşŵőřđ şĥőūľđ ŉőŧ þę ęmpŧy. !!! !!!]</value>
-  </data>
+        <value>Huidige wagwoord mag nie leeg wees nie.</value>
+    </data>
   <data name="Account_Edit_OldPasswordIncorrect" xml:space="preserve">
-    <value>[Päşşŵőřđ đőęş ŉőŧ mäŧčĥ ŧĥę čūřřęŉŧ päşşŵőřđ. !!! !!!]</value>
-  </data>
+        <value>Die wagwoord stem nie ooreen met die huidige wagwoord nie.</value>
+    </data>
   <data name="Account_Edit_Roles" xml:space="preserve">
-    <value>[Ŗőľęş !!! !!! !!! !!!]</value>
-  </data>
+        <value>Rolle</value>
+    </data>
   <data name="Account_Edit_RolesHint" xml:space="preserve">
-    <value>[Åđmįŉįşŧřäŧőřş ĥävę äččęşş ŧő äľľ řępőşįŧőřįęş äŉđ äřę äľľőŵęđ ŧő đő äľľ őpęřäŧįőŉş ŵįŧĥ řępőşįŧőřįęş, ŧęämş äŉđ ūşęřş. !!! !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Administrateurs het toegang tot alle bewaarplekke en kan alle aksies met bewaarplekke, spanne en gebruikers uitvoer.</value>
+    </data>
   <data name="Account_Edit_Submit" xml:space="preserve">
-    <value>[Ŝävę !!! !!! !!!]</value>
-  </data>
+        <value>Stoor</value>
+    </data>
   <data name="Account_Edit_Surname" xml:space="preserve">
-    <value>[Ŝūřŉämę !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Van</value>
+    </data>
   <data name="Account_Edit_Title" xml:space="preserve">
-    <value>[Ēđįŧ Ůşęř Åččőūŉŧ !!! !!!]</value>
-  </data>
+        <value>Wysig Gebruikersrekening</value>
+    </data>
   <data name="Account_Edit_Unsuccessfull" xml:space="preserve">
-    <value>[Åččőūŉŧ ęđįŧ ŵäş ūŉşūččęşşƒūľ. Pľęäşę čőřřęčŧ ŧĥę ęřřőřş äŉđ ŧřy äģäįŉ. !!! !!! !!! !!!]</value>
-  </data>
+        <value>Rekening wysiging was onsuksesvol. Stel asseblief die foute reg en probeer weer.</value>
+    </data>
   <data name="Account_Edit_UpdateSuccess" xml:space="preserve">
-    <value>[Ŧĥę äččőūŉŧ ŵäş ūpđäŧęđ şūččęşşƒūľľy. !!! !!!]</value>
-  </data>
+        <value>Die rekening is suksesvol opgedateer.</value>
+    </data>
   <data name="Account_Edit_Username" xml:space="preserve">
-    <value>[Ůşęřŉämę !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Gebruikersnaam</value>
+    </data>
   <data name="Account_Index_Create" xml:space="preserve">
-    <value>[Cřęäŧę ŉęŵ ūşęř !!! !!!]</value>
-  </data>
+        <value>Skep nuwe gebruiker</value>
+    </data>
   <data name="Account_Index_Title" xml:space="preserve">
-    <value>[Ůşęřş !!! !!! !!! !!!]</value>
-  </data>
+        <value>Gebruikers</value>
+    </data>
   <data name="Account_Index_Users" xml:space="preserve">
-    <value>[Ůşęřş !!! !!! !!! !!!]</value>
-  </data>
+        <value>Gebruikers</value>
+    </data>
   <data name="Confirm" xml:space="preserve">
-    <value>[Cőŉƒįřm !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Bevestig</value>
+    </data>
   <data name="Copy" xml:space="preserve">
-    <value>[Cőpy !!! !!! !!!]</value>
-  </data>
+        <value>Kopieer</value>
+    </data>
   <data name="Delete_Back" xml:space="preserve">
-    <value>[ßäčĸ !!! !!! !!!]</value>
-  </data>
+        <value>Terug</value>
+    </data>
   <data name="Delete_Confirm" xml:space="preserve">
-    <value>[Đęľęŧę !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Vee uit</value>
+    </data>
   <data name="Delete_ConfirmationText" xml:space="preserve">
-    <value>[Đő yőū řęäľľy ŵäŉŧ ŧő đęľęŧę {0}? !!! !!!]</value>
-  </data>
+        <value>Wil jy regtig {0} uitvee?</value>
+    </data>
   <data name="Delete_Title" xml:space="preserve">
-    <value>[Đęľęŧę Cőŉƒįřmäŧįőŉ !!! !!!]</value>
-  </data>
+        <value>Verwyder Bevestiging</value>
+    </data>
   <data name="Email_PasswordReset_Body" xml:space="preserve">
-    <value>[&lt;p&gt;Å řęqūęşŧ ĥäş þęęŉ řęčęįvęđ ŧő řęşęŧ yőūř päşşŵőřđ. 
-                           Ĩƒ yőū đįđ ŉőŧ įŉįŧįäŧę ŧĥę řęqūęşŧ, ŧĥęŉ pľęäşę įģŉőřę ŧĥįş ęmäįľ.&lt;/p&gt;
-                           &lt;p&gt;Pľęäşę čľįčĸ ŧĥę ƒőľľőŵįŉģ ľįŉĸ ŧő řęşęŧ yőūř päşşŵőřđ:&lt;/p&gt; !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>&lt;p&gt;’n Versoek is ontvang om jou wagwoord terug te stel. 
+                           As jy nie die versoek gedoen het nie, ignoreer asseblief hierdie e-pos.&lt;/p&gt;
+                           &lt;p&gt;Klik op die volgende skakel om jou wagwoord terug te stel:&lt;/p&gt;</value>
+    </data>
   <data name="Email_PasswordReset_Title" xml:space="preserve">
-    <value>[ßőŉőþő - Päşşŵőřđ Ŗęşęŧ Ŗęqūęşŧ !!! !!!]</value>
-  </data>
+        <value>Wagwoord Terugstel Versoek</value>
+    </data>
   <data name="Global" xml:space="preserve">
-    <value>[Ğľőþäľ !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Globaal</value>
+    </data>
   <data name="Grid_Delete" xml:space="preserve">
-    <value>[Đęľęŧę !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Vee uit</value>
+    </data>
   <data name="Grid_Edit" xml:space="preserve">
-    <value>[Ēđįŧ !!! !!! !!!]</value>
-  </data>
+        <value>Wysig</value>
+    </data>
   <data name="Home" xml:space="preserve">
-    <value>[Øƒƒįčįäľ Päģę !!! !!!]</value>
-  </data>
+        <value>Amptelike Bladsy</value>
+    </data>
   <data name="Home_Error_Text" xml:space="preserve">
-    <value>[Åŉ ęřřőř őččūřřęđ ŵĥęŉ přőčęşşįŉģ yőūř řęqūęşŧ. Pľęäşę ŧřy äģäįŉ őř čőŉŧäčŧ ŧĥę şyşŧęm äđmįŉįşŧřäŧőř. !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>'n Fout het voorgekom tydens die verwerking van jou versoek. Probeer asseblief weer of kontak die stelseladministrateur.</value>
+    </data>
   <data name="Home_Error_Title" xml:space="preserve">
-    <value>[Åŉ Ēřřőř Øččūřřęđ !!! !!!]</value>
-  </data>
+        <value>'n Fout het voorgekom</value>
+    </data>
   <data name="Home_ForgotPassword_EmailError" xml:space="preserve">
-    <value>[Ůŉäþľę ŧő şęŉđ ęmäįľ. Väľįđäŧę ŜMŦP şęŧŧįŉģş. !!! !!!]</value>
-  </data>
+        <value>Kon nie die e-pos stuur nie. Verifieer SMTP-instellings.</value>
+    </data>
   <data name="Home_ForgotPassword_EmailSuccess" xml:space="preserve">
-    <value>[Ēmäįľ şęŉŧ !!! !!!]</value>
-  </data>
+        <value>E-pos gestuur</value>
+    </data>
   <data name="Home_ForgotPassword_Failed" xml:space="preserve">
-    <value>[Főřģőŧŧęŉ Päşşŵőřđ Fäįľęđ. Pľęäşę čőřřęčŧ ęřřőřş äŉđ ŧřy äģäįŉ. !!! !!! !!! !!!]</value>
-  </data>
+        <value>Wagwoordherstel het misluk. Stel asseblief die foute reg en probeer weer.</value>
+    </data>
   <data name="Home_ForgotPassword_ForgotPassword" xml:space="preserve">
-    <value>[Főřģőŧ Päşşŵőřđ !!! !!!]</value>
-  </data>
+        <value>Vergeet Wagwoord?</value>
+    </data>
   <data name="Home_ForgotPassword_Title" xml:space="preserve">
-    <value>[Főřģőŧŧęŉ Päşşŵőřđ !!! !!!]</value>
-  </data>
+        <value>Vergeet Wagwoord</value>
+    </data>
   <data name="Home_ForgotPassword_Username" xml:space="preserve">
-    <value>[Ůşęřŉämę !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Gebruikersnaam</value>
+    </data>
   <data name="Home_ForgotPassword_UserNameFailure" xml:space="preserve">
-    <value>[Cőūľđ ŉőŧ ƒįŉđ ūşęřŉämę !!! !!!]</value>
-  </data>
+        <value>Kon nie die gebruikersnaam vind nie</value>
+    </data>
   <data name="Home_Login_AccountInformation" xml:space="preserve">
-    <value>[Åččőūŉŧ Ĩŉƒőřmäŧįőŉ !!! !!!]</value>
-  </data>
+        <value>Rekening Inligting</value>
+    </data>
   <data name="Home_Login_Failed" xml:space="preserve">
-    <value>[Ŀőģįŉ ŵäş ūŉşūččęşşƒūľ. Pľęäşę čőřřęčŧ ŧĥę ęřřőřş äŉđ ŧřy äģäįŉ. !!! !!! !!! !!!]</value>
-  </data>
+        <value>Aanmelding was onsuksesvol. Korrigeer asseblief die foute en probeer weer.</value>
+    </data>
   <data name="Home_Login_ForgotPassword" xml:space="preserve">
-    <value>[Főřģőŧ Päşşŵőřđ? !!! !!!]</value>
-  </data>
+        <value>Wagwoord Vergeet?</value>
+    </data>
   <data name="Home_Login_Login" xml:space="preserve">
-    <value>[Ŝįģŉ Ĩŉ !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Teken In</value>
+    </data>
   <data name="Home_Login_Password" xml:space="preserve">
-    <value>[Päşşŵőřđ !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Wagwoord</value>
+    </data>
   <data name="Home_Login_RememberMe" xml:space="preserve">
-    <value>[Ŗęmęmþęř mę? !!! !!!]</value>
-  </data>
+        <value>Onthou my</value>
+    </data>
   <data name="Home_Login_Title" xml:space="preserve">
-    <value>[Ŝįģŉ Ĩŉ !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Teken In</value>
+    </data>
   <data name="Home_Login_Username" xml:space="preserve">
-    <value>[Ůşęřŉämę !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Gebruikersnaam</value>
+    </data>
   <data name="Home_Login_UsernamePasswordIncorrect" xml:space="preserve">
-    <value>[Ŧĥę ūşęřŉämę őř päşşŵőřđ přővįđęđ įş įŉčőřřęčŧ. !!! !!! !!!]</value>
-  </data>
+        <value>Die gebruikersnaam of wagwoord wat ingevoer is, is verkeerd.</value>
+    </data>
   <data name="Home_PageNotFound_Text" xml:space="preserve">
-    <value>[Ŧĥę päģę yőū ŵęřę ľőőĸįŉģ ƒőř ŵäşŉ'ŧ ƒőūŉđ. Pľęäşę ŧřy äģäįŉ őř čőŉŧäčŧ ŧĥę şyşŧęm äđmįŉįşŧřäŧőř. !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Die bladsy waarna jy gesoek het, is nie gevind nie. Probeer asseblief weer of kontak die stelseladministrateur.</value>
+    </data>
   <data name="Home_PageNotFound_Title" xml:space="preserve">
-    <value>[404 Päģę Ńőŧ Főūŉđ !!! !!!]</value>
-  </data>
+        <value>404 Bladsy Nie Gevind Nie</value>
+    </data>
   <data name="Home_ResetPassword_ConfirmPassword" xml:space="preserve">
-    <value>[Cőŉƒįřm Päşşŵőřđ !!! !!!]</value>
-  </data>
+        <value>Bevestig Wagwoord</value>
+    </data>
   <data name="Home_ResetPassword_Failed" xml:space="preserve">
-    <value>[Ůŉäþľę ŧő řęşęŧ päşşŵőřđ !!! !!!]</value>
-  </data>
+        <value>Kon nie die wagwoord terugstel nie</value>
+    </data>
   <data name="Home_ResetPassword_Password" xml:space="preserve">
-    <value>[Päşşŵőřđ !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Wagwoord</value>
+    </data>
   <data name="Home_ResetPassword_ResetPassword" xml:space="preserve">
-    <value>[Ŗęşęŧ Päşşŵőřđ !!! !!!]</value>
-  </data>
+        <value>Stel Wagwoord Terug</value>
+    </data>
   <data name="Home_ResetPassword_Success" xml:space="preserve">
-    <value>[Päşşŵőřđ řęşęŧ !!! !!!]</value>
-  </data>
+        <value>Wagwoord suksesvol teruggestel</value>
+    </data>
   <data name="Home_ResetPassword_Title" xml:space="preserve">
-    <value>[Ŗęşęŧ Päşşŵőřđ !!! !!!]</value>
-  </data>
+        <value>Stel Wagwoord Terug</value>
+    </data>
   <data name="Home_ResetPassword_Username" xml:space="preserve">
-    <value>[Ůşęřŉämę !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Gebruikersnaam</value>
+    </data>
   <data name="Home_ServerError_Text" xml:space="preserve">
-    <value>[Å şęřvęř ęřřőř őččūřřęđ ŵĥęŉ přőčęşşįŉģ yőūř řęqūęşŧ. Pľęäşę ŧřy äģäįŉ őř čőŉŧäčŧ ŧĥę şyşŧęm äđmįŉįşŧřäŧőř. !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>’n Bedienerfout het voorgekom terwyl jou versoek verwerk is. Probeer asseblief weer of kontak die stelseladministrateur.</value>
+    </data>
   <data name="Home_ServerError_Title" xml:space="preserve">
-    <value>[500 Ŝęřvęř Ēřřőř !!! !!!]</value>
-  </data>
+        <value>500 Bedienerfout</value>
+    </data>
   <data name="Home_Unauthorized_Text" xml:space="preserve">
-    <value>[Ÿőū đőŉ'ŧ ĥävę pęřmįşşįőŉ ƒőř ŧĥę şęľęčŧęđ äčŧįőŉ őř päģę. !!! !!! !!!]</value>
-  </data>
+        <value>Jy het nie toestemming vir die geselekteerde aksie of bladsy nie.</value>
+    </data>
   <data name="Home_Unauthorized_Title" xml:space="preserve">
-    <value>[Ůŉäūŧĥőřįžęđ !!! !!!]</value>
-  </data>
+        <value>Nie Gemagtig Nie</value>
+    </data>
   <data name="Item_NotFound" xml:space="preserve">
-    <value>[Ĩŧęm ŵäşŉ'ŧ ƒőūŉđ !!! !!!]</value>
-  </data>
+        <value>Item is nie gevind nie</value>
+    </data>
   <data name="Item_NotFound_Text" xml:space="preserve">
-    <value>[Ŧĥę įŧęm yőū ŵęřę ľőőĸįŉģ ƒőř ŵäşŉ'ŧ ƒőūŉđ. !!! !!!]</value>
-  </data>
+        <value>Die item waarna jy gesoek het, is nie gevind nie.</value>
+    </data>
   <data name="Layout_About" xml:space="preserve">
-    <value>[Åþőūŧ !!! !!! !!! !!!]</value>
-  </data>
+        <value>Oor</value>
+    </data>
   <data name="Layout_AccountSettings" xml:space="preserve">
-    <value>[Åččőūŉŧ Ŝęŧŧįŉģş !!! !!!]</value>
-  </data>
+        <value>Rekeninginstellings</value>
+    </data>
   <data name="Layout_Administration" xml:space="preserve">
-    <value>[Åđmįŉįşŧřäŧįőŉ !!! !!!]</value>
-  </data>
+        <value>Administrasie</value>
+    </data>
   <data name="Layout_AdministrationGlobalSettings" xml:space="preserve">
-    <value>[Ŝęŧŧįŉģş !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Instellings</value>
+    </data>
   <data name="Layout_AdministrationRepositories" xml:space="preserve">
-    <value>[Ŗępőşįŧőřįęş !!! !!!]</value>
-  </data>
+        <value>Bewaarplekke</value>
+    </data>
   <data name="Layout_AdministrationTeams" xml:space="preserve">
-    <value>[Ŧęämş !!! !!! !!! !!!]</value>
-  </data>
+        <value>Spanne</value>
+    </data>
   <data name="Layout_AdministrationUsers" xml:space="preserve">
-    <value>[Ůşęřş !!! !!! !!! !!!]</value>
-  </data>
+        <value>Gebruikers</value>
+    </data>
   <data name="Layout_Footer_Copyright" xml:space="preserve">
-    <value>[Åľľ řįģĥŧş řęşęřvęđ. !!! !!!]</value>
-  </data>
+        <value>Alle regte voorbehou.</value>
+    </data>
   <data name="Layout_Home" xml:space="preserve">
-    <value>[Ħőmę !!! !!! !!!]</value>
-  </data>
+        <value>Tuis</value>
+    </data>
   <data name="Layout_Logout" xml:space="preserve">
-    <value>[Ŝįģŉ Øūŧ !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Teken uit</value>
+    </data>
   <data name="Layout_Login" xml:space="preserve">
-    <value>[Ŝįģŉ Ĩŉ !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Teken in</value>
+    </data>
   <data name="Layout_Register" xml:space="preserve">
-    <value>[Ŗęģįşŧęř !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Registreer</value>
+    </data>
   <data name="Layout_Repositories" xml:space="preserve">
-    <value>[Ŗępőşįŧőřįęş !!! !!!]</value>
-  </data>
+        <value>Bewaarplekke</value>
+    </data>
   <data name="Layout_Title" xml:space="preserve">
-    <value>[ßőŉőþő Ğįŧ Ŝęřvęř !!! !!!]</value>
-  </data>
+        <value>Git Server</value>
+    </data>
   <data name="No" xml:space="preserve">
-    <value>[Ńő !!! !!!]</value>
-  </data>
+        <value>Nee</value>
+    </data>
   <data name="Repository_AddressBar_Root" xml:space="preserve">
-    <value>[Ħőmę !!! !!! !!!]</value>
-  </data>
+        <value>Tuis</value>
+    </data>
   <data name="Repository_AdministratorsHint" xml:space="preserve">
-    <value>[Åđmįŉįşŧřäŧőřş ĥävę ƒūľľ äččęşş ŧő ŧĥę řępőşįŧőřy. Ŧĥęy čäŉ mőđįƒy řępőşįŧőřy męŧäđäŧä őř đęľęŧę ŧĥę řępőşįŧőřy. !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Administrateurs het volle toegang tot die bewaarplek. Hulle kan die bewaarplek meta-data wysig of die bewaarplek uitvee.</value>
+    </data>
   <data name="Repository_AllowAnonymousHint" xml:space="preserve">
-    <value>[Ĩƒ äŉőŉymőūş äččęşş įş äľľőŵęđ, ęvęřyőŉę čäŉ pūľľ őř čľőŉę ŧĥę řępőşįŧőřy äŉđ vįęŵ řępőşįŧőřy męŧäđäŧä. Pūşĥ įş äväįľäþľę őŉľy įƒ şęŧ įŉ Ğľőþäľ Ŝęŧŧįŉģş. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>As anonieme toegang toegelaat word, kan enigiemand die bewaarplek trek of kloon en die meta-data sien. Stuur van data is slegs moontlik indien ingestel in Globale Instellings.</value>
+    </data>
   <data name="Repository_AllowAnonymousPushHint" xml:space="preserve">
-    <value>[Åľľőŵş äŉőŉymőūş ūşęřş ŧő pūşĥ ŧő ŧĥįş řępőşįŧőřy įƒ äŉőŉymőūş äččęş įş ģřäŉŧęđ. Ĩƒ "Ğľőþäľ" įş şęľęčŧęđ ŧĥę őpŧįőŉ şęŧ ūŉđęř yőūř ģľőþäľ şęŧŧįŉģş įş ūşęđ. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Laat anonieme gebruikers toe om data na hierdie bewaarplek te stuur as anonieme toegang gegee word. As "Globaal" gekies word, word die opsie wat in jou globale instellings ingestel is, gebruik.</value>
+    </data>
   <data name="Repository_AuditPushUserHint" xml:space="preserve">
-    <value>[Ŗęčőřđ ūşęř ŧĥäŧ pūşĥęđ čőmmįŧş ŧő ŧĥę şęřvęř !!! !!!]</value>
-  </data>
+        <value>Hou rekords van wie veranderinge gestuur het na die bewaarplek.</value>
+    </data>
   <data name="Repository_Back" xml:space="preserve">
-    <value>[ßäčĸ !!! !!! !!!]</value>
-  </data>
+        <value>Terug</value>
+    </data>
   <data name="Repository_Blame_Title" xml:space="preserve">
-    <value>[ßľämę !!! !!! !!! !!!]</value>
-  </data>
+        <value>Blameer</value>
+    </data>
   <data name="Repository_Clone_Fail" xml:space="preserve">
-    <value>[Ŗępőşįŧőřy čľőŉįŉģ ŵäş ūŉşūččęşşƒūľ. Pľęäşę čőřřęčŧ ŧĥę ęřřőřş äŉđ ŧřy äģäįŉ. !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Bewaarplek kloon was onsuksesvol. Stel asseblief die foute reg en probeer weer.</value>
+    </data>
   <data name="Repository_Clone_Submit" xml:space="preserve">
-    <value>[Cľőŉę !!! !!! !!! !!!]</value>
-  </data>
+        <value>Kloon</value>
+    </data>
   <data name="Repository_Clone_Success" xml:space="preserve">
-    <value>[Ŗępőşįŧőřy ŵäş čľőŉęđ şūččęşşƒūľľy. !!! !!!]</value>
-  </data>
+        <value>Die bewaarplek is suksesvol gekloon.</value>
+    </data>
   <data name="Repository_Clone_Title" xml:space="preserve">
-    <value>[Cľőŉę Ŗępőşįŧőřy !!! !!!]</value>
-  </data>
+        <value>Kloon Bewaarplek</value>
+    </data>
   <data name="Repository_Commit_Added" xml:space="preserve">
-    <value>[Åđđęđ !!! !!! !!! !!!]</value>
-  </data>
+        <value>Bygevoeg</value>
+    </data>
   <data name="Repository_Commit_Author" xml:space="preserve">
-    <value>[Åūŧĥőř !!! !!! !!! !!! !!!]</value>
-  </data>
-  <data name="Repository_Commit_AuthorAvatar" xml:space="preserve">
-    <value>[Åväŧäř !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Skrywer</value>
+    </data>
   <data name="Repository_Commit_AuthorEmail" xml:space="preserve">
-    <value>[Ēmäįľ !!! !!! !!! !!!]</value>
-  </data>
+        <value>E-pos</value>
+    </data>
   <data name="Repository_Commit_Changes" xml:space="preserve">
-    <value>[Cĥäŉģęş !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Veranderings</value>
+    </data>
   <data name="Repository_Commit_Copied" xml:space="preserve">
-    <value>[Cőpįęđ !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Gekopieer</value>
+    </data>
   <data name="Repository_Commit_Date" xml:space="preserve">
-    <value>[Đäŧę !!! !!! !!!]</value>
-  </data>
+        <value>Datum</value>
+    </data>
   <data name="Repository_Commit_Deleted" xml:space="preserve">
-    <value>[Đęľęŧęđ !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Uitgevee</value>
+    </data>
   <data name="Repository_Commit_Detail" xml:space="preserve">
-    <value>[Cőmmįŧ Đęŧäįľ !!! !!!]</value>
-  </data>
-  <data name="Repository_Commit_Details" xml:space="preserve">
-    <value>[Đęŧäįľş !!! !!! !!! !!! !!! !!!]</value>
-  </data>
-  <data name="Repository_Commit_ID" xml:space="preserve">
-    <value>[Cőmmįŧ !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Kommit Besonderhede</value>
+    </data>
   <data name="Repository_Commit_Message" xml:space="preserve">
-    <value>[Męşşäģę !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Boodskap</value>
+    </data>
   <data name="Repository_Commit_Modified" xml:space="preserve">
-    <value>[Mőđįƒįęđ !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Gewysig</value>
+    </data>
   <data name="Repository_Commit_NoMessageDeclared" xml:space="preserve">
-    <value>[Ńőŧ đęčľäřęđ !!! !!!]</value>
-  </data>
+        <value>Geen boodskap verklaar nie</value>
+    </data>
   <data name="Repository_Commit_Parents" xml:space="preserve">
-    <value>[Päřęŉŧş !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Ouers</value>
+    </data>
   <data name="Repository_Commit_Renamed" xml:space="preserve">
-    <value>[Ŗęŉämęđ !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Hernoem</value>
+    </data>
   <data name="Repository_Commit_TreeID" xml:space="preserve">
-    <value>[Ŧřęę !!! !!! !!!]</value>
-  </data>
+        <value>Boom</value>
+    </data>
   <data name="Repository_Commit_TypeChanged" xml:space="preserve">
-    <value>[Ŧypę Cĥäŉģęđ !!! !!!]</value>
-  </data>
+        <value>Tipe Verander</value>
+    </data>
   <data name="Repository_Commits_Title" xml:space="preserve">
-    <value>[Cőmmįŧş !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Kommitte</value>
+    </data>
   <data name="Repository_Create_DirectoryExists" xml:space="preserve">
-    <value>[Å đįřęčŧőřy ŵįŧĥ ŧĥįş ŉämę äľřęäđy ęχįşŧş įŉ yőūř řępőşįŧőřy ƒőľđęř. Đęľęŧę ŧĥįş đįřęčŧőřy őř čĥőőşę äŉőŧĥęř ŉämę äŉđ ŧřy äģäįŉ. !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>'n Gids met hierdie naam bestaan reeds in jou bewaarplek gids. Verwyder die gids of kies 'n ander naam en probeer weer.</value>
+    </data>
   <data name="Repository_Create_Fail" xml:space="preserve">
-    <value>[Ŗępőşįŧőřy čřęäŧįőŉ ŵäş ūŉşūččęşşƒūľ. Pľęäşę čőřřęčŧ ŧĥę ęřřőřş äŉđ ŧřy äģäįŉ. !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Bewaarplek skepping was onsuksesvol. Stel asseblief die foute reg en probeer weer.</value>
+    </data>
   <data name="Repository_Create_Failure" xml:space="preserve">
-    <value>[Ŗępőşįŧőřy ŵįŧĥ şęľęčŧęđ ŉämę äľřęäđy ęχįşŧş. !!! !!!]</value>
-  </data>
+        <value>'n Bewaarplek met die geselekteerde naam bestaan reeds.</value>
+    </data>
   <data name="Repository_Create_Informations" xml:space="preserve">
-    <value>[Ŗępőşįŧőřy įŉƒőřmäŧįőŉ !!! !!!]</value>
-  </data>
+        <value>Bewaarplek Inligting</value>
+    </data>
   <data name="Repository_Create_NameFailure" xml:space="preserve">
-    <value>["Ńämę" şĥőūľđŉ'ŧ čőŉŧäįŉ őŉľy ŵĥįŧęşpäčę čĥäřäčŧęřş. !!! !!! !!!]</value>
-  </data>
+        <value>'n "Naam" moet nie net spasies bevat nie.</value>
+    </data>
   <data name="Repository_Create_Submit" xml:space="preserve">
-    <value>[Cřęäŧę !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Skep</value>
+    </data>
   <data name="Repository_Create_Success" xml:space="preserve">
-    <value>[Ŗępőşįŧőřy ŵäş čřęäŧęđ şūččęşşƒūľľy. !!! !!!]</value>
-  </data>
+        <value>Bewaarplek is suksesvol geskep.</value>
+    </data>
   <data name="Repository_Create_Success_Go_To" xml:space="preserve">
-    <value>[Ğő ŧő "{0}" !!! !!!]</value>
-  </data>
+        <value>Gaan na "{0}"</value>
+    </data>
   <data name="Repository_Create_Title" xml:space="preserve">
-    <value>[Cřęäŧę Ńęŵ Ŗępőşįŧőřy !!! !!!]</value>
-  </data>
+        <value>Skep Nuwe Bewaarplek</value>
+    </data>
   <data name="Repository_Delete_Success" xml:space="preserve">
-    <value>[Ŗępőşįŧőřy ŵäş đęľęŧęđ şūččęşşƒūľľy. !!! !!!]</value>
-  </data>
+        <value>Die bewaarplek is suksesvol uitgevee.</value>
+    </data>
   <data name="Repository_Detail_Administrators" xml:space="preserve">
-    <value>[Åđmįŉįşŧřäŧőřş !!! !!!]</value>
-  </data>
+        <value>Administrateurs</value>
+    </data>
   <data name="Repository_Detail_AllowAnonymousPush" xml:space="preserve">
-    <value>[Åŉőŉymőūş pūşĥ !!! !!!]</value>
-  </data>
+        <value>Anonieme Stuur</value>
+    </data>
   <data name="Repository_Detail_Anonymous" xml:space="preserve">
-    <value>[Åŉőŉymőūş !!! !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Anoniem</value>
+    </data>
   <data name="Repository_Detail_AuditPushUser" xml:space="preserve">
-    <value>[Åūđįŧ Pūşĥęş !!! !!!]</value>
-  </data>
+        <value>Oudit Sture</value>
+    </data>
   <data name="Repository_Detail_Back" xml:space="preserve">
-    <value>[ßäčĸ !!! !!! !!!]</value>
-  </data>
+        <value>Terug</value>
+    </data>
   <data name="Repository_Detail_Delete" xml:space="preserve">
-    <value>[Đęľęŧę !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Verwyder</value>
+    </data>
   <data name="Repository_Detail_Description" xml:space="preserve">
-    <value>[Đęşčřįpŧįőŉ !!! !!!]</value>
-  </data>
+        <value>Beskrywing</value>
+    </data>
   <data name="Repository_Detail_Detail" xml:space="preserve">
-    <value>[Đęŧäįľş !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Besonderhede</value>
+    </data>
   <data name="Repository_Detail_Edit" xml:space="preserve">
-    <value>[Ēđįŧ !!! !!! !!!]</value>
-  </data>
+        <value>Wysig</value>
+    </data>
   <data name="Repository_Detail_Group" xml:space="preserve">
-    <value>[Ğřőūp !!! !!! !!! !!!]</value>
-  </data>
+        <value>Groep</value>
+    </data>
   <data name="Repository_Detail_IsCurrentUserAdmin" xml:space="preserve">
-    <value>[Åđmįŉ !!! !!! !!! !!!]</value>
-  </data>
+        <value>Admin</value>
+    </data>
   <data name="Repository_Detail_LinksUseGlobal" xml:space="preserve">
-    <value>[Ůşę ģľőþäľ ľįŉĸįƒy şęŧŧįŉģş !!! !!!]</value>
-  </data>
+        <value>Gebruik globale skakelinligting instellings</value>
+    </data>
   <data name="Repository_Detail_Location" xml:space="preserve">
-    <value>[Ğįŧ ŮŖĿ !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Git URL</value>
+    </data>
   <data name="Repository_Detail_Location_Personal" xml:space="preserve">
-    <value>[Pęřşőŉäľ ŮŖĿ !!! !!!]</value>
-  </data>
-  <data name="Repository_Detail_Logo_PostedFile" xml:space="preserve">
-    <value>[Ŀőģő (36χ36) !!! !!!]</value>
-  </data>
+        <value>Persoonlike URL</value>
+    </data>
   <data name="Repository_Detail_Name" xml:space="preserve">
-    <value>[Ńämę !!! !!! !!!]</value>
-  </data>
+        <value>Naam</value>
+    </data>
   <data name="Repository_Detail_No" xml:space="preserve">
-    <value>[Ńő !!! !!!]</value>
-  </data>
+        <value>Nee</value>
+    </data>
   <data name="Repository_Detail_RemoveLogo" xml:space="preserve">
-    <value>[Ŗęmővę ľőģő !!! !!!]</value>
-  </data>
+        <value>Verwyder logo</value>
+    </data>
   <data name="Repository_Detail_Status" xml:space="preserve">
-    <value>[Ŝŧäŧūş !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Status</value>
+    </data>
   <data name="Repository_Detail_Teams" xml:space="preserve">
-    <value>[Ŧęämş !!! !!! !!! !!!]</value>
-  </data>
+        <value>Spanne</value>
+    </data>
   <data name="Repository_Detail_Title" xml:space="preserve">
-    <value>[Ŗępőşįŧőřy Đęŧäįľ !!! !!!]</value>
-  </data>
+        <value>Bewaarplek Besonderhede</value>
+    </data>
   <data name="Repository_Detail_Users" xml:space="preserve">
-    <value>[Cőŉŧřįþūŧőřş !!! !!!]</value>
-  </data>
+        <value>Gebruikers</value>
+    </data>
   <data name="Repository_Detail_Yes" xml:space="preserve">
-    <value>[Ÿęş !!! !!!]</value>
-  </data>
+        <value>Ja</value>
+    </data>
   <data name="Repository_Edit_Back" xml:space="preserve">
-    <value>[ßäčĸ !!! !!! !!!]</value>
-  </data>
+        <value>Terug</value>
+    </data>
   <data name="Repository_Edit_CantRemoveYourself" xml:space="preserve">
-    <value>[Ÿőū čäŉ'ŧ řęmővę yőūřşęľƒ ƒřőm äđmįŉįşŧřäŧőřş. !!! !!!]</value>
-  </data>
+        <value>Jy kan nie jouself van administrateurs verwyder nie.</value>
+    </data>
   <data name="Repository_Edit_Fail" xml:space="preserve">
-    <value>[Ŗępőşįŧőřy ūpđäŧę ŵäş ūŉşūččęşşƒūľ. Pľęäşę čőřřęčŧ ŧĥę ęřřőřş äŉđ ŧřy äģäįŉ. !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Bewaarplek opdatering was onsuksesvol. Stel asseblief die foute reg en probeer weer.</value>
+    </data>
   <data name="Repository_Edit_InvalidAnonymousPushMode" xml:space="preserve">
-    <value>[Ĩŉväľįđ väľūę přővįđęđ. !!! !!!]</value>
-  </data>
+        <value>Ongeldige waarde voorsien.</value>
+    </data>
   <data name="Repository_Edit_Submit" xml:space="preserve">
-    <value>[Ŝävę !!! !!! !!!]</value>
-  </data>
+        <value>Stoor</value>
+    </data>
   <data name="Repository_Edit_Title" xml:space="preserve">
-    <value>[Ēđįŧ Ŗępőşįŧőřy !!! !!!]</value>
-  </data>
+        <value>Wysig Bewaarplek</value>
+    </data>
   <data name="Repository_Edit_UpdateSuccess" xml:space="preserve">
-    <value>[Ŗępőşįŧőřy ŵäş ūpđäŧęđ şūččęşşƒūľľy. !!! !!!]</value>
-  </data>
+        <value>Bewaarplek is suksesvol opdateer.</value>
+    </data>
   <data name="Repository_Git_Url_Copy" xml:space="preserve">
-    <value>[Cőpy řępőşįŧőřy ŮŖĿ !!! !!!]</value>
-  </data>
+        <value>Kopieer bewaarplek URL</value>
+    </data>
   <data name="Repository_Go_To_Dropdown" xml:space="preserve">
-    <value>[Ğő ŧő řępőşįŧőřy !!! !!!]</value>
-  </data>
+        <value>Gaan na bewaarplek</value>
+    </data>
   <data name="Repository_History_Title" xml:space="preserve">
-    <value>[Ħįşŧőřy !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Geskiedenis</value>
+    </data>
   <data name="Repository_Index_AdministratedRepositories" xml:space="preserve">
-    <value>[Åđmįŉįşŧęřęđ Ŗępőşįŧőřįęş !!! !!!]</value>
-  </data>
+        <value>Geadministreerde Bewaarplekke</value>
+    </data>
   <data name="Repository_Index_AllRepositories" xml:space="preserve">
-    <value>[Åľľ Ŗępőşįŧőřįęş !!! !!!]</value>
-  </data>
+        <value>Alle Bewaarplekke</value>
+    </data>
   <data name="Repository_Index_CreateNew" xml:space="preserve">
-    <value>[Cřęäŧę ŉęŵ řępőşįŧőřy !!! !!!]</value>
-  </data>
+        <value>Skep nuwe bewaarplek</value>
+    </data>
   <data name="Repository_Index_Repositories" xml:space="preserve">
-    <value>[Ŗępőşįŧőřįęş !!! !!!]</value>
-  </data>
+        <value>Bewaarplekke</value>
+    </data>
   <data name="Repository_Index_SortGroup" xml:space="preserve">
-    <value>[Ŝőřŧ Ğřőūp !!! !!!]</value>
-  </data>
+        <value>Sorteer Groep</value>
+    </data>
   <data name="Repository_Index_Title" xml:space="preserve">
-    <value>[Ŗępőşįŧőřįęş !!! !!!]</value>
-  </data>
+        <value>Bewaarplekke</value>
+    </data>
   <data name="Repository_Layout_Browse" xml:space="preserve">
-    <value>[Ŗępőşįŧőřy ßřőŵşęř !!! !!!]</value>
-  </data>
+        <value>Bewaarplek Blaaier</value>
+    </data>
   <data name="Repository_Layout_Clone" xml:space="preserve">
-    <value>[Cľőŉę !!! !!! !!! !!!]</value>
-  </data>
-  <data name="Repository_Layout_Commits" xml:space="preserve">
-    <value>[Cőmmįŧş !!! !!! !!! !!! !!! !!!]</value>
-  </data>
-  <data name="Repository_Layout_Tags" xml:space="preserve">
-    <value>[Ŧäģş !!! !!! !!!]</value>
-  </data>
+        <value>Kloon</value>
+    </data>
   <data name="Repository_Needs_Administrator" xml:space="preserve">
-    <value>[Ŗępőşįŧőřy řęqūįřęş äŧ ľęäşŧ őŉę äđmįŉįşŧřäŧőř. !!! !!! !!!]</value>
-  </data>
+        <value>Die bewaarplek benodig ten minste een administrateur.</value>
+    </data>
   <data name="Repository_No_Group" xml:space="preserve">
-    <value>[Ńő Ğřőūp !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Geen Groep</value>
+    </data>
   <data name="Repository_Personal_Git_Url_Copy" xml:space="preserve">
-    <value>[Cőpy pęřşőŉäľ řępőşįŧőřy ŮŖĿ !!! !!!]</value>
-  </data>
+        <value>Kopieer persoonlike bewaarplek URL</value>
+    </data>
   <data name="Repository_Rescan_Directory" xml:space="preserve">
-    <value>[Ŗęşčäŉ đįřęčŧőřy !!! !!!]</value>
-  </data>
+        <value>Herskandeer gids</value>
+    </data>
   <data name="Repository_SwitchBranch" xml:space="preserve">
-    <value>[Ŝŵįŧčĥ čūřřęŉŧ þřäŉčĥ !!! !!!]</value>
-  </data>
-  <data name="Repository_Tags_Title" xml:space="preserve">
-    <value>[Ŧäģş !!! !!! !!!]</value>
-  </data>
+        <value>Skakel huidige tak</value>
+    </data>
   <data name="Repository_TeamsHint" xml:space="preserve">
-    <value>[Ŧęämş ĥävę äččęşş ŧő ŧĥę řępőşįŧőřy. Ŧĥęy čäŉ čľőŉę, pūşĥ őř pūľľ äŉđ vįęŵ řępőşįŧőřy męŧäđäŧä. Åľľ ūşęřş įŉ ŧĥę ŧęäm čäŉ äččęşş ŧĥįş řępőşįŧőřy. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Spanne het toegang tot die bewaarplek. Hulle kan kloon, stuur of trek en bewaarplek metadata sien. Alle lede in die span het toegang tot die bewaarplek.</value>
+    </data>
   <data name="Repository_Tree_Author" xml:space="preserve">
-    <value>[Åūŧĥőř !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Skrywer</value>
+    </data>
   <data name="Repository_Tree_Blame" xml:space="preserve">
-    <value>[ßľämę !!! !!! !!! !!!]</value>
-  </data>
-  <data name="Repository_Tree_Blob" xml:space="preserve">
-    <value>[ßľőþ !!! !!! !!!]</value>
-  </data>
+        <value>Blameer</value>
+    </data>
   <data name="Repository_Tree_CommitDate" xml:space="preserve">
-    <value>[Đäŧę !!! !!! !!!]</value>
-  </data>
+        <value>Datum</value>
+    </data>
   <data name="Repository_Tree_CommitMessage" xml:space="preserve">
-    <value>[Męşşäģę !!! !!! !!! !!! !!! !!!]</value>
-  </data>
-  <data name="Repository_Tree_Download" xml:space="preserve">
-    <value>[Đőŵŉľőäđ !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Boodskap</value>
+    </data>
   <data name="Repository_Tree_History" xml:space="preserve">
-    <value>[Ħįşŧőřy !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Geskiedenis</value>
+    </data>
   <data name="Repository_Tree_Name" xml:space="preserve">
-    <value>[Ńämę !!! !!! !!!]</value>
-  </data>
+        <value>Naam</value>
+    </data>
   <data name="Repository_Tree_PreviewNotSupported" xml:space="preserve">
-    <value>[Přęvįęŵ őƒ ŧĥįş ƒįľę įş ŉőŧ şūppőřŧęđ. !!! !!!]</value>
-  </data>
-  <data name="Repository_Tree_RawDisplay" xml:space="preserve">
-    <value>[Ŗäŵ !!! !!!]</value>
-  </data>
+        <value>Voorskou van hierdie lêer word nie ondersteun nie.</value>
+    </data>
   <data name="Repository_Tree_Title" xml:space="preserve">
-    <value>[ßřőŵşę Ŗępőşįŧőřy !!! !!!]</value>
-  </data>
-  <data name="Repository_Tree_Zip" xml:space="preserve">
-    <value>[Đőŵŉľőäđ !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Blaai deur Bewaarplek</value>
+    </data>
   <data name="Repository_UsersHint" xml:space="preserve">
-    <value>[Ůşęřş ĥävę äččęşş ŧő ŧĥę řępőşįŧőřy. Ŧĥęy čäŉ čľőŉę, pūşĥ őř pūľľ äŉđ vįęŵ řępőşįŧőřy męŧäđäŧä. !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Gebruikers het toegang tot die bewaarplek. Hulle kan kloon, stuur of trek en bewaarplek metadata sien.</value>
+    </data>
   <data name="Reset" xml:space="preserve">
-    <value>[Ŗęşęŧ !!! !!! !!! !!!]</value>
-  </data>
+        <value>Herstel</value>
+    </data>
   <data name="Search" xml:space="preserve">
-    <value>[Ŝęäřčĥ !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Soek</value>
+    </data>
   <data name="Settings_Global_AllowAnonymousPush" xml:space="preserve">
-    <value>[Åľľőŵ pūşĥ ƒőř äŉőŉymőūş řępőşįŧőřįęş !!! !!!]</value>
-  </data>
+        <value>Laat stuur toe vir anonieme bewaarplekke</value>
+    </data>
   <data name="Settings_Global_AllowAnonymousRegistration" xml:space="preserve">
-    <value>[Åľľőŵ äŉőŉymőūş řęģįşŧřäŧįőŉ !!! !!!]</value>
-  </data>
+        <value>Laat anonieme registrasie toe</value>
+    </data>
   <data name="Settings_Global_AllowAnonymousRegistration_Hint" xml:space="preserve">
-    <value>[Ĩƒ čĥęčĸþőχ įş ūŉčĥęčĸęđ, őŉľy äđmįŉįşŧřäŧőřş čäŉ äđđ ŉęŵ ūşęřş äŉđ äŉőŉymőūş ūşęř řęģįşŧřäŧįőŉ įş đįşäþľęđ. !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>As hierdie blokkie nie gemerk is nie, kan slegs administrateurs nuwe gebruikers byvoeg en anonieme registrasie is gedeaktiveer.</value>
+    </data>
   <data name="Settings_Global_AllowPushToCreate" xml:space="preserve">
-    <value>[Åľľőŵ pūşĥ ŧő čřęäŧę řępőşįŧőřįęş !!! !!!]</value>
-  </data>
+        <value>Laat stuur toe om bewaarplekke te skep</value>
+    </data>
   <data name="Settings_Global_AllowPushToCreate_Hint" xml:space="preserve">
-    <value>[Ĩƒ čĥęčĸþőχ įş čĥęčĸęđ, Åđmįŉįşŧřäŧőřş čäŉ pūşĥ ä ŉęŵ řępőşįŧőřy  !!! !!! !!! !!!]</value>
-  </data>
+        <value>As die blokkie gemerk is, kan administrateurs ’n nuwe bewaarplek stuur.</value>
+    </data>
   <data name="Settings_Global_AllowUserRepositoryCreation" xml:space="preserve">
-    <value>[Åľľőŵ ūşęř řępőşįŧőřy čřęäŧįőŉ !!! !!!]</value>
-  </data>
+        <value>Laat gebruikers toe om bewaarplekke te skep</value>
+    </data>
   <data name="Settings_Global_AllowUserRepositoryCreation_Hint" xml:space="preserve">
-    <value>[Ĩƒ čĥęčĸþőχ įş ūŉčĥęčĸęđ, őŉľy äđmįŉįşŧřäŧőřş čäŉ čřęäŧę řępőşįŧőřįęş. !!! !!! !!! !!!]</value>
-  </data>
+        <value>As hierdie blokkie nie gemerk is nie, kan slegs administrateurs bewaarplekke skep.</value>
+    </data>
   <data name="Settings_Global_DefaultLanguage" xml:space="preserve">
-    <value>[Ŀäŉģūäģę !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Taal</value>
+    </data>
   <data name="Settings_Global_DefaultLanguage_Hint" xml:space="preserve">
-    <value>[Ŀäŉģūäģę şęŧ þy đęƒäūľŧ įŉ ŧĥę äppľįčäŧįőŉ. !!! !!!]</value>
-  </data>
+        <value>Die standaard taal wat deur die toepassing gebruik word.</value>
+    </data>
   <data name="Settings_Global_DirectoryHint" xml:space="preserve">
-    <value>[Åľľ řępőşįŧőřįęş äřę şŧőřęđ įŉ ŧĥįş đįřęčŧőřy. !!! !!!]</value>
-  </data>
+        <value>Alle bewaarplekke word in hierdie gids gestoor.</value>
+    </data>
   <data name="Settings_Global_IsCommitAuthorAvatarVisible" xml:space="preserve">
-    <value>[Ŝĥőŵ čőmmįŧ äūŧĥőř äväŧäř !!! !!!]</value>
-  </data>
+        <value>Wys kommit skrywer avatar</value>
+    </data>
   <data name="Settings_Global_LinksRegex" xml:space="preserve">
-    <value>[Ŀįŉĸ Ŗęģęχ !!! !!!]</value>
-  </data>
+        <value>Skakel Regex</value>
+    </data>
   <data name="Settings_Global_LinksUrl" xml:space="preserve">
-    <value>[Ŀįŉĸ Ůřľ !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Skakel URL</value>
+    </data>
   <data name="Settings_Global_LinksUrl_Hint" xml:space="preserve">
-    <value>[Ŧĥįş ūşęş ŧĥę C# řęģęχ ľįþřäřy ŧő päřşę ŧĥę přővįđęđ řęģęχ. Cäpŧūřįŉģ ģřőūpş äřę şūppőřŧęđ.
+        <value>Gebruik die C# regex-biblioteek om die voorsiende regex te ontleed. Vaslegging van groepe word ondersteun.
 
-Ŧĥę päŧŧęřŉ įş {0} ƒőř ŧĥę ŵĥőľę řęģęχ mäŧčĥ.
-{1} őŉŵäřđş įş ęäčĥ čäpŧūřįŉģ ģřőūp.
+Die patroon is {0} vir die hele regex-treffer.
+{1} vorentoe is elke vaslegging-groep.
 
-Ŧĥę řęģūľäřę C# şŧřįŉģ ƒőřmäŧŧįŉģ řūľęş äppľy: Ŧő ģęŧ {} įŉ yőūř ľįŉĸ yőū ŉęęđ ŧő ŵřįŧę {{}}. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+Die gewone C#-string-format reëls geld: Om {} in jou skakel te kry, moet jy {{}} skryf.</value>
+    </data>
   <data name="Settings_Global_RepositoryPath" xml:space="preserve">
-    <value>[Ŗępőşįŧőřy Đįřęčŧőřy !!! !!!]</value>
-  </data>
+        <value>Bewaarplek Gids</value>
+    </data>
   <data name="Settings_Global_SiteFooterMessage" xml:space="preserve">
-    <value>[Ŝįŧę Főőŧęř Męşşäģę !!! !!!]</value>
-  </data>
+        <value>Webwerf Voetboodskap</value>
+    </data>
   <data name="Settings_Global_SiteFooterMessage_Hint" xml:space="preserve">
-    <value>[Męşşäģę đįşpľäyęđ įŉ ƒőőŧęř äřęä őƒ şįŧę päģęş. !!! !!! !!!]</value>
-  </data>
+        <value>Boodskap wat in die voet van werfbladsye vertoon word.</value>
+    </data>
   <data name="Settings_Global_SiteLogoUrl" xml:space="preserve">
-    <value>[Ŝįŧę Ŀőģő ŮŖĿ !!! !!!]</value>
-  </data>
+        <value>Webwerf Logo URL</value>
+    </data>
   <data name="Settings_Global_SiteLogoUrl_Hint" xml:space="preserve">
-    <value>[ŮŖĿ ŧő ä ľőģő ŧő ūşę ƒőř ŧĥę şįŧę.  Ŝįŧę-řęľäŧįvę (~) päŧĥş äřę şūppőřŧęđ. !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>URL na 'n logo om vir die werf te gebruik. Webwerf-relatiewe (~) paaie word ondersteun.</value>
+    </data>
   <data name="Settings_Global_SiteTitle" xml:space="preserve">
-    <value>[Ŝįŧę Ŧįŧľę !!! !!!]</value>
-  </data>
+        <value>Webwerf Titel</value>
+    </data>
   <data name="Settings_Global_SiteTitle_Hint" xml:space="preserve">
-    <value>[Ŧįŧľę ƒőř ŧĥįş ģįŧ şįŧę. !!! !!!]</value>
-  </data>
+        <value>Titel vir hierdie git-webwerf.</value>
+    </data>
   <data name="Settings_Index_Failed" xml:space="preserve">
-    <value>[Ŝęŧŧįŉģş ūpđäŧę ŵäş ūŉşūččęşşƒūľ. Pľęäşę čőřřęčŧ ŧĥę ęřřőřş äŉđ ŧřy äģäįŉ. !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Instellings opdatering was onsuksesvol. Stel asseblief die foute reg en probeer weer.</value>
+    </data>
   <data name="Settings_Index_Save" xml:space="preserve">
-    <value>[Ŝävę !!! !!! !!!]</value>
-  </data>
+        <value>Stoor</value>
+    </data>
   <data name="Settings_Index_Title" xml:space="preserve">
-    <value>[Ŝęŧŧįŉģş !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Instellings</value>
+    </data>
   <data name="Settings_Index_UpdateSuccess" xml:space="preserve">
-    <value>[Ŝęŧŧįŉģş ūpđäŧęđ şūččęşşƒūľľy. !!! !!!]</value>
-  </data>
+        <value>Instellings is suksesvol opdateer.</value>
+    </data>
   <data name="Settings_RepositoryPathNotExists" xml:space="preserve">
-    <value>[Ŝęľęčŧęđ päŧĥ đőęş ŉőŧ ęχįşŧ. Pľęäşę čřęäŧę ŧĥę ƒőľđęř őř čĥőőşę ä đįƒƒęřęŉŧ őŉę. !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Die geselekteerde pad bestaan nie. Skep asseblief die gids of kies ’n ander een.</value>
+    </data>
   <data name="Settings_RepositoryPathUnauthorized" xml:space="preserve">
-    <value>[Ÿőū đőŉ'ŧ ĥävę přįvįľęģęş ŧő ŵřįŧę ŧő ŧĥę ƒőľđęř. Pľęäşę čĥőőşę ä đįƒƒęřęŉŧ őŉę. !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Jy het nie die regte om na hierdie gids te skryf nie. Kies asseblief ’n ander een.</value>
+    </data>
   <data name="Team_Create_Back" xml:space="preserve">
-    <value>[ßäčĸ !!! !!! !!!]</value>
-  </data>
+        <value>Terug</value>
+    </data>
   <data name="Team_Create_Fail" xml:space="preserve">
-    <value>[Ńęŵ ŧęäm čřęäŧįőŉ ŵäş ūŉşūččęşşƒūľ. Pľęäşę čőřřęčŧ ŧĥę ęřřőřş äŉđ ŧřy äģäįŉ. !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Die nuwe span skepping was onsuksesvol. Stel asseblief die foute reg en probeer weer.</value>
+    </data>
   <data name="Team_Create_Failure" xml:space="preserve">
-    <value>[Ŧęäm ŵįŧĥ şęľęčŧęđ ŉämę äľřęäđy ęχįşŧş. Ŧęäm ŵäşŉ'ŧ čřęäŧęđ. !!! !!! !!! !!!]</value>
-  </data>
+        <value>’n Span met die geselekteerde naam bestaan reeds. Span is nie geskep nie.</value>
+    </data>
   <data name="Team_Create_Submit" xml:space="preserve">
-    <value>[Ŝävę !!! !!! !!!]</value>
-  </data>
+        <value>Stoor</value>
+    </data>
   <data name="Team_Create_Success" xml:space="preserve">
-    <value>[Ŧĥę ŧęäm ŵäş čřęäŧęđ şūččęşşƒūľľy. !!! !!!]</value>
-  </data>
+        <value>Die span is suksesvol geskep.</value>
+    </data>
   <data name="Team_Create_Title" xml:space="preserve">
-    <value>[Cřęäŧę Ńęŵ Ŧęäm !!! !!!]</value>
-  </data>
+        <value>Skep Nuwe Span</value>
+    </data>
   <data name="Team_Delete_Success" xml:space="preserve">
-    <value>[Ŧĥę ŧęäm ŵäş đęľęŧęđ. !!! !!!]</value>
-  </data>
+        <value>Die span is verwyder.</value>
+    </data>
   <data name="Team_Detail_Back" xml:space="preserve">
-    <value>[ßäčĸ !!! !!! !!!]</value>
-  </data>
+        <value>Terug</value>
+    </data>
   <data name="Team_Detail_Delete" xml:space="preserve">
-    <value>[Đęľęŧę !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Verwyder</value>
+    </data>
   <data name="Team_Detail_Description" xml:space="preserve">
-    <value>[Đęşčřįpŧįőŉ !!! !!!]</value>
-  </data>
+        <value>Beskrywing</value>
+    </data>
   <data name="Team_Detail_Edit" xml:space="preserve">
-    <value>[Ēđįŧ !!! !!! !!!]</value>
-  </data>
+        <value>Wysig</value>
+    </data>
   <data name="Team_Detail_Members" xml:space="preserve">
-    <value>[Męmþęřş !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Lede</value>
+    </data>
   <data name="Team_Detail_Name" xml:space="preserve">
-    <value>[Ńämę !!! !!! !!!]</value>
-  </data>
+        <value>Naam</value>
+    </data>
   <data name="Team_Detail_Repositories" xml:space="preserve">
-    <value>[Ŗępőşįŧőřįęş !!! !!!]</value>
-  </data>
+        <value>Bewaarplekke</value>
+    </data>
   <data name="Team_Detail_Title" xml:space="preserve">
-    <value>[Ŧęäm Đęŧäįľ !!! !!!]</value>
-  </data>
+        <value>Spanbesonderhede</value>
+    </data>
   <data name="Team_Edit_Back" xml:space="preserve">
-    <value>[ßäčĸ !!! !!! !!!]</value>
-  </data>
+        <value>Terug</value>
+    </data>
   <data name="Team_Edit_Failure" xml:space="preserve">
-    <value>[Ŧęäm ūpđäŧę ŵäş ūŉşūččęşşƒūľ. Pľęäşę čőřřęčŧ ŧĥę ęřřőřş äŉđ ŧřy äģäįŉ. !!! !!! !!! !!!]</value>
-  </data>
+        <value>Spanopdatering was onsuksesvol. Stel asseblief die foute reg en probeer weer.</value>
+    </data>
   <data name="Team_Edit_Submit" xml:space="preserve">
-    <value>[Ůpđäŧę !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Opdateer</value>
+    </data>
   <data name="Team_Edit_Title" xml:space="preserve">
-    <value>[Ēđįŧ Ŧęäm !!! !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Wysig Span</value>
+    </data>
   <data name="Team_Edit_UpdateSuccess" xml:space="preserve">
-    <value>[Ŧęäm ŵäş ūpđäŧęđ şūččęşşƒūľľy. !!! !!!]</value>
-  </data>
+        <value>Span is suksesvol opdateer.</value>
+    </data>
   <data name="Team_Index_CreateNew" xml:space="preserve">
-    <value>[Cřęäŧę ŉęŵ ŧęäm !!! !!!]</value>
-  </data>
+        <value>Skep nuwe span</value>
+    </data>
   <data name="Team_Index_Teams" xml:space="preserve">
-    <value>[Ŧęämş !!! !!! !!! !!!]</value>
-  </data>
+        <value>Spanne</value>
+    </data>
   <data name="Team_Index_Title" xml:space="preserve">
-    <value>[Ŧęämş !!! !!! !!! !!!]</value>
-  </data>
+        <value>Spanne</value>
+    </data>
   <data name="Validation_Compare" xml:space="preserve">
-    <value>["{0}" äŉđ "{1}" mūşŧ ĥävę ŧĥę şämę väľūę. !!! !!!]</value>
-  </data>
+        <value>"{0}" en "{1}" moet dieselfde waarde hê.</value>
+    </data>
   <data name="Validation_Duplicate_Name" xml:space="preserve">
-    <value>[Ŧĥįş ŉämę ĥäş äľřęäđy þęęŉ ŧäĸęŉ. !!! !!!]</value>
-  </data>
+        <value>Hierdie naam is reeds geneem.</value>
+    </data>
   <data name="Validation_Email" xml:space="preserve">
-    <value>["{0}" įş ŉőŧ ä väľįđ ęmäįľ äđđřęşş. !!! !!!]</value>
-  </data>
+        <value>"{0}" is nie 'n geldige e-posadres nie.</value>
+    </data>
   <data name="Validation_FileName" xml:space="preserve">
-    <value>["{0}" čőŉŧäįŉş čĥäřäčŧęřş ŧĥäŧ čäŉ'ŧ þę įŉ ä ƒįľę őř đįřęčŧőřy ŉämę. !!! !!! !!! !!!]</value>
-  </data>
+        <value>"{0}" bevat karakters wat nie in ’n lêer of gids naam mag wees nie.</value>
+    </data>
   <data name="Validation_FileName_Regex" xml:space="preserve">
-    <value>[Øŉľy čĥäřäčŧęřş, ŉūmþęřş, đőŧş, mįŉūş äŉđ ūŉđęřşčőřę äřę äľľőŵęđ ƒőř "{0}". !!! !!! !!! !!! !!!]</value>
-  </data>
+        <value>Slegs karakters, syfers, kolletjies, koppelteken en onderstrepings word toegelaat vir "{0}".</value>
+    </data>
   <data name="Validation_Invalid_Regex" xml:space="preserve">
-    <value>[Ŧĥę přővįđęđ řęģęχ ĥäş äŉ ęřřőř. {0} !!! !!!]</value>
-  </data>
+        <value>Die voorsien regex het ’n fout. {0}</value>
+    </data>
   <data name="Validation_Required" xml:space="preserve">
-    <value>["{0}" įş mäŉđäŧőřy. !!! !!!]</value>
-  </data>
+        <value>"{0}" is verpligtend.</value>
+    </data>
   <data name="Validation_StringLength" xml:space="preserve">
-    <value>["{0}" şĥőūľđ þę şĥőřŧęř ŧĥäŉ {1} čĥäřäčŧęřş. !!! !!!]</value>
-  </data>
+        <value>"{0}" moet korter as {1} karakters wees.</value>
+    </data>
   <data name="Yes" xml:space="preserve">
-    <value>[Ÿęş !!! !!!]</value>
-  </data>
+        <value>Ja</value>
+    </data>
+  <data name="Home_About_Thanks" xml:space="preserve">
+  <value>Dankie!</value>
+</data>
+  <data name="Repository_Create_Back" xml:space="preserve">
+  <value>Terug</value>
+</data>
+  <data name="Home_About_Title" xml:space="preserve">
+  <value>Oor Ons</value>
+</data>
+  <data name="Home_Login_FailureDuringValidation" xml:space="preserve">
+  <value>Fout tydens validering. Kontak administrateur of gebruik wagwoord vergeet opsie.</value>
+</data>
+  <data name="Layout_AdministrationServer" xml:space="preserve">
+  <value>Administrasie Bediener</value>
+</data>
+  <data name="Me_General_Header" xml:space="preserve">
+  <value>Algemene Inligting</value>
+</data>
+  <data name="Me_Header_Index" xml:space="preserve">
+  <value>Indeks</value>
+</data>
+  <data name="Me_Header_Password" xml:space="preserve">
+  <value>Wagwoord</value>
+</data>
+  <data name="Me_Header_Settings" xml:space="preserve">
+  <value>Instellings</value>
+</data>
+  <data name="Me_Password_Changed_Success" xml:space="preserve">
+  <value>Wagwoord suksesvol verander.</value>
+</data>
+  <data name="MeController_Password_ErrorUpdating" xml:space="preserve">
+  <value>Fout met opdatering van wagwoord.</value>
+</data>
+  <data name="MeController_Password_MustBeDifferent" xml:space="preserve">
+  <value>Die nuwe wagwoord moet anders wees as die vorige een.</value>
+</data>
+  <data name="MeController_Settings_UseServerLanguage" xml:space="preserve">
+  <value>Gebruik bediener se taal</value>
+</data>
+  <data name="No_Commits_Found" xml:space="preserve">
+  <value>Geen commits gevind nie</value>
+</data>
+  <data name="No_Tags_Found" xml:space="preserve">
+  <value>Geen tags gevind nie.</value>
+</data>
+  <data name="Product_Name" xml:space="preserve">
+  <value>Produk Naam</value>
+</data>
+  <data name="Repository_Header_Description" xml:space="preserve">
+  <value>Beschrijving</value>
+</data>
+  <data name="Repository_Header_Name" xml:space="preserve">
+  <value>Naam</value>
+</data>
+  <data name="ServerDatabase_Download" xml:space="preserve">
+  <value>Laai af</value>
+</data>
+  <data name="ServerDatabaseModel_DatabasePath" xml:space="preserve">
+  <value>Databasis Pad</value>
+</data>
+  <data name="ServerDatabaseModel_DatabaseSize" xml:space="preserve">
+  <value>Databasis Grootte</value>
+</data>
+  <data name="ServerGitModel_IsGitAvailable" xml:space="preserve">
+  <value>Is Git Beskikbaar</value>
+</data>
+  <data name="ServerLayout_Header_Database" xml:space="preserve">
+  <value>Databasis</value>
+</data>
+  <data name="ServerLayout_Header_Overview" xml:space="preserve">
+  <value>Oorsig</value>
+</data>
+  <data name="ServerOverviewModel_ApplicationPath" xml:space="preserve">
+  <value>Toepassing Pad</value>
+</data>
+  <data name="ServerOverviewModel_ApplicationVersion" xml:space="preserve">
+  <value>Toepassing Weergawe</value>
+</data>
+  <data name="ServerOverviewModel_DataPath" xml:space="preserve">
+  <value>Data Pad</value>
+</data>
+  <data name="ServerOverviewModel_DotNetVersion" xml:space="preserve">
+  <value>.NET Weergawe</value>
+</data>
+  <data name="ServerOverviewModel_GitHomePath" xml:space="preserve">
+  <value>Git Tuis Pad</value>
+</data>
+  <data name="ServerOverviewModel_GitPath" xml:space="preserve">
+  <value>Git Pad</value>
+</data>
+  <data name="ServerOverviewModel_IsDemoActive" xml:space="preserve">
+  <value>Is Demo Aktief</value>
+</data>
+  <data name="ServerOverviewModel_RepositoryPath" xml:space="preserve">
+  <value>Bewaarplek Pad</value>
+</data>
+  <data name="Settings_Global_SiteCssUrl" xml:space="preserve">
+  <value>Werf CSS URL</value>
+</data>
+  <data name="Settings_Global_SiteCssUrl_Hint" xml:space="preserve">
+  <value>URL na 'n CSS-lêer om vir die werf te gebruik. Werf-relatiewe (~) paaie word ondersteun.</value>
+</data>
+  <data name="Settings_Index_Reset" xml:space="preserve">
+  <value>Herstel</value>
+</data>
+  <data name="Settings_Index_ResetConfirmation" xml:space="preserve">
+  <value>Wil jy regtig alle instellings terugstel?</value>
+</data>
+  <data name="Settings_Index_ResetSuccess" xml:space="preserve">
+  <value>Instellings suksesvol teruggestel.</value>
+</data>
 </root>

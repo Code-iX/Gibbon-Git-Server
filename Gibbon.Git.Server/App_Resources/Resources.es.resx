@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Account_Create_AccountAlreadyExists" xml:space="preserve">
-    <value>Ya existe una cuenta con ese nombre de usuario.</value>
+    <value>Ya existe una cuenta con ese nombre de usuario!</value>
   </data>
   <data name="Account_Create_AccountInformation" xml:space="preserve">
     <value>Información de la cuenta</value>
@@ -604,7 +604,7 @@
     <value>Permitir push para crear repositorios</value>
   </data>
   <data name="Settings_Global_AllowPushToCreate_Hint" xml:space="preserve">
-    <value>Si la casilla está marcada, los aministradores pueden hacer push para crear nuevos repositorios</value>
+    <value>Si la casilla está marcada, los aministradores pueden hacer push para crear nuevos repositorios.</value>
   </data>
   <data name="Settings_Global_IsCommitAuthorAvatarVisible" xml:space="preserve">
     <value>Mostrar avatar del autor de los commits</value>
@@ -616,7 +616,11 @@
     <value>URL de enlace</value>
   </data>
   <data name="Settings_Global_LinksUrl_Hint" xml:space="preserve">
-    <value>Establecer expresión regular para parsear los mensajes de commits a URLs.</value>
+    <value>Se utiliza la biblioteca de expresiones regulares de C# para analizar la expresión regular proporcionada. Se admiten grupos de captura.
+
+El patrón es {0} para la coincidencia completa de la expresión regular. {1} captura cada grupo de captura.
+
+Se aplican las reglas estándar de formato de cadenas de C#: Para obtener {} en su enlace, debe escribir {{}}.</value>
   </data>
   <data name="Settings_Global_SiteFooterMessage" xml:space="preserve">
     <value>Mensaje del footer</value>
@@ -784,7 +788,7 @@
     <value>Auditar empujes</value>
 </data>
   <data name="Repository_AuditPushUserHint" xml:space="preserve">
-    <value>Registrar al usuario que empujó los commits al servidor</value>
+    <value>Registrar al usuario que empujó los commits al servidor.</value>
 </data>
   <data name="Repository_Blame_Title" xml:space="preserve">
     <value>Responsabilidad</value>

@@ -61,7 +61,7 @@ namespace Gibbon.Git.Server.App_Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Account with this username already exists..
+        ///   Looks up a localized string similar to Account with this username already exists!.
         /// </summary>
         public static string Account_Create_AccountAlreadyExists {
             get {
@@ -1179,7 +1179,7 @@ namespace Gibbon.Git.Server.App_Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Record user that pushed commits to the server.
+        ///   Looks up a localized string similar to Record user that pushed commits to the server..
         /// </summary>
         public static string Repository_AuditPushUserHint {
             get {
@@ -2286,7 +2286,7 @@ namespace Gibbon.Git.Server.App_Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If checkbox is checked, Administrators can push a new repository.
+        ///   Looks up a localized string similar to If checkbox is checked, Administrators can push a new repository..
         /// </summary>
         public static string Settings_Global_AllowPushToCreate_Hint {
             get {
