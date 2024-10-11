@@ -1,26 +1,26 @@
 ﻿using System.Globalization;
 using System.Threading.Tasks;
+
 using Gibbon.Git.Server.Configuration;
 
 using Microsoft.AspNetCore.Hosting;
 
 namespace Gibbon.Git.Server.Services;
 
-internal sealed class CultureService : ICultureService
+internal sealed class CultureService(ServerSettings serverSettings, IUserSettingsService userSettingsService, IWebHostEnvironment webHostEnvironment)
+    : ICultureService
 {
-    private readonly IServerSettingsService _serverSettingsService;
-    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly ServerSettings _serverSettings = serverSettings;
+    private readonly IUserSettingsService _userSettingsService = userSettingsService;
+    private readonly IWebHostEnvironment _webHostEnvironment = webHostEnvironment;
 
-    public CultureService(IServerSettingsService serverSettingsService, IWebHostEnvironment webHostEnvironment)
+    public async Task<CultureInfo> GetSelectedCultureInfo(Guid userId)
     {
-        _serverSettingsService = serverSettingsService;
-        _webHostEnvironment = webHostEnvironment;
-    }
+        var userSettings = userId != Guid.Empty ? await _userSettingsService.GetSettings(userId) : _userSettingsService.GetDefaultSettings();
 
-    public CultureInfo GetSelectedCultureInfo()
-    {
-        var settings = _serverSettingsService.GetSettings();
-        return new CultureInfo(settings.DefaultLanguage);
+        var language = userSettings.PreferredLanguage ?? _serverSettings.DefaultLanguage;
+
+        return new CultureInfo(language);
     }
 
     public async Task<List<CultureInfo>> GetSupportedCultures()
@@ -33,10 +33,5 @@ internal sealed class CultureService : ICultureService
             .Select(CultureInfo.GetCultureInfo)
             .OrderBy(i => i.Name)
             .ToList();
-    }
-
-    public CultureInfo GetCultureForUser(Guid userId)
-    {   
-        return GetSelectedCultureInfo();
     }
 }

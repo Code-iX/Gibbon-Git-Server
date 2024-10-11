@@ -965,4 +965,7 @@ Die regulären C# String-Formatierungsregeln gelten: Um {} in Ihrem Link zu erha
   <data name="ServerOverviewModel_ApplicationVersion" xml:space="preserve">
     <value>Applikationsversion</value>
   </data>
+  <data name="MeController_Settings_UseServerLanguage" xml:space="preserve">
+    <value>Serversprache nutzen</value>
+  </data>
 </root>

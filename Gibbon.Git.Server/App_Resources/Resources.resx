@@ -1048,4 +1048,7 @@ The regular C# string formatting rules apply: To get {} in your link you need to
   <data name="ServerOverviewModel_ApplicationVersion" xml:space="preserve">
 	  <value>Application Version</value>
   </data>
+  <data name="MeController_Settings_UseServerLanguage" xml:space="preserve">
+	  <value>Use server language</value>
+  </data>
 </root>
