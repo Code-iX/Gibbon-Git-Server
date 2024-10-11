@@ -80,10 +80,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         var currentUserIsInAdminList = model.PostedSelectedAdministrators != null && model.PostedSelectedAdministrators.Contains(User.Id());
         if (currentUserIsInAdminList || User.IsInRole(Definitions.Roles.Administrator))
         {
-            var existingRepo = _repositoryService.GetRepository(model.Id);
             var repoModel = ConvertRepositoryDetailModel(model);
-            // TODO We won't move the repo as side effect of renaming. this should be done in a separate action as it's a destructive operation
-            MoveRepo(existingRepo, repoModel);
             try
             {
                 _repositoryService.Update(repoModel);
@@ -91,7 +88,6 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
             catch (DbUpdateException ex)
             {
                 _logger.LogError(ex, "Failed to update repo {RepoName}", model.Name);
-                MoveRepo(repoModel, existingRepo);
                 ModelState.AddModelError("Administrators", Resources.Repository_Edit_CantRemoveYourself);
                 PopulateCheckboxListData(ref model);
                 return View(model);
@@ -109,6 +105,8 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         PopulateCheckboxListData(ref model);
         return RedirectToAction("Edit", new { model.Id });
     }
+
+    // TODO In a different Action we want to rename a repository and MoveRepo should be called there
 
     private void MoveRepo(RepositoryModel oldRepo, RepositoryModel newRepo)
     {

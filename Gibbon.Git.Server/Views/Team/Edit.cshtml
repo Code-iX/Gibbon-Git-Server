@@ -25,7 +25,7 @@
     <fieldset>
         <div class="pure-control-group">
             @Html.RequiredLabelFor(m => m.Name)
-            @Html.TextBoxFor(m => m.Name, new { @class = "textInput medium", autofocus = "" })
+            @Html.TextBoxFor(m => m.Name, new { @class = "textInput medium", autofocus = "", @readonly = "" })
             @Html.ValidationMessageFor(m => m.Name)
         </div>
         <div class="pure-control-group">
