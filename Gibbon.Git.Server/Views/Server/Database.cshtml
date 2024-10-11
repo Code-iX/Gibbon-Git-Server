@@ -15,5 +15,10 @@
             @Html.LabelFor(m => m.DatabaseSize)
             <span>@(Model.DatabaseSize / 1024) KB</span>
         </div>
+
+        <div class="pure-control-group">
+            <a href="@Url.Action("Download", new { id = ViewBag.ID })" class="pure-button pure-button-primary"><i class="fa fa-download"></i> @Resources.ServerDatabase_Download
+            </a>
+        </div>
     </fieldset>
 </div>

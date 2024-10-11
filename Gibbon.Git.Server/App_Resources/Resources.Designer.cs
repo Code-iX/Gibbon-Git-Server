@@ -2115,6 +2115,15 @@ namespace Gibbon.Git.Server.App_Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download Database.
+        /// </summary>
+        public static string ServerDatabase_Download {
+            get {
+                return ResourceManager.GetString("ServerDatabase_Download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File path.
         /// </summary>
         public static string ServerDatabaseModel_DatabasePath {

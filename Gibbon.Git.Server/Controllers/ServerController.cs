@@ -7,6 +7,8 @@ using Gibbon.Git.Server.Models;
 using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Services;
 
+using ICSharpCode.SharpZipLib.Zip;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -64,6 +66,45 @@ public class ServerController(IOptions<ApplicationSettings> options, IGitDownloa
         };
         return View(model);
     }
+
+    [Route("Server/Database/Download")]
+    public async Task<IActionResult> Download()
+    {
+        var databaseFilePath = _databaseHelperService.GetDatabaseInformation().Path;
+
+        var tempDatabasePath = Path.Combine(Path.GetTempPath(), Path.GetFileName(databaseFilePath));
+
+        System.IO.File.Copy(databaseFilePath, tempDatabasePath, true);
+
+        var zipFileName = Path.ChangeExtension(Path.GetFileName(databaseFilePath), ".zip");
+
+        using var memoryStream = new MemoryStream();
+        var zipOutputStream = new ZipOutputStream(memoryStream);
+        zipOutputStream.SetLevel(3);
+
+        var entry = new ZipEntry(Path.GetFileName(tempDatabasePath))
+        {
+            DateTime = DateTime.Now,
+            Size = new FileInfo(tempDatabasePath).Length
+        };
+        await zipOutputStream.PutNextEntryAsync(entry);
+
+        await using (var fs = System.IO.File.OpenRead(tempDatabasePath))
+        {
+            await fs.CopyToAsync(zipOutputStream);
+        }
+
+        zipOutputStream.CloseEntry();
+        zipOutputStream.IsStreamOwner = false;
+        zipOutputStream.Finish();
+
+        memoryStream.Position = 0;
+
+        System.IO.File.Delete(tempDatabasePath);
+
+        return File(memoryStream.ToArray(), "application/zip", zipFileName);
+    }
+
     [HttpGet]
     public async Task<IActionResult> Settings()
     {
