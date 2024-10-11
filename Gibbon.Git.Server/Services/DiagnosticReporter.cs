@@ -9,12 +9,12 @@ using Microsoft.Extensions.Options;
 
 namespace Gibbon.Git.Server.Services;
 
-public class DiagnosticReporter(IPathResolver pathResolver, IConfiguration configuration, IMembershipService membershipService, IOptions<ApplicationSettings> applicationOptions, IOptions<GitSettings> gitOptions, IServerSettingsService settingsService)
+public class DiagnosticReporter(IPathResolver pathResolver, IConfiguration configuration, IUserService userService, IOptions<ApplicationSettings> applicationOptions, IOptions<GitSettings> gitOptions, IServerSettingsService settingsService)
     : IDiagnosticReporter
 {
     private readonly IPathResolver _pathResolver = pathResolver;
     private readonly IConfiguration _configuration = configuration;
-    private readonly IMembershipService _membershipService = membershipService;
+    private readonly IUserService _userService = userService;
     private readonly IServerSettingsService _settingsService = settingsService;
     private readonly GitSettings _gitSettings = gitOptions.Value;
     private readonly StringBuilder _report = new();
@@ -141,7 +141,7 @@ public class DiagnosticReporter(IPathResolver pathResolver, IConfiguration confi
 
         if (AppSetting("MembershipService") == "Internal")
         {
-            SafelyReport("User count", () => _membershipService.GetAllUsers().Count);
+            SafelyReport("User count", () => _userService.GetAllUsers().Count);
         }
         else
         {

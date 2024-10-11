@@ -20,7 +20,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Gibbon.Git.Server.Controllers;
 
-public class RepositoryController(ILogger<RepositoryController> logger, ITeamService teamRepository, IRepositoryService repositoryService, IMembershipService membershipService, IRepositoryPermissionService repositoryPermissionService, IRepositorySynchronizer repositorySynchronizer, ServerSettings serverSettings, IPathResolver pathResolver, IRepositoryBrowserFactory repositoryBrowserFactory)
+public class RepositoryController(ILogger<RepositoryController> logger, ITeamService teamRepository, IRepositoryService repositoryService, IUserService userService, IRepositoryPermissionService repositoryPermissionService, IRepositorySynchronizer repositorySynchronizer, ServerSettings serverSettings, IPathResolver pathResolver, IRepositoryBrowserFactory repositoryBrowserFactory)
     : Controller
 {
     private readonly ServerSettings _serverSettings = serverSettings;
@@ -28,7 +28,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     private readonly ILogger<RepositoryController> _logger = logger;
     private readonly ITeamService _teamRepository = teamRepository;
     private readonly IRepositoryService _repositoryService = repositoryService;
-    private readonly IMembershipService _membershipService = membershipService;
+    private readonly IUserService _userService = userService;
     private readonly IRepositoryPermissionService _repositoryPermissionService = repositoryPermissionService;
     private readonly IRepositorySynchronizer _repositorySynchronizer = repositorySynchronizer;
     private readonly IRepositoryBrowserFactory _repositoryBrowserFactory = repositoryBrowserFactory;
@@ -135,7 +135,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
 
         var model = new RepositoryDetailModel
         {
-            Administrators = [_membershipService.GetUserModel(User.Id())],
+            Administrators = [_userService.GetUserModel(User.Id())],
         };
         PopulateCheckboxListData(ref model);
         return View(model);
@@ -644,12 +644,12 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     private void PopulateCheckboxListData(ref RepositoryDetailModel model)
     {
         model = model.Id != 0 ? ConvertRepositoryModel(_repositoryService.GetRepository(model.Id), User) : model;
-        model.AllAdministrators = _membershipService.GetAllUsers().ToArray();
-        model.AllUsers = _membershipService.GetAllUsers().ToArray();
+        model.AllAdministrators = _userService.GetAllUsers().ToArray();
+        model.AllUsers = _userService.GetAllUsers().ToArray();
         model.AllTeams = _teamRepository.GetAllTeams().ToArray();
         if (model.PostedSelectedUsers != null && model.PostedSelectedUsers.Any())
         {
-            model.Users = model.PostedSelectedUsers.Select(x => _membershipService.GetUserModel(x)).ToArray();
+            model.Users = model.PostedSelectedUsers.Select(x => _userService.GetUserModel(x)).ToArray();
         }
         if (model.PostedSelectedTeams != null && model.PostedSelectedTeams.Any())
         {
@@ -657,7 +657,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         }
         if (model.PostedSelectedAdministrators != null && model.PostedSelectedAdministrators.Any())
         {
-            model.Administrators = model.PostedSelectedAdministrators.Select(x => _membershipService.GetUserModel(x)).ToArray();
+            model.Administrators = model.PostedSelectedAdministrators.Select(x => _userService.GetUserModel(x)).ToArray();
         }
         model.PostedSelectedAdministrators = [];
         model.PostedSelectedUsers = [];
@@ -739,8 +739,8 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
             Name = model.Name,
             Group = model.Group,
             Description = model.Description,
-            Users = model.PostedSelectedUsers != null ? model.PostedSelectedUsers.Select(x => _membershipService.GetUserModel(x)).ToArray() : [],
-            Administrators = model.PostedSelectedAdministrators != null ? model.PostedSelectedAdministrators.Select(x => _membershipService.GetUserModel(x)).ToArray() : [],
+            Users = model.PostedSelectedUsers != null ? model.PostedSelectedUsers.Select(x => _userService.GetUserModel(x)).ToArray() : [],
+            Administrators = model.PostedSelectedAdministrators != null ? model.PostedSelectedAdministrators.Select(x => _userService.GetUserModel(x)).ToArray() : [],
             Teams = model.PostedSelectedTeams != null ? model.PostedSelectedTeams.Select(x => _teamRepository.GetTeam(x)).ToArray() : [],
             AnonymousAccess = model.AllowAnonymous,
             AuditPushUser = model.AuditPushUser,

@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Gibbon.Git.Server.Controllers;
 
-public class TeamController(IMembershipService membershipService, IRepositoryService repositoryService, ITeamService teamRepository)
+public class TeamController(IUserService userService, IRepositoryService repositoryService, ITeamService teamRepository)
     : Controller
 {
-    private readonly IMembershipService _membershipService = membershipService;
+    private readonly IUserService _userService = userService;
     private readonly IRepositoryService _repositoryService = repositoryService;
     private readonly ITeamService _teamRepository = teamRepository;
 
@@ -47,7 +47,7 @@ public class TeamController(IMembershipService membershipService, IRepositorySer
     {
         var model = new TeamEditModel
         {
-            AllUsers = _membershipService.GetAllUsers().ToArray(),
+            AllUsers = _userService.GetAllUsers().ToArray(),
             SelectedUsers = new UserModel[] { }
         };
         return View(model);
@@ -124,7 +124,7 @@ public class TeamController(IMembershipService membershipService, IRepositorySer
             Id = model.Id,
             Name = model.Name,
             Description = model.Description,
-            AllUsers = _membershipService.GetAllUsers().ToArray(),
+            AllUsers = _userService.GetAllUsers().ToArray(),
             SelectedUsers = model.Members.ToArray(),
         };
     }
@@ -148,7 +148,7 @@ public class TeamController(IMembershipService membershipService, IRepositorySer
             Id = model.Id,
             Name = model.Name,
             Description = model.Description,
-            Members = model.PostedSelectedUsers == null ? [] : model.PostedSelectedUsers.Select(x => _membershipService.GetUserModel(x)).ToArray(),
+            Members = model.PostedSelectedUsers == null ? [] : model.PostedSelectedUsers.Select(x => _userService.GetUserModel(x)).ToArray(),
         };
     }
 }

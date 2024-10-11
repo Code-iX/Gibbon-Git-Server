@@ -2,7 +2,7 @@
 
 namespace Gibbon.Git.Server.Security;
 
-public interface IMembershipService
+public interface IUserService
 {
     bool CreateUser(string username, string password, string givenName, string surname, string email);
     IList<UserModel> GetAllUsers();
