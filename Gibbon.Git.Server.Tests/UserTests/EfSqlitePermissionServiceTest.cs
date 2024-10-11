@@ -9,7 +9,7 @@ using Gibbon.Git.Server.Tests.TestHelper;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 
-namespace Gibbon.Git.Server.Tests.MembershipTests;
+namespace Gibbon.Git.Server.Tests.UserTests;
 
 [TestClass]
 public class EfSqlitePermissionServiceTest : DbTestBase<SqliteConnectionFactory>
@@ -23,7 +23,7 @@ public class EfSqlitePermissionServiceTest : DbTestBase<SqliteConnectionFactory>
     protected override void ConfigureServices(ServiceCollection services)
     {
         _roleProvider = services.AddSubstitute<IRoleProvider>();
-        services.AddSubstitute<IMembershipService>();
+        services.AddSubstitute<IUserService>();
         _teamsService = services.AddSubstitute<ITeamService>();
         _repositoryService = services.AddSubstitute<IRepositoryService>();
         _serverSettings = new ServerSettings();
@@ -134,7 +134,6 @@ public class EfSqlitePermissionServiceTest : DbTestBase<SqliteConnectionFactory>
     [TestMethod]
     [TestCategory(TestCategories.RepositoryPermission)]
     [Description("Verify that non-existent repository by Guid throws exception for permission check.")]
-    [Ignore]
     public void NonExistentRepositoryByGuidThrowsException()
     {
         var adminId = 1;
@@ -217,13 +216,14 @@ public class EfSqlitePermissionServiceTest : DbTestBase<SqliteConnectionFactory>
     [TestMethod]
     [TestCategory(TestCategories.RepositoryPermission)]
     [Description("Verify that team member is authorised for repository.")]
-    [Ignore]
     public void TeamMemberIsAuthorised()
     {
-        var userId = 1;
-        var repoId = 1;
+        const int userId = 1;
+        const int repoId = 1;
+
         var team = new TeamModel { Members = [new UserModel { Id = userId }] };
         var repositoryModel = new RepositoryModel { Id = repoId, Teams = [team] };
+        _teamsService.GetTeamsForUser(userId).Returns([team]);
         _repositoryService.GetRepository(repoId).Returns(repositoryModel);
 
         var hasPermission = _service.HasPermission(userId, repoId, RepositoryAccessLevel.Pull);
@@ -233,12 +233,13 @@ public class EfSqlitePermissionServiceTest : DbTestBase<SqliteConnectionFactory>
     [TestMethod]
     [TestCategory(TestCategories.RepositoryPermission)]
     [Description("Verify that system admin is always repository admin.")]
-    [Ignore]
     public void SystemAdminIsAlwaysRepositoryAdmin()
     {
-        var repoId = 1;
-        _roleProvider.GetRolesForUser(Arg.Any<int>()).Returns([Definitions.Roles.Administrator]);
-        var hasPermission = _service.HasPermission(1, repoId, RepositoryAccessLevel.Administer);
+        const int userId = 1;
+        const int repoId = 1;
+        _repositoryService.GetRepository(repoId).Returns(new RepositoryModel { Id = repoId });
+        _roleProvider.GetRolesForUser(userId).Returns([Definitions.Roles.Administrator]);
+        var hasPermission = _service.HasPermission(userId, repoId, RepositoryAccessLevel.Administer);
         Assert.IsTrue(hasPermission);
     }
 

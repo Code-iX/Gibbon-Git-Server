@@ -26,7 +26,7 @@ public class GitServiceExecutorTests
     private IPathResolver _pathResolver = null!;
     private ITeamService _teamService = null!;
     private IRoleProvider _roleProvider = null!;
-    private IMembershipService _membershipService = null!;
+    private IUserService _userService = null!;
     private GitServiceExecutor _executor = null!;
     private GitSettings _gitSettings = null!;
     private IProcessService _processService = null!;
@@ -37,7 +37,7 @@ public class GitServiceExecutorTests
         _pathResolver = Substitute.For<IPathResolver>();
         _teamService = Substitute.For<ITeamService>();
         _roleProvider = Substitute.For<IRoleProvider>();
-        _membershipService = Substitute.For<IMembershipService>();
+        _userService = Substitute.For<IUserService>();
         _processService = Substitute.For<IProcessService>();
 
         _gitSettings = new GitSettings
@@ -48,7 +48,7 @@ public class GitServiceExecutorTests
 
         var options = Options.Create(_gitSettings);
 
-        _executor = new GitServiceExecutor(options, _processService, _pathResolver, _teamService, _roleProvider, _membershipService);
+        _executor = new GitServiceExecutor(options, _processService, _pathResolver, _teamService, _roleProvider, _userService);
     }
 
     [TestMethod]
@@ -161,7 +161,7 @@ public class GitServiceExecutorTests
         // Assert
         _teamService.Received(1).GetTeamsForUser(userId);
         _roleProvider.Received(1).GetRolesForUser(userId);
-        _membershipService.Received(1).GetUserModel(userId);
+        _userService.Received(1).GetUserModel(userId);
 
         var expectedTeamsStr = new[] { teamName }.StringlistToEscapedStringForEnvVar();
         var expectedRolesStr = new[] { roleName }.StringlistToEscapedStringForEnvVar();
@@ -180,7 +180,7 @@ public class GitServiceExecutorTests
         ];
         _roleProvider.GetRolesForUser(userId).Returns(roleName);
         _teamService.GetTeamsForUser(userId).Returns(teams);
-        _membershipService.GetUserModel(userId).Returns(new UserModel
+        _userService.GetUserModel(userId).Returns(new UserModel
         {
             Id = userId,
             GivenName = "Test",
