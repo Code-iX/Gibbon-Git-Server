@@ -38,6 +38,7 @@ public class ServerControllerTests : ControllerTestBase<ServerController>
         _downloadService = services.AddSubstitute<IGitDownloadService>();
         _serverSettingsService = services.AddSubstitute<IServerSettingsService>();
         _cultureService = services.AddSubstitute<ICultureService>();
+        services.AddSubstitute<IDatabaseHelperService>();
     }
 
     [TestMethod]
