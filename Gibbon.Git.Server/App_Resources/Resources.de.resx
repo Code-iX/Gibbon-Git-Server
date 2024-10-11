@@ -583,7 +583,7 @@
     <value>"{0}" sollte kürzer als "{1}" Zeichen sein.</value>
   </data>
   <data name="Account_Create_AccountAlreadyExists" xml:space="preserve">
-    <value>Dieser Benutzername existiert bereits.</value>
+    <value>Dieser Benutzername existiert bereits!</value>
   </data>
   <data name="Account_Create_AccountInformation" xml:space="preserve">
     <value>Kontoinformationen</value>
@@ -643,7 +643,7 @@
     <value>Push zulassen, um Repositorys zu erstellen</value>
   </data>
   <data name="Settings_Global_AllowPushToCreate_Hint" xml:space="preserve">
-    <value>Administratoren können ein neues Repository pushen</value>
+    <value>Administratoren können ein neues Repository pushen.</value>
   </data>
   <data name="Delete_Back" xml:space="preserve">
     <value>Zurück</value>
@@ -933,7 +933,7 @@ Die regulären C# String-Formatierungsregeln gelten: Um {} in Ihrem Link zu erha
     <value>Repository klonen</value>
   </data>
   <data name="Repository_AuditPushUserHint" xml:space="preserve">
-    <value>Nutzer aufnehmen, die Commits an den Server pushen</value>
+    <value>Nutzer aufnehmen, die Commits an den Server pushen.</value>
   </data>
   <data name="Settings_Global_IsCommitAuthorAvatarVisible" xml:space="preserve">
     <value>Avatar des Commitautors anzeigen</value>

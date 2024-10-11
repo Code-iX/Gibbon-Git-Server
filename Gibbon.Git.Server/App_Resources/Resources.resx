@@ -616,7 +616,7 @@
     <value>"{0}" should be shorter than {1} characters.</value>
   </data>
   <data name="Account_Create_AccountAlreadyExists" xml:space="preserve">
-    <value>Account with this username already exists.</value>
+    <value>Account with this username already exists!</value>
   </data>
   <data name="Account_Create_AccountInformation" xml:space="preserve">
     <value>Account information</value>
@@ -680,7 +680,7 @@
     <value>Allow push to create repositories</value>
   </data>
   <data name="Settings_Global_AllowPushToCreate_Hint" xml:space="preserve">
-    <value>If checkbox is checked, Administrators can push a new repository</value>
+    <value>If checkbox is checked, Administrators can push a new repository.</value>
   </data>
   <data name="Delete_Back" xml:space="preserve">
     <value>Back</value>
@@ -764,7 +764,7 @@
     <value>Audit Pushes</value>
   </data>
   <data name="Repository_AuditPushUserHint" xml:space="preserve">
-    <value>Record user that pushed commits to the server</value>
+    <value>Record user that pushed commits to the server.</value>
   </data>
   <data name="Validation_FileName_Regex" xml:space="preserve">
     <value>Only characters, numbers, dots, minus and underscore are allowed for "{0}".</value>

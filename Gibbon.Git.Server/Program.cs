@@ -6,7 +6,6 @@ using Gibbon.Git.Server.Git.GitDownloadService;
 using Gibbon.Git.Server.Git.GitService;
 using Gibbon.Git.Server.Middleware;
 using Gibbon.Git.Server.Middleware.Attributes;
-using Gibbon.Git.Server.Middleware.Authorize;
 using Gibbon.Git.Server.Provider;
 using Gibbon.Git.Server.Repositories;
 using Gibbon.Git.Server.Security;
