@@ -191,7 +191,6 @@ public class RepositoryService(ILogger<RepositoryService> logger, GibbonGitServe
         var repo = Get(model.Id);
         if (repo != null)
         {
-            repo.Name = model.Name;
             repo.Group = model.Group;
             repo.Description = model.Description;
             repo.Anonymous = model.AnonymousAccess;

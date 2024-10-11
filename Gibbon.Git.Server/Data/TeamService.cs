@@ -112,13 +112,15 @@ public class TeamService(GibbonGitServerContext context) : ITeamService
         ArgumentNullException.ThrowIfNull(model, nameof(model));
         ArgumentNullException.ThrowIfNull(model.Name, nameof(model.Name));
 
-        var team = _context.Teams.Include(t => t.Users).FirstOrDefault(i => i.Id == model.Id);
+        var team = _context.Teams
+            .Include(t => t.Users)
+            .FirstOrDefault(i => i.Id == model.Id);
+
         if (team == null)
         {
             return;
         }
 
-        team.Name = model.Name;
         team.Description = model.Description;
 
         var existingUserIds = team.Users.Select(u => u.Id).ToList();

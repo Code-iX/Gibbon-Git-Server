@@ -148,7 +148,7 @@ public class TeamController(IMembershipService membershipService, IRepositorySer
             Id = model.Id,
             Name = model.Name,
             Description = model.Description,
-            Members = model.PostedSelectedUsers == null ? Array.Empty<UserModel>() : model.PostedSelectedUsers.Select(x => _membershipService.GetUserModel(x)).ToArray(),
+            Members = model.PostedSelectedUsers == null ? [] : model.PostedSelectedUsers.Select(x => _membershipService.GetUserModel(x)).ToArray(),
         };
     }
 }

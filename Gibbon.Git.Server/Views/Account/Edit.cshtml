@@ -28,7 +28,7 @@ else
         <fieldset>
             <div class="pure-control-group">
                 @Html.RequiredLabelFor(m => m.Username)
-                @Html.TextBoxFor(m => m.Username)
+                @Html.TextBoxFor(m => m.Username, Attributes("readonly"))
                 @Html.ValidationMessageFor(m => m.Username)
             </div>
             <div class="pure-control-group">
