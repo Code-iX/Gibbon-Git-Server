@@ -12,6 +12,9 @@ public class ServerSettingsConfiguration : IEntityTypeConfiguration<ServerSettin
 
         builder.HasKey(s => s.Id);
 
+        builder.Property(s => s.Id)
+            .ValueGeneratedOnAdd();
+
         builder.Property(s => s.AllowAnonymousPush)
             .IsRequired();
 

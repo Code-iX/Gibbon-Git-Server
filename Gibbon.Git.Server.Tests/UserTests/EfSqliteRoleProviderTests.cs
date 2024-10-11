@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Linq;
-
 using Gibbon.Git.Server.Data.Entities;
 using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Tests.TestHelper;
-
 using Microsoft.Extensions.DependencyInjection;
-
 using NSubstitute;
 
-namespace Gibbon.Git.Server.Tests.MembershipTests;
+namespace Gibbon.Git.Server.Tests.UserTests;
 
 [TestClass]
 public class EfSqliteRoleProviderTests : DbTestBase<SqliteConnectionFactory>
@@ -18,7 +15,7 @@ public class EfSqliteRoleProviderTests : DbTestBase<SqliteConnectionFactory>
 
     protected override void ConfigureServices(ServiceCollection services)
     {
-        var membershipService = Substitute.For<IMembershipService>();
+        var membershipService = Substitute.For<IUserService>();
         services.AddSingleton(membershipService);
         services.AddSingleton<IRoleProvider, RoleProvider>();
     }
@@ -50,7 +47,7 @@ public class EfSqliteRoleProviderTests : DbTestBase<SqliteConnectionFactory>
     [Description("When adding a Role to a non-existent user, we'll get an exception.")]
     public void TestAddingNonExistentUserToRoleIsSilentlyIgnored()
     {
-        Assert.ThrowsException<InvalidOperationException>(() => _roleProvider.AddRolesToUser(Guid.NewGuid(), ["Administrator"]));
+        Assert.ThrowsException<InvalidOperationException>(() => _roleProvider.AddRolesToUser(17, ["Administrator"]));
     }
 
     [TestMethod]
@@ -90,7 +87,6 @@ public class EfSqliteRoleProviderTests : DbTestBase<SqliteConnectionFactory>
     [TestMethod]
     [TestCategory(TestCategories.Roles)]
     [Description("Verify that adding a user to multiple roles is successful.")]
-    [Ignore]
     public void TestAddingUserToMultipleRoles()
     {
         _roleProvider.CreateRole("Programmer");
@@ -143,11 +139,11 @@ public class EfSqliteRoleProviderTests : DbTestBase<SqliteConnectionFactory>
         CollectionAssert.AreEqual(new[] { "Administrator" }, roles);
     }
 
-    private Guid AddUserFred()
+    private int AddUserFred()
     {
         var user = new User
         {
-            Id = Guid.NewGuid(),
+            
             Username = "fred",
             Password = "letmein",
             GivenName = "Fred",
@@ -159,7 +155,7 @@ public class EfSqliteRoleProviderTests : DbTestBase<SqliteConnectionFactory>
         return user.Id;
     }
 
-    private Guid GetAdminId()
+    private int GetAdminId()
     {
         return DbContext.Users.Single(u => u.Username == "admin").Id;
     }

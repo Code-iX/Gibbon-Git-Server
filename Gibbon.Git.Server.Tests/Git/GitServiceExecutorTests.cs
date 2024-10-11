@@ -26,7 +26,7 @@ public class GitServiceExecutorTests
     private IPathResolver _pathResolver = null!;
     private ITeamService _teamService = null!;
     private IRoleProvider _roleProvider = null!;
-    private IMembershipService _membershipService = null!;
+    private IUserService _userService = null!;
     private GitServiceExecutor _executor = null!;
     private GitSettings _gitSettings = null!;
     private IProcessService _processService = null!;
@@ -37,7 +37,7 @@ public class GitServiceExecutorTests
         _pathResolver = Substitute.For<IPathResolver>();
         _teamService = Substitute.For<ITeamService>();
         _roleProvider = Substitute.For<IRoleProvider>();
-        _membershipService = Substitute.For<IMembershipService>();
+        _userService = Substitute.For<IUserService>();
         _processService = Substitute.For<IProcessService>();
 
         _gitSettings = new GitSettings
@@ -48,7 +48,7 @@ public class GitServiceExecutorTests
 
         var options = Options.Create(_gitSettings);
 
-        _executor = new GitServiceExecutor(options, _processService, _pathResolver, _teamService, _roleProvider, _membershipService);
+        _executor = new GitServiceExecutor(options, _processService, _pathResolver, _teamService, _roleProvider, _userService);
     }
 
     [TestMethod]
@@ -63,7 +63,7 @@ public class GitServiceExecutorTests
         var outStream = new MemoryStream();
         var userName = "testUser";
         var options = new ExecutionOptions(true, true);
-        var userId = Guid.NewGuid();
+        var userId = 1;
 
         SetupInfo("TeamA", userId, userName);
         _pathResolver.Resolve(Arg.Any<string>(), Arg.Any<string>()).Returns("/fakeGitPath");
@@ -97,7 +97,7 @@ public class GitServiceExecutorTests
         var outStream = new MemoryStream();
         var userName = "testUser";
         var options = new ExecutionOptions(advertiseRefs, endStreamWithClose);
-        var userId = Guid.NewGuid();
+        var userId = 1;
 
         SetupInfo("TeamA", userId, userName);
         _pathResolver.Resolve(Arg.Any<string>(), Arg.Any<string>()).Returns("/fakeGitPath");
@@ -124,7 +124,7 @@ public class GitServiceExecutorTests
         var outStream = new MemoryStream();
         var userName = "testUser";
         var options = new ExecutionOptions(true, endStreamWithClose);
-        var userId = Guid.NewGuid();
+        var userId = 1;
 
         SetupInfo("TeamA", userId, userName);
         _pathResolver.Resolve(Arg.Any<string>(), Arg.Any<string>()).Returns("/fakeGitPath");
@@ -149,7 +149,7 @@ public class GitServiceExecutorTests
         var outStream = new MemoryStream();
         var userName = "testUser";
         var options = new ExecutionOptions(true, true);
-        var userId = Guid.NewGuid();
+        var userId = 1;
 
         SetupInfo(teamName, userId, userName, roleName);
         _pathResolver.Resolve(Arg.Any<string>(), Arg.Any<string>()).Returns("/fakeGitPath");
@@ -161,7 +161,7 @@ public class GitServiceExecutorTests
         // Assert
         _teamService.Received(1).GetTeamsForUser(userId);
         _roleProvider.Received(1).GetRolesForUser(userId);
-        _membershipService.Received(1).GetUserModel(userId);
+        _userService.Received(1).GetUserModel(userId);
 
         var expectedTeamsStr = new[] { teamName }.StringlistToEscapedStringForEnvVar();
         var expectedRolesStr = new[] { roleName }.StringlistToEscapedStringForEnvVar();
@@ -173,14 +173,14 @@ public class GitServiceExecutorTests
         ), inStream, outStream, options.EndStreamWithClose);
     }
 
-    private void SetupInfo(string teamName, Guid userId, string userName, params string[] roleName)
+    private void SetupInfo(string teamName, int userId, string userName, params string[] roleName)
     {
         List<TeamModel> teams = [
             new() { Name = teamName }
         ];
         _roleProvider.GetRolesForUser(userId).Returns(roleName);
         _teamService.GetTeamsForUser(userId).Returns(teams);
-        _membershipService.GetUserModel(userId).Returns(new UserModel
+        _userService.GetUserModel(userId).Returns(new UserModel
         {
             Id = userId,
             GivenName = "Test",

@@ -11,6 +11,7 @@ public class GibbonGitServerContext(DbContextOptions<GibbonGitServerContext> opt
     public DbSet<Team> Teams { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<ServerSettingsEntity> ServerSettings { get; set; }
+    public DbSet<UserSettingsEntity> UserSettings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -6,7 +6,7 @@ using Repository = LibGit2Sharp.Repository;
 
 namespace Gibbon.Git.Server.Git.GitService.ReceivePackHook.Hooks;
 
-public class AuditPusherToGitNotes(IHookReceivePack hookReceivePack, IPathResolver pathResolver, IRepositoryService repositoryService, IMembershipService membershipService)
+public class AuditPusherToGitNotes(IHookReceivePack hookReceivePack, IPathResolver pathResolver, IRepositoryService repositoryService, IUserService userService)
     : IHookReceivePack
 {
     public const string EmptyUserName = "anonymous";
@@ -14,7 +14,7 @@ public class AuditPusherToGitNotes(IHookReceivePack hookReceivePack, IPathResolv
     private readonly IPathResolver _pathResolver = pathResolver;
     private readonly IHookReceivePack _hookReceivePack = hookReceivePack;
     private readonly IRepositoryService _repositoryService = repositoryService;
-    private readonly IMembershipService _membershipService = membershipService;
+    private readonly IUserService _userService = userService;
 
     public void PrePackReceive(ParsedReceivePack receivePack)
     {
@@ -44,7 +44,7 @@ public class AuditPusherToGitNotes(IHookReceivePack hookReceivePack, IPathResolv
         }
         else
         {
-            var userData = _membershipService.GetUserModel(user);
+            var userData = _userService.GetUserModel(user);
             if (userData != null)
             {
                 email = userData.Email;

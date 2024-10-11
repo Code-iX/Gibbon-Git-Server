@@ -13,10 +13,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace Gibbon.Git.Server.Controllers;
 
 [WebAuthorize]
-public class MeController(IMembershipService membershipService, IRoleProvider roleProvider, ICultureService cultureService, IUserSettingsService userSettingsService)
+public class MeController(IUserService userService, IRoleProvider roleProvider, ICultureService cultureService, IUserSettingsService userSettingsService)
     : Controller
 {
-    private readonly IMembershipService _membershipService = membershipService;
+    private readonly IUserService _userService = userService;
     private readonly IRoleProvider _roleProvider = roleProvider;
     private readonly ICultureService _cultureService = cultureService;
     private readonly IUserSettingsService _userSettingsService = userSettingsService;
@@ -30,9 +30,8 @@ public class MeController(IMembershipService membershipService, IRoleProvider ro
             return NotFound();
         }
 
-        var model = new UserDetailModel
+        var model = new MeDetailModel
         {
-            Id = user.Id,
             Username = user.Username,
             Name = user.GivenName,
             Surname = user.Surname,
@@ -47,25 +46,44 @@ public class MeController(IMembershipService membershipService, IRoleProvider ro
     {
         var username = User.Identity.Name;
 
-        var user = _membershipService.GetUserModel(username);
+        var user = _userService.GetUserModel(username);
 
         if (user == null)
         {
             return NotFound();
         }
 
-        var model = new UserEditModel
+        var model = new MeEditModel
         {
-            Id = user.Id,
             Username = user.Username,
             Name = user.GivenName,
             Surname = user.Surname,
             Email = user.Email,
-            Roles = _roleProvider.GetAllRoles(),
-            SelectedRoles = _roleProvider.GetRolesForUser(user.Id)
         };
 
         return View(model);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(MeEditModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        var user = GetCurrentUser();
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        _userService.UpdateUser(user.Id, model.Name, model.Surname, model.Email);
+
+        TempData["EditSuccess"] = true;
+        return RedirectToAction("Edit");
     }
 
     [HttpGet]
@@ -73,21 +91,21 @@ public class MeController(IMembershipService membershipService, IRoleProvider ro
     {
         var username = User.Identity.Name;
 
-        var user = _membershipService.GetUserModel(username);
+        var user = _userService.GetUserModel(username);
 
         if (user == null)
         {
             return NotFound();
         }
 
-        var model = new UserPasswordModel();
+        var model = new MePasswordModel();
 
         return View(model);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Password(UserPasswordModel model)
+    public IActionResult Password(MePasswordModel model)
     {
         if (!ModelState.IsValid)
         {
@@ -96,20 +114,20 @@ public class MeController(IMembershipService membershipService, IRoleProvider ro
 
         if (string.Equals(model.OldPassword, model.NewPassword, StringComparison.Ordinal))
         {
-            ModelState.AddModelError(nameof(model.NewPassword), "Password must not be the same.");
+            ModelState.AddModelError(nameof(model.NewPassword), Resources.MeController_Password_MustBeDifferent);
             return View(model);
         }
 
         var username = User.Identity.Name;
 
-        if (!_membershipService.IsPasswordValid(username, model.OldPassword))
+        if (!_userService.IsPasswordValid(username, model.OldPassword))
         {
             ModelState.AddModelError(nameof(model.OldPassword), Resources.Account_Edit_OldPasswordIncorrect);
             return View(model);
         }
 
         var userId = User.Id();
-        _membershipService.UpdatePassword(userId, model.NewPassword);
+        _userService.UpdatePassword(userId, model.NewPassword);
         
         TempData["PasswordChangeSuccess"] = true;
         return RedirectToAction("Password");
@@ -128,33 +146,54 @@ public class MeController(IMembershipService membershipService, IRoleProvider ro
             })
             .ToList();
 
+        cultureItems.Insert(0, new SelectListItem
+        {
+            Text = Resources.MeController_Settings_UseServerLanguage,
+            Value = ""
+        });
+
         var user = GetCurrentUser();
 
-        var settings = "en";
+        var settings = await _userSettingsService.GetSettings(user.Id);
 
-        return View(new UserSettingsModel
+        return View(new MeSettingsModel
         {
-            DefaultLanguage = settings,
+            PreferredLanguage = settings.PreferredLanguage,
             AvailableLanguages = cultureItems
         });
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Settings(UserSettingsModel settings)
+    public async Task<IActionResult> Settings(MeSettingsModel settings)
     {
         if (!ModelState.IsValid)
         {
+            var cultures = await _cultureService.GetSupportedCultures();
+            settings.AvailableLanguages = cultures
+                .Select(cultureInfo => new SelectListItem
+                {
+                    Text = $"{cultureInfo.Name} - {cultureInfo.DisplayName}",
+                    Value = cultureInfo.Name
+                })
+                .ToList();
+
             return View(settings);
         }
 
         var user = GetCurrentUser();
+
+        await _userSettingsService.SaveSettings(user.Id, new UserSettings
+        {
+            PreferredLanguage = settings.PreferredLanguage
+        });
+
         return RedirectToAction("Settings");
     }
 
     private UserModel GetCurrentUser()
     {
         var username = User.Identity.Name;
-        return _membershipService.GetUserModel(username);
+        return _userService.GetUserModel(username);
     }
 }

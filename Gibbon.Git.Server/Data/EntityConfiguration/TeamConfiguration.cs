@@ -1,4 +1,5 @@
 using Gibbon.Git.Server.Data.Entities;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,8 +13,9 @@ public class TeamConfiguration : IEntityTypeConfiguration<Team>
 
         builder.HasKey(t => t.Id);
 
-        builder.Property(t => t.Id).
-            HasColumnName("Id");
+        builder.Property(t => t.Id)
+            .HasColumnName("Id")
+            .ValueGeneratedOnAdd();
 
         builder.Property(t => t.Name)
             .HasColumnName("Name")

@@ -18,7 +18,7 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         // Arrange
         var user = new User
         {
-            Id = Guid.NewGuid(),
+            
             GivenName = "Test",
             Surname = "User",
             Username = "testuser",
@@ -48,7 +48,7 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         // Arrange: User ohne Required-Felder
         var user = new User
         {
-            Id = Guid.NewGuid(),
+            
             // Keine GivenName, Surname, Username, Password, Email gesetzt
         };
 
@@ -63,7 +63,7 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         // Arrange: Zwei Benutzer mit dem gleichen Username
         var user1 = new User
         {
-            Id = Guid.NewGuid(),
+            
             GivenName = "Test1",
             Surname = "User1",
             Username = "duplicateUser",
@@ -74,7 +74,7 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
 
         var user2 = new User
         {
-            Id = Guid.NewGuid(),
+            
             GivenName = "Test2",
             Surname = "User2",
             Username = "duplicateUser", // Gleicher Username
@@ -98,7 +98,7 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         // Arrange
         var user = new User
         {
-            Id = Guid.NewGuid(),
+            
             GivenName = "OldName",
             Surname = "OldSurname",
             Username = "testuser",
@@ -129,7 +129,7 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         // Arrange
         var user = new User
         {
-            Id = Guid.NewGuid(),
+            
             GivenName = "Test",
             Surname = "User",
             Username = "deleteuser",
@@ -154,7 +154,7 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
     public void HasData_SeedUserExists()
     {
         // Arrange: Id des Seed-Users
-        var seedUserId = Guid.Parse("3eb9995e-99e3-425a-b978-1409bdd61fb6");
+        var seedUserId = 1;
 
         // Act: Hole den Seed-Benutzer
         var seedUser = Context.Users.FirstOrDefault(u => u.Id == seedUserId);
@@ -169,8 +169,8 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
     [TestMethod]
     public void CanAssignUserToTeam()
     {
-        var user = new User { Id = Guid.NewGuid(), Username = "testuser", GivenName = "Test", Surname = "User", Email = "test@example.com", Password = "password", PasswordSalt = "salt" };
-        var team = new Team { Id = Guid.NewGuid(), Name = "Dev Team" };
+        var user = new User {  Username = "testuser", GivenName = "Test", Surname = "User", Email = "test@example.com", Password = "password", PasswordSalt = "salt" };
+        var team = new Team {  Name = "Dev Team" };
         user.Teams.Add(team);
 
         Context.Users.Add(user);
@@ -186,7 +186,7 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         // Arrange
         var user = new User
         {
-            Id = Guid.NewGuid(),
+            
             GivenName = "Complex",
             Surname = "User",
             Username = "complexuser",
@@ -195,10 +195,10 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
             Email = "complex@example.com"
         };
 
-        var role1 = new Role { Id = Guid.NewGuid(), Name = "Admin" };
-        var role2 = new Role { Id = Guid.NewGuid(), Name = "Developer" };
-        var team1 = new Team { Id = Guid.NewGuid(), Name = "Dev Team" };
-        var team2 = new Team { Id = Guid.NewGuid(), Name = "Ops Team" };
+        var role1 = new Role {  Name = "Admin" };
+        var role2 = new Role {  Name = "Developer" };
+        var team1 = new Team {  Name = "Dev Team" };
+        var team2 = new Team {  Name = "Ops Team" };
 
         user.Roles.Add(role1);
         user.Roles.Add(role2);
@@ -231,7 +231,7 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
 
         var user1 = new User
         {
-            Id = Guid.NewGuid(),
+            
             GivenName = "Transaction",
             Surname = "User1",
             Username = "transactionuser1",
@@ -242,7 +242,7 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
 
         var user2 = new User
         {
-            Id = Guid.NewGuid(),
+            
             GivenName = "Transaction",
             Surname = "User2",
             Username = "transactionuser2",
@@ -279,7 +279,7 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         // 1. User erstellen und speichern
         var user = new User
         {
-            Id = Guid.NewGuid(),
+            
             GivenName = "Lifecycle",
             Surname = "Test",
             Username = "lifecycleuser",

@@ -37,7 +37,6 @@ public sealed class RepositorySynchronizer(IRepositoryService repositoryService,
 
         repository = new RepositoryModel
         {
-            Id = Guid.NewGuid(),
             Description = "Discovered in file system.",
             Name = name,
             AnonymousAccess = false

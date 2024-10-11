@@ -267,9 +267,6 @@
   <data name="Home_About_Thanks" xml:space="preserve">
     <value>¡Gracias!</value>
   </data>
-  <data name="Home_About_Thanks_p" xml:space="preserve">
-    <value>Bonobo Git Server utiliza algunos proyectos de código abierto y freeware. Muchas gracias a todos los autores y colaboradores por su gran trabajo.</value>
-  </data>
   <data name="Home_About_Title" xml:space="preserve">
     <value>Accerca de</value>
   </data>

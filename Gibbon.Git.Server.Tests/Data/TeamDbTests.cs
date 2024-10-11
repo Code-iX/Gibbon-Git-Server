@@ -18,7 +18,7 @@ public abstract class TeamDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         // Arrange
         var team = new Team
         {
-            Id = Guid.NewGuid(),
+            
             Name = "Development Team",
             Description = "Team for development tasks"
         };
@@ -40,14 +40,14 @@ public abstract class TeamDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         // Arrange
         var team1 = new Team
         {
-            Id = Guid.NewGuid(),
+            
             Name = "DuplicateTeam",
             Description = "First team with duplicate name"
         };
 
         var team2 = new Team
         {
-            Id = Guid.NewGuid(),
+            
             Name = "DuplicateTeam", // Gleicher Name
             Description = "Second team with duplicate name"
         };
@@ -67,7 +67,7 @@ public abstract class TeamDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         // Arrange
         var team = new Team
         {
-            Id = Guid.NewGuid(),
+            
             Name = "OldTeamName",
             Description = "Old team description"
         };
@@ -93,7 +93,7 @@ public abstract class TeamDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         // Arrange
         var team = new Team
         {
-            Id = Guid.NewGuid(),
+            
             Name = "TeamToDelete",
             Description = "This team will be deleted"
         };
@@ -116,14 +116,14 @@ public abstract class TeamDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         // Arrange
         var team = new Team
         {
-            Id = Guid.NewGuid(),
+            
             Name = "TestTeam",
             Description = "A team to assign users"
         };
 
         var user = new User
         {
-            Id = Guid.NewGuid(),
+            
             GivenName = "Test",
             Surname = "User",
             Username = "testuser",

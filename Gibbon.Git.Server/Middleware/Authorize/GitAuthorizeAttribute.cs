@@ -19,7 +19,7 @@ public class GitAuthorizeAttribute : Attribute, IAuthorizationFilter
 
         var httpContext = context.HttpContext;
         var repositoryPermissionService = context.HttpContext.RequestServices.GetRequiredService<IRepositoryPermissionService>();
-        var membershipService = context.HttpContext.RequestServices.GetRequiredService<IMembershipService>();
+        var membershipService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
         var authenticationProvider = context.HttpContext.RequestServices.GetRequiredService<IAuthenticationProvider>();
         var repositoryRepository = context.HttpContext.RequestServices.GetRequiredService<IRepositoryService>();
         var pathResolver = context.HttpContext.RequestServices.GetRequiredService<IPathResolver>();
@@ -53,7 +53,7 @@ public class GitAuthorizeAttribute : Attribute, IAuthorizationFilter
         }
     }
 
-    private bool IsUserAuthorized(string authHeader, HttpContext httpContext, IMembershipService membershipService, IAuthenticationProvider authenticationProvider)
+    private bool IsUserAuthorized(string authHeader, HttpContext httpContext, IUserService userService, IAuthenticationProvider authenticationProvider)
     {
         var encodedDataAsBytes = Convert.FromBase64String(authHeader.Replace("Basic ", string.Empty));
         var value = Encoding.ASCII.GetString(encodedDataAsBytes);
@@ -66,7 +66,7 @@ public class GitAuthorizeAttribute : Attribute, IAuthorizationFilter
         var username = credentials[0];
         var password = credentials[1];
 
-        if (!membershipService.IsPasswordValid(username, password))
+        if (!userService.IsPasswordValid(username, password))
         {
             return false;
         }

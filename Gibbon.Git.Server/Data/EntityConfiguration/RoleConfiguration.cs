@@ -12,6 +12,10 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.ToTable("Role");
 
         builder.HasKey(t => t.Id);
+        
+        builder.Property(t => t.Id)
+            .HasColumnName("Id")
+            .ValueGeneratedOnAdd();
 
         builder.Property(t => t.Name)  
             .HasColumnName("Name")
@@ -25,9 +29,6 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.Property(t => t.Description)
             .HasMaxLength(255);
 
-        builder.Property(t => t.Id)
-            .HasColumnName("Id");
-
         builder.Property(t => t.Description)
             .HasColumnName("Description");
 
@@ -40,13 +41,13 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             )
             .HasData(new
             {
-                User_Id = Guid.Parse("3eb9995e-99e3-425a-b978-1409bdd61fb6"),
-                Role_Id = Guid.Parse("a3139d2b-5a59-427f-bb2d-af251dce00e4")
+                User_Id = 1,
+                Role_Id = 1
             });
 
         builder.HasData(new Role
         {
-            Id = Guid.Parse("a3139d2b-5a59-427f-bb2d-af251dce00e4"),
+            Id = 1,
             Name = "Administrator",
             Description = "System administrator"
         });

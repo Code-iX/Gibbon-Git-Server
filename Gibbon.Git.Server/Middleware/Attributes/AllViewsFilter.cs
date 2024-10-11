@@ -28,7 +28,7 @@ public class AllViewsFilter(IRepositoryPermissionService repoPermissions, IUrlHe
     {
     }
 
-    private List<SelectListItem> PopulateRepoGoToList(Guid userId, ActionExecutingContext context)
+    private List<SelectListItem> PopulateRepoGoToList(int userId, ActionExecutingContext context)
     {
         var pullList = _repoPermissions.GetAllPermittedRepositories(userId, RepositoryAccessLevel.Pull);
         var adminList = _repoPermissions.GetAllPermittedRepositories(userId, RepositoryAccessLevel.Administer);

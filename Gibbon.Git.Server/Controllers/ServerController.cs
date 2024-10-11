@@ -101,6 +101,15 @@ public class ServerController(IOptions<ApplicationSettings> options, IGitDownloa
 
         if (!ModelState.IsValid)
         {
+            var supportedCultures = await _cultureService.GetSupportedCultures();
+
+            model.AvailableLanguages = supportedCultures
+                .Select(cultureInfo => new SelectListItem
+                {
+                    Text = $"{cultureInfo.DisplayName} ({cultureInfo.Name})",
+                    Value = cultureInfo.Name
+                })
+                .ToList();
             return View(model);
         }
 

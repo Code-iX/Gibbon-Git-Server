@@ -57,7 +57,7 @@ services.AddSingleton<IGitVersionService, GitVersionService>();
 
 services.AddScoped<IPasswordService, PasswordService>();
 services.AddScoped<ICultureService, CultureService>();
-services.AddScoped<IMembershipService, MembershipService>();
+services.AddScoped<IUserService, UserService>();
 services.AddScoped<IRoleProvider, RoleProvider>();
 services.AddScoped<IAuthenticationProvider, CookieAuthenticationProvider>();
 services.AddScoped<ITeamService, TeamService>();
@@ -143,7 +143,6 @@ var app = builder.Build();
 
 //app.UseCertificateForKestrel();
 
-app.UseMiddleware<CultureMiddleware>();
 app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
 app.UseExceptionHandler("/Home/Error");
 
@@ -173,6 +172,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapRoutes();
+app.UseMiddleware<CultureMiddleware>();
 
 await app.RunAsync();
 

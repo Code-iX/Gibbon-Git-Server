@@ -2,7 +2,6 @@
 
 public class UserSettingsEntity
 {
-    public int Id { get; set; }
     public int UserId { get; set; }
     public string PreferredLanguage { get; set; }
     public ThemeMode PreferredThemeMode { get; set; }

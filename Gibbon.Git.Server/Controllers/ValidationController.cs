@@ -8,30 +8,30 @@ using Microsoft.AspNetCore.OutputCaching;
 namespace Gibbon.Git.Server.Controllers;
 
 [OutputCache(NoStore = true)]
-public class ValidationController(IRepositoryService repoRepo, IMembershipService membershipService, ITeamService teamRepo)
+public class ValidationController(IRepositoryService repoRepo, IUserService userService, ITeamService teamRepo)
     : Controller
 {
     public IRepositoryService RepoRepo { get; set; } = repoRepo;
 
-    public IMembershipService MembershipService { get; set; } = membershipService;
+    public IUserService UserService { get; set; } = userService;
 
     public ITeamService TeamRepo { get; set; } = teamRepo;
 
     [AcceptVerbs("GET", "POST")]
-    public IActionResult UniqueNameRepo(string name, Guid? id)
+    public IActionResult UniqueNameRepo(string name, int? id)
     {
-        var isUnique = RepoRepo.NameIsUnique(name, id ?? Guid.Empty);
+        var isUnique = RepoRepo.NameIsUnique(name, id ?? 0);
         return Json(isUnique);
     }
 
-    public IActionResult UniqueNameUser(string username, Guid? id)
+    public IActionResult UniqueNameUser(string username, int? id)
     {
-        var possiblyExistentUser = MembershipService.GetUserModel(username);
+        var possiblyExistentUser = UserService.GetUserModel(username);
         var exists = (possiblyExistentUser != null) && (id != possiblyExistentUser.Id);
         return Json(!exists);
     }
 
-    public IActionResult UniqueNameTeam(string name, Guid? id)
+    public IActionResult UniqueNameTeam(string name, int? id)
     {
         var result = TeamRepo.IsTeamNameUnique(name, id);
         return Json(result);

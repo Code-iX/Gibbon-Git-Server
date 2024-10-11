@@ -24,12 +24,13 @@ else
             <div class="pure-control-group">
                 @Html.LabelFor(m => m.Members)
                 <span>
-                    @for (var i = 0; i < Model.Members.Length; i++)
+                    @foreach (var member in Model.Members)
                     {
-                        @Html.ActionLink(Model.Members[i].DisplayName, "Detail", "Account", new { id = Model.Members[i].Id }, new { title = Model.Members[i].Username })
-                        if (i + 1 != Model.Members.Length)
+                        @Html.ActionLink(member.DisplayName, "Detail", "Account", new { id = member.Id }, new { title = member.Username })
+                        if (member != Model.Members.Last())
                         {
                             <text>, </text>
+                             
                         }
                     }
                 </span>
@@ -37,12 +38,13 @@ else
             <div class="pure-control-group">
                 @Html.LabelFor(m => m.Repositories)
                 <span>
-                    @for (var i = 0; i < Model.Repositories.Length; i++)
+                    @foreach (var repository in Model.Repositories)
                     {
-                        @Html.ActionLink(Model.Repositories[i].Name, "Detail", "Repository", new { id = Model.Repositories[i].Id }, null)
-                        if (i + 1 != Model.Repositories.Length)
+                        @Html.ActionLink(repository.Name, "Detail", "Repository", new { id = repository.Id }, null)
+                        if (repository != Model.Repositories.Last())
                         {
                             <text>, </text>
+                             
                         }
                     }
                 </span>

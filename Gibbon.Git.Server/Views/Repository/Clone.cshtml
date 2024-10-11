@@ -35,7 +35,7 @@
                 @foreach (var user in Model.AllUsers)
                 {
                     <div>
-                        <input type="checkbox" name="PostedSelectedUsers" value="@user.Id" @(Model.Users.Any(u => u.Id == user.Id) ? "checked" : "") />
+                        <input type="checkbox" name="PostedSelectedUsers" value="@user.Id" checked="@Model.Users.Any(u => u.Id == user.Id)" />
                         <label>@user.DisplayName</label>
                     </div>
                 }
@@ -49,7 +49,7 @@
                 @foreach (var admin in Model.AllAdministrators)
                 {
                     <div>
-                        <input type="checkbox" name="PostedSelectedAdministrators" value="@admin.Id" @(Model.Administrators.Any(a => a.Id == admin.Id) ? "checked" : "") />
+                        <input type="checkbox" name="PostedSelectedAdministrators" value="@admin.Id" checked="@Model.Administrators.Any(a => a.Id == admin.Id)" />
                         <label>@admin.DisplayName</label>
                     </div>
                 }
@@ -64,7 +64,7 @@
                 @foreach (var team in Model.AllTeams)
                 {
                     <div>
-                        <input type="checkbox" name="PostedSelectedTeams" value="@team.Id" @(Model.Teams.Any(t => t.Id == team.Id) ? "checked" : "") />
+                        <input type="checkbox" name="PostedSelectedTeams" value="@team.Id" checked="@Model.Teams.Any(t => t.Id == team.Id)" />
                         <label>@team.DisplayName</label>
                     </div>
                 }

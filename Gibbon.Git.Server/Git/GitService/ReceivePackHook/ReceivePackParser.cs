@@ -12,7 +12,7 @@ public class ReceivePackParser(IGitService gitService, IHookReceivePack receiveP
     private readonly IHookReceivePack _receivePackHandler = receivePackHandler;
     private readonly GitServiceResultParser _resultParser = resultParser;
 
-    public async Task ExecuteServiceByName(string correlationId, string repositoryName, string serviceName, ExecutionOptions options, Stream inStream, Stream outStream, string userName, Guid userId)
+    public async Task ExecuteServiceByName(string correlationId, string repositoryName, string serviceName, ExecutionOptions options, Stream inStream, Stream outStream, string userName, int userId)
     {
         ParsedReceivePack receivedPack = null;
 
