@@ -15,7 +15,7 @@
 		<AssemblyCompany>Matthias Voigt</AssemblyCompany>
 		<AssemblyProduct>Gibbon Git Server</AssemblyProduct>
 		<AssemblyCopyright>Copyright © Matthias Voigt 2024</AssemblyCopyright>
-		<AssemblyVersion>0.3.0.0</AssemblyVersion>
+		<AssemblyVersion>0.4.0.0</AssemblyVersion>
 	</PropertyGroup>
 	<PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
 		<IsTestProject>true</IsTestProject>
