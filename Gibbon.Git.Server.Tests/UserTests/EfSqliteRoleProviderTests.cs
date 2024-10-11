@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Linq;
-
 using Gibbon.Git.Server.Data.Entities;
 using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Tests.TestHelper;
-
 using Microsoft.Extensions.DependencyInjection;
-
 using NSubstitute;
 
-namespace Gibbon.Git.Server.Tests.MembershipTests;
+namespace Gibbon.Git.Server.Tests.UserTests;
 
 [TestClass]
 public class EfSqliteRoleProviderTests : DbTestBase<SqliteConnectionFactory>
@@ -18,7 +15,7 @@ public class EfSqliteRoleProviderTests : DbTestBase<SqliteConnectionFactory>
 
     protected override void ConfigureServices(ServiceCollection services)
     {
-        var membershipService = Substitute.For<IMembershipService>();
+        var membershipService = Substitute.For<IUserService>();
         services.AddSingleton(membershipService);
         services.AddSingleton<IRoleProvider, RoleProvider>();
     }
@@ -90,7 +87,6 @@ public class EfSqliteRoleProviderTests : DbTestBase<SqliteConnectionFactory>
     [TestMethod]
     [TestCategory(TestCategories.Roles)]
     [Description("Verify that adding a user to multiple roles is successful.")]
-    [Ignore]
     public void TestAddingUserToMultipleRoles()
     {
         _roleProvider.CreateRole("Programmer");

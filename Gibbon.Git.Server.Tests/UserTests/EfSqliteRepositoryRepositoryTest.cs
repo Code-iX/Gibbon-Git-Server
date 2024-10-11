@@ -10,20 +10,20 @@ using Gibbon.Git.Server.Tests.TestHelper;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Gibbon.Git.Server.Tests.MembershipTests;
+namespace Gibbon.Git.Server.Tests.UserTests;
 
 [TestClass]
 public class EfSqliteRepositoryRepositoryTest : DbTestBase<SqliteConnectionFactory>
 {
     private IRepositoryService _repositoryService = null!;
-    private IMembershipService _memberService = null!;
+    private IUserService _memberService = null!;
     private ITeamService _teamService = null!;
 
     protected override void ConfigureServices(ServiceCollection services)
     {
         services.AddSingleton<IRepositoryService, RepositoryService>();
 
-        _memberService = services.AddSubstitute<IMembershipService>();
+        _memberService = services.AddSubstitute<IUserService>();
 
         _teamService = services.AddSubstitute<ITeamService>();
     }
@@ -227,12 +227,33 @@ public class EfSqliteRepositoryRepositoryTest : DbTestBase<SqliteConnectionFacto
 
         _repositoryService.Update(repo);
 
-        var readBackRepo = _repositoryService.GetRepository("SonOfRepo");
-        Assert.AreEqual("SonOfRepo", readBackRepo.Name);
+        var readBackRepo = _repositoryService.GetRepository("Repo1");
         Assert.AreEqual(repo.Group, readBackRepo.Group);
         Assert.AreEqual(repo.AnonymousAccess, readBackRepo.AnonymousAccess);
         Assert.AreEqual(repo.AuditPushUser, readBackRepo.AuditPushUser);
         Assert.AreEqual(repo.Description, readBackRepo.Description);
+    }
+
+    [TestMethod]
+    [TestCategory(TestCategories.RepositoryService)]
+    [Description("Verify that repository can not be updated to change its name.")]
+    public void RepoCanNotBeUpdatedToChangeName()
+    {
+        const string repoName = "Repo1";
+        const string newRepoName = "SonOfRepo";
+
+        var repo = MakeRepo(repoName);
+        _repositoryService.Create(repo);
+
+        repo.Name = newRepoName;
+
+        _repositoryService.Update(repo);
+
+        var dbRepo = _repositoryService.GetRepository(newRepoName);
+        Assert.IsNull(dbRepo);
+        dbRepo = _repositoryService.GetRepository(repoName);
+        Assert.IsNotNull(dbRepo);
+        Assert.AreEqual(repoName, dbRepo.Name);
     }
 
     [TestMethod]
@@ -359,7 +380,7 @@ public class EfSqliteRepositoryRepositoryTest : DbTestBase<SqliteConnectionFacto
     {
         User user = new User
         {
-            
+
             Username = "fred",
             Password = "letmein",
             PasswordSalt = "salt",
@@ -385,7 +406,7 @@ public class EfSqliteRepositoryRepositoryTest : DbTestBase<SqliteConnectionFacto
     {
         Team team = new Team
         {
-            
+
             Name = "Team1",
             Description = "Team1 description",
             Repositories = []
