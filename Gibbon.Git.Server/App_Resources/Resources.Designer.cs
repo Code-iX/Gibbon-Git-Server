@@ -2115,11 +2115,56 @@ namespace Gibbon.Git.Server.App_Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File path.
+        /// </summary>
+        public static string ServerDatabaseModel_DatabasePath {
+            get {
+                return ResourceManager.GetString("ServerDatabaseModel_DatabasePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File size.
+        /// </summary>
+        public static string ServerDatabaseModel_DatabaseSize {
+            get {
+                return ResourceManager.GetString("ServerDatabaseModel_DatabaseSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Git installed.
         /// </summary>
         public static string ServerGitModel_IsGitAvailable {
             get {
                 return ResourceManager.GetString("ServerGitModel_IsGitAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database.
+        /// </summary>
+        public static string ServerLayout_Header_Database {
+            get {
+                return ResourceManager.GetString("ServerLayout_Header_Database", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Git.
+        /// </summary>
+        public static string ServerLayout_Header_Git {
+            get {
+                return ResourceManager.GetString("ServerLayout_Header_Git", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overview.
+        /// </summary>
+        public static string ServerLayout_Header_Overview {
+            get {
+                return ResourceManager.GetString("ServerLayout_Header_Overview", resourceCulture);
             }
         }
         
