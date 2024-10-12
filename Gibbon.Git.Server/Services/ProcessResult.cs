@@ -1,4 +1,4 @@
-﻿namespace Gibbon.Git.Server.Git;
+﻿namespace Gibbon.Git.Server.Services;
 
 public class ProcessResult
 {

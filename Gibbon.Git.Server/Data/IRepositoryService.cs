@@ -18,5 +18,5 @@ public interface IRepositoryService
     /// Correct a repository name have the same case as it has in the database
     /// If the repo is not in the database, then the name is returned unchanged
     /// </summary>
-    string NormalizeRepositoryName(string incomingRepositoryName);
+    string NormalizeRepositoryName(string repositoryName);
 }

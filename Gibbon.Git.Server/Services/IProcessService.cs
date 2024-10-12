@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace Gibbon.Git.Server.Git;
+namespace Gibbon.Git.Server.Services;
 
 public interface IProcessService
 {

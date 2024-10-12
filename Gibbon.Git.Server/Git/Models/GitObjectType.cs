@@ -1,4 +1,4 @@
-﻿namespace Gibbon.Git.Server.Git.GitService.ReceivePackHook;
+﻿namespace Gibbon.Git.Server.Git.Models;
 
 public enum GitObjectType
 {

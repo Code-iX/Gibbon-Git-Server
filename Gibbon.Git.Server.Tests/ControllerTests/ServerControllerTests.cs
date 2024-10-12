@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 using Gibbon.Git.Server.Configuration;
 using Gibbon.Git.Server.Controllers;
-using Gibbon.Git.Server.Git;
 using Gibbon.Git.Server.Git.GitDownloadService;
+using Gibbon.Git.Server.Git.GitVersionService;
 using Gibbon.Git.Server.Models;
 using Gibbon.Git.Server.Services;
 using Gibbon.Git.Server.Tests.TestHelper;

@@ -1,10 +1,11 @@
 ﻿using Gibbon.Git.Server.Data;
+using Gibbon.Git.Server.Git.Models;
 using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Services;
 using LibGit2Sharp;
 using Repository = LibGit2Sharp.Repository;
 
-namespace Gibbon.Git.Server.Git.GitService.ReceivePackHook;
+namespace Gibbon.Git.Server.Git.HookReceivePack;
 
 public class AuditPusherToGitNotes(IHookReceivePack hookReceivePack, IPathResolver pathResolver, IRepositoryService repositoryService, IUserService userService)
     : IHookReceivePack

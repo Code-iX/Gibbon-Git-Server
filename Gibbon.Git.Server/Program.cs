@@ -1,9 +1,9 @@
 using Gibbon.Git.Server.Configuration;
 using Gibbon.Git.Server.Data;
 using Gibbon.Git.Server.Extensions;
-using Gibbon.Git.Server.Git;
 using Gibbon.Git.Server.Git.GitDownloadService;
 using Gibbon.Git.Server.Git.GitService;
+using Gibbon.Git.Server.Git.GitVersionService;
 using Gibbon.Git.Server.Middleware;
 using Gibbon.Git.Server.Middleware.Attributes;
 using Gibbon.Git.Server.Provider;
@@ -174,14 +174,9 @@ await app.RunAsync();
  *  var recoveryDirectory = AppSettings:RecoveryDataPath;
  *  if (!string.IsNullOrEmpty(recoveryDirectory))
  *  {
- *      // git service execution durability registrations to enable receive-pack hook execution after failures
  *      MyDependencyResolver.RegisterType<IGitService, DurableGitServiceResult>();
  *      MyDependencyResolver.RegisterType<IHookReceivePack, ReceivePackRecovery>();
- *      
- *      var recoveryProcess = MyDependencyResolver.GetService<ReceivePackRecovery>();       
- *      recoveryProcess.RecoverAll(TimeSpan.Zero);
  *  }
  *  MyDependencyResolver.RegisterType<IGitService, ReceivePackParser>();
  *  MyDependencyResolver.RegisterType<IHookReceivePack, AuditPusherToGitNotes>();
- *  MyDependencyResolver.RegisterType<IHookReceivePack, NullReceivePackHook>();
  */

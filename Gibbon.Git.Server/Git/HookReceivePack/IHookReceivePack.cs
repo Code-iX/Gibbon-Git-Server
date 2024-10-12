@@ -1,4 +1,6 @@
-﻿namespace Gibbon.Git.Server.Git.GitService.ReceivePackHook;
+﻿using Gibbon.Git.Server.Git.Models;
+
+namespace Gibbon.Git.Server.Git.HookReceivePack;
 
 /// <summary>
 /// Implement this interface to receive notifications when a pack is recieved

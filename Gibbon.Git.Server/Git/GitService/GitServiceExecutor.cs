@@ -1,16 +1,15 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
-
 using Gibbon.Git.Server.Configuration;
 using Gibbon.Git.Server.Data;
 using Gibbon.Git.Server.Extensions;
-using Gibbon.Git.Server.Git.GitService;
+using Gibbon.Git.Server.Git.Models;
 using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Services;
 
 using Microsoft.Extensions.Options;
 
-namespace Gibbon.Git.Server.Git;
+namespace Gibbon.Git.Server.Git.GitService;
 
 public class GitServiceExecutor : IGitService
 {

@@ -1,11 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
-
 using Gibbon.Git.Server.Services;
 
 using Microsoft.Extensions.Logging;
 
-namespace Gibbon.Git.Server.Git;
+namespace Gibbon.Git.Server.Git.GitVersionService;
 
 public class GitVersionStartupService(ILogger<GitVersionStartupService> logger, IProcessService processService, IPathResolver pathResolver, IGitVersionService gitVersionSettings)
     : IStartupService
@@ -126,7 +125,7 @@ public class GitVersionStartupService(ILogger<GitVersionStartupService> logger, 
 
     private GitVersionInfo SelectHighestVersion(List<GitVersionInfo> gitVersions)
     {
-        bool is64BitOS = Environment.Is64BitOperatingSystem;
+        var is64BitOS = Environment.Is64BitOperatingSystem;
 
         var compatibleVersions = gitVersions
             .Where(v => is64BitOS || v.Architecture != "64-bit")
@@ -183,10 +182,10 @@ public class GitVersionStartupService(ILogger<GitVersionStartupService> logger, 
 
     private string StripVersion(string gitVersionOutput)
     {
-        string version = gitVersionOutput.Replace("git version ", "").Trim();
+        var version = gitVersionOutput.Replace("git version ", "").Trim();
 
         var versionParts = version.Split('.');
-        string shortenedVersion = versionParts[0] + "." + versionParts[1] + "." + versionParts[2];
+        var shortenedVersion = versionParts[0] + "." + versionParts[1] + "." + versionParts[2];
 
         if (versionParts.Length > 3 && !versionParts[3].Contains("windows") && !versionParts[3].Contains("linux"))
         {

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Gibbon.Git.Server.Git.Models;
 
 namespace Gibbon.Git.Server.Git.GitService;
 
