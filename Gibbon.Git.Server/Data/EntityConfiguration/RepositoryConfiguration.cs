@@ -37,9 +37,6 @@ public class RepositoryConfiguration : IEntityTypeConfiguration<Repository>
         builder.Property(t => t.Anonymous)
             .HasColumnName("Anonymous");
         
-        builder.Property(t => t.AuditPushUser)
-            .HasColumnName("AuditPushUser");
-        
         builder.Property(t => t.AllowAnonymousPush)
             .HasColumnName("AllowAnonymousPush");
         

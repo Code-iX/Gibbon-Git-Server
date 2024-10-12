@@ -222,7 +222,6 @@ public class EfSqliteRepositoryRepositoryTest : DbTestBase<SqliteConnectionFacto
         repo.Name = "SonOfRepo";
         repo.Group = "RepoGroup";
         repo.AnonymousAccess = true;
-        repo.AuditPushUser = true;
         repo.Description = "New desc";
 
         _repositoryService.Update(repo);
@@ -230,7 +229,6 @@ public class EfSqliteRepositoryRepositoryTest : DbTestBase<SqliteConnectionFacto
         var readBackRepo = _repositoryService.GetRepository("Repo1");
         Assert.AreEqual(repo.Group, readBackRepo.Group);
         Assert.AreEqual(repo.AnonymousAccess, readBackRepo.AnonymousAccess);
-        Assert.AreEqual(repo.AuditPushUser, readBackRepo.AuditPushUser);
         Assert.AreEqual(repo.Description, readBackRepo.Description);
     }
 

@@ -1,8 +1,5 @@
-﻿@using Gibbon.Git.Server.Configuration
-@using Gibbon.Git.Server.Data
-@using Microsoft.Extensions.Options
-@inject IOptions<ApplicationSettings> AppSettings
-@model Gibbon.Git.Server.Models.RepositoryDetailModel
+﻿@using Gibbon.Git.Server.Data
+@model RepositoryDetailModel
 
 @{
     ViewBag.Title = Resources.Repository_Edit_Title;
@@ -34,7 +31,7 @@ else
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(false, Resources.Repository_Edit_Fail)
         @Html.HiddenFor(m => m.Id)
-        
+
         <fieldset>
             <div class="pure-control-group">
                 @Html.LabelFor(m => m.Name)
@@ -86,15 +83,6 @@ else
                 <i class="fa fa-info-circle" title="@Resources.Repository_AllowAnonymousPushHint"></i>
             </div>
 
-            @if (AppSettings.Value.IsPushAuditEnabled)
-            {
-                <div class="pure-control-group">
-                    @Html.LabelFor(m => m.AuditPushUser)
-                    @Html.CheckBoxFor(m => m.AuditPushUser)
-                    <i class="fa fa-info-circle" title="@Resources.Repository_AuditPushUserHint"></i>
-                </div>
-            }
-
             <div class="pure-control-group">
                 @Html.LabelFor(m => m.LinksUseGlobal)
                 @Html.CheckBoxFor(m => m.LinksUseGlobal, new { @onClick = "document.getElementById('LinksRegex').disabled = this.checked; document.getElementById('LinksUrl').disabled = this.checked" })
@@ -108,7 +96,8 @@ else
                     // {
                     //     attribs = new { c1lass = "medium", @disabled = "disabled" };
                     // }
-                    @Html.TextBoxFor(m => m.LinksRegex, at1tribs);
+                    @Html.TextBoxFor(m => m.LinksRegex, at1tribs)
+                    ;
                 }
                 @Html.ValidationMessageFor(m => m.LinksRegex)
             </div>

@@ -31,11 +31,6 @@ public class AuditPusherToGitNotes(IHookReceivePack hookReceivePack, IPathResolv
             return;
         }
 
-        if (!_repositoryService.IsAuditPushUser(receivePack.RepositoryName))
-        {
-            return;
-        }
-
         var user = receivePack.PushedByUser;
         var email = string.Empty;
 

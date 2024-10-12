@@ -54,9 +54,6 @@ public class RepositoryDetailModel
     [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_Status")]
     public RepositoryDetailStatus Status { get; set; }
 
-    [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_AuditPushUser")]
-    public bool AuditPushUser { get; set; }
-
     public RepositoryLogoDetailModel Logo { get; set; }
     public string GitUrl { get; set; }
     public string PersonalGitUrl { get; set; }
