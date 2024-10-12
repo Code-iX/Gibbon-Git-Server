@@ -70,7 +70,7 @@ services.AddScoped<IServerSettingsService, ServerSettingsService>();
 services.AddScoped<IUserSettingsService, UserSettingsService>();
 
 services.AddScoped<IProcessService, ProcessService>();
-services.AddScoped<IGitService, GitServiceExecutor>();
+services.AddScoped<IGitService, GitService>();
 services.AddScoped<IGitDownloadService, GitDownloadService>();
 services.AddScoped<GitControllerExceptionFilter>();
 

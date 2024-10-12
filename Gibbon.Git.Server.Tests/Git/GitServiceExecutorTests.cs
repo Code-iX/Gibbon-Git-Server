@@ -27,7 +27,7 @@ public class GitServiceExecutorTests
     private ITeamService _teamService = null!;
     private IRoleProvider _roleProvider = null!;
     private IUserService _userService = null!;
-    private GitServiceExecutor _executor = null!;
+    private GitService _executor = null!;
     private GitSettings _gitSettings = null!;
     private IProcessService _processService = null!;
 
@@ -48,7 +48,7 @@ public class GitServiceExecutorTests
 
         var options = Options.Create(_gitSettings);
 
-        _executor = new GitServiceExecutor(options, _processService, _pathResolver, _teamService, _roleProvider, _userService);
+        _executor = new GitService(options, _processService, _pathResolver, _teamService, _roleProvider, _userService);
     }
 
     [TestMethod]
