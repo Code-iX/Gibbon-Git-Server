@@ -171,12 +171,6 @@ await app.RunAsync();
 
 /*  AppSettings.IsPushAuditEnabled:
  *  
- *  var recoveryDirectory = AppSettings:RecoveryDataPath;
- *  if (!string.IsNullOrEmpty(recoveryDirectory))
- *  {
- *      MyDependencyResolver.RegisterType<IGitService, DurableGitServiceResult>();
- *      MyDependencyResolver.RegisterType<IHookReceivePack, ReceivePackRecovery>();
- *  }
  *  MyDependencyResolver.RegisterType<IGitService, ReceivePackParser>();
  *  MyDependencyResolver.RegisterType<IHookReceivePack, AuditPusherToGitNotes>();
  */
