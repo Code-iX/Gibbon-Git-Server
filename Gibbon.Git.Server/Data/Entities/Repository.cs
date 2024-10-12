@@ -9,16 +9,11 @@ public class Repository
     public bool Anonymous { get; set; }
     public byte[] Logo { get; set; }
     public RepositoryPushMode AllowAnonymousPush { get; set; }
-
-    public bool AuditPushUser { get; set; }
-
     public string LinksRegex { get; set; }
     public string LinksUrl { get; set; }
     public bool LinksUseGlobal { get; set; } = true;
 
     public virtual ICollection<Team> Teams { get; set; } = new HashSet<Team>();
-
     public virtual ICollection<User> Administrators { get; set; } = new HashSet<User>();
-
     public virtual ICollection<User> Users { get; set; } = new HashSet<User>();
 }

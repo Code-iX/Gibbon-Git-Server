@@ -59,7 +59,6 @@ public class RepositoryService(ILogger<RepositoryService> logger, GibbonGitServe
                     Surname = admin.Surname,
                     Email = admin.Email
                 }).ToArray(),
-                AuditPushUser = repo.AuditPushUser,
                 AllowAnonymousPush = repo.AllowAnonymousPush,
                 Logo = repo.Logo,
                 LinksRegex = repo.LinksRegex,
@@ -129,7 +128,6 @@ public class RepositoryService(ILogger<RepositoryService> logger, GibbonGitServe
                     Surname = admin.Surname,
                     Email = admin.Email
                 }).ToArray(),
-                AuditPushUser = repo.AuditPushUser,
                 AllowAnonymousPush = repo.AllowAnonymousPush,
                 Logo = repo.Logo,
                 LinksRegex = repo.LinksRegex,
@@ -137,16 +135,6 @@ public class RepositoryService(ILogger<RepositoryService> logger, GibbonGitServe
                 LinksUseGlobal = repo.LinksUseGlobal
             })
             .SingleOrDefault(); // TODO is this necessare?
-    }
-
-    public bool IsAuditPushUser(string name)
-    {
-        ArgumentNullException.ThrowIfNull(name, nameof(name));
-
-        return _context.Repositories
-            .Where(x => x.Name == name)
-            .Select(x => x.AuditPushUser)
-            .SingleOrDefault();
     }
 
     public void Delete(int id)
@@ -190,7 +178,6 @@ public class RepositoryService(ILogger<RepositoryService> logger, GibbonGitServe
             Description = model.Description,
             Anonymous = model.AnonymousAccess,
             AllowAnonymousPush = model.AllowAnonymousPush,
-            AuditPushUser = model.AuditPushUser,
             LinksUseGlobal = model.LinksUseGlobal,
             LinksUrl = model.LinksUrl,
             LinksRegex = model.LinksRegex
@@ -230,7 +217,6 @@ public class RepositoryService(ILogger<RepositoryService> logger, GibbonGitServe
             repo.Group = model.Group;
             repo.Description = model.Description;
             repo.Anonymous = model.AnonymousAccess;
-            repo.AuditPushUser = model.AuditPushUser;
             repo.AllowAnonymousPush = model.AllowAnonymousPush;
             repo.LinksRegex = model.LinksRegex;
             repo.LinksUrl = model.LinksUrl;

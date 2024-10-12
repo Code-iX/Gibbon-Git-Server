@@ -8,7 +8,6 @@ public interface IRepositoryService
     List<RepositoryModel> GetTeamRepositories(int teamsId);
     RepositoryModel GetRepository(int id);
     RepositoryModel GetRepository(string name);
-    bool IsAuditPushUser(string name);
     bool Create(RepositoryModel repository);
     void Update(RepositoryModel repository);
     void Delete(int id);

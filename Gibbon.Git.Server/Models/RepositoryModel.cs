@@ -14,7 +14,6 @@ public class RepositoryModel
     public UserModel[] Users { get; set; } = [];
     public UserModel[] Administrators { get; set; } = [];
     public TeamModel[] Teams { get; set; } = [];
-    public bool AuditPushUser { get; set; }
     public byte[] Logo { get; set; }
     public bool RemoveLogo { get; set; }
     public string LinksRegex { get; set; } = "";
