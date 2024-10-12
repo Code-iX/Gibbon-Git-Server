@@ -3,6 +3,7 @@ using Gibbon.Git.Server.Data;
 using Gibbon.Git.Server.Extensions;
 using Gibbon.Git.Server.Git;
 using Gibbon.Git.Server.Git.GitService;
+using Gibbon.Git.Server.Git.Models;
 using Gibbon.Git.Server.Middleware.Attributes;
 using Gibbon.Git.Server.Middleware.Authorize;
 using Gibbon.Git.Server.Models;

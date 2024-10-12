@@ -1,4 +1,4 @@
-﻿namespace Gibbon.Git.Server.Git.GitService;
+﻿namespace Gibbon.Git.Server.Git;
 
 public class ReplicatingStream(Stream source, Stream target) : Stream
 {

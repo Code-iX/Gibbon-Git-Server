@@ -1,4 +1,6 @@
-﻿namespace Gibbon.Git.Server.Git.GitService;
+﻿using Gibbon.Git.Server.Git.Models;
+
+namespace Gibbon.Git.Server.Git;
 
 public static class GitServiceResultParser
 {

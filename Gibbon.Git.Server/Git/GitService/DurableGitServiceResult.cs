@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
-
+using Gibbon.Git.Server.Git.Models;
 using Gibbon.Git.Server.Helpers;
 using Gibbon.Git.Server.Services;
 
-namespace Gibbon.Git.Server.Git.GitService.ReceivePackHook.Durability;
+namespace Gibbon.Git.Server.Git.GitService;
 
 /// <summary>
 /// provides durability for result of git command execution

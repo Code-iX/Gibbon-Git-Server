@@ -1,4 +1,6 @@
-﻿using Gibbon.Git.Server.Data.Entities;
+﻿using System.Linq.Expressions;
+
+using Gibbon.Git.Server.Data.Entities;
 using Gibbon.Git.Server.Models;
 
 using Microsoft.EntityFrameworkCore;
@@ -14,88 +16,137 @@ public class RepositoryService(ILogger<RepositoryService> logger, GibbonGitServe
 
     public List<RepositoryModel> GetAllRepositories()
     {
-        var dbrepos = _context.Repositories
+        return _context.Repositories
             .AsNoTracking()
             .Include(repo => repo.Administrators)
             .Include(repo => repo.Teams)
             .Include(repo => repo.Users)
             .AsSplitQuery()
-            .Select(repo => new
+            .Select(repo => new RepositoryModel
             {
                 Id = repo.Id,
                 Name = repo.Name,
                 Group = repo.Group,
                 Description = repo.Description,
                 AnonymousAccess = repo.Anonymous,
-                Users = repo.Users,
-                Teams = repo.Teams,
-                Administrators = repo.Administrators,
+                Users = repo.Users.Select(user => new UserModel
+                {
+                    Id = user.Id,
+                    Username = user.Username,
+                    GivenName = user.GivenName,
+                    Surname = user.Surname,
+                    Email = user.Email
+                }).ToArray(),
+                Teams = repo.Teams.Select(team => new TeamModel
+                {
+                    Id = team.Id,
+                    Name = team.Name,
+                    Description = team.Description,
+                    Members = team.Users.Select(user => new UserModel
+                    {
+                        Id = user.Id,
+                        Username = user.Username,
+                        GivenName = user.GivenName,
+                        Surname = user.Surname,
+                        Email = user.Email
+                    }).ToArray()
+                }).ToArray(),
+                Administrators = repo.Administrators.Select(admin => new UserModel
+                {
+                    Id = admin.Id,
+                    Username = admin.Username,
+                    GivenName = admin.GivenName,
+                    Surname = admin.Surname,
+                    Email = admin.Email
+                }).ToArray(),
                 AuditPushUser = repo.AuditPushUser,
-                AllowAnonPush = repo.AllowAnonymousPush,
-                Logo = repo.Logo
-            }).ToList();
-
-        return dbrepos.Select(repo => new RepositoryModel
-        {
-            Id = repo.Id,
-            Name = repo.Name,
-            Group = repo.Group,
-            Description = repo.Description,
-            AnonymousAccess = repo.AnonymousAccess,
-            Users = repo.Users.Select(user => user.ToModel()).ToArray(),
-            Teams = repo.Teams.Select(TeamToTeamModel).ToArray(),
-            Administrators = repo.Administrators.Select(user => user.ToModel()).ToArray(),
-            AuditPushUser = repo.AuditPushUser,
-            AllowAnonymousPush = repo.AllowAnonPush,
-            Logo = repo.Logo
-        }).ToList();
+                AllowAnonymousPush = repo.AllowAnonymousPush,
+                Logo = repo.Logo,
+                LinksRegex = repo.LinksRegex,
+                LinksUrl = repo.LinksUrl,
+                LinksUseGlobal = repo.LinksUseGlobal
+            }).ToList();        
     }
 
     public RepositoryModel GetRepository(string name)
     {
         ArgumentNullException.ThrowIfNull(name, nameof(name));
 
-        /* The straight-forward solution of using FindFirstOrDefault with
-         * string.Equal does not work. Even name.Equals with OrdinalIgnoreCase does not
-         * as it seems to get translated into some specific SQL syntax and EF does not
-         * provide case insensitive matching :( */
-        var repos = GetAllRepositories();
-        foreach (var repo in repos)
-        {
-            if (repo.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+        return GetRepositoryInternal(repo => repo.Name == name);
+    }
+
+    public RepositoryModel GetRepository(int id)
+    {
+        ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(id, 0, nameof(id));
+
+        return GetRepositoryInternal(repo => repo.Id == id) ?? throw new InvalidOperationException("Repository not found");
+    }
+
+    private RepositoryModel GetRepositoryInternal(Expression<Func<Repository, bool>> predicate)
+    {
+        return _context.Repositories
+            .AsNoTracking()
+            .Include(repo => repo.Administrators)
+            .Include(repo => repo.Teams)
+                .ThenInclude(team => team.Users)
+            .Include(repo => repo.Users)
+            .AsSplitQuery()
+            .Where(predicate)
+            .Select(repo => new RepositoryModel
             {
-                return repo;
-            }
-        }
-        return null;
+                Id = repo.Id,
+                Name = repo.Name,
+                Group = repo.Group,
+                Description = repo.Description,
+                AnonymousAccess = repo.Anonymous,
+                Users = repo.Users.Select(user => new UserModel
+                {
+                    Id = user.Id,
+                    Username = user.Username,
+                    GivenName = user.GivenName,
+                    Surname = user.Surname,
+                    Email = user.Email
+                }).ToArray(),
+                Teams = repo.Teams.Select(team => new TeamModel
+                {
+                    Id = team.Id,
+                    Name = team.Name,
+                    Description = team.Description,
+                    Members = team.Users.Select(user => new UserModel
+                    {
+                        Id = user.Id,
+                        Username = user.Username,
+                        GivenName = user.GivenName,
+                        Surname = user.Surname,
+                        Email = user.Email
+                    }).ToArray()
+                }).ToArray(),
+                Administrators = repo.Administrators.Select(admin => new UserModel
+                {
+                    Id = admin.Id,
+                    Username = admin.Username,
+                    GivenName = admin.GivenName,
+                    Surname = admin.Surname,
+                    Email = admin.Email
+                }).ToArray(),
+                AuditPushUser = repo.AuditPushUser,
+                AllowAnonymousPush = repo.AllowAnonymousPush,
+                Logo = repo.Logo,
+                LinksRegex = repo.LinksRegex,
+                LinksUrl = repo.LinksUrl,
+                LinksUseGlobal = repo.LinksUseGlobal
+            })
+            .SingleOrDefault(); // TODO is this necessare?
     }
 
     public bool IsAuditPushUser(string name)
     {
         ArgumentNullException.ThrowIfNull(name, nameof(name));
 
-        /* The straight-forward solution of using FindFirstOrDefault with
-         * string.Equal does not work. Even name.Equals with OrdinalIgnoreCase does not
-         * as it seems to get translated into some specific SQL syntax and EF does not
-         * provide case insensitive matching :( */
         return _context.Repositories
-            .SingleOrDefault(x => x.Name == name)?
-            .AuditPushUser ?? false;
-    }
-
-    public RepositoryModel GetRepository(int id)
-    {
-        return ConvertToModel(Get(id));
-    }
-
-    private Repository Get(int id)
-    {
-        return _context.Repositories
-            .Include(x => x.Administrators)
-            .Include(x => x.Teams)
-            .Include(x => x.Users)
-            .AsSplitQuery()
-            .First(i => i.Id.Equals(id));
+            .Where(x => x.Name == name)
+            .Select(x => x.AuditPushUser)
+            .SingleOrDefault();
     }
 
     public void Delete(int id)
@@ -117,33 +168,13 @@ public class RepositoryService(ILogger<RepositoryService> logger, GibbonGitServe
         return repo == null || repo.Id == ignoreRepoId;
     }
 
-    public string NormalizeRepositoryName(string incomingRepositoryName)
+    public string NormalizeRepositoryName(string repositoryName)
     {
-        // In the most common case, we're just going to find the repo straight off
-        // This is fastest if it succeeds, but might be case-sensitive
-        var knownRepos = this.GetRepository(incomingRepositoryName);
-        if (knownRepos != null)
-        {
-            return knownRepos.Name;
-        }
+        var repository = _context.Repositories
+            .AsNoTracking()
+            .FirstOrDefault(repo => repo.Name == repositoryName);
 
-        // We might have a real repo, but it wasn't returned by GetRepository, because that's not 
-        // guaranteed to be case insensitive (very difficult to assure this with EF, because it's the back
-        // end which matters, not EF itself)
-        // We'll try and check all repos in a slow but safe fashion
-        knownRepos =
-            this.GetAllRepositories()
-                .FirstOrDefault(
-                    repo => repo.Name.Equals(incomingRepositoryName, StringComparison.OrdinalIgnoreCase));
-        if (knownRepos != null)
-        {
-            // We've found it now
-            return knownRepos.Name;
-        }
-
-        // We can't find this repo - it's probably invalid, but it's not
-        // our job to worry about that
-        return incomingRepositoryName;
+        return repository is null ? repositoryName : repository.Name;
     }
 
     public bool Create(RepositoryModel model)
@@ -188,7 +219,12 @@ public class RepositoryService(ILogger<RepositoryService> logger, GibbonGitServe
         ArgumentNullException.ThrowIfNull(model, nameof(model));
         ArgumentNullException.ThrowIfNull(model.Name, nameof(model.Name));
 
-        var repo = Get(model.Id);
+        var repo = _context.Repositories
+            .Include(x => x.Administrators)
+            .Include(x => x.Teams)
+            .Include(x => x.Users)
+            .AsSplitQuery()
+            .First(i => i.Id.Equals(model.Id));
         if (repo != null)
         {
             repo.Group = model.Group;
@@ -214,44 +250,6 @@ public class RepositoryService(ILogger<RepositoryService> logger, GibbonGitServe
 
             _context.SaveChanges();
         }
-    }
-
-    private TeamModel TeamToTeamModel(Team t)
-    {
-        return new TeamModel
-        {
-            Id = t.Id,
-            Name = t.Name,
-            Description = t.Description,
-            Members = t.Users.Select(user => user.ToModel()).ToArray()
-        };
-    }
-
-    private RepositoryModel ConvertToModel(Repository item)
-    {
-        if (item == null)
-        {
-            return null;
-        }
-
-        return new RepositoryModel
-        {
-            Id = item.Id,
-            Name = item.Name,
-            Group = item.Group,
-            Description = item.Description,
-            AnonymousAccess = item.Anonymous,
-            Users = item.Users.Select(user => user.ToModel()).ToArray(),
-            Teams = item.Teams.Select(TeamToTeamModel).ToArray(),
-            Administrators = item.Administrators.Select(user => user.ToModel()).ToArray(),
-            AuditPushUser = item.AuditPushUser,
-            AllowAnonymousPush = item.AllowAnonymousPush,
-            Logo = item.Logo,
-            LinksRegex = item.LinksRegex,
-            LinksUrl = item.LinksUrl,
-            LinksUseGlobal = item.LinksUseGlobal
-
-        };
     }
 
     private static void AddMembers(IEnumerable<int> users, IEnumerable<int> admins, IEnumerable<int> teams, Repository repo, GibbonGitServerContext database)

@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
-
+using Gibbon.Git.Server.Git.Models;
 using Gibbon.Git.Server.Helpers;
 using Gibbon.Git.Server.Services;
 
-namespace Gibbon.Git.Server.Git.GitService.ReceivePackHook.Durability;
+namespace Gibbon.Git.Server.Git.HookReceivePack;
 
 /// <summary>
 /// Provides at least once execution guarantee to PostPackReceive hook method
@@ -54,15 +54,15 @@ public class ReceivePackRecovery(IHookReceivePack next, IPathResolver pathResolv
         foreach (var pack in waitingReceivePacks.OrderBy(p => p.Timestamp))
         {
             // execute if the pack has been waiting for X amount of time
-            if ((DateTime.Now - pack.Timestamp) < inPast)
+            if (DateTime.Now - pack.Timestamp < inPast)
             {
                 continue;
             }
 
             // re-parse result file and execute "post" hooks
             // if result file is no longer there then move on
-            string correlationId = pack.PackId;
-            string repositoryName = pack.RepositoryName;
+            var correlationId = pack.PackId;
+            var repositoryName = pack.RepositoryName;
             var failedPackResultFilePath = _pathResolver.GetRecovery(StringHelper.RemoveIllegalChars($"{repositoryName}.receive-pack.{correlationId}.result"));
             if (File.Exists(failedPackResultFilePath))
             {

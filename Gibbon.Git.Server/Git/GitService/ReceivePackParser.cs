@@ -1,9 +1,11 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using Gibbon.Git.Server.Git.HookReceivePack;
+using Gibbon.Git.Server.Git.Models;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 
-namespace Gibbon.Git.Server.Git.GitService.ReceivePackHook;
+namespace Gibbon.Git.Server.Git.GitService;
 
 public class ReceivePackParser(IGitService gitService, IHookReceivePack receivePackHandler)
     : IGitService
@@ -98,14 +100,14 @@ public class ReceivePackParser(IGitService gitService, IHookReceivePack receiveP
                     numObjects -= 1;
 
                     ReadStream(inStream, buff1);
-                    var type = (GitObjectType)((buff1[0] >> 4) & 7);
+                    var type = (GitObjectType)(buff1[0] >> 4 & 7);
                     long len = buff1[0] & 15;
 
                     var shiftAmount = 4;
-                    while ((buff1[0] >> 7) == 1)
+                    while (buff1[0] >> 7 == 1)
                     {
                         ReadStream(inStream, buff1);
-                        len |= ((long)(buff1[0] & 127) << shiftAmount);
+                        len |= (long)(buff1[0] & 127) << shiftAmount;
 
                         shiftAmount += 7;
                     }
@@ -119,7 +121,7 @@ public class ReceivePackParser(IGitService gitService, IHookReceivePack receiveP
                     {
                         // read negative offset
                         ReadStream(inStream, buff1);
-                        while ((buff1[0] >> 7) == 1)
+                        while (buff1[0] >> 7 == 1)
                         {
                             ReadStream(inStream, buff1);
                         }
@@ -218,7 +220,7 @@ public class ReceivePackParser(IGitService gitService, IHookReceivePack receiveP
             }
 
             // Take everything up to the first space as the type.
-            string commitHeaderType = commitLine[..firstSpace];
+            var commitHeaderType = commitLine[..firstSpace];
 
             // Data starts immediately following the space (if there is any).
             var dataStart = firstSpace + 1;
