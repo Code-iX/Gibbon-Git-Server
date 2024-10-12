@@ -10,5 +10,4 @@ public interface IPathResolver
     string GetRepoPath(string path, string applicationPath);
     string GetRepositoryPath(string repositoryName);
     string GetRoot();
-    string GetRecovery(params string[] appends);
 }
