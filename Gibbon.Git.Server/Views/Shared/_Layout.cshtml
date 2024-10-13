@@ -49,9 +49,7 @@
                 <ul>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        var items = (IEnumerable<SelectListItem>)Html.ViewBag.PermittedRepositories;
-                        @Html.DropDownList("Repositories", items, Resources.Repository_Go_To_Dropdown, new { @class = "repositories", onChange = "javascript:location.href=this.options[this.selectedIndex].value;" })
-                        ;
+                        @await Component.InvokeAsync("RepositoryList")
                         <li><a href="@Url.Action("Index", "Repository")" class="repository"><i class="fa fa-hdd-o"></i> @Resources.Layout_Repositories</a></li>
                     }
                     @if (User.IsInRole(Definitions.Roles.Administrator))

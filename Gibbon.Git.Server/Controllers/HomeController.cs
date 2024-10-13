@@ -32,6 +32,11 @@ public class HomeController(ILogger<HomeController> logger, IUserService userSer
 
     public IActionResult Login(string returnUrl)
     {
+        if (User.Identity.IsAuthenticated)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
         return View(new LoginModel { ReturnUrl = returnUrl });
     }
 
