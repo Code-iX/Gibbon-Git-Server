@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Mvc;
 
-namespace Gibbon.Git.Server.Git;
+namespace Gibbon.Git.Server.Git.GitService;
 
 public class GitCmdResult(string contentType, Func<Stream, Task> executeGitCommand, string advertiseRefsContent = null)
     : IActionResult

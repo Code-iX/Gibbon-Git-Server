@@ -1,7 +1,4 @@
 ﻿using System.Linq.Expressions;
-
-using Gibbon.Git.Server.Models;
-
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 using Gibbon.Git.Server.Data.Entities;
 using Gibbon.Git.Server.Tests.TestHelper;

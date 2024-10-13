@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Gibbon.Git.Server.Configuration;
 using Gibbon.Git.Server.Data;
 using Gibbon.Git.Server.Extensions;
-using Gibbon.Git.Server.Git.Models;
 using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Services;
 
@@ -25,7 +24,7 @@ public class GitService(IOptions<GitSettings> options, IProcessService processSe
     private readonly IRoleProvider _roleProvider = roleProvider;
     private readonly IUserService _userService = userService;
 
-    public async Task ExecuteServiceByName(string correlationId, string repositoryName, string serviceName, ExecutionOptions options, Stream inStream, Stream outStream, string userName, int userId)
+    public async Task ExecuteServiceByName(string repositoryName, string serviceName, ExecutionOptions options, Stream inStream, Stream outStream, int userId)
     {
         if (!PermittedServiceNames.Contains(serviceName))
         {
@@ -39,6 +38,7 @@ public class GitService(IOptions<GitSettings> options, IProcessService processSe
 
         await _processService.StartProcessWithStreamAsync(info, inStream, outStream, options.EndStreamWithClose);
     }
+
     private string BuildArgs(string repositoryName, string serviceName, ExecutionOptions options)
     {
         var args = new List<string>

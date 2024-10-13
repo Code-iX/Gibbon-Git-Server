@@ -168,9 +168,3 @@ app.MapRoutes();
 app.UseMiddleware<CultureMiddleware>();
 
 await app.RunAsync();
-
-/*  AppSettings.IsPushAuditEnabled:
- *  
- *  MyDependencyResolver.RegisterType<IGitService, ReceivePackParser>();
- *  MyDependencyResolver.RegisterType<IHookReceivePack, AuditPusherToGitNotes>();
- */

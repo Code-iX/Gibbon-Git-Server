@@ -1,6 +1,4 @@
-﻿using Gibbon.Git.Server.Data;
-
-namespace Gibbon.Git.Server.Models;
+﻿namespace Gibbon.Git.Server.Models;
 
 public class TeamModel //: INameProperty
 {
