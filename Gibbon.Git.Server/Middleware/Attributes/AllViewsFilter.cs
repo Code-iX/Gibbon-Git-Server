@@ -1,4 +1,6 @@
-﻿using Gibbon.Git.Server.Extensions;
+﻿using System.Diagnostics;
+
+using Gibbon.Git.Server.Extensions;
 using Gibbon.Git.Server.Helpers;
 using Gibbon.Git.Server.Models;
 using Gibbon.Git.Server.Security;
@@ -29,6 +31,7 @@ public class AllViewsFilter(IRepositoryPermissionService repoPermissions, IUrlHe
         }
     }
 
+    [DebuggerStepThrough]
     public void OnActionExecuted(ActionExecutedContext context)
     {
     }

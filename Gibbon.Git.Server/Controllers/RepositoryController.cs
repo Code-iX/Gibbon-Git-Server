@@ -687,7 +687,8 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
 
     private List<RepositoryDetailModel> GetIndexModel()
     {
-        return _repositoryPermissionService.GetAllPermittedRepositories(User.Id(), RepositoryAccessLevel.Pull).Select(x => ConvertRepositoryModel(x, User)).ToList();
+        return _repositoryPermissionService.GetAllPermittedRepositories(User.Id(), RepositoryAccessLevel.Pull)
+            .Select(x => ConvertRepositoryModel(x, User)).ToList();
     }
 
     public RepositoryDetailModel ConvertRepositoryModel(RepositoryModel model, IPrincipal user)
