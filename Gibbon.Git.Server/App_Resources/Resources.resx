@@ -1063,4 +1063,7 @@ The regular C# string formatting rules apply: To get {} in your link you need to
   <data name="ServerDatabase_Download" xml:space="preserve">
     <value>Download Database</value>
   </data>
+  <data name="Repository_Go_To_Overview" xml:space="preserve">
+	  <value>Overview</value>
+  </data>
 </root>

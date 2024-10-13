@@ -1800,6 +1800,15 @@ namespace Gibbon.Git.Server.App_Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Overview.
+        /// </summary>
+        public static string Repository_Go_To_Overview {
+            get {
+                return ResourceManager.GetString("Repository_Go_To_Overview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Repository_Header_Description {

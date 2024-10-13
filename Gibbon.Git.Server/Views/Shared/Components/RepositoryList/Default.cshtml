@@ -1,0 +1,6 @@
+﻿@model IEnumerable<SelectListItem>
+
+@if (Model != null && Model.Any())
+{
+    @Html.DropDownList("Repositories", Model, new { @class = "repositories", onChange = "javascript:location.href=this.options[this.selectedIndex].value;" })
+}

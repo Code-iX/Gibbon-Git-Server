@@ -129,10 +129,7 @@ services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 
 services.AddAuthorization();
 
-services.AddControllersWithViews(options =>
-    {
-        options.Filters.Add<AllViewsFilter>();
-    })
+services.AddControllersWithViews()
     .AddCookieTempDataProvider();
 
 var app = builder.Build();

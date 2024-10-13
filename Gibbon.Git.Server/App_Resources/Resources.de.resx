@@ -1004,4 +1004,7 @@ Die regulären C# String-Formatierungsregeln gelten: Um {} in Ihrem Link zu erha
   <data name="Team_Index_Teams" xml:space="preserve">
     <value>Teams</value>
   </data>
+  <data name="Repository_Go_To_Overview" xml:space="preserve">
+    <value>Übersicht</value>
+  </data>
 </root>
