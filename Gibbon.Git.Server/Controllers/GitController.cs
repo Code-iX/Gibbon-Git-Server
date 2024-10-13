@@ -35,27 +35,6 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
     {
         var isPush = string.Equals("git-receive-pack", service, StringComparison.OrdinalIgnoreCase);
 
-        if (!RepositoryIsValid(repositoryName))
-        {
-            // This isn't a real repo - but we might consider allowing creation
-            if (isPush && _serverSettings.AllowPushToCreate)
-            {
-                if (!_repositoryPermissionService.HasCreatePermission(User.Id()))
-                {
-                    _logger.LogWarning("User {UserId} is not allowed to do push-to-create", User.Id());
-                    return Unauthorized();
-                }
-                if (!TryCreateOnPush(repositoryName))
-                {
-                    return Unauthorized();
-                }
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
-
         var requiredLevel = isPush ? RepositoryAccessLevel.Push : RepositoryAccessLevel.Pull;
         if (!_repositoryPermissionService.HasPermission(User.Id(), repositoryName, requiredLevel))
         {

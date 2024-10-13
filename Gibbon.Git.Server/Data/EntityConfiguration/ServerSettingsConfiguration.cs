@@ -21,9 +21,6 @@ public class ServerSettingsConfiguration : IEntityTypeConfiguration<ServerSettin
         builder.Property(s => s.AllowUserRepositoryCreation)
             .IsRequired();
 
-        builder.Property(s => s.AllowPushToCreate)
-            .IsRequired();
-
         builder.Property(s => s.AllowAnonymousRegistration)
             .IsRequired();
 
