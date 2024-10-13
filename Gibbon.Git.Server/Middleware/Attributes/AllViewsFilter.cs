@@ -17,6 +17,11 @@ public class AllViewsFilter(IRepositoryPermissionService repoPermissions, IUrlHe
 
     public void OnActionExecuting(ActionExecutingContext context)
     {
+        if (!context.HttpContext.User.Identity.IsAuthenticated)
+        {
+            return;
+        }
+
         var userId = context.HttpContext.User.Id();
         if (context.Controller is Controller controller)
         {

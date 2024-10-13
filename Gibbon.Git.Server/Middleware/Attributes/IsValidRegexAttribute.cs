@@ -7,7 +7,7 @@ public class IsValidRegexAttribute : ValidationAttribute
 {
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
-        if (value == null) // Null-Werte sind zulässig, keine Regex-Validierung nötig
+        if (value == null)
         {
             return ValidationResult.Success;
         }
@@ -21,12 +21,10 @@ public class IsValidRegexAttribute : ValidationAttribute
             }
             catch (ArgumentException)
             {
-                // Gültige Fehlermeldung ohne detaillierte Exception-Nachricht
                 return new ValidationResult(Resources.Validation_Invalid_Regex);
             }
         }
 
-        // Falls value kein string ist, ist es ungültig
         return new ValidationResult(Resources.Validation_Invalid_Regex);
     }
 }
