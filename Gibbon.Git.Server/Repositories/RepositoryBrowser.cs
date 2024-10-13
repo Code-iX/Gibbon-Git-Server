@@ -343,8 +343,8 @@ public sealed class RepositoryBrowser(IAvatarService avatarService, ILogger<Repo
             return model;
         }
 
-        var changes = !commit.Parents.Any() ? _repository.Diff.Compare<TreeChanges>(null, commit.Tree) : _repository.Diff.Compare<TreeChanges>(commit.Parents.First().Tree, commit.Tree);
-        var patches = !commit.Parents.Any() ? _repository.Diff.Compare<Patch>(null, commit.Tree) : _repository.Diff.Compare<Patch>(commit.Parents.First().Tree, commit.Tree);
+        var changes = _repository.Diff.Compare<TreeChanges>(commit.Parents.FirstOrDefault()?.Tree, commit.Tree);
+        var patches = _repository.Diff.Compare<Patch>(commit.Parents.FirstOrDefault()?.Tree, commit.Tree);
 
         model.Changes = changes.OrderBy(s => s.Path).Select(i =>
         {

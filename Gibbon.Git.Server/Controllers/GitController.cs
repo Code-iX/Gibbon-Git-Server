@@ -21,7 +21,7 @@ namespace Gibbon.Git.Server.Controllers;
 [RepositoryNameNormalizer("repositoryName")]
 [GitAuthorize]
 public class GitController(ILogger<GitController> logger, IRepositoryPermissionService repositoryPermissionService, IRepositoryService repositoryService, IUserService userService, IGitService gitService, ServerSettings serverOptions, IPathResolver pathResolver)
-    : Controller
+    : ControllerBase
 {
     private readonly ServerSettings _serverSettings = serverOptions;
     private readonly ILogger<GitController> _logger = logger;
@@ -63,7 +63,18 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
             return Unauthorized();
         }
 
-        return GetInfoRefs(repositoryName, service);
+        Response.StatusCode = 200;
+
+        return new GitCmdResult(
+            $"application/x-{service}-advertisement",
+            async outStream => await _gitService.ExecuteServiceByName(repositoryName,
+                service[4..],
+                new ExecutionOptions(true),
+                GetInputStream(),
+                outStream,
+                HttpContext.User.Id()
+            ),
+            CreateFormattedServiceMessage(service));
     }
 
     [HttpPost]
@@ -79,7 +90,16 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
             return Unauthorized();
         }
 
-        return ExecuteUploadPack(repositoryName);
+        return new GitCmdResult(
+            "application/x-git-upload-pack-result",
+            async outStream => await _gitService.ExecuteServiceByName(repositoryName,
+                "upload-pack",
+                new ExecutionOptions(false, true),
+                GetInputStream(),
+                outStream,
+                HttpContext.User.Id()
+            )
+        );
     }
 
     [HttpPost]
@@ -95,7 +115,16 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
             return Unauthorized();
         }
 
-        return ExecuteReceivePack(repositoryName);
+        return new GitCmdResult(
+            "application/x-git-receive-pack-result",
+            async outStream => await _gitService.ExecuteServiceByName(repositoryName,
+                "receive-pack",
+                new ExecutionOptions(false),
+                GetInputStream(),
+                outStream,
+                HttpContext.User.Id()
+            )
+        );
     }
 
     private bool TryCreateOnPush(string repositoryName)
@@ -131,50 +160,6 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
         Repository.Init(Path.Combine(_pathResolver.GetRepositories(), repository.Name), true);
         _logger.LogInformation("'{RepositoryName}' created", repositoryName);
         return true;
-    }
-
-    private IActionResult ExecuteReceivePack(string repositoryName)
-    {
-        return new GitCmdResult(
-            "application/x-git-receive-pack-result",
-            async outStream => await _gitService.ExecuteServiceByName(repositoryName,
-                "receive-pack",
-                new ExecutionOptions(false),
-                GetInputStream(),
-                outStream,
-                HttpContext.User.Id()
-            )
-        );
-    }
-
-    private IActionResult ExecuteUploadPack(string repositoryName)
-    {
-        return new GitCmdResult(
-            "application/x-git-upload-pack-result",
-            async outStream => await _gitService.ExecuteServiceByName(repositoryName,
-                "upload-pack",
-                new ExecutionOptions(false, true),
-                GetInputStream(),
-                outStream,
-                HttpContext.User.Id()
-            )
-        );
-    }
-
-    private IActionResult GetInfoRefs(string repositoryName, string service)
-    {
-        Response.StatusCode = 200;
-
-        return new GitCmdResult(
-            $"application/x-{service}-advertisement",
-            async outStream => await _gitService.ExecuteServiceByName(repositoryName,
-                service[4..],
-                new ExecutionOptions(true),
-                GetInputStream(),
-                outStream,
-                HttpContext.User.Id()
-            ),
-            CreateFormattedServiceMessage(service));
     }
 
     private static string CreateFormattedServiceMessage(string service)
