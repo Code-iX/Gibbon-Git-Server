@@ -9,8 +9,8 @@ namespace Gibbon.Git.Server.Security;
 public class RepositoryPermissionService(IRepositoryService repository, IRoleProvider roleProvider, ITeamService teamService, ILogger<RepositoryPermissionService> logger, ServerSettings serverSettings)
     : IRepositoryPermissionService
 {
-    private readonly ServerSettings _serverSettings = serverSettings;
     private readonly ILogger<RepositoryPermissionService> _logger = logger;
+    private readonly ServerSettings _serverSettings = serverSettings;
     private readonly IRepositoryService _repository = repository;
     private readonly IRoleProvider _roleProvider = roleProvider;
     private readonly ITeamService _teamService = teamService;
@@ -35,10 +35,20 @@ public class RepositoryPermissionService(IRepositoryService repository, IRolePro
     {
         if (userId == 0)
         {
-            // Anonymous users cannot create repos
             return false;
         }
-        return IsSystemAdministrator(userId) || _serverSettings.AllowUserRepositoryCreation;
+
+        if (_serverSettings.AllowUserRepositoryCreation)
+        {
+            return true;
+        }
+
+        if (IsSystemAdministrator(userId))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public IEnumerable<RepositoryModel> GetAllPermittedRepositories(int userId, RepositoryAccessLevel requiredLevel)
@@ -49,23 +59,16 @@ public class RepositoryPermissionService(IRepositoryService repository, IRolePro
 
     private bool HasPermission(int userId, List<TeamModel> userTeams, RepositoryModel repositoryModel, RepositoryAccessLevel requiredLevel)
     {
-        // All users can take advantage of the anonymous permissions
         if (CheckAnonymousPermission(repositoryModel, requiredLevel))
         {
-            _logger.LogDebug(
-                "Permitting user {UserId} anonymous permission {Permission} on repo {RepositoryName}",
-                userId,
-                requiredLevel,
-                repositoryModel.Name);
+            _logger.LogDebug("Permitting user {UserId} anonymous permission {Permission} on repo {RepositoryName}", userId, requiredLevel, repositoryModel.Name);
             return true;
         }
         if (userId == 0)
         {
-            // We have no named user
             return false;
         }
 
-        // Named users have more possibilities
         return CheckNamedUserPermission(userId, userTeams, repositoryModel, requiredLevel);
     }
 
@@ -73,7 +76,6 @@ public class RepositoryPermissionService(IRepositoryService repository, IRolePro
     {
         if (!repository.AnonymousAccess)
         {
-            // There's no anon access at all to this repo
             return false;
         }
 
@@ -90,38 +92,24 @@ public class RepositoryPermissionService(IRepositoryService repository, IRolePro
     {
         ArgumentOutOfRangeException.ThrowIfEqual(userId, 0, nameof(userId));
 
-        var userIsAnAdministrator = IsSystemAdministrator(userId) || repository.Administrators.Any(x => x.Id == userId);
-
-        _logger.LogTrace("Checking user {UserId} (admin? {IsAdmin}) has permission {Permission} on repo {RepositoryName}",
-             userId,
-             userIsAnAdministrator,
-             requiredLevel,
-             repository.Name);
-
-        return requiredLevel switch
+        if (IsSystemAdministrator(userId) || repository.Administrators.Any(x => x.Id == userId))
         {
-            RepositoryAccessLevel.Push or RepositoryAccessLevel.Pull => userIsAnAdministrator || UserIsARepoUser(userId, repository) || UserIsATeamMember(userTeams, repository),
-            RepositoryAccessLevel.Administer => userIsAnAdministrator,
-            _ => throw new ArgumentOutOfRangeException(nameof(requiredLevel), requiredLevel, null)
-        };
+            return true;
+        }
+
+        _logger.LogTrace("Checking user {UserId} has permission {Permission} on repo {RepositoryName}", userId, requiredLevel, repository.Name);
+
+        return requiredLevel is RepositoryAccessLevel.Push or RepositoryAccessLevel.Pull && UserHasAccess(userId, userTeams, repository);
     }
 
-    private static bool UserIsARepoUser(int userId, RepositoryModel repository)
+    private static bool UserHasAccess(int userId, List<TeamModel> userTeams, RepositoryModel repository)
     {
-        return repository.Users.Any(x => x.Id == userId);
+        return repository.Users.Any(x => x.Id == userId) || userTeams.Any(team => repository.Teams.Any(t => t.Id == team.Id));
     }
 
-    private static bool UserIsATeamMember(List<TeamModel> userTeams, RepositoryModel repository)
-    {
-        return userTeams
-            .Any(x => repository.Teams.Select(y => y.Name)
-            .Contains(x.Name, StringComparer.OrdinalIgnoreCase));
-    }
 
     private bool IsSystemAdministrator(int userId)
     {
-        return _roleProvider
-            .GetRolesForUser(userId)
-            .Contains(Definitions.Roles.Administrator);
+        return _roleProvider.IsUserInRole(userId, Definitions.Roles.Administrator);
     }
 }
