@@ -70,7 +70,6 @@ public class ServerControllerTests : ControllerTestBase<ServerController>
             AllowAnonymousPush = true,
             AllowAnonymousRegistration = true,
             AllowUserRepositoryCreation = true,
-            AllowPushToCreate = true,
             DefaultLanguage = "en",
             SiteTitle = "Test Site",
             SiteLogoUrl = "logo.png",

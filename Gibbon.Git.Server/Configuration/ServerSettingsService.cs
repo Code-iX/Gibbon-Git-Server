@@ -26,7 +26,6 @@ public class ServerSettingsService(IMemoryCache memoryCache, GibbonGitServerCont
         entity.AllowAnonymousPush = settings.AllowAnonymousPush;
         entity.AllowAnonymousRegistration = settings.AllowAnonymousRegistration;
         entity.AllowUserRepositoryCreation = settings.AllowUserRepositoryCreation;
-        entity.AllowPushToCreate = settings.AllowPushToCreate;
         entity.DefaultLanguage = settings.DefaultLanguage;
         entity.SiteTitle = settings.SiteTitle;
         entity.SiteLogoUrl = settings.SiteLogoUrl;
@@ -47,7 +46,6 @@ public class ServerSettingsService(IMemoryCache memoryCache, GibbonGitServerCont
             {
                 AllowAnonymousPush = entity.AllowAnonymousPush,
                 AllowUserRepositoryCreation = entity.AllowUserRepositoryCreation,
-                AllowPushToCreate = entity.AllowPushToCreate,
                 AllowAnonymousRegistration = entity.AllowAnonymousRegistration,
                 DefaultLanguage = entity.DefaultLanguage,
                 SiteTitle = entity.SiteTitle,

@@ -17,9 +17,6 @@ public class ServerSettingsModel
     [Display(ResourceType = typeof(Resources), Name = "Settings_Global_AllowUserRepositoryCreation")]
     public bool AllowUserRepositoryCreation { get; set; }
 
-    [Display(ResourceType = typeof(Resources), Name = "Settings_Global_AllowPushToCreate")]
-    public bool AllowPushToCreate { get; set; }
-
     [Display(ResourceType = typeof(Resources), Name = "Settings_Global_DefaultLanguage")]
     public string DefaultLanguage { get; set; }
 
