@@ -1,9 +1,7 @@
 ﻿using Gibbon.Git.Server.Configuration;
 using Gibbon.Git.Server.Data;
 using Gibbon.Git.Server.Extensions;
-using Gibbon.Git.Server.Git;
 using Gibbon.Git.Server.Git.GitService;
-using Gibbon.Git.Server.Git.Models;
 using Gibbon.Git.Server.Middleware.Attributes;
 using Gibbon.Git.Server.Middleware.Authorize;
 using Gibbon.Git.Server.Models;
@@ -137,38 +135,28 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
 
     private IActionResult ExecuteReceivePack(string repositoryName)
     {
-        var userName = HttpContext.User.Username();
-        var userId = HttpContext.User.Id();
         return new GitCmdResult(
             "application/x-git-receive-pack-result",
-            async outStream => await _gitService.ExecuteServiceByName(
-                Guid.NewGuid().ToString("N"),
-                repositoryName,
+            async outStream => await _gitService.ExecuteServiceByName(repositoryName,
                 "receive-pack",
                 new ExecutionOptions(false),
-                GetInputStream(disableBuffer: true),
+                GetInputStream(),
                 outStream,
-                userName,
-                userId
+                HttpContext.User.Id()
             )
         );
     }
 
     private IActionResult ExecuteUploadPack(string repositoryName)
     {
-        var userName = HttpContext.User.Username();
-        var userId = HttpContext.User.Id();
         return new GitCmdResult(
             "application/x-git-upload-pack-result",
-            async outStream => await _gitService.ExecuteServiceByName(
-                Guid.NewGuid().ToString("N"),
-                repositoryName,
+            async outStream => await _gitService.ExecuteServiceByName(repositoryName,
                 "upload-pack",
                 new ExecutionOptions(false, true),
                 GetInputStream(),
                 outStream,
-                userName,
-                userId
+                HttpContext.User.Id()
             )
         );
     }
@@ -177,21 +165,15 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
     {
         Response.StatusCode = 200;
 
-        var userName = HttpContext.User.Username();
-        var userId = HttpContext.User.Id();
         return new GitCmdResult(
             $"application/x-{service}-advertisement",
-            async outStream =>
-            {
-                await _gitService.ExecuteServiceByName(Guid.NewGuid().ToString("N"),
-                    repositoryName,
-                    service[4..],
-                    new ExecutionOptions(true),
-                    GetInputStream(),
-                    outStream,
-                    userName,
-                    userId);
-            },
+            async outStream => await _gitService.ExecuteServiceByName(repositoryName,
+                service[4..],
+                new ExecutionOptions(true),
+                GetInputStream(),
+                outStream,
+                HttpContext.User.Id()
+            ),
             CreateFormattedServiceMessage(service));
     }
 
@@ -217,7 +199,7 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
         return isValid;
     }
 
-    private Stream GetInputStream(bool disableBuffer = false)
+    private Stream GetInputStream()
     {
         // For really large uploads we need to get a bufferless input stream and disable the max
         // request length.

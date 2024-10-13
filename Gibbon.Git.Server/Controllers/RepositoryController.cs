@@ -15,7 +15,6 @@ using ICSharpCode.SharpZipLib.Zip;
 using LibGit2Sharp;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 
 namespace Gibbon.Git.Server.Controllers;

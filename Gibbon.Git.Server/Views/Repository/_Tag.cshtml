@@ -1,10 +1,7 @@
 ﻿@model Gibbon.Git.Server.Models.RepositoryCommitModel
 @using System.Globalization
 @using Gibbon.Git.Server.Configuration
-@using Gibbon.Git.Server.Data.Entities
 @using Gibbon.Git.Server.Extensions
-@using Gibbon.Git.Server.Helpers
-@using Microsoft.Extensions.Options
 @inject ServerSettings ServerSettings
 <div class="tag" style="margin-top: 0.5em">
     @foreach (var stag in Model.Tags)

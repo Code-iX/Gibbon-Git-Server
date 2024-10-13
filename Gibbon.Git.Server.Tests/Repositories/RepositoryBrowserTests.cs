@@ -1,18 +1,4 @@
-﻿using System;
-using System.Linq;
-
-using Gibbon.Git.Server.Repositories;
-using Gibbon.Git.Server.Services;
-using Gibbon.Git.Server.Tests.TestHelper;
-
-using LibGit2Sharp;
-
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-
-using NSubstitute;
-
-namespace Gibbon.Git.Server.Tests.Repositories;
+﻿namespace Gibbon.Git.Server.Tests.Repositories;
 
 //[TestClass]
 //public class RepositoryBrowserTests : TestBase

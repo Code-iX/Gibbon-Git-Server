@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.Drawing;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using Gibbon.Git.Server.Data;
 using Gibbon.Git.Server.Helpers;

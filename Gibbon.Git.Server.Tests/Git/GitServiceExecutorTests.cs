@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Gibbon.Git.Server.Configuration;
 using Gibbon.Git.Server.Data;
 using Gibbon.Git.Server.Extensions;
 using Gibbon.Git.Server.Git.GitService;
-using Gibbon.Git.Server.Git.Models;
 using Gibbon.Git.Server.Models;
 using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Services;
@@ -72,13 +70,13 @@ public class GitServiceExecutorTests
         // Act & Assert
         if (isValid)
         {
-            await _executor.ExecuteServiceByName("correlationId", repositoryName, serviceName, options, inStream, outStream, userName, userId);
+            await _executor.ExecuteServiceByName(repositoryName, serviceName, options, inStream, outStream, userId);
             await _processService.Received(1).StartProcessWithStreamAsync(Arg.Any<ProcessStartInfo>(), inStream, outStream, true);
         }
         else
         {
             await Assert.ThrowsExceptionAsync<InvalidOperationException>(() =>
-                _executor.ExecuteServiceByName("correlationId", repositoryName, serviceName, options, inStream, outStream, userName, userId)
+                _executor.ExecuteServiceByName(repositoryName, serviceName, options, inStream, outStream, userId)
             );
         }
     }
@@ -104,7 +102,7 @@ public class GitServiceExecutorTests
         _pathResolver.GetRepositoryPath(Arg.Any<string>()).Returns("/fakeRepoDir/repo");
 
         // Act
-        await _executor.ExecuteServiceByName("correlationId", repositoryName, serviceName, options, inStream, outStream, userName, userId);
+        await _executor.ExecuteServiceByName(repositoryName, serviceName, options, inStream, outStream, userId);
 
         // Assert
         await _processService.Received(1).StartProcessWithStreamAsync(Arg.Is<ProcessStartInfo>(p =>
@@ -131,7 +129,7 @@ public class GitServiceExecutorTests
         _pathResolver.GetRepositoryPath(Arg.Any<string>()).Returns("/fakeRepoDir/repo");
 
         // Act
-        await _executor.ExecuteServiceByName("correlationId", repositoryName, serviceName, options, inStream, outStream, userName, userId);
+        await _executor.ExecuteServiceByName(repositoryName, serviceName, options, inStream, outStream, userId);
 
         // Assert
         await _processService.Received(1).StartProcessWithStreamAsync(Arg.Any<ProcessStartInfo>(), inStream, outStream, endStreamWithClose);
@@ -156,7 +154,7 @@ public class GitServiceExecutorTests
         _pathResolver.GetRepositoryPath(Arg.Any<string>()).Returns("/fakeRepoDir/repo");
 
         // Act
-        await _executor.ExecuteServiceByName("correlationId", repositoryName, serviceName, options, inStream, outStream, userName, userId);
+        await _executor.ExecuteServiceByName(repositoryName, serviceName, options, inStream, outStream, userId);
 
         // Assert
         _teamService.Received(1).GetTeamsForUser(userId);
