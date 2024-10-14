@@ -4,7 +4,6 @@ using Gibbon.Git.Server.Extensions;
 using Gibbon.Git.Server.Git.GitService;
 using Gibbon.Git.Server.Middleware.Attributes;
 using Gibbon.Git.Server.Middleware.Authorize;
-using Gibbon.Git.Server.Models;
 using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Services;
 
@@ -17,7 +16,6 @@ using Repository = LibGit2Sharp.Repository;
 
 namespace Gibbon.Git.Server.Controllers;
 
-[ServiceFilter(typeof(GitControllerExceptionFilter))]
 [RepositoryNameNormalizer("repositoryName")]
 [GitAuthorize]
 public class GitController(ILogger<GitController> logger, IRepositoryPermissionService repositoryPermissionService, IRepositoryService repositoryService, IUserService userService, IGitService gitService, ServerSettings serverOptions, IPathResolver pathResolver)
@@ -33,13 +31,16 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
 
     public IActionResult SecureGetInfoRefs(string repositoryName, string service)
     {
+        if (!RepositoryIsValid(repositoryName))
+        {
+            return GitNotFound();
+        }
         var isPush = string.Equals("git-receive-pack", service, StringComparison.OrdinalIgnoreCase);
-
         var requiredLevel = isPush ? RepositoryAccessLevel.Push : RepositoryAccessLevel.Pull;
         if (!_repositoryPermissionService.HasPermission(User.Id(), repositoryName, requiredLevel))
         {
             _logger.LogWarning("SecureGetInfoRefs unauth because User {UserId} doesn't have permission {Permission} on  repo {RepositoryName}", User.Id(), requiredLevel, repositoryName);
-            return Unauthorized();
+            return GitForbidden();
         }
 
         Response.StatusCode = 200;
@@ -61,12 +62,12 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
     {
         if (!RepositoryIsValid(repositoryName))
         {
-            return NotFound();
+            return GitNotFound();
         }
 
         if (!_repositoryPermissionService.HasPermission(User.Id(), repositoryName, RepositoryAccessLevel.Pull))
         {
-            return Unauthorized();
+            return GitForbidden();
         }
 
         return new GitCmdResult(
@@ -86,12 +87,12 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
     {
         if (!RepositoryIsValid(repositoryName))
         {
-            return NotFound();
+            return GitNotFound();
         }
 
         if (!_repositoryPermissionService.HasPermission(User.Id(), repositoryName, RepositoryAccessLevel.Push))
         {
-            return Unauthorized();
+            return GitForbidden();
         }
 
         return new GitCmdResult(
@@ -104,41 +105,6 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
                 HttpContext.User.Id()
             )
         );
-    }
-
-    private bool TryCreateOnPush(string repositoryName)
-    {
-        var directory = GetDirectoryInfo(repositoryName);
-        if (directory.Exists)
-        {
-            // We can't create a new repo - there's already a directory with that name
-            _logger.LogWarning("Can't create {RepositoryName} - directory already exists", repositoryName);
-            return false;
-        }
-        var repository = new RepositoryModel
-        {
-            Name = repositoryName
-        };
-        if (!repository.NameIsValid)
-        {
-            // We don't like this name
-            _logger.LogWarning("Can't create '{RepositoryName}' - name is invalid", repositoryName);
-            return false;
-        }
-        var user = _userService.GetUserModel(User.Id());
-        repository.Description = "Auto-created by push for " + user.DisplayName;
-        repository.AnonymousAccess = false;
-        repository.Administrators = [user];
-        if (!_repositoryService.Create(repository))
-        {
-            // We can't add this to the repo store
-            _logger.LogWarning("Can't create '{RepositoryName}' - RepoRepo.Create failed", repositoryName);
-            return false;
-        }
-
-        Repository.Init(Path.Combine(_pathResolver.GetRepositories(), repository.Name), true);
-        _logger.LogInformation("'{RepositoryName}' created", repositoryName);
-        return true;
     }
 
     private static string CreateFormattedServiceMessage(string service)
@@ -172,5 +138,25 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
         return Request.Headers["Content-Encoding"] == "gzip"
             ? new GZipInputStream(requestStream)
             : requestStream;
+    }
+
+    /// <summary>
+    /// Returns a plain text response with status code 403 (Forbidden).
+    /// </summary>
+    /// <returns>A plain text response indicating the request is forbidden.</returns>
+    private IActionResult GitForbidden()
+    {
+        Response.StatusCode = 403;
+        return Content("Forbidden.", "text/plain; charset=UTF-8");
+    }
+
+    /// <summary>
+    /// Returns a plain text response with status code 404 (Not Found).
+    /// </summary>
+    /// <returns>A plain text response indicating the repository was not found.</returns>
+    private IActionResult GitNotFound()
+    {
+        Response.StatusCode = 404;
+        return Content("Repository not found.", "text/plain; charset=UTF-8");
     }
 }

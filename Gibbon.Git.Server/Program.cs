@@ -72,7 +72,6 @@ services.AddScoped<IUserSettingsService, UserSettingsService>();
 services.AddScoped<IProcessService, ProcessService>();
 services.AddScoped<IGitService, GitService>();
 services.AddScoped<IGitDownloadService, GitDownloadService>();
-services.AddScoped<GitControllerExceptionFilter>();
 
 services.AddScoped<IAvatarService, AvatarService>();
 services.AddScoped<IRepositoryBrowserFactory, RepositoryBrowserFactory>();

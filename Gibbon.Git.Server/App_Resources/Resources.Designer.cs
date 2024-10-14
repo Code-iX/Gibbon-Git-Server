@@ -531,6 +531,15 @@ namespace Gibbon.Git.Server.App_Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The {0} field only accepts files with the following extensions: {1}..
+        /// </summary>
+        public static string FileUploadAttribute_ErrorMessage {
+            get {
+                return ResourceManager.GetString("FileUploadAttribute_ErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Global.
         /// </summary>
         public static string Global {

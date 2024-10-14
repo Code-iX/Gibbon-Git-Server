@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Gibbon.Git.Server.Middleware.Attributes;
+
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Processing;
@@ -17,7 +17,7 @@ public class RepositoryLogoDetailModel
         _data = data;
     }
 
-    [FileUploadExtensions(Extensions = "PNG,JPG,JPEG,GIF")]
+    [FileExtensions(Extensions = "png,jpg,jpeg,gif", ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "FileUploadAttribute_ErrorMessage")]
     [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_Logo_PostedFile")]
     public IFormFile PostedFile { get; set; }
 
@@ -30,19 +30,23 @@ public class RepositoryLogoDetailModel
     {
         get
         {
-            if (_data != null || PostedFile == null)
-                return _data;
-
-            using (var ms = new MemoryStream())
+            try
             {
-                using (var image = Image.Load(PostedFile.OpenReadStream()))
-                {
-                    var logoWidth = image.Width >= 72 ? 72 : 36;
-                    image.Mutate(x => x.Resize(logoWidth, logoWidth * image.Height / image.Width));
-                    image.Save(ms, new PngEncoder());
-                }
+                if (_data != null || PostedFile == null)
+                    return _data;
+
+                using var ms = new MemoryStream();
+                using var image = Image.Load(PostedFile.OpenReadStream());
+
+                var logoWidth = image.Width >= 72 ? 72 : 36;
+                image.Mutate(x => x.Resize(logoWidth, logoWidth * image.Height / image.Width));
+                image.Save(ms, new PngEncoder());
 
                 _data = ms.ToArray();
+            }
+            catch
+            {
+                // ignored
             }
 
             return _data;

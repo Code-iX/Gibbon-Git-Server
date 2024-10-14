@@ -1007,4 +1007,7 @@ Die regulären C# String-Formatierungsregeln gelten: Um {} in Ihrem Link zu erha
   <data name="Repository_Go_To_Overview" xml:space="preserve">
     <value>Übersicht</value>
   </data>
+  <data name="FileUploadAttribute_ErrorMessage" xml:space="preserve">
+    <value>Das Feld {0} akzeptiert nur Dateien mit den folgenden Erweiterungen: {1}.</value>
+  </data>
 </root>

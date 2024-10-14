@@ -11,9 +11,8 @@ public class RepositoryDetailModel
     public int Id { get; set; }
 
     [Remote("UniqueNameRepo", "Validation", AdditionalFields = "Id", ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Duplicate_Name")]
-    [RegularExpression(StringHelper.NameIsValidPattern, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_FileName_Regex")]
     [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Required")]
-    [FileName(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_FileName")]
+    [RepositoryName(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_FileName")]
     [StringLength(50, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_StringLength")]
     [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_Name")]
     public string Name { get; set; } = "";

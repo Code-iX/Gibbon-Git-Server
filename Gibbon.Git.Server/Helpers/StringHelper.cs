@@ -4,8 +4,6 @@ namespace Gibbon.Git.Server.Helpers;
 
 public static partial class StringHelper
 {
-    public const string NameIsValidPattern = @"^([\w\.-])*([\w])$";
-
     public static string RemoveWhiteSpace(string input)
     {
         return WhiteSpaceRemoveRegex().Replace(input, string.Empty);
@@ -15,12 +13,13 @@ public static partial class StringHelper
     {
         return IllegalChars().Replace(input, "");
     }
+
     public static bool NameIsValid(string value)
     {
-        return NameIsValidRegex().IsMatch(value);
+        return NameIsValidRegex().IsMatch(value) && value.IndexOfAny(Path.GetInvalidFileNameChars()) == -1;
     }
 
-    [GeneratedRegex(NameIsValidPattern)]
+    [GeneratedRegex(@"^([\w\.-])*([\w])$")]
     private static partial Regex NameIsValidRegex();
 
     [GeneratedRegex(@"\s")]
