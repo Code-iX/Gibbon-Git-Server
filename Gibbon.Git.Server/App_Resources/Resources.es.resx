@@ -849,4 +849,7 @@ Se aplican las reglas estándar de formato de cadenas de C#: Para obtener {} en 
   <data name="Home_ResetPassword_Username" xml:space="preserve">
     <value>Nombre de usuario</value>
 </data>
+  <data name="FileUploadAttribute_ErrorMessage" xml:space="preserve">
+    <value>El campo {0} solo acepta archivos con las siguientes extensiones: {1}.</value>
+  </data>
 </root>

@@ -107,7 +107,6 @@ public class RepositoryPermissionService(IRepositoryService repository, IRolePro
         return repository.Users.Any(x => x.Id == userId) || userTeams.Any(team => repository.Teams.Any(t => t.Id == team.Id));
     }
 
-
     private bool IsSystemAdministrator(int userId)
     {
         return _roleProvider.IsUserInRole(userId, Definitions.Roles.Administrator);

@@ -1066,4 +1066,7 @@ The regular C# string formatting rules apply: To get {} in your link you need to
   <data name="Repository_Go_To_Overview" xml:space="preserve">
 	  <value>Overview</value>
   </data>
+  <data name="FileUploadAttribute_ErrorMessage" xml:space="preserve">
+	  <value>The {0} field only accepts files with the following extensions: {1}.</value>
+  </data>
 </root>
