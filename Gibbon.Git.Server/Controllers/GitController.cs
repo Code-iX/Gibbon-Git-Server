@@ -17,8 +17,8 @@ using Repository = LibGit2Sharp.Repository;
 
 namespace Gibbon.Git.Server.Controllers;
 
-[RepositoryNameNormalizer("repositoryName")]
 [GitAuthorize]
+[RepositoryNameNormalizer("repositoryName")]
 public class GitController(ILogger<GitController> logger, IRepositoryPermissionService repositoryPermissionService, IRepositoryService repositoryService, IUserService userService, IGitService gitService, ServerSettings serverOptions, IPathResolver pathResolver)
     : ControllerBase
 {
