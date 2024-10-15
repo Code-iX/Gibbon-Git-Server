@@ -24,11 +24,6 @@ public static class UserExtensions
         return user.GetClaimValue(ClaimTypes.Name) ?? user.GetClaimValue(ClaimTypes.Upn);
     }
 
-    public static string DisplayName(this IPrincipal user)
-    {
-        return $"{user.GetClaimValue(ClaimTypes.GivenName)} {user.GetClaimValue(ClaimTypes.Surname)}";
-    }
-
     public static bool IsWindowsAuthenticated(this IPrincipal user)
     {
         var authenticationMethod = user.GetClaimValue(ClaimTypes.AuthenticationMethod);

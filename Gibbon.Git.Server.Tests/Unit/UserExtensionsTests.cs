@@ -58,13 +58,6 @@ public class UserExtensionsTests
     }
 
     [TestMethod]
-    public void DisplayNameCanBeAssembledFromGivenNameAndSurname()
-    {
-        var user = MakeUserWithClaims(new Claim(ClaimTypes.GivenName, "Joe"), new Claim(ClaimTypes.Surname, "Bloggs"));
-        Assert.AreEqual("Joe Bloggs", user.DisplayName());
-    }
-
-    [TestMethod]
     public void UsernameIsInNameClaim()
     {
         var user = MakeUserWithClaims(new Claim(ClaimTypes.Name, "JoeBloggs"));
