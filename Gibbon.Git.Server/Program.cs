@@ -5,7 +5,6 @@ using Gibbon.Git.Server.Git.GitDownloadService;
 using Gibbon.Git.Server.Git.GitService;
 using Gibbon.Git.Server.Git.GitVersionService;
 using Gibbon.Git.Server.Middleware;
-using Gibbon.Git.Server.Middleware.Attributes;
 using Gibbon.Git.Server.Provider;
 using Gibbon.Git.Server.Repositories;
 using Gibbon.Git.Server.Security;
@@ -13,6 +12,7 @@ using Gibbon.Git.Server.Services;
 using Gibbon.Git.Server.Services.Hosted;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
@@ -75,6 +75,8 @@ services.AddScoped<IGitDownloadService, GitDownloadService>();
 
 services.AddScoped<IAvatarService, AvatarService>();
 services.AddScoped<IRepositoryBrowserFactory, RepositoryBrowserFactory>();
+services.AddScoped<IAuthorizationHandler, RepositoryPermissionHandler>();
+
 services.AddTransient<IRepositoryBrowser, RepositoryBrowser>();
 
 services.AddTransient<IStartupService, RepositoryStartupService>();
@@ -126,7 +128,11 @@ services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         };
     });
 
-services.AddAuthorization();
+services.AddAuthorization(options =>
+{
+    options.AddPolicy(Policies.RepositoryAdmin, policy => policy.Requirements.Add(new RepositoryPermissionRequirement(RepositoryAccessLevel.Administer)));
+    options.AddPolicy(Policies.RepositoryPush, policy => policy.Requirements.Add(new RepositoryPermissionRequirement(RepositoryAccessLevel.Push)));
+});
 
 services.AddControllersWithViews()
     .AddCookieTempDataProvider();

@@ -60,7 +60,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         return View(list);
     }
 
-    [WebAuthorizeRepository(RequiresRepositoryAdministrator = true)]
+    [Authorize(Policy = Policies.RepositoryAdmin)]
     public IActionResult Edit(int id)
     {
         var model = ConvertRepositoryModel(_repositoryService.GetRepository(id), User);
@@ -70,7 +70,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [WebAuthorizeRepository(RequiresRepositoryAdministrator = true)]
+    [Authorize(Policy = Policies.RepositoryAdmin)]
     public IActionResult Edit(RepositoryDetailModel model)
     {
         if (!ModelState.IsValid)
@@ -197,7 +197,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
 
     }
 
-    [WebAuthorizeRepository(RequiresRepositoryAdministrator = true)]
+    [Authorize(Policy = Policies.RepositoryAdmin)]
     public IActionResult Delete(int id)
     {
         return View(ConvertRepositoryModel(_repositoryService.GetRepository(id), User));
@@ -205,7 +205,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [WebAuthorizeRepository(RequiresRepositoryAdministrator = true)]
+    [Authorize(Policy = Policies.RepositoryAdmin)]
     public IActionResult Delete(RepositoryDetailModel model)
     {
         if (model != null)
@@ -222,7 +222,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         return RedirectToAction("Index");
     }
 
-    [WebAuthorizeRepository]
+    [Authorize(Policy = Policies.RepositoryPush)]
     public IActionResult Detail(int id)
     {
         ViewBag.ID = id;
@@ -273,7 +273,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         }
     }
 
-    [WebAuthorizeRepository]
+    [Authorize(Policy = Policies.RepositoryPush)]
     public IActionResult Tree(int id, string encodedName, string encodedPath)
     {
         var isApiRequest = HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
@@ -314,7 +314,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         return View(model);
     }
 
-    [WebAuthorizeRepository]
+    [Authorize(Policy = Policies.RepositoryPush)]
     public IActionResult Blob(int id, string encodedName, string encodedPath)
     {
         ViewBag.ID = id;
@@ -330,7 +330,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         return View(model);
     }
 
-    [WebAuthorizeRepository]
+    [Authorize(Policy = Policies.RepositoryPush)]
     public IActionResult Raw(int id, string encodedName, string encodedPath, bool display = false)
     {
         var repo = _repositoryService.GetRepository(id);
@@ -357,7 +357,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         return NotFound();
     }
 
-    [WebAuthorizeRepository]
+    [Authorize(Policy = Policies.RepositoryPush)]
     public IActionResult Blame(int id, string encodedName, string encodedPath)
     {
         ViewBag.ID = id;
@@ -374,7 +374,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         return View(model);
     }
 
-    [WebAuthorizeRepository]
+    [Authorize(Policy = Policies.RepositoryPush)]
     public IActionResult Download(int id, string encodedName, string encodedPath)
     {
         var name = PathEncoder.Decode(encodedName);
@@ -405,47 +405,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         return File(memoryStream.ToArray(), "application/zip", fileName);
     }
 
-    private static void AddTreeToZip(IRepositoryBrowser browser, string name, string path, ZipOutputStream zipStream)
-    {
-        var treeNode = browser.BrowseTree(name, path, out _);
-
-        foreach (var item in treeNode)
-        {
-            if (item.IsLink)
-            {
-                var entryName = Path.Combine(item.TreeName, item.Path).Replace("\\", "/"); // Für Konsistenz in Zip-Pfaden
-                var entry = new ZipEntry(entryName + "/")
-                {
-                    DateTime = DateTime.Now,
-                    Size = 0
-                };
-                zipStream.PutNextEntry(entry);
-                zipStream.CloseEntry();
-            }
-            else if (!item.IsTree)
-            {
-                var model = browser.BrowseBlob(item.TreeName, item.Path, out _);
-                var entryName = Path.Combine(item.TreeName, item.Path).Replace("\\", "/");
-
-                var entry = new ZipEntry(entryName)
-                {
-                    DateTime = DateTime.Now,
-                    Size = model.Data.Length
-                };
-
-                zipStream.PutNextEntry(entry);
-                zipStream.Write(model.Data, 0, model.Data.Length);
-                zipStream.CloseEntry();
-            }
-            else
-            {
-                // Rekursiver Aufruf für Unterverzeichnisse
-                AddTreeToZip(browser, item.TreeName, item.Path, zipStream);
-            }
-        }
-    }
-
-    [WebAuthorizeRepository]
+    [Authorize(Policy = Policies.RepositoryPush)]
     public IActionResult Tags(int id, string encodedName, int page = 1)
     {
         page = page >= 1 ? page : 1;
@@ -466,7 +426,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         });
     }
 
-    [WebAuthorizeRepository]
+    [Authorize(Policy = Policies.RepositoryPush)]
     public IActionResult Commits(int id, string encodedName, int? page = null)
     {
         page = page >= 1 ? page : 1;
@@ -524,7 +484,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         });
     }
 
-    [WebAuthorizeRepository]
+    [Authorize(Policy = Policies.RepositoryPush)]
     public IActionResult Commit(int id, string commit)
     {
         ViewBag.ID = id;
@@ -552,8 +512,8 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     }
 
     [HttpPost]
-    [WebAuthorizeRepository]
     [ValidateAntiForgeryToken]
+    [Authorize(Policy = Policies.RepositoryPush)]
     public IActionResult Clone(int id, RepositoryDetailModel model)
     {
         ArgumentNullException.ThrowIfNull(model, nameof(model));
@@ -621,7 +581,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         return RedirectToAction("Index");
     }
 
-    [WebAuthorizeRepository]
+    [Authorize(Policy = Policies.RepositoryPush)]
     public IActionResult History(int id, string encodedPath, string encodedName)
     {
         ViewBag.ID = id;
@@ -639,29 +599,6 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         });
     }
 
-    private void PopulateCheckboxListData(ref RepositoryDetailModel model)
-    {
-        model = model.Id != 0 ? ConvertRepositoryModel(_repositoryService.GetRepository(model.Id), User) : model;
-        model.AllAdministrators = _userService.GetAllUsers().ToArray();
-        model.AllUsers = _userService.GetAllUsers().ToArray();
-        model.AllTeams = _teamRepository.GetAllTeams().ToArray();
-        if (model.PostedSelectedUsers != null && model.PostedSelectedUsers.Any())
-        {
-            model.Users = model.PostedSelectedUsers.Select(x => _userService.GetUserModel(x)).ToArray();
-        }
-        if (model.PostedSelectedTeams != null && model.PostedSelectedTeams.Any())
-        {
-            model.Teams = model.PostedSelectedTeams.Select(x => _teamRepository.GetTeam(x)).ToArray();
-        }
-        if (model.PostedSelectedAdministrators != null && model.PostedSelectedAdministrators.Any())
-        {
-            model.Administrators = model.PostedSelectedAdministrators.Select(x => _userService.GetUserModel(x)).ToArray();
-        }
-        model.PostedSelectedAdministrators = [];
-        model.PostedSelectedUsers = [];
-        model.PostedSelectedTeams = [];
-    }
-
     [HttpPost]
     [Authorize(Roles = Roles.Admin)]
     // This takes an irrelevant ID, because there isn't a good route
@@ -670,6 +607,46 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     {
         _repositorySynchronizer.SynchronizeRepository();
         return RedirectToAction("Index");
+    }
+
+    private static void AddTreeToZip(IRepositoryBrowser browser, string name, string path, ZipOutputStream zipStream)
+    {
+        var treeNode = browser.BrowseTree(name, path, out _);
+
+        foreach (var item in treeNode)
+        {
+            if (item.IsLink)
+            {
+                var entryName = Path.Combine(item.TreeName, item.Path).Replace("\\", "/"); // Für Konsistenz in Zip-Pfaden
+                var entry = new ZipEntry(entryName + "/")
+                {
+                    DateTime = DateTime.Now,
+                    Size = 0
+                };
+                zipStream.PutNextEntry(entry);
+                zipStream.CloseEntry();
+            }
+            else if (!item.IsTree)
+            {
+                var model = browser.BrowseBlob(item.TreeName, item.Path, out _);
+                var entryName = Path.Combine(item.TreeName, item.Path).Replace("\\", "/");
+
+                var entry = new ZipEntry(entryName)
+                {
+                    DateTime = DateTime.Now,
+                    Size = model.Data.Length
+                };
+
+                zipStream.PutNextEntry(entry);
+                zipStream.Write(model.Data, 0, model.Data.Length);
+                zipStream.CloseEntry();
+            }
+            else
+            {
+                // Rekursiver Aufruf für Unterverzeichnisse
+                AddTreeToZip(browser, item.TreeName, item.Path, zipStream);
+            }
+        }
     }
 
     private void PopulateAddressBarData(string path)
@@ -710,6 +687,29 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
             LinksRegex = model.LinksRegex,
             LinksUrl = model.LinksUrl,
         };
+    }
+
+    private void PopulateCheckboxListData(ref RepositoryDetailModel model)
+    {
+        model = model.Id != 0 ? ConvertRepositoryModel(_repositoryService.GetRepository(model.Id), User) : model;
+        model.AllAdministrators = _userService.GetAllUsers().ToArray();
+        model.AllUsers = _userService.GetAllUsers().ToArray();
+        model.AllTeams = _teamRepository.GetAllTeams().ToArray();
+        if (model.PostedSelectedUsers != null && model.PostedSelectedUsers.Any())
+        {
+            model.Users = model.PostedSelectedUsers.Select(x => _userService.GetUserModel(x)).ToArray();
+        }
+        if (model.PostedSelectedTeams != null && model.PostedSelectedTeams.Any())
+        {
+            model.Teams = model.PostedSelectedTeams.Select(x => _teamRepository.GetTeam(x)).ToArray();
+        }
+        if (model.PostedSelectedAdministrators != null && model.PostedSelectedAdministrators.Any())
+        {
+            model.Administrators = model.PostedSelectedAdministrators.Select(x => _userService.GetUserModel(x)).ToArray();
+        }
+        model.PostedSelectedAdministrators = [];
+        model.PostedSelectedUsers = [];
+        model.PostedSelectedTeams = [];
     }
 
     private RepositoryDetailStatus GetRepositoryStatus(RepositoryModel model)
