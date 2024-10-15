@@ -2,6 +2,7 @@
 
 using Gibbon.Git.Server.Data;
 using Gibbon.Git.Server.Provider;
+using Gibbon.Git.Server.Repositories;
 using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Services;
 
@@ -13,6 +14,8 @@ namespace Gibbon.Git.Server.Middleware.Authorize;
 
 public class GitAuthorizeAttribute : Attribute, IAuthorizationFilter
 {
+    private const string AuthenticateRealm = "Gibbon Git Server";
+
     public void OnAuthorization(AuthorizationFilterContext context)
     {
         ArgumentNullException.ThrowIfNull(context);
@@ -36,13 +39,11 @@ public class GitAuthorizeAttribute : Attribute, IAuthorizationFilter
 
         if (string.IsNullOrEmpty(authHeader))
         {
-            // TODO here is an error
-
-            //var incomingRepoName = pathResolver.GetRepoPath(httpContext.Request.Path, httpContext.Request.PathBase);
-            //var repoName = repositoryRepository.NormalizeRepositoryName(incomingRepoName);
-            //if (repositoryPermissionService.HasPermission(Guid.Empty, repoName, RepositoryAccessLevel.Pull))
-            //    return;
-            context.HttpContext.Response.Headers.Append("WWW-Authenticate", "Basic realm=\"Bonobo Git\"");
+            var incomingRepoName = pathResolver.GetRepoPath(httpContext.Request.Path, httpContext.Request.PathBase);
+            var repoName = repositoryRepository.NormalizeRepositoryName(incomingRepoName);
+            if (repositoryPermissionService.HasPermission(0, repoName, RepositoryAccessLevel.Pull))
+                return;
+            context.HttpContext.Response.Headers.Append("WWW-Authenticate", $"Basic realm=\"{AuthenticateRealm}\"");
             context.Result = new UnauthorizedResult();
             return;
         }

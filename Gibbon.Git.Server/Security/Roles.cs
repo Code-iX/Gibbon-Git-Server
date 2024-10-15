@@ -8,5 +8,6 @@ public static class Roles
 
 public static class Policies {
     public const string RepositoryAdmin = "RepositoryAdminPolicy";
+    public const string RepositoryPull = "RepositoryPullPolicy";
     public const string RepositoryPush = "RepositoryPushPolicy";
 }
