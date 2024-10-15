@@ -4,14 +4,14 @@
     ViewBag.Title = statusCode switch
     {
         401 => Resources.Home_Unauthorized_Title,
-        403 => Resources.Home_PageNotFound_Title,
+        403 => Resources.Error_Forbidden_Title,
         404 => Resources.Home_PageNotFound_Title,
         500 => Resources.Home_ServerError_Title,
         _ => Resources.Home_Error_Title
     };
 }
 
-<h1>
+<h1> 
     @ViewBag.Title
 </h1>
 
@@ -23,7 +23,7 @@
                 @Resources.Home_Unauthorized_Text
                 break;
             case 403:
-                <text>Forbidden</text>
+                @Resources.Error_Forbidden_Text
                 break;
             case 404:
                 @Resources.Home_PageNotFound_Text

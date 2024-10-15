@@ -1010,4 +1010,10 @@ Die regulären C# String-Formatierungsregeln gelten: Um {} in Ihrem Link zu erha
   <data name="FileUploadAttribute_ErrorMessage" xml:space="preserve">
     <value>Das Feld {0} akzeptiert nur Dateien mit den folgenden Erweiterungen: {1}.</value>
   </data>
+  <data name="Error_Forbidden_Title" xml:space="preserve">
+    <value>Zugriff verweigert</value>
+  </data>
+  <data name="Error_Forbidden_Text" xml:space="preserve">
+    <value>Der Zugriff auf die Ressource wurde verweigert.</value>
+  </data>
 </root>
