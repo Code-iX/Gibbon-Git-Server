@@ -1,10 +1,10 @@
 ﻿using Gibbon.Git.Server.Configuration;
 using Gibbon.Git.Server.Data;
 using Gibbon.Git.Server.Models;
-
+using Gibbon.Git.Server.Security;
 using Microsoft.Extensions.Logging;
 
-namespace Gibbon.Git.Server.Security;
+namespace Gibbon.Git.Server.Repositories;
 
 public class RepositoryPermissionService(IRepositoryService repository, IRoleProvider roleProvider, ITeamService teamService, ILogger<RepositoryPermissionService> logger, ServerSettings serverSettings)
     : IRepositoryPermissionService
@@ -82,7 +82,7 @@ public class RepositoryPermissionService(IRepositoryService repository, IRolePro
         return requiredLevel switch
         {
             RepositoryAccessLevel.Pull => true,
-            RepositoryAccessLevel.Push => repository.AllowAnonymousPush == RepositoryPushMode.Yes || (repository.AllowAnonymousPush == RepositoryPushMode.Global && _serverSettings.AllowAnonymousPush),
+            RepositoryAccessLevel.Push => repository.AllowAnonymousPush == RepositoryPushMode.Yes || repository.AllowAnonymousPush == RepositoryPushMode.Global && _serverSettings.AllowAnonymousPush,
             RepositoryAccessLevel.Administer => false,
             _ => throw new ArgumentOutOfRangeException(nameof(requiredLevel), requiredLevel, null)
         };

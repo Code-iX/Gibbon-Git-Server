@@ -4,6 +4,7 @@ using System.Linq;
 using Gibbon.Git.Server.Configuration;
 using Gibbon.Git.Server.Data;
 using Gibbon.Git.Server.Models;
+using Gibbon.Git.Server.Repositories;
 using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Tests.TestHelper;
 using Microsoft.Extensions.DependencyInjection;

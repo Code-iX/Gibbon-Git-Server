@@ -1,4 +1,5 @@
 ﻿using Gibbon.Git.Server.Models;
+using Gibbon.Git.Server.Repositories;
 
 namespace Gibbon.Git.Server.Security;
 

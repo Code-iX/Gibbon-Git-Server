@@ -1,4 +1,4 @@
-﻿namespace Gibbon.Git.Server.Security;
+﻿namespace Gibbon.Git.Server.Repositories;
 
 public enum RepositoryAccessLevel
 {

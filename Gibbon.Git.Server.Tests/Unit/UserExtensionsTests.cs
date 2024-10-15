@@ -36,7 +36,7 @@ public class UserExtensionsTests
     }
 
     [TestMethod]
-    public void GetGuidFromNameIdentityClaimWhenGuidStringEncoded()
+    public void GetGuidFromNameIdentityClaimWhenGuidStringEncoded() 
     {
         var testGuid = 1;
         var user = MakeUserWithClaims(new Claim(ClaimTypes.NameIdentifier, testGuid.ToString()));
