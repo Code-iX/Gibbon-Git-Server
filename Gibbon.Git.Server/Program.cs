@@ -89,6 +89,7 @@ services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
 
 services.AddHttpClient<IGitDownloadService, GitDownloadService>();
 
+services.AddScoped<NormalizeRepositoryNameFilter>();
 services.AddHttpContextAccessor();
 
 builder.WebHost.ConfigureKestrel(options =>
@@ -131,6 +132,7 @@ services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 services.AddAuthorization(options =>
 {
     options.AddPolicy(Policies.RepositoryAdmin, policy => policy.Requirements.Add(new RepositoryPermissionRequirement(RepositoryAccessLevel.Administer)));
+    options.AddPolicy(Policies.RepositoryPull, policy => policy.Requirements.Add(new RepositoryPermissionRequirement(RepositoryAccessLevel.Pull)));
     options.AddPolicy(Policies.RepositoryPush, policy => policy.Requirements.Add(new RepositoryPermissionRequirement(RepositoryAccessLevel.Push)));
 });
 

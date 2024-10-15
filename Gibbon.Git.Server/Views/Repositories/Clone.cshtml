@@ -4,7 +4,7 @@
 }
 <h1>@Resources.Repository_Clone_Title</h1>
 
-@using (Html.BeginForm("Clone", "Repository", new { id = ViewBag.ID }, FormMethod.Post, false, new { @class = "pure-form pure-form-aligned" }))
+@using (Html.BeginForm("Clone", "Repositories", new { name = Model.Name }, FormMethod.Post, false, new { @class = "pure-form pure-form-aligned" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(false, Resources.Repository_Clone_Fail)

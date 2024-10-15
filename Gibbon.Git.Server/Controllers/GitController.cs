@@ -117,7 +117,7 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
             return BadRequest("Repository name is required.");
         }
 
-        return RedirectToAction("Detail", "Repository", new { id = repositoryName });
+        return RedirectToAction("Detail", "Repositories", new { name = repositoryName });
     }
 
     private static string CreateFormattedServiceMessage(string service)

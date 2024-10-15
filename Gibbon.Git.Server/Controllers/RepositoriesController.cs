@@ -5,7 +5,7 @@ using Gibbon.Git.Server.Configuration;
 using Gibbon.Git.Server.Data;
 using Gibbon.Git.Server.Extensions;
 using Gibbon.Git.Server.Helpers;
-using Gibbon.Git.Server.Middleware.Authorize;
+using Gibbon.Git.Server.Middleware;
 using Gibbon.Git.Server.Models;
 using Gibbon.Git.Server.Repositories;
 using Gibbon.Git.Server.Security;
@@ -23,12 +23,12 @@ using Microsoft.Extensions.Logging;
 namespace Gibbon.Git.Server.Controllers;
 
 [Authorize]
-public class RepositoryController(ILogger<RepositoryController> logger, ITeamService teamRepository, IRepositoryService repositoryService, IUserService userService, IRepositoryPermissionService repositoryPermissionService, IRepositorySynchronizer repositorySynchronizer, ServerSettings serverSettings, IPathResolver pathResolver, IRepositoryBrowserFactory repositoryBrowserFactory)
+public class RepositoriesController(ILogger<RepositoriesController> logger, ITeamService teamRepository, IRepositoryService repositoryService, IUserService userService, IRepositoryPermissionService repositoryPermissionService, IRepositorySynchronizer repositorySynchronizer, ServerSettings serverSettings, IPathResolver pathResolver, IRepositoryBrowserFactory repositoryBrowserFactory)
     : Controller
 {
     private readonly ServerSettings _serverSettings = serverSettings;
     private readonly IPathResolver _pathResolver = pathResolver;
-    private readonly ILogger<RepositoryController> _logger = logger;
+    private readonly ILogger<RepositoriesController> _logger = logger;
     private readonly ITeamService _teamRepository = teamRepository;
     private readonly IRepositoryService _repositoryService = repositoryService;
     private readonly IUserService _userService = userService;
@@ -60,17 +60,39 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         return View(list);
     }
 
-    [Authorize(Policy = Policies.RepositoryAdmin)]
-    public IActionResult Edit(int id)
+    [HttpGet("Repositories/{name}/Detail")]
+    [Authorize(Policy = Policies.RepositoryPull)]
+    public IActionResult Detail(string name)
     {
-        var model = ConvertRepositoryModel(_repositoryService.GetRepository(id), User);
+        var repository = _repositoryService.GetRepository(name);
+
+        var model = ConvertRepositoryModel(repository, User);
+        if (model != null)
+        {
+            model.IsCurrentUserAdministrator = _repositoryPermissionService.HasPermission(User.Id(), model.Id, RepositoryAccessLevel.Administer);
+            SetGitUrls(model);
+        }
+        using (var browser = _repositoryBrowserFactory.Create(model.Name))
+        {
+            browser.BrowseTree(null, null, out var defaultReferenceName);
+            RouteData.Values.Add("encodedName", defaultReferenceName);
+        }
+
+        return View(model);
+    }
+
+    [HttpGet("Repositories/{name}/Edit")]
+    [Authorize(Policy = Policies.RepositoryAdmin)]
+    public IActionResult Edit(string name)
+    {
+        var model = ConvertRepositoryModel(_repositoryService.GetRepository(name), User);
         PopulateCheckboxListData(ref model);
         return View(model);
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
+    [HttpPost("Repositories/{name}/Edit")]
     [Authorize(Policy = Policies.RepositoryAdmin)]
+    [ValidateAntiForgeryToken]
     public IActionResult Edit(RepositoryDetailModel model)
     {
         if (!ModelState.IsValid)
@@ -108,25 +130,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         return RedirectToAction("Edit", new { model.Id });
     }
 
-    // TODO In a different Action we want to rename a repository and MoveRepo should be called there
-
-    private void MoveRepo(RepositoryModel oldRepo, RepositoryModel newRepo)
-    {
-        if (oldRepo.Name != newRepo.Name)
-        {
-            var oldPath = Path.Combine(_pathResolver.GetRepositories(), oldRepo.Name);
-            var newPath = Path.Combine(_pathResolver.GetRepositories(), newRepo.Name);
-            try
-            {
-                Directory.Move(oldPath, newPath);
-            }
-            catch (IOException exc)
-            {
-                ModelState.AddModelError("Name", exc.Message);
-            }
-        }
-    }
-
+    [HttpGet("Repositories/Create")]
     public IActionResult Create()
     {
         if (!_repositoryPermissionService.HasCreatePermission(User.Id()))
@@ -142,7 +146,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         return View(model);
     }
 
-    [HttpPost]
+    [HttpPost("Repositories/Create")]
     [ValidateAntiForgeryToken]
     public IActionResult Create(RepositoryDetailModel model)
     {
@@ -189,23 +193,23 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
             return View(model);
         }
 
-        LibGit2Sharp.Repository.Init(path, true);
+        Repository.Init(path, true);
         TempData["CreateSuccess"] = true;
         TempData["SuccessfullyCreatedRepositoryName"] = model.Name;
-        TempData["SuccessfullyCreatedRepositoryId"] = repoModel.Id;
         return RedirectToAction("Index");
 
     }
 
+    [HttpGet("Repositories/{name}/Delete")]
     [Authorize(Policy = Policies.RepositoryAdmin)]
-    public IActionResult Delete(int id)
+    public IActionResult Delete(string name)
     {
-        return View(ConvertRepositoryModel(_repositoryService.GetRepository(id), User));
+        return View(ConvertRepositoryModel(_repositoryService.GetRepository(name), User));
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
+    [HttpPost("Repositories/{name}/Delete")]
     [Authorize(Policy = Policies.RepositoryAdmin)]
+    [ValidateAntiForgeryToken]
     public IActionResult Delete(RepositoryDetailModel model)
     {
         if (model != null)
@@ -222,82 +226,32 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         return RedirectToAction("Index");
     }
 
+    [HttpGet("Repositories/{name}/Tree/{encodedName?}/{*encodedPath}")]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult Detail(int id)
-    {
-        ViewBag.ID = id;
-
-        var model = ConvertRepositoryModel(_repositoryService.GetRepository(id), User);
-        if (model != null)
-        {
-            model.IsCurrentUserAdministrator = _repositoryPermissionService.HasPermission(User.Id(), model.Id, RepositoryAccessLevel.Administer);
-            SetGitUrls(model);
-        }
-        using (var browser = _repositoryBrowserFactory.Create(model.Name))
-        {
-            browser.BrowseTree(null, null, out var defaultReferenceName);
-            RouteData.Values.Add("encodedName", defaultReferenceName);
-        }
-
-        return View(model);
-    }
-
-    /// <summary>
-    /// Construct the URLs for the repository
-    /// </summary>
-    void SetGitUrls(RepositoryDetailModel model)
-    {
-        var request = HttpContext.Request;
-
-        // Use IConfiguration to read the GitServerPath from the appsettings
-        string serverAddress = null;// _configuration["GitServerPath"];
-
-        // If GitServerPath is not defined, build it dynamically
-        if (string.IsNullOrEmpty(serverAddress))
-        {
-            var port = request.Host.Port.HasValue && request.Host.Port != 80 && request.Host.Port != 443
-                ? $":{request.Host.Port.Value}"
-                : string.Empty;
-
-            serverAddress = $"{request.Scheme}://{request.Host.Host}{port}{request.PathBase}/";
-        }
-
-        // Set the public Git URL for the repository
-        model.GitUrl = string.Concat(serverAddress, model.Name, ".git");
-
-        // Set the personal Git URL if the user is authenticated
-        if (User.Identity.IsAuthenticated)
-        {
-            var username = Uri.EscapeDataString(User.Identity.Name);
-            model.PersonalGitUrl = string.Concat(serverAddress.Replace("://", "://" + username + "@"), model.Name, ".git");
-        }
-    }
-
-    [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult Tree(int id, string encodedName, string encodedPath)
+    public IActionResult Tree(string name, string encodedName, string encodedPath)
     {
         var isApiRequest = HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
 
-        ViewBag.ID = id;
-        var name = PathEncoder.Decode(encodedName);
+        ViewBag.ID = name;
+        var decodedName = PathEncoder.Decode(encodedName);
         var path = PathEncoder.Decode(encodedPath);
 
-        var repo = _repositoryService.GetRepository(id);
+        var repo = _repositoryService.GetRepository(name);
 
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
-        var files = browser.BrowseTree(name, path, out var referenceName, isApiRequest).ToList();
+        var files = browser.BrowseTree(decodedName, path, out var referenceName, isApiRequest).ToList();
 
         var readme = files.FirstOrDefault(x => x.Name.Equals("readme.md", StringComparison.OrdinalIgnoreCase));
         var readmeTxt = string.Empty;
         if (readme != null)
         {
-            var blob = browser.BrowseBlob(name, readme.Path, out _);
+            var blob = browser.BrowseBlob(decodedName, readme.Path, out _);
             readmeTxt = blob.Text;
         }
         var model = new RepositoryTreeModel
         {
             Name = repo.Name,
-            Branch = name ?? referenceName,
+            Branch = decodedName ?? referenceName,
             Path = path,
             Readme = readmeTxt,
             Logo = new RepositoryLogoDetailModel(repo.Logo),
@@ -309,20 +263,21 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
             return Json(model);
         }
 
-        PopulateBranchesData(browser, referenceName);
+        PopulateBranchesData(browser, decodedName ?? referenceName);
         PopulateAddressBarData(path);
         return View(model);
     }
 
+    [HttpGet("Repositories/{name}/Blob/{encodedName?}/{*encodedPath}")]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult Blob(int id, string encodedName, string encodedPath)
+    public IActionResult Blob(string name, string encodedName, string encodedPath)
     {
-        ViewBag.ID = id;
-        var repo = _repositoryService.GetRepository(id);
+        ViewBag.ID = name;
+        var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
-        var name = PathEncoder.Decode(encodedName);
+        var decode = PathEncoder.Decode(encodedName);
         var path = PathEncoder.Decode(encodedPath);
-        var model = browser.BrowseBlob(name, path, out var referenceName);
+        var model = browser.BrowseBlob(decode, path, out var referenceName);
         model.Logo = new RepositoryLogoDetailModel(repo.Logo);
         PopulateBranchesData(browser, referenceName);
         PopulateAddressBarData(path);
@@ -330,14 +285,15 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         return View(model);
     }
 
+    [HttpGet("Repositories/{name}/Raw/{encodedName?}/{*encodedPath}")]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult Raw(int id, string encodedName, string encodedPath, bool display = false)
+    public IActionResult Raw(string name, string encodedName, string encodedPath, bool display = false)
     {
-        var repo = _repositoryService.GetRepository(id);
+        var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
-        var name = PathEncoder.Decode(encodedName);
+        var decode = PathEncoder.Decode(encodedName);
         var path = PathEncoder.Decode(encodedPath);
-        var model = browser.BrowseBlob(name, path, out _);
+        var model = browser.BrowseBlob(decode, path, out _);
 
         if (!display)
         {
@@ -357,16 +313,17 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         return NotFound();
     }
 
+    [HttpGet("Repositories/{name}/Blame/{encodedName?}/{*encodedPath}")]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult Blame(int id, string encodedName, string encodedPath)
+    public IActionResult Blame(string name, string encodedName, string encodedPath)
     {
-        ViewBag.ID = id;
+        ViewBag.ID = name;
         ViewBag.ShowShortMessageOnly = true;
-        var repo = _repositoryService.GetRepository(id);
+        var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
-        var name = PathEncoder.Decode(encodedName);
+        var decode = PathEncoder.Decode(encodedName);
         var path = PathEncoder.Decode(encodedPath);
-        var model = browser.GetBlame(name, path, out var referenceName);
+        var model = browser.GetBlame(decode, path, out var referenceName);
         model.Logo = new RepositoryLogoDetailModel(repo.Logo);
         PopulateBranchesData(browser, referenceName);
         PopulateAddressBarData(path);
@@ -374,14 +331,15 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         return View(model);
     }
 
+    [HttpGet("Repositories/{name}/Download/{encodedName?}/{*encodedPath}")]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult Download(int id, string encodedName, string encodedPath)
+    public IActionResult Download(string name, string encodedName, string encodedPath)
     {
-        var name = PathEncoder.Decode(encodedName);
+        var decode = PathEncoder.Decode(encodedName);
         var path = PathEncoder.Decode(encodedPath);
 
-        var repo = _repositoryService.GetRepository(id);
-        var fileName = (name ?? repo.Name) + ".zip";
+        var repo = _repositoryService.GetRepository(name);
+        var fileName = (decode ?? repo.Name) + ".zip";
         var headerValue = ContentDispositionUtil.GetHeaderValue(fileName);
 
         Response.ContentType = "application/zip";
@@ -396,7 +354,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
 
         using (var browser = _repositoryBrowserFactory.Create(repo.Name))
         {
-            AddTreeToZip(browser, name, path, zipStream);
+            AddTreeToZip(browser, decode, path, zipStream);
         }
 
         zipStream.Finish();
@@ -405,17 +363,18 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         return File(memoryStream.ToArray(), "application/zip", fileName);
     }
 
+    [HttpGet("Repositories/{name}/Tags/{encodedName?}")]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult Tags(int id, string encodedName, int page = 1)
+    public IActionResult Tags(string name, string encodedName, int page = 1)
     {
         page = page >= 1 ? page : 1;
 
-        ViewBag.ID = id;
+        ViewBag.ID = name;
         ViewBag.ShowShortMessageOnly = true;
-        var repo = _repositoryService.GetRepository(id);
+        var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
-        var name = PathEncoder.Decode(encodedName);
-        var commits = browser.GetTags(name, page, 10, out var referenceName, out var totalCount);
+        var decode = PathEncoder.Decode(encodedName);
+        var commits = browser.GetTags(decode, page, 10, out var referenceName, out var totalCount);
         PopulateBranchesData(browser, referenceName);
         ViewBag.TotalCount = totalCount;
         return View(new RepositoryCommitsModel
@@ -426,17 +385,17 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         });
     }
 
+    [HttpGet("Repositories/{name}/Commits/{encodedName?}")]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult Commits(int id, string encodedName, int? page = null)
+    public IActionResult Commits(string name, string encodedName, int? page = null)
     {
         page = page >= 1 ? page : 1;
 
-        ViewBag.ID = id;
         ViewBag.ShowShortMessageOnly = true;
-        var repo = _repositoryService.GetRepository(id);
+        var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
-        var name = PathEncoder.Decode(encodedName);
-        var commits = browser.GetCommits(name, page.Value, 10, out var referenceName, out var totalCount);
+        var decode = PathEncoder.Decode(encodedName);
+        var commits = browser.GetCommits(decode, page.Value, 10, out var referenceName, out var totalCount);
         PopulateBranchesData(browser, referenceName);
         ViewBag.TotalCount = totalCount;
 
@@ -484,12 +443,13 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         });
     }
 
+    [HttpGet("Repositories/{name}/Commit/{commit}")]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult Commit(int id, string commit)
+    public IActionResult Commit(string name, string commit)
     {
-        ViewBag.ID = id;
+        ViewBag.ID = name;
         ViewBag.ShowShortMessageOnly = false;
-        var repo = _repositoryService.GetRepository(id);
+        var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
         var model = browser.GetCommitDetail(commit);
         model.Name = repo.Name;
@@ -497,24 +457,25 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         return View(model);
     }
 
-    public IActionResult Clone(int id)
+    [HttpGet("Repositories/{name}/Clone")]
+    public IActionResult Clone(string name)
     {
         if (!_repositoryPermissionService.HasCreatePermission(User.Id()))
         {
             return Unauthorized();
         }
 
-        var model = ConvertRepositoryModel(_repositoryService.GetRepository(id), User);
+        var model = ConvertRepositoryModel(_repositoryService.GetRepository(name), User);
         model.Name = "";
         PopulateCheckboxListData(ref model);
-        ViewBag.ID = id;
+        ViewBag.ID = name;
         return View(model);
     }
 
-    [HttpPost]
+    [HttpPost("Repositories/{name}/Clone")]
     [ValidateAntiForgeryToken]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult Clone(int id, RepositoryDetailModel model)
+    public IActionResult Clone(string name, RepositoryDetailModel model)
     {
         ArgumentNullException.ThrowIfNull(model, nameof(model));
 
@@ -523,7 +484,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
             return Unauthorized();
         }
 
-        ViewBag.ID = id;
+        ViewBag.ID = name;
         PopulateCheckboxListData(ref model);
         model.Name = StringHelper.RemoveWhiteSpace(model.Name);
 
@@ -558,18 +519,18 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
             return View(model);
         }
 
-        var sourceRepo = _repositoryService.GetRepository(id);
+        var sourceRepo = _repositoryService.GetRepository(name);
         var sourceRepositoryPath = Path.Combine(_pathResolver.GetRepositories(), sourceRepo.Name);
 
-        var options = new LibGit2Sharp.CloneOptions
+        var options = new CloneOptions
         {
             IsBare = true,
             Checkout = false
         };
 
-        LibGit2Sharp.Repository.Clone(sourceRepositoryPath, targetRepositoryPath, options);
+        Repository.Clone(sourceRepositoryPath, targetRepositoryPath, options);
 
-        using (var repo = new LibGit2Sharp.Repository(targetRepositoryPath))
+        using (var repo = new Repository(targetRepositoryPath))
         {
             if (repo.Network.Remotes.Any(r => r.Name == "origin"))
             {
@@ -581,16 +542,17 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         return RedirectToAction("Index");
     }
 
+    [HttpGet("Repositories/{name}/{encodedName?}/History/{*encodedPath}")]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult History(int id, string encodedPath, string encodedName)
+    public IActionResult History(string name, string encodedPath, string encodedName)
     {
-        ViewBag.ID = id;
+        ViewBag.ID = name;
         ViewBag.ShowShortMessageOnly = true;
-        var repo = _repositoryService.GetRepository(id);
+        var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
         var path = PathEncoder.Decode(encodedPath);
-        var name = PathEncoder.Decode(encodedName);
-        var commits = browser.GetHistory(path, name, out _);
+        var decode = PathEncoder.Decode(encodedName);
+        var commits = browser.GetHistory(path, decode, out _);
         return View(new RepositoryCommitsModel
         {
             Commits = commits,
@@ -599,11 +561,9 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         });
     }
 
-    [HttpPost]
+    [HttpPost("Repositories/Rescan")]
     [Authorize(Roles = Roles.Admin)]
-    // This takes an irrelevant ID, because there isn't a good route
-    // to RepositoryController for anything without an Id which isn't the Index action
-    public IActionResult Rescan(string id)
+    public IActionResult Rescan()
     {
         _repositorySynchronizer.SynchronizeRepository();
         return RedirectToAction("Index");
@@ -646,6 +606,37 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
                 // Rekursiver Aufruf für Unterverzeichnisse
                 AddTreeToZip(browser, item.TreeName, item.Path, zipStream);
             }
+        }
+    }
+
+    /// <summary>
+    /// Construct the URLs for the repository
+    /// </summary>
+    private void SetGitUrls(RepositoryDetailModel model)
+    {
+        var request = HttpContext.Request;
+
+        // Use IConfiguration to read the GitServerPath from the appsettings
+        string serverAddress = null;// _configuration["GitServerPath"];
+
+        // If GitServerPath is not defined, build it dynamically
+        if (string.IsNullOrEmpty(serverAddress))
+        {
+            var port = request.Host.Port.HasValue && request.Host.Port != 80 && request.Host.Port != 443
+                ? $":{request.Host.Port.Value}"
+                : string.Empty;
+
+            serverAddress = $"{request.Scheme}://{request.Host.Host}{port}{request.PathBase}/";
+        }
+
+        // Set the public Git URL for the repository
+        model.GitUrl = string.Concat(serverAddress, model.Name, ".git");
+
+        // Set the personal Git URL if the user is authenticated
+        if (User.Identity.IsAuthenticated)
+        {
+            var username = Uri.EscapeDataString(User.Identity.Name);
+            model.PersonalGitUrl = string.Concat(serverAddress.Replace("://", "://" + username + "@"), model.Name, ".git");
         }
     }
 
@@ -763,5 +754,23 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         }
 
         fileSystemInfo.Delete();
+    }
+
+    // TODO In a different Action we want to rename a repository and MoveRepo should be called there
+    private void MoveRepo(RepositoryModel oldRepo, RepositoryModel newRepo)
+    {
+        if (oldRepo.Name != newRepo.Name)
+        {
+            var oldPath = Path.Combine(_pathResolver.GetRepositories(), oldRepo.Name);
+            var newPath = Path.Combine(_pathResolver.GetRepositories(), newRepo.Name);
+            try
+            {
+                Directory.Move(oldPath, newPath);
+            }
+            catch (IOException exc)
+            {
+                ModelState.AddModelError("Name", exc.Message);
+            }
+        }
     }
 }

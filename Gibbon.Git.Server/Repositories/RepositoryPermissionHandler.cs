@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
+
 using Gibbon.Git.Server.Extensions;
 using Gibbon.Git.Server.Security;
+
 using Microsoft.AspNetCore.Authorization;
 
 namespace Gibbon.Git.Server.Repositories;
@@ -17,14 +19,14 @@ public class RepositoryPermissionHandler(IRepositoryPermissionService repository
             return;
         }
 
-        if (context.Resource is not HttpContext routeData || !int.TryParse(routeData.Request.RouteValues["id"]?.ToString(), out var repoId))
+        if (context.Resource is not HttpContext httpContext || !httpContext.Request.RouteValues.TryGetValue("name", out var routeValue) || routeValue is not string name)
         {
             context.Fail();
             return;
         }
 
         var userId = context.User.Id();
-        if (!_repositoryPermissionService.HasPermission(userId, repoId, requirement.RequiredAccessLevel))
+        if (!_repositoryPermissionService.HasPermission(userId, name, requirement.RequiredAccessLevel))
         {
             context.Fail();
             return;

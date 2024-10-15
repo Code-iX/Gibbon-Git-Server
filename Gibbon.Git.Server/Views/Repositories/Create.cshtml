@@ -6,7 +6,7 @@
 
 <h1>@Resources.Repository_Create_Title</h1>
 
-@using (Html.BeginForm("Create", "Repository", FormMethod.Post, new { @class = "pure-form pure-form-aligned", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Create", "Repositories", FormMethod.Post, new { @class = "pure-form pure-form-aligned", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(false, Resources.Repository_Create_Fail)

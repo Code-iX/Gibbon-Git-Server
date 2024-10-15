@@ -19,7 +19,7 @@
                             foreach (var item in branches)
                             {
                                 <li class="@(Equals(ViewData["referenceName"], item) ? "branch active" : "branch")">
-                                    <a href="@Url.Action(action, new { id = ViewContext.RouteData.Values["id"], encodedName = PathEncoder.Encode(item), encodedPath = string.Empty })">
+                                    <a href="@Url.Action(action, new { name = ViewContext.RouteData.Values["name"], encodedName = PathEncoder.Encode(item), encodedPath = string.Empty })">
                                         @item
                                     </a>
                                 </li>
@@ -28,7 +28,7 @@
                             foreach (var item in tags)
                             {
                                 <li class="@(Equals(ViewData["referenceName"], item) ? "tag active" : "tag")">
-                                    <a href="@Url.Action(action, new { id = ViewContext.RouteData.Values["id"], encodedName = PathEncoder.Encode(item), encodedPath = string.Empty })">
+                                    <a href="@Url.Action(action, new { name = ViewContext.RouteData.Values["name"], encodedName = PathEncoder.Encode(item), encodedPath = string.Empty })">
                                         @item
                                     </a>
                                 </li>

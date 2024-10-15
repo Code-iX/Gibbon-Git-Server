@@ -1,0 +1,28 @@
+﻿@model RepositoryCommitsModel
+@{
+    Layout = "~/Views/Repositories/_RepositoriesLayout.cshtml";
+    ViewBag.Title = Resources.Repository_Commits_Title;
+    ViewBag.Name = Model.Name;
+}
+
+
+@if (Model == null)
+{
+    return;
+
+}
+<div class="repositoryContent">
+    @await Html.PartialAsync("_BranchSwitcher")
+
+    @if (Model.Commits != null && Model.Commits.Any())
+    {
+        foreach (var commit in Model.Commits)
+        {
+            @await Html.PartialAsync("_Commit", commit)
+        }
+    }
+    else
+    {
+        <p>@Resources.No_Commits_Found</p>
+    }
+</div>

@@ -24,22 +24,13 @@ public class RepositoryListViewComponent(IRepositoryPermissionService repoPermis
         }
 
         var userId = User.Id();
-        var currentRepositoryId = GetCurrentRepositoryId();
+        var currentRepositoryId = ViewContext.RouteData.Values["name"] as string;        
+
         var items = PopulateRepoGoToList(userId, currentRepositoryId);
         return View(items);
     }
 
-    private int? GetCurrentRepositoryId()
-    {
-        if (int.TryParse((string)ViewContext.RouteData.Values["id"], out var repositoryId))
-        {
-            return repositoryId;
-        }
-
-        return null;
-    }
-
-    private List<SelectListItem> PopulateRepoGoToList(int userId, int? currentRepositoryId)
+    private List<SelectListItem> PopulateRepoGoToList(int userId, string currentRepositoryName)
     {
         var pullList = _repoPermissions.GetAllPermittedRepositories(userId, RepositoryAccessLevel.Pull);
         var adminList = _repoPermissions.GetAllPermittedRepositories(userId, RepositoryAccessLevel.Administer);
@@ -50,8 +41,8 @@ public class RepositoryListViewComponent(IRepositoryPermissionService repoPermis
         var items = new List<SelectListItem>();
         var urlHelper = _urlHelperFactory.GetUrlHelper(ViewContext);
 
-        items.Add(new SelectListItem { Text = Resources.Repository_Go_To_Dropdown, Value = "", Disabled = true, Selected = currentRepositoryId == null });
-        items.Add(new SelectListItem { Text = Resources.Repository_Go_To_Overview, Value = urlHelper.Action("Index", "Repository") });
+        items.Add(new SelectListItem { Text = Resources.Repository_Go_To_Dropdown, Value = "", Disabled = true, Selected = currentRepositoryName == null });
+        items.Add(new SelectListItem { Text = Resources.Repository_Go_To_Overview, Value = urlHelper.Action("Index", "Repositories") });
 
         var groups = new Dictionary<string, SelectListGroup>();
         foreach (var grouped in firstList)
@@ -67,9 +58,9 @@ public class RepositoryListViewComponent(IRepositoryPermissionService repoPermis
                 var selectListItem = new SelectListItem
                 {
                     Text = item.Name,
-                    Value = urlHelper.Action("Detail", "Repository", new { id = item.Id }),
+                    Value = urlHelper.Action("Detail", "Repositories", new { name = item.Name }),
                     Group = group,
-                    Selected = item.Id == currentRepositoryId
+                    Selected = item.Name == currentRepositoryName
                 };
 
                 items.Add(selectListItem);

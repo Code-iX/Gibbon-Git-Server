@@ -40,7 +40,7 @@ else
                 <span>
                     @foreach (var repository in Model.Repositories)
                     {
-                        @Html.ActionLink(repository.Name, "Detail", "Repository", new { id = repository.Id }, null)
+                        @Html.ActionLink(repository.Name, "Detail", "Repositories", new { name = repository.Name }, null)
                         if (repository != Model.Repositories.Last())
                         {
                             <text>, </text>
