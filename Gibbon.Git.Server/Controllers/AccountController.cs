@@ -2,16 +2,16 @@
 
 using Gibbon.Git.Server.Configuration;
 using Gibbon.Git.Server.Extensions;
-using Gibbon.Git.Server.Middleware.Authorize;
 using Gibbon.Git.Server.Models;
 using Gibbon.Git.Server.Provider;
 using Gibbon.Git.Server.Security;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace Gibbon.Git.Server.Controllers;
 
+[Authorize(Roles = Roles.Admin)]
 public class AccountController(IAuthenticationProvider authenticationProvider, IRoleProvider roleProvider, IUserService userService, IOptions<ApplicationSettings> options, ServerSettings serverSettings)
     : Controller
 {
@@ -19,9 +19,14 @@ public class AccountController(IAuthenticationProvider authenticationProvider, I
     private readonly IUserService _userService = userService;
     private readonly IRoleProvider _roleProvider = roleProvider;
     private readonly IAuthenticationProvider _authenticationProvider = authenticationProvider;
+
+    public IActionResult Index()
+    {
+        return View(GetDetailUsers());
+    }
+
     private readonly ApplicationSettings _applicationSettings = options.Value;
 
-    [WebAuthorize]
     public IActionResult Detail(int id)
     {
         var user = _userService.GetUserModel(id);
@@ -41,7 +46,6 @@ public class AccountController(IAuthenticationProvider authenticationProvider, I
         return View();
     }
 
-    [WebAuthorize(Roles = Definitions.Roles.Administrator)]
     public IActionResult Delete(int id)
     {
         var user = _userService.GetUserModel(id);
@@ -55,7 +59,6 @@ public class AccountController(IAuthenticationProvider authenticationProvider, I
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [WebAuthorize(Roles = Definitions.Roles.Administrator)]
     public IActionResult Delete(UserDetailModel model)
     {
         if (model?.Id != null)
@@ -74,16 +77,9 @@ public class AccountController(IAuthenticationProvider authenticationProvider, I
         return RedirectToAction("Index");
     }
 
-    [WebAuthorize(Roles = Definitions.Roles.Administrator)]
-    public IActionResult Index()
-    {
-        return View(GetDetailUsers());
-    }
-
-    [WebAuthorize]
     public IActionResult Edit(int id)
     {
-        if (id != User.Id() && !User.IsInRole(Definitions.Roles.Administrator))
+        if (id != User.Id() && !User.IsInRole(Roles.Admin))
         {
             return Unauthorized();
         }
@@ -107,16 +103,15 @@ public class AccountController(IAuthenticationProvider authenticationProvider, I
     }
 
     [HttpPost]
-    [WebAuthorize]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(UserEditModel model)
     {
-        if (User.Id() != model.Id && !User.IsInRole(Definitions.Roles.Administrator))
+        if (User.Id() != model.Id && !User.IsInRole(Roles.Admin))
         {
             return Unauthorized();
         }
 
-        if (_applicationSettings.DemoModeActive && User.IsInRole(Definitions.Roles.Administrator) && User.Id() == model.Id)
+        if (_applicationSettings.DemoModeActive && User.IsInRole(Roles.Admin) && User.Id() == model.Id)
         {
             // Don't allow the admin user to be changed in demo mode
             return Unauthorized();
@@ -126,7 +121,7 @@ public class AccountController(IAuthenticationProvider authenticationProvider, I
         {
             var valid = true;
 
-            if (User.IsInRole(Definitions.Roles.Administrator) && model.Id == User.Id() && !(model.PostedSelectedRoles != null && model.PostedSelectedRoles.Contains(Definitions.Roles.Administrator)))
+            if (User.IsInRole(Roles.Admin) && model.Id == User.Id() && !(model.PostedSelectedRoles != null && model.PostedSelectedRoles.Contains(Roles.Admin)))
             {
                 ModelState.AddModelError(nameof(model.Roles), Resources.Account_Edit_CannotRemoveYourselfFromAdminRole);
                 valid = false;
@@ -136,7 +131,7 @@ public class AccountController(IAuthenticationProvider authenticationProvider, I
             {
                 _userService.UpdateUser(model.Id, model.Name, model.Surname, model.Email);
                 // Only Administrators can make any changes to roles
-                if (User.IsInRole(Definitions.Roles.Administrator))
+                if (User.IsInRole(Roles.Admin))
                 {
                     _roleProvider.RemoveRolesFromUser(model.Id, _roleProvider.GetAllRoles());
                     if (model.PostedSelectedRoles != null)
@@ -170,7 +165,7 @@ public class AccountController(IAuthenticationProvider authenticationProvider, I
     {
         if (User.Identity.IsAuthenticated)
         {
-            if (!User.IsInRole(Definitions.Roles.Administrator))
+            if (!User.IsInRole(Roles.Admin))
                 return true;
         }
         else
@@ -202,7 +197,7 @@ public class AccountController(IAuthenticationProvider authenticationProvider, I
             return View(model);
         }
 
-        if (!User.IsInRole(Definitions.Roles.Administrator))
+        if (!User.IsInRole(Roles.Admin))
         {
             await _authenticationProvider.SignIn(model.Username, false);
             return RedirectToAction("Index", "Home");

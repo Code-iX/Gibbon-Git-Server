@@ -109,6 +109,6 @@ public class RepositoryPermissionService(IRepositoryService repository, IRolePro
 
     private bool IsSystemAdministrator(int userId)
     {
-        return _roleProvider.IsUserInRole(userId, Definitions.Roles.Administrator);
+        return _roleProvider.IsUserInRole(userId, Roles.Admin);
     }
 }

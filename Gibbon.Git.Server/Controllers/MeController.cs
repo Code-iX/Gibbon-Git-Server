@@ -6,13 +6,13 @@ using Gibbon.Git.Server.Middleware.Authorize;
 using Gibbon.Git.Server.Models;
 using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Services;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Gibbon.Git.Server.Controllers;
 
-[WebAuthorize]
+[Authorize]
 public class MeController(IUserService userService, IRoleProvider roleProvider, ICultureService cultureService, IUserSettingsService userSettingsService)
     : Controller
 {

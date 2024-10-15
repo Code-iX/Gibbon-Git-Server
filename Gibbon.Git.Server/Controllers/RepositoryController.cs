@@ -12,13 +12,17 @@ using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Services;
 
 using ICSharpCode.SharpZipLib.Zip;
+
 using LibGit2Sharp;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Gibbon.Git.Server.Controllers;
 
+[Authorize]
 public class RepositoryController(ILogger<RepositoryController> logger, ITeamService teamRepository, IRepositoryService repositoryService, IUserService userService, IRepositoryPermissionService repositoryPermissionService, IRepositorySynchronizer repositorySynchronizer, ServerSettings serverSettings, IPathResolver pathResolver, IRepositoryBrowserFactory repositoryBrowserFactory)
     : Controller
 {
@@ -32,7 +36,6 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     private readonly IRepositorySynchronizer _repositorySynchronizer = repositorySynchronizer;
     private readonly IRepositoryBrowserFactory _repositoryBrowserFactory = repositoryBrowserFactory;
 
-    [WebAuthorize]
     public IActionResult Index(string sortGroup = null, string searchString = null)
     {
         var firstList = GetIndexModel();
@@ -77,7 +80,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         }
 
         var currentUserIsInAdminList = model.PostedSelectedAdministrators != null && model.PostedSelectedAdministrators.Contains(User.Id());
-        if (currentUserIsInAdminList || User.IsInRole(Definitions.Roles.Administrator))
+        if (currentUserIsInAdminList || User.IsInRole(Roles.Admin))
         {
             var repoModel = ConvertRepositoryDetailModel(model);
             try
@@ -124,7 +127,6 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         }
     }
 
-    [WebAuthorize]
     public IActionResult Create()
     {
         if (!_repositoryPermissionService.HasCreatePermission(User.Id()))
@@ -141,7 +143,6 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     }
 
     [HttpPost]
-    [WebAuthorize]
     [ValidateAntiForgeryToken]
     public IActionResult Create(RepositoryDetailModel model)
     {
@@ -536,7 +537,6 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
         return View(model);
     }
 
-    [WebAuthorize]
     public IActionResult Clone(int id)
     {
         if (!_repositoryPermissionService.HasCreatePermission(User.Id()))
@@ -552,7 +552,6 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     }
 
     [HttpPost]
-    [WebAuthorize]
     [WebAuthorizeRepository]
     [ValidateAntiForgeryToken]
     public IActionResult Clone(int id, RepositoryDetailModel model)
@@ -664,7 +663,7 @@ public class RepositoryController(ILogger<RepositoryController> logger, ITeamSer
     }
 
     [HttpPost]
-    [WebAuthorize(Roles = Definitions.Roles.Administrator)]
+    [Authorize(Roles = Roles.Admin)]
     // This takes an irrelevant ID, because there isn't a good route
     // to RepositoryController for anything without an Id which isn't the Index action
     public IActionResult Rescan(string id)

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Linq;
+
 using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Tests.TestHelper;
+
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Gibbon.Git.Server.Tests.UserTests;
@@ -15,6 +18,7 @@ public class EfUserServiceTests : DbTestBase<SqliteConnectionFactory>
     {
         services.AddSingleton<IPasswordService, PasswordService>();
         services.AddSingleton<IUserService, UserService>();
+        services.AddMemoryCache();
     }
 
     protected override void UseServices(IServiceProvider serviceProvider)
@@ -68,9 +72,9 @@ public class EfUserServiceTests : DbTestBase<SqliteConnectionFactory>
     [Description("Tests that GetUser is case-insensitive.")]
     public void GetUserIsCaseInsensitive()
     {
-        Assert.AreEqual("admin", _userService.GetUserModel("admin").Username);
         Assert.AreEqual("admin", _userService.GetUserModel("ADMIN").Username);
         Assert.AreEqual("admin", _userService.GetUserModel("Admin").Username);
+        Assert.AreEqual("admin", _userService.GetUserModel("admin").Username);
     }
 
     [TestMethod]

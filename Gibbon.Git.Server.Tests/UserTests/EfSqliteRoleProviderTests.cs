@@ -30,7 +30,7 @@ public class EfSqliteRoleProviderTests : DbTestBase<SqliteConnectionFactory>
     [Description("Verify that the new role provider initially has just the Admin role.")]
     public void TestNewProviderHasJustAdminRole()
     {
-        Assert.AreEqual("Administrator", _roleProvider.GetAllRoles().Single());
+        Assert.AreEqual(Roles.Admin, _roleProvider.GetAllRoles().Single());
     }
 
     [TestMethod]
@@ -39,7 +39,7 @@ public class EfSqliteRoleProviderTests : DbTestBase<SqliteConnectionFactory>
     public void TestAdminRoleHasOneMember()
     {
         var roles = _roleProvider.GetRolesForUser(GetAdminId());
-        CollectionAssert.AreEqual(new[] { "Administrator" }, roles);
+        CollectionAssert.AreEqual(new[] { Roles.Admin }, roles);
     }
 
     [TestMethod]
@@ -47,7 +47,7 @@ public class EfSqliteRoleProviderTests : DbTestBase<SqliteConnectionFactory>
     [Description("When adding a Role to a non-existent user, we'll get an exception.")]
     public void TestAddingNonExistentUserToRoleIsSilentlyIgnored()
     {
-        Assert.ThrowsException<InvalidOperationException>(() => _roleProvider.AddRolesToUser(17, ["Administrator"]));
+        Assert.ThrowsException<InvalidOperationException>(() => _roleProvider.AddRolesToUser(17, [Roles.Admin]));
     }
 
     [TestMethod]
@@ -56,9 +56,9 @@ public class EfSqliteRoleProviderTests : DbTestBase<SqliteConnectionFactory>
     public void TestAddingRealUserIsSuccessful()
     {
         var userId = AddUserFred();
-        _roleProvider.AddRolesToUser(userId, ["Administrator"]);
+        _roleProvider.AddRolesToUser(userId, [Roles.Admin]);
         var roles = _roleProvider.GetRolesForUser(userId);
-        CollectionAssert.AreEqual(new[] { "Administrator" }, roles);
+        CollectionAssert.AreEqual(new[] { Roles.Admin }, roles);
     }
 
     [TestMethod]
@@ -67,7 +67,7 @@ public class EfSqliteRoleProviderTests : DbTestBase<SqliteConnectionFactory>
     public void TestCreatingRole()
     {
         _roleProvider.CreateRole("Programmer");
-        CollectionAssert.AreEqual(new[] { "Administrator", "Programmer" }, _roleProvider.GetAllRoles().OrderBy(role => role).ToArray());
+        CollectionAssert.AreEqual(new[] { Roles.Admin, "Programmer" }, _roleProvider.GetAllRoles().OrderBy(role => role).ToArray());
     }
 
     [TestMethod]
@@ -77,9 +77,9 @@ public class EfSqliteRoleProviderTests : DbTestBase<SqliteConnectionFactory>
     {
         _roleProvider.CreateRole("Programmer");
         var userId = AddUserFred();
-        _roleProvider.AddRolesToUser(userId, new[] { "Administrator", "Programmer" });
+        _roleProvider.AddRolesToUser(userId, new[] { Roles.Admin, "Programmer" });
 
-        _roleProvider.RemoveRolesFromUser(userId, new[] { "Administrator" });
+        _roleProvider.RemoveRolesFromUser(userId, new[] { Roles.Admin });
 
         CollectionAssert.AreEqual(new[] { "Programmer" }, _roleProvider.GetRolesForUser(userId));
     }
@@ -91,9 +91,9 @@ public class EfSqliteRoleProviderTests : DbTestBase<SqliteConnectionFactory>
     {
         _roleProvider.CreateRole("Programmer");
         var fredId = AddUserFred();
-        _roleProvider.AddRolesToUser(fredId, new[] { "Programmer", "Administrator" });
-        CollectionAssert.AreEqual(new[] { "Administrator", "Programmer" }, _roleProvider.GetRolesForUser(fredId).OrderBy(role => role).ToArray());
-        //CollectionAssert.AreEqual(new[] { GetAdminId(), fredId }.OrderBy(u => u).ToArray(), _roleProvider.GetUsersInRole("Administrator").OrderBy(name => name).ToArray());
+        _roleProvider.AddRolesToUser(fredId, new[] { "Programmer", Roles.Admin });
+        CollectionAssert.AreEqual(new[] { Roles.Admin, "Programmer" }, _roleProvider.GetRolesForUser(fredId).OrderBy(role => role).ToArray());
+        //CollectionAssert.AreEqual(new[] { GetAdminId(), fredId }.OrderBy(u => u).ToArray(), _roleProvider.GetUsersInRole(Definitions.Roles.Admin).OrderBy(name => name).ToArray());
         //CollectionAssert.AreEqual(new[] { fredId }, _roleProvider.GetUsersInRole("Programmer"));
     }
 
@@ -123,7 +123,7 @@ public class EfSqliteRoleProviderTests : DbTestBase<SqliteConnectionFactory>
     [Description("Verify that the system correctly detects if a user is in a role.")]
     public void UserInRoleDetectedCorrectly()
     {
-        Assert.IsTrue(_roleProvider.IsUserInRole(GetAdminId(), "Administrator"));
+        Assert.IsTrue(_roleProvider.IsUserInRole(GetAdminId(), Roles.Admin));
     }
 
     [TestMethod]
@@ -132,11 +132,11 @@ public class EfSqliteRoleProviderTests : DbTestBase<SqliteConnectionFactory>
     public void AddingExistingRoleToUserDoesNotThrowError()
     {
         var adminId = GetAdminId();
-        _roleProvider.AddRolesToUser(adminId, new[] { "Administrator" });
+        _roleProvider.AddRolesToUser(adminId, new[] { Roles.Admin });
 
         // Ensure no exception is thrown and role is still only assigned once
         var roles = _roleProvider.GetRolesForUser(adminId);
-        CollectionAssert.AreEqual(new[] { "Administrator" }, roles);
+        CollectionAssert.AreEqual(new[] { Roles.Admin }, roles);
     }
 
     private int AddUserFred()

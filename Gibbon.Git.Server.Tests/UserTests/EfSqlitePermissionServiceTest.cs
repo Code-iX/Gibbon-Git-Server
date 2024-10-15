@@ -52,7 +52,7 @@ public class EfSqlitePermissionServiceTest : DbTestBase<SqliteConnectionFactory>
     public void SystemAdministratorCanCreateRepository()
     {
         var userId = 1;
-        _roleProvider.IsUserInRole(userId, Definitions.Roles.Administrator).Returns(true);
+        _roleProvider.IsUserInRole(userId, Roles.Admin).Returns(true);
 
         var canCreate = _service.HasCreatePermission(userId);
         Assert.IsTrue(canCreate);
@@ -126,7 +126,7 @@ public class EfSqlitePermissionServiceTest : DbTestBase<SqliteConnectionFactory>
     public void NonExistentRepositoryByNameReturnsFalse()
     {
         var adminId = 1;
-        _roleProvider.GetRolesForUser(adminId).Returns([Definitions.Roles.Administrator]);
+        _roleProvider.GetRolesForUser(adminId).Returns([Roles.Admin]);
         var hasPermission = _service.HasPermission(adminId, "NonExistentRepos", RepositoryAccessLevel.Pull);
         Assert.IsFalse(hasPermission);
     }
@@ -137,7 +137,7 @@ public class EfSqlitePermissionServiceTest : DbTestBase<SqliteConnectionFactory>
     public void NonExistentRepositoryByGuidThrowsException()
     {
         var adminId = 1;
-        _roleProvider.GetRolesForUser(adminId).Returns([Definitions.Roles.Administrator]);
+        _roleProvider.GetRolesForUser(adminId).Returns([Roles.Admin]);
         Assert.ThrowsException<InvalidOperationException>(() => _service.HasPermission(adminId, 17, RepositoryAccessLevel.Pull));
     }
 
@@ -147,7 +147,7 @@ public class EfSqlitePermissionServiceTest : DbTestBase<SqliteConnectionFactory>
     public void AdminIsAuthorisedForAnyRepo()
     {
         var adminId = 1;
-        _roleProvider.IsUserInRole(adminId, Definitions.Roles.Administrator).Returns(true);
+        _roleProvider.IsUserInRole(adminId, Roles.Admin).Returns(true);
         var repoId = 1;
         _repositoryService.GetRepository(repoId).Returns(new RepositoryModel { Id = repoId });
 
@@ -238,7 +238,7 @@ public class EfSqlitePermissionServiceTest : DbTestBase<SqliteConnectionFactory>
         const int userId = 1;
         const int repoId = 1;
         _repositoryService.GetRepository(repoId).Returns(new RepositoryModel { Id = repoId });
-        _roleProvider.IsUserInRole(userId, Definitions.Roles.Administrator).Returns(true);
+        _roleProvider.IsUserInRole(userId, Roles.Admin).Returns(true);
         var hasPermission = _service.HasPermission(userId, repoId, RepositoryAccessLevel.Administer);
         Assert.IsTrue(hasPermission);
     }
@@ -341,7 +341,7 @@ public class EfSqlitePermissionServiceTest : DbTestBase<SqliteConnectionFactory>
     public void GetAllPermittedReturnsAllRepositoriesToSystemAdmin()
     {
         var adminId = 1;
-        _roleProvider.IsUserInRole(adminId, Definitions.Roles.Administrator).Returns(true);
+        _roleProvider.IsUserInRole(adminId, Roles.Admin).Returns(true);
 
         var repo1 = new RepositoryModel {  Name = "Repo1" };
         var repo2 = new RepositoryModel {  Name = "Repo2" };

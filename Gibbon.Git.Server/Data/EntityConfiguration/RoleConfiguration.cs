@@ -1,5 +1,5 @@
 using Gibbon.Git.Server.Data.Entities;
-
+using Gibbon.Git.Server.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -48,7 +48,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.HasData(new Role
         {
             Id = 1,
-            Name = "Administrator",
+            Name = Roles.Admin,
             Description = "System administrator"
         });
     }

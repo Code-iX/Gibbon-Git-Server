@@ -1,5 +1,4 @@
 ﻿@using Gibbon.Git.Server.Configuration
-@using Gibbon.Git.Server.Extensions
 @using Gibbon.Git.Server.Security
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @inject ServerSettings ServerSettings
@@ -52,28 +51,13 @@
                         @await Component.InvokeAsync("RepositoryList")
                         <li><a href="@Url.Action("Index", "Repository")" class="repository"><i class="fa fa-hdd-o"></i> @Resources.Layout_Repositories</a></li>
                     }
-                    @if (User.IsInRole(Definitions.Roles.Administrator))
+                    @if (User.IsInRole(Roles.Admin))
                     {
                         <li><a href="@Url.Action("Index", "Account")" class="users"><i class="fa fa-user"></i> @Resources.Layout_AdministrationUsers</a></li>
                         <li><a href="@Url.Action("Index", "Team")" class="teams"><i class="fa fa-group"></i> @Resources.Layout_AdministrationTeams</a></li>
                         <li><a href="@Url.Action("Index", "Server")" class="settings"><i class="fa fa-gears"></i> @Resources.Layout_AdministrationServer</a></li>
                     }
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <li class="separator"><a href="@Url.Action("Index", "Me")"><i class="fa fa-male"></i> @User.DisplayName()</a></li>
-                        @if (!User.IsWindowsAuthenticated())
-                        {
-                            <li><a href="@Url.Action("Logout", "Home")"><i class="fa fa-sign-out"></i> @Resources.Layout_Logout</a></li>
-                        }
-                    }
-                    else
-                    {
-                        <li><a href="@Url.Action("Login", "Home")"><i class="fa fa-sign-in"></i> @Resources.Layout_Login</a></li>
-                        @if (ServerSettings.AllowAnonymousRegistration)
-                        {
-                            <li><a href="@Url.Action("Create", "Account")"><i class="fa fa-pencil"></i> @Resources.Layout_Register</a></li>
-                        }
-                    }
+                    @await Component.InvokeAsync("UserDisplay")
                 </ul>
             </div>
         </div>
@@ -85,10 +69,10 @@
         <div class="footer">
             <p>
                 @Resources.Product_Name
-                &bull; &copy; 2024 
+                &bull; &copy; 2024
                 &bull; <a href="http://code-ix.github.io/Gibbon-Git-Server" target="_blank">@Resources.Home</a>
                 &bull; <a href="https://github.com/Code-iX/Gibbon-Git-Server" target="_blank">GitHub</a>
-                @if (User.IsInRole(Definitions.Roles.Administrator))
+                @if (User.IsInRole(Roles.Admin))
                 {
                     <text>&bull;</text> <a href="@Url.Action("Diagnostics", "Home")" class="log">Diagnostics <i class="fa fa-stethoscope"></i></a>
                 }
@@ -99,8 +83,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.js"></script>
-        @*    <script src="~/js/MicrosoftAjax.js"></script>
-        <script src="~/js/MicrosoftMvcAjax.js"></script> *@
         <script src="~/js/highlight.pack.js"></script>
         <script src="~/js/clipboard.min.js"></script>
     </environment>
