@@ -61,7 +61,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
         return View(list);
     }
 
-    [HttpGet("Repositories/{name}/Detail")]
+    [HttpGet("Repositories/{name}")]
     [Authorize(Policy = Policies.RepositoryPull)]
     public IActionResult Detail(string name)
     {
