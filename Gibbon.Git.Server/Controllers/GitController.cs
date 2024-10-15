@@ -18,7 +18,6 @@ using Repository = LibGit2Sharp.Repository;
 namespace Gibbon.Git.Server.Controllers;
 
 [GitAuthorize]
-[RepositoryNameNormalizer("repositoryName")]
 public class GitController(ILogger<GitController> logger, IRepositoryPermissionService repositoryPermissionService, IRepositoryService repositoryService, IUserService userService, IGitService gitService, ServerSettings serverOptions, IPathResolver pathResolver)
     : ControllerBase
 {
@@ -106,6 +105,19 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
                 HttpContext.User.Id()
             )
         );
+    }
+
+    /// <summary>
+    /// Action to handle .git URLs by redirecting to the repository details page.
+    /// </summary>
+    public IActionResult GitUrl(string repositoryName)
+    {
+        if (string.IsNullOrEmpty(repositoryName))
+        {
+            return BadRequest("Repository name is required.");
+        }
+
+        return RedirectToAction("Detail", "Repository", new { id = repositoryName });
     }
 
     private static string CreateFormattedServiceMessage(string service)
