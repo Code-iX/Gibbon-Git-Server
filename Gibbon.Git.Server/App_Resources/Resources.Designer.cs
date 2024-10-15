@@ -531,6 +531,24 @@ namespace Gibbon.Git.Server.App_Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Access forbidden.
+        /// </summary>
+        public static string Error_Forbidden_Text {
+            get {
+                return ResourceManager.GetString("Error_Forbidden_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forbidden.
+        /// </summary>
+        public static string Error_Forbidden_Title {
+            get {
+                return ResourceManager.GetString("Error_Forbidden_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The {0} field only accepts files with the following extensions: {1}..
         /// </summary>
         public static string FileUploadAttribute_ErrorMessage {
