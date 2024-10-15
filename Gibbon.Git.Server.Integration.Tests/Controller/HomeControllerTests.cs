@@ -29,7 +29,7 @@ internal class HomeControllerTests : IntegrationTestBase
 
         Assert.AreEqual(HttpStatusCode.Redirect, response.StatusCode);
         Assert.IsNotNull(response.Headers.Location);
-        Assert.AreEqual("/Repository", response.Headers.Location.ToString());
+        Assert.AreEqual("/Repositories", response.Headers.Location.ToString());
     }
 
     [TestMethod]

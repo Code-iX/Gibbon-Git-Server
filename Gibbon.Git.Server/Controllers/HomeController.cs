@@ -26,7 +26,7 @@ public class HomeController(ILogger<HomeController> logger, IUserService userSer
     private readonly IMailService _mailService = mailService;
 
     [Authorize]
-    public IActionResult Index() => RedirectToAction("Index", "Repository");
+    public IActionResult Index() => RedirectToAction("Index", "Repositories");
 
     public IActionResult Error() => View();
 

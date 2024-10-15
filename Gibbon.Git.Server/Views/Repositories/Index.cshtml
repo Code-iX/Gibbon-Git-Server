@@ -40,7 +40,7 @@
         }
         @if (User.IsInRole(Roles.Admin))
         {
-            <form action="@Url.Action("Rescan", new { id = "x" })" method="post" class="inline-form">
+            <form action="@Url.Action("Rescan")" method="post" class="inline-form">
                 <button type="submit" class="pure-button pure-button-primary"><i class="fa fa-refresh"></i> @Resources.Repository_Rescan_Directory</button>
             </form>
         }
@@ -51,7 +51,7 @@
 {
     <div class="summary-success">
         <p>@Resources.Repository_Create_Success</p>
-        <p>@Html.ActionLink(string.Format(Resources.Repository_Create_Success_Go_To, TempData["SuccessfullyCreatedRepositoryName"]), "Detail", new { id = TempData["SuccessfullyCreatedRepositoryId"].ToString() })</p>
+        <p>@Html.ActionLink(string.Format(Resources.Repository_Create_Success_Go_To, TempData["SuccessfullyCreatedRepositoryName"]), "Detail", new { name = TempData["SuccessfullyCreatedRepositoryName"]!.ToString() })</p>
     </div>
 }
 @if (TempData["CloneSuccess"] as bool? == true)
@@ -128,7 +128,7 @@
                             </td>
                             <td>
 
-                                @Html.ActionLink(GetNameToDisplay(repo.Name, repo.Status), "Detail", new { id = repo.Id }, new { @class = "RepositoryName detail" + (repo.Logo.Exists ? " customLogo" : ""), @id = "repo_" + repo.Id })
+                                @Html.ActionLink(GetNameToDisplay(repo.Name, repo.Status), "Detail", new { name = repo.Name }, new { @class = "RepositoryName detail" + (repo.Logo.Exists ? " customLogo" : ""), @id = "repo_" + repo.Id })
 
                             </td>
                             <td>
@@ -167,11 +167,11 @@
                             </td>
                             <td class="pull-right">
 
-                                <a href="@Url.Action("Edit", new { id = repo.Id })" class="edit" title="@Resources.Grid_Edit">
+                                <a href="@Url.Action("Edit", new { name = repo.Name })" class="edit" title="@Resources.Grid_Edit">
                                     <i class="fa fa-pencil"></i>
                                 </a>
 
-                                <a href="@Url.Action("Delete", new { id = repo.Id })" class="delete" title="@Resources.Grid_Delete">
+                                <a href="@Url.Action("Delete", new { name = repo.Name })" class="delete" title="@Resources.Grid_Delete">
                                     <i class="fa fa-trash-o"></i>
                                 </a>
                                 <button class="pure-button copy-to-clip-button" title="@Resources.Repository_Git_Url_Copy" data-clipboard-text="@repo.GitUrl">

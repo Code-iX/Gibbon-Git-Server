@@ -2,7 +2,4 @@
 
 namespace Gibbon.Git.Server.Repositories;
 
-public class RepositoryPermissionRequirement(RepositoryAccessLevel requiredAccessLevel) : IAuthorizationRequirement
-{
-    public RepositoryAccessLevel RequiredAccessLevel { get; } = requiredAccessLevel;
-}
+public record RepositoryPermissionRequirement(RepositoryAccessLevel RequiredAccessLevel) : IAuthorizationRequirement;

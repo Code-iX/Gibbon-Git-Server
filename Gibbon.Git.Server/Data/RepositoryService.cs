@@ -64,7 +64,7 @@ public class RepositoryService(ILogger<RepositoryService> logger, GibbonGitServe
                 LinksRegex = repo.LinksRegex,
                 LinksUrl = repo.LinksUrl,
                 LinksUseGlobal = repo.LinksUseGlobal
-            }).ToList();        
+            }).ToList();
     }
 
     public RepositoryModel GetRepository(string name)
@@ -160,9 +160,10 @@ public class RepositoryService(ILogger<RepositoryService> logger, GibbonGitServe
     {
         var repository = _context.Repositories
             .AsNoTracking()
-            .FirstOrDefault(repo => repo.Name == repositoryName);
+            .Select(x => x.Name)
+            .FirstOrDefault(name => name == repositoryName);
 
-        return repository is null ? repositoryName : repository.Name;
+        return repository ?? repositoryName;
     }
 
     public bool Create(RepositoryModel model)

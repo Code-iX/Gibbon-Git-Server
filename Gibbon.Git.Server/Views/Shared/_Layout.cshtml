@@ -49,7 +49,7 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         @await Component.InvokeAsync("RepositoryList")
-                        <li><a href="@Url.Action("Index", "Repository")" class="repository"><i class="fa fa-hdd-o"></i> @Resources.Layout_Repositories</a></li>
+                        <li><a href="@Url.Action("Index", "Repositories")" class="repository"><i class="fa fa-hdd-o"></i> @Resources.Layout_Repositories</a></li>
                     }
                     @if (User.IsInRole(Roles.Admin))
                     {
