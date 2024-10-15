@@ -28,7 +28,7 @@ public class CookieAuthenticationProvider(IHttpContextAccessor httpContextAccess
             new(ClaimTypes.GivenName, user.GivenName),
             new(ClaimTypes.Surname, user.Surname),
             new(ClaimTypes.Email, user.Email),
-            new(ClaimTypes.Role, Definitions.Roles.Member)
+            new(ClaimTypes.Role, Roles.Member)
         ];
 
         result.AddRange(_roleProvider.GetRolesForUser(user.Id).Select(x => new Claim(ClaimTypes.Role, x)));

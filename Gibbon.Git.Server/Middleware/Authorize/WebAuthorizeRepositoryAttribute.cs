@@ -2,6 +2,7 @@
 
 using Gibbon.Git.Server.Security;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -9,14 +10,34 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Gibbon.Git.Server.Middleware.Authorize;
 
-public class WebAuthorizeRepositoryAttribute : WebAuthorizeAttribute
+public class WebAuthorizeRepositoryAttribute : AuthorizeAttribute, IAuthorizationFilter
 {
     public bool RequiresRepositoryAdministrator { get; set; }
 
-    public override void OnAuthorization(AuthorizationFilterContext context)
+    public void OnAuthorization(AuthorizationFilterContext context)
     {
-        base.OnAuthorization(context);
+        if (!context.HttpContext.User.Identity!.IsAuthenticated)
+        {
+            context.Result = new UnauthorizedResult();
+            return;
+        }
 
+        if (!context.HttpContext.User.IsInRole(Security.Roles.Member))
+        {
+            context.Result = new UnauthorizedResult();
+            return;
+        }
+
+        var roles = Roles?.Split(',', StringSplitOptions.RemoveEmptyEntries);
+        if (roles is null)
+        {
+            return;
+        }
+
+        if (!context.HttpContext.User.Claims.Any(c => roles.Contains(c.Value)))
+        {
+            context.Result = new UnauthorizedResult();
+        }
         if (context.Result != null) return;
 
         var repositoryPermissionService = context.HttpContext.RequestServices.GetRequiredService<IRepositoryPermissionService>();

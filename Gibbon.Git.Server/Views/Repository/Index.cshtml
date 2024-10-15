@@ -34,11 +34,11 @@
     </div>
     <div class="pure-u-3-5 add">
 
-        @if (User.IsInRole(Definitions.Roles.Administrator) || ServerSettings.AllowUserRepositoryCreation)
+        @if (User.IsInRole(Roles.Admin) || ServerSettings.AllowUserRepositoryCreation)
         {
             <a class="pure-button pure-button-primary" href="@Url.Action("Create")"><i class="fa fa-plus-circle"></i> @Resources.Repository_Index_CreateNew</a>
         }
-        @if (User.IsInRole(Definitions.Roles.Administrator))
+        @if (User.IsInRole(Roles.Admin))
         {
             <form action="@Url.Action("Rescan", new { id = "x" })" method="post" class="inline-form">
                 <button type="submit" class="pure-button pure-button-primary"><i class="fa fa-refresh"></i> @Resources.Repository_Rescan_Directory</button>

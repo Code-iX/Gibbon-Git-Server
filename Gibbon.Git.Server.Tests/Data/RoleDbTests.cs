@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 
 using Gibbon.Git.Server.Data.Entities;
+using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Tests.TestHelper;
 
 using Microsoft.EntityFrameworkCore;
@@ -123,7 +124,7 @@ public abstract class RoleDbTests<TConnectionFactory> : GibbonDbContextTestsBase
 
         // Assert
         Assert.IsNotNull(seedRole);
-        Assert.AreEqual("Administrator", seedRole.Name);
+        Assert.AreEqual(Roles.Admin, seedRole.Name);
         Assert.AreEqual("System administrator", seedRole.Description);
     }
 

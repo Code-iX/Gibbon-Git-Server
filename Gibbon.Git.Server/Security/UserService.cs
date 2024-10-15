@@ -2,15 +2,16 @@
 using Gibbon.Git.Server.Data.Entities;
 using Gibbon.Git.Server.Models;
 
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 namespace Gibbon.Git.Server.Security;
 
-public class UserService(ILogger<UserService> logger, GibbonGitServerContext context, IPasswordService passwordService)
+public class UserService(ILogger<UserService> logger, IMemoryCache memoryCache, GibbonGitServerContext context, IPasswordService passwordService)
     : IUserService
 {
     private readonly ILogger<UserService> _logger = logger;
+    private readonly IMemoryCache _memoryCache = memoryCache;
     private readonly GibbonGitServerContext _context = context;
     private readonly IPasswordService _passwordService = passwordService;
 
@@ -65,14 +66,16 @@ public class UserService(ILogger<UserService> logger, GibbonGitServerContext con
 
     public IList<UserModel> GetAllUsers()
     {
-        return _context.Users.Include("Roles").ToList().Select(item => new UserModel
-        {
-            Id = item.Id,
-            Username = item.Username,
-            GivenName = item.GivenName,
-            Surname = item.Surname,
-            Email = item.Email,
-        }).ToList();
+        return _context.Users
+            .Select(item => new UserModel
+            {
+                Id = item.Id,
+                Username = item.Username,
+                GivenName = item.GivenName,
+                Surname = item.Surname,
+                Email = item.Email,
+            })
+            .ToList();
     }
 
     public int UserCount()
@@ -80,26 +83,26 @@ public class UserService(ILogger<UserService> logger, GibbonGitServerContext con
         return _context.Users.Count();
     }
 
-    private static UserModel GetUserModel(User user) => user == null ? null : new UserModel
-    {
-        Id = user.Id,
-        Username = user.Username,
-        GivenName = user.GivenName,
-        Surname = user.Surname,
-        Email = user.Email,
-    };
-
     public UserModel GetUserModel(int id)
     {
-        var user = _context.Users.FirstOrDefault(i => i.Id == id);
-        return GetUserModel(user);
+        if (_memoryCache.TryGetValue(GetUserKey(id), out UserModel user))
+        {
+            return user;
+        }
+
+        return LoadAndCacheUser(u => u.Id == id);
+
     }
 
     public UserModel GetUserModel(string username)
     {
-        //username = username.ToLowerInvariant();
-        var user = _context.Users.FirstOrDefault(i => i.Username == username);
-        return GetUserModel(user);
+        username = username.ToLowerInvariant();
+        if (_memoryCache.TryGetValue(GetUserKey(username), out UserModel user))
+        {
+            return user;
+        }
+
+        return LoadAndCacheUser(u => u.Username == username);
     }
 
     public void DeleteUser(int id)
@@ -131,6 +134,9 @@ public class UserService(ILogger<UserService> logger, GibbonGitServerContext con
         user.Surname = surname ?? user.Surname;
         user.Email = email ?? user.Email;
         _context.SaveChanges();
+
+        _memoryCache.Remove(GetUserKey(user.Id));
+        _memoryCache.Remove(GetUserKey(user.Username));
     }
 
     public void UpdatePassword(int id, string newPassword)
@@ -143,6 +149,40 @@ public class UserService(ILogger<UserService> logger, GibbonGitServerContext con
 
         SetPassword(user, newPassword);
         _context.SaveChanges();
+    }
+
+    private static string GetUserKey(int id) => $"User_Id_{id}";
+    private static string GetUserKey(string username) => $"User_Username_{username.ToLowerInvariant()}";
+
+    private UserModel LoadAndCacheUser(Func<User, bool> predicate)
+    {
+        var user = _context.Users
+            .Where(predicate)
+            .Select(u => new UserModel
+            {
+                Id = u.Id,
+                Username = u.Username,
+                GivenName = u.GivenName,
+                Surname = u.Surname,
+                Email = u.Email
+            })
+            .FirstOrDefault();
+
+        if (user == null)
+        {
+            return null;
+        }
+
+        var cacheOptions = new MemoryCacheEntryOptions
+        {
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30)
+        };
+
+        // Cache für beide Schlüssel setzen (ID und Username)
+        _memoryCache.Set(GetUserKey(user.Id), user, cacheOptions);
+        _memoryCache.Set(GetUserKey(user.Username), user, cacheOptions);
+
+        return user;
     }
 
     private void SetPassword(User user, string password)

@@ -16,7 +16,7 @@ using Microsoft.Extensions.Options;
 
 namespace Gibbon.Git.Server.Controllers;
 
-[Authorize(Roles = Definitions.Roles.Administrator)]
+[Authorize(Roles = Roles.Admin)]
 public class ServerController(IOptions<ApplicationSettings> options, IGitDownloadService downloadService, IServerSettingsService serverSettingsService, ICultureService cultureService, IOptions<GitSettings> gitOptions, IGitVersionService gitVersionService, IDatabaseHelperService databaseHelperService)
     : Controller
 {

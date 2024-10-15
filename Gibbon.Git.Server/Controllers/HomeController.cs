@@ -7,7 +7,7 @@ using Gibbon.Git.Server.Models;
 using Gibbon.Git.Server.Provider;
 using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Services;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
@@ -25,7 +25,7 @@ public class HomeController(ILogger<HomeController> logger, IUserService userSer
     private readonly IDiagnosticReporter _diagnosticReporter = diagnosticReporter;
     private readonly IMailService _mailService = mailService;
 
-    [WebAuthorize]
+    [Authorize]
     public IActionResult Index() => RedirectToAction("Index", "Repository");
 
     public IActionResult Error() => View();
@@ -77,7 +77,7 @@ public class HomeController(ILogger<HomeController> logger, IUserService userSer
         return RedirectToAction("Index", "Home");
     }
 
-    [WebAuthorize]
+    [Authorize]
     public async Task<IActionResult> Logout()
     {
         await _authenticationProvider.SignOut();
@@ -169,6 +169,7 @@ public class HomeController(ILogger<HomeController> logger, IUserService userSer
         return RedirectToAction("Login");
     }
 
+    [Authorize(Roles = Roles.Admin)]
     public IActionResult Diagnostics()
     {
         if (!HttpContext.IsLocalRequest())

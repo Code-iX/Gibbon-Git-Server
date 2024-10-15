@@ -16,7 +16,10 @@ public class GibbonGitServerContext(DbContextOptions<GibbonGitServerContext> opt
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(GibbonGitServerContext).Assembly);
-
         base.OnModelCreating(modelBuilder);
+    }
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder.Properties<string>().UseCollation("NOCASE");
     }
 }

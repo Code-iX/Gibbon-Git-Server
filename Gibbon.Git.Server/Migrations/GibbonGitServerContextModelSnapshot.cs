@@ -287,7 +287,7 @@ namespace Gibbon.Git.Server.Migrations
 
                     b.HasIndex("Team_Id");
 
-                    b.ToTable("TeamRepository_Permission");
+                    b.ToTable("TeamRepository_Permission", (string)null);
                 });
 
             modelBuilder.Entity("UserRepository_Administrator", b =>
@@ -302,7 +302,7 @@ namespace Gibbon.Git.Server.Migrations
 
                     b.HasIndex("User_Id");
 
-                    b.ToTable("UserRepository_Administrator");
+                    b.ToTable("UserRepository_Administrator", (string)null);
                 });
 
             modelBuilder.Entity("UserRepository_Permission", b =>
@@ -317,7 +317,7 @@ namespace Gibbon.Git.Server.Migrations
 
                     b.HasIndex("User_Id");
 
-                    b.ToTable("UserRepository_Permission");
+                    b.ToTable("UserRepository_Permission", (string)null);
                 });
 
             modelBuilder.Entity("UserRole_InRole", b =>
@@ -332,7 +332,7 @@ namespace Gibbon.Git.Server.Migrations
 
                     b.HasIndex("User_Id");
 
-                    b.ToTable("UserRole_InRole");
+                    b.ToTable("UserRole_InRole", (string)null);
 
                     b.HasData(
                         new
@@ -354,7 +354,7 @@ namespace Gibbon.Git.Server.Migrations
 
                     b.HasIndex("User_Id");
 
-                    b.ToTable("UserTeam_Member");
+                    b.ToTable("UserTeam_Member", (string)null);
                 });
 
             modelBuilder.Entity("TeamRepository_Permission", b =>

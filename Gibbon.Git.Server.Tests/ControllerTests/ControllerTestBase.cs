@@ -22,7 +22,7 @@ public abstract class ControllerTestBase<TController> : TestBase where TControll
         AdminUser = new ClaimsPrincipal(new ClaimsIdentity(new[]
         {
             new Claim(ClaimTypes.Name, "admin"),
-            new Claim(ClaimTypes.Role, Definitions.Roles.Administrator)
+            new Claim(ClaimTypes.Role, Roles.Admin)
         }, "TestAuthentication"));
 
         services.AddSingleton<TController>();

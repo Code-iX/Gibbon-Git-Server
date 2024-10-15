@@ -1,26 +1,31 @@
 ﻿using Gibbon.Git.Server.Data;
-using Gibbon.Git.Server.Middleware.Authorize;
 using Gibbon.Git.Server.Models;
 using Gibbon.Git.Server.Security;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gibbon.Git.Server.Controllers;
 
+[Authorize]
 public class TeamController(IUserService userService, IRepositoryService repositoryService, ITeamService teamRepository)
     : Controller
 {
     private readonly IUserService _userService = userService;
     private readonly IRepositoryService _repositoryService = repositoryService;
+
     private readonly ITeamService _teamRepository = teamRepository;
 
-    [WebAuthorize(Roles = Definitions.Roles.Administrator)]
     public IActionResult Index()
     {
         return View(ConvertTeamModels(_teamRepository.GetAllTeams()));
     }
 
-    [WebAuthorize(Roles = Definitions.Roles.Administrator)]
+    public IActionResult Detail(int id)
+    {
+        return View(ConvertDetailTeamModel(_teamRepository.GetTeam(id)));
+    }
+
     public IActionResult Edit(int id)
     {
         var model = ConvertEditTeamModel(_teamRepository.GetTeam(id));
@@ -29,7 +34,6 @@ public class TeamController(IUserService userService, IRepositoryService reposit
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [WebAuthorize(Roles = Definitions.Roles.Administrator)]
     public IActionResult Edit(TeamEditModel model)
     {
         if (ModelState.IsValid)
@@ -42,7 +46,7 @@ public class TeamController(IUserService userService, IRepositoryService reposit
         return RedirectToAction("Edit");
     }
 
-    [WebAuthorize(Roles = Definitions.Roles.Administrator)]
+    [Authorize(Roles = Roles.Admin)]
     public IActionResult Create()
     {
         var model = new TeamEditModel
@@ -55,7 +59,7 @@ public class TeamController(IUserService userService, IRepositoryService reposit
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [WebAuthorize(Roles = Definitions.Roles.Administrator)]
+    [Authorize(Roles = Roles.Admin)]
     public IActionResult Create(TeamEditModel model)
     {
         while (!string.IsNullOrEmpty(model.Name) && model.Name.Last() == ' ')
@@ -80,7 +84,7 @@ public class TeamController(IUserService userService, IRepositoryService reposit
         return RedirectToAction("Index");
     }
 
-    [WebAuthorize(Roles = Definitions.Roles.Administrator)]
+    [Authorize(Roles = Roles.Admin)]
     public IActionResult Delete(int id)
     {
         return View(ConvertEditTeamModel(_teamRepository.GetTeam(id)));
@@ -88,7 +92,7 @@ public class TeamController(IUserService userService, IRepositoryService reposit
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [WebAuthorize(Roles = Definitions.Roles.Administrator)]
+    [Authorize(Roles = Roles.Admin)]
     public IActionResult Delete(TeamEditModel model)
     {
         if (model != null && model.Id != default)
@@ -99,12 +103,6 @@ public class TeamController(IUserService userService, IRepositoryService reposit
             return RedirectToAction("Index");
         }
         return RedirectToAction("Index");
-    }
-
-    [WebAuthorize]
-    public IActionResult Detail(int id)
-    {
-        return View(ConvertDetailTeamModel(_teamRepository.GetTeam(id)));
     }
 
     private List<TeamDetailModel> ConvertTeamModels(IEnumerable<TeamModel> models)
