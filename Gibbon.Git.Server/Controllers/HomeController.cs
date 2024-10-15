@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Gibbon.Git.Server.Controllers;
 
+[Route("/{action=Index}")]
 public class HomeController(ILogger<HomeController> logger, IUserService userService, IAuthenticationProvider authenticationProvider, IMemoryCache memoryCache, GibbonGitServerContext dbContext, IDiagnosticReporter diagnosticReporter, IMailService mailService)
     : Controller
 {
@@ -28,7 +29,8 @@ public class HomeController(ILogger<HomeController> logger, IUserService userSer
     [Authorize]
     public IActionResult Index() => RedirectToAction("Index", "Repositories");
 
-    public IActionResult Error() => View();
+    [Route("/Error/{statuscode}")]
+    public IActionResult Error(int statuscode) => View();
 
     public IActionResult Login(string returnUrl)
     {

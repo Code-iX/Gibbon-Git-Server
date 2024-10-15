@@ -112,8 +112,8 @@ services.AddAntiforgery(options =>
 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Home/Login";
-        options.AccessDeniedPath = "/Home/Error";
+        options.LoginPath = "/Login";
+        options.AccessDeniedPath = "/Error";
         options.ExpireTimeSpan = TimeSpan.FromDays(3);
         options.SlidingExpiration = true;
         options.Events.OnRedirectToAccessDenied = async context =>
@@ -141,8 +141,8 @@ services.AddControllersWithViews()
 
 var app = builder.Build();
 
-app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
-app.UseExceptionHandler("/Home/Error");
+app.UseStatusCodePagesWithReExecute("/Error/{0}");
+app.UseExceptionHandler("/Error");
 
 if (app.Environment.IsDevelopment())
 {
@@ -150,7 +150,7 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
 
