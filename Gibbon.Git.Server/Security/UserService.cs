@@ -90,19 +90,61 @@ public class UserService(ILogger<UserService> logger, IMemoryCache memoryCache, 
             return user;
         }
 
-        return LoadAndCacheUser(u => u.Id == id);
+        user = _context.Users
+           .Where(u => u.Id == id)
+           .Select(u => new UserModel
+           {
+               Id = u.Id,
+               Username = u.Username,
+               GivenName = u.GivenName,
+               Surname = u.Surname,
+               Email = u.Email
+           })
+           .FirstOrDefault();
 
+        CacheUser(user);
+      
+        return user;
     }
 
     public UserModel GetUserModel(string username)
     {
-        username = username.ToLowerInvariant();
         if (_memoryCache.TryGetValue(GetUserKey(username), out UserModel user))
         {
             return user;
         }
 
-        return LoadAndCacheUser(u => u.Username == username);
+        user = _context.Users
+           .Where(u => u.Username == username)
+           .Select(u => new UserModel
+           {
+               Id = u.Id,
+               Username = u.Username,
+               GivenName = u.GivenName,
+               Surname = u.Surname,
+               Email = u.Email
+           })
+           .FirstOrDefault();
+
+        CacheUser(user);
+       
+        return user;
+    }
+
+    private void CacheUser(UserModel user)
+    {
+        if (user == null)
+        {
+            return;
+        }
+
+        var cacheOptions = new MemoryCacheEntryOptions
+        {
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30)
+        };
+
+        _memoryCache.Set(GetUserKey(user.Id), user, cacheOptions);
+        _memoryCache.Set(GetUserKey(user.Username), user, cacheOptions);
     }
 
     public void DeleteUser(int id)
@@ -153,37 +195,6 @@ public class UserService(ILogger<UserService> logger, IMemoryCache memoryCache, 
 
     private static string GetUserKey(int id) => $"User_Id_{id}";
     private static string GetUserKey(string username) => $"User_Username_{username.ToLowerInvariant()}";
-
-    private UserModel LoadAndCacheUser(Func<User, bool> predicate)
-    {
-        var user = _context.Users
-            .Where(predicate)
-            .Select(u => new UserModel
-            {
-                Id = u.Id,
-                Username = u.Username,
-                GivenName = u.GivenName,
-                Surname = u.Surname,
-                Email = u.Email
-            })
-            .FirstOrDefault();
-
-        if (user == null)
-        {
-            return null;
-        }
-
-        var cacheOptions = new MemoryCacheEntryOptions
-        {
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30)
-        };
-
-        // Cache für beide Schlüssel setzen (ID und Username)
-        _memoryCache.Set(GetUserKey(user.Id), user, cacheOptions);
-        _memoryCache.Set(GetUserKey(user.Username), user, cacheOptions);
-
-        return user;
-    }
 
     private void SetPassword(User user, string password)
     {
