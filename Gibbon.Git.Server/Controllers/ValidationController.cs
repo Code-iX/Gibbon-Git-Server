@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.OutputCaching;
 
 namespace Gibbon.Git.Server.Controllers;
 
+[Route("Validation/[action]")]
 [OutputCache(NoStore = true)]
 public class ValidationController(IRepositoryService repoRepo, IUserService userService, ITeamService teamRepo)
     : Controller
