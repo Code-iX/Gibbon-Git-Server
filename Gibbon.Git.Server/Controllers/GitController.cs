@@ -29,6 +29,7 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
     private readonly IGitService _gitService = gitService;
     private readonly IPathResolver _pathResolver = pathResolver;
 
+    [HttpGet("{repositoryName}.git/info/refs")]
     public IActionResult SecureGetInfoRefs(string repositoryName, string service)
     {
         if (!RepositoryIsValid(repositoryName))
@@ -57,7 +58,7 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
             CreateFormattedServiceMessage(service));
     }
 
-    [HttpPost]
+    [HttpPost("{repositoryName}.git/git-upload-pack")]
     public IActionResult SecureUploadPack(string repositoryName)
     {
         if (!RepositoryIsValid(repositoryName))
@@ -82,7 +83,7 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
         );
     }
 
-    [HttpPost]
+    [HttpPost("{repositoryName}.git/git-receive-pack")]
     public IActionResult SecureReceivePack(string repositoryName)
     {
         if (!RepositoryIsValid(repositoryName))
@@ -110,6 +111,7 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
     /// <summary>
     /// Action to handle .git URLs by redirecting to the repository details page.
     /// </summary>
+    [HttpGet("{repositoryName}.git")]
     public IActionResult GitUrl(string repositoryName)
     {
         if (string.IsNullOrEmpty(repositoryName))
