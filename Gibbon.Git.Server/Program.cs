@@ -1,6 +1,5 @@
 using Gibbon.Git.Server.Configuration;
 using Gibbon.Git.Server.Data;
-using Gibbon.Git.Server.Extensions;
 using Gibbon.Git.Server.Git.GitDownloadService;
 using Gibbon.Git.Server.Git.GitService;
 using Gibbon.Git.Server.Git.GitVersionService;
@@ -168,7 +167,13 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapRoutes();
+
 app.UseMiddleware<CultureMiddleware>();
+
+app.MapControllers();
+
+app.MapControllerRoute(
+    name: "Default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 await app.RunAsync();
