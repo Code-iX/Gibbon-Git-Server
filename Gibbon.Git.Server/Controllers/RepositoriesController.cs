@@ -23,6 +23,7 @@ using Microsoft.Extensions.Logging;
 namespace Gibbon.Git.Server.Controllers;
 
 [Authorize]
+[TypeFilter(typeof(NormalizeRepositoryNameFilter))]
 public class RepositoriesController(ILogger<RepositoriesController> logger, ITeamService teamRepository, IRepositoryService repositoryService, IUserService userService, IRepositoryPermissionService repositoryPermissionService, IRepositorySynchronizer repositorySynchronizer, ServerSettings serverSettings, IPathResolver pathResolver, IRepositoryBrowserFactory repositoryBrowserFactory)
     : Controller
 {
