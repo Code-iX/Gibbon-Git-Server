@@ -50,15 +50,15 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.ActionLink(item.Username, "Detail", new { id = item.Id }, new { @class = "detail" })</td>
+                <td>@Html.ActionLink(item.Username, "Detail", new { username = item.Username }, new { @class = "detail" })</td>
                 <td>@item.Name</td>
                 <td>@item.Surname</td>
                 <td>@item.Email</td>
                 <td class="pull-right">
-                    <a href="@Url.Action("Edit", new { id = item.Id })" class="edit" title="@Resources.Grid_Edit">
+                    <a href="@Url.Action("Edit", new { username = item.Username })" class="edit" title="@Resources.Grid_Edit">
                         <i class="fa fa-pencil"></i>
                     </a>
-                    <a href="@Url.Action("Delete", new { id = item.Id })" class="delete" title="@Resources.Grid_Delete">
+                    <a href="@Url.Action("Delete", new { username = item.Username })" class="delete" title="@Resources.Grid_Delete">
                         <i class="fa fa-trash"></i>
                     </a>
                 </td>

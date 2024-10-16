@@ -5,7 +5,7 @@ namespace Gibbon.Git.Server.Security;
 public interface IUserService
 {
     bool CreateUser(string username, string password, string givenName, string surname, string email);
-    IList<UserModel> GetAllUsers();
+    List<UserModel> GetAllUsers();
     UserModel GetUserModel(int id);
     UserModel GetUserModel(string username);
     void DeleteUser(int id);
