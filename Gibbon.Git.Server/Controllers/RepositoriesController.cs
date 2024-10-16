@@ -235,7 +235,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
     {
         var isApiRequest = HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
 
-        ViewBag.ID = name;
+        ViewBag.Name = name;
         var decodedName = PathEncoder.Decode(encodedName);
         var path = PathEncoder.Decode(encodedPath);
 
@@ -275,7 +275,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
     [Authorize(Policy = Policies.RepositoryPush)]
     public IActionResult Blob(string name, string encodedName, string encodedPath)
     {
-        ViewBag.ID = name;
+        ViewBag.Name = name;
         var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
         var decode = PathEncoder.Decode(encodedName);
@@ -320,7 +320,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
     [Authorize(Policy = Policies.RepositoryPush)]
     public IActionResult Blame(string name, string encodedName, string encodedPath)
     {
-        ViewBag.ID = name;
+        ViewBag.Name = name;
         ViewBag.ShowShortMessageOnly = true;
         var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
@@ -375,7 +375,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
     {
         page = page >= 1 ? page : 1;
 
-        ViewBag.ID = name;
+        ViewBag.Name = name;
         ViewBag.ShowShortMessageOnly = true;
         var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
@@ -453,7 +453,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
     [Authorize(Policy = Policies.RepositoryPush)]
     public IActionResult Commit(string name, string commit)
     {
-        ViewBag.ID = name;
+        ViewBag.Name = name;
         ViewBag.ShowShortMessageOnly = false;
         var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
@@ -474,7 +474,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
         var model = ConvertRepositoryModel(_repositoryService.GetRepository(name), User);
         model.Name = "";
         PopulateCheckboxListData(ref model);
-        ViewBag.ID = name;
+        ViewBag.Name = name;
         return View(model);
     }
 
@@ -490,7 +490,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
             return Unauthorized();
         }
 
-        ViewBag.ID = name;
+        ViewBag.Name = name;
         PopulateCheckboxListData(ref model);
         model.Name = StringHelper.RemoveWhiteSpace(model.Name);
 
@@ -552,7 +552,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
     [Authorize(Policy = Policies.RepositoryPush)]
     public IActionResult History(string name, string encodedPath, string encodedName)
     {
-        ViewBag.ID = name;
+        ViewBag.Name = name;
         ViewBag.ShowShortMessageOnly = true;
         var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
