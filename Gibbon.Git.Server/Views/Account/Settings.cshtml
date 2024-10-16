@@ -1,13 +1,13 @@
 ﻿@model Gibbon.Git.Server.Models.MeSettingsModel
 @{
-    Layout = "~/Views/Me/_MeLayout.cshtml";
+    Layout = "~/Views/Account/_Layout.cshtml";
     ViewBag.Title = Resources.Settings_Index_Title;
 }
 
 @Html.SummaryMessage("UpdateSuccess", Resources.Settings_Index_UpdateSuccess)
 @Html.SummaryMessage("ResetSuccess", Resources.Settings_Index_ResetSuccess)
 
-@using (Html.BeginForm("Settings", "Me", FormMethod.Post, new { @class = "pure-form pure-form-aligned" }))
+@using (Html.BeginForm("Settings", "Account", FormMethod.Post, new { @class = "pure-form pure-form-aligned" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(false, Resources.Settings_Index_Failed)
