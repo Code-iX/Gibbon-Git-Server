@@ -28,8 +28,8 @@ public class HomeController(ILogger<HomeController> logger, IUserService userSer
     [Authorize]
     public IActionResult Index() => RedirectToAction("Index", "Repositories");
 
-    [Route("/Error/{statuscode}")]
-    public IActionResult Error(int statuscode) => View();
+    [Route("/Error/{statuscode?}")]
+    public IActionResult Error(int? statuscode) => View();
 
     public IActionResult Login(string returnUrl)
     {
