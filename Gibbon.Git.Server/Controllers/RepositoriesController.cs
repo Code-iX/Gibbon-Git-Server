@@ -1,5 +1,7 @@
 ﻿using System.Security.Principal;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Gibbon.Git.Server.Configuration;
 using Gibbon.Git.Server.Data;
@@ -334,34 +336,37 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
 
     [HttpGet("Repositories/{name}/Download/{encodedName?}/{*encodedPath}")]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult Download(string name, string encodedName, string encodedPath)
+    public async Task<IActionResult> Download(string name, string encodedName, string encodedPath)
     {
         var decode = PathEncoder.Decode(encodedName);
         var path = PathEncoder.Decode(encodedPath);
 
         var repo = _repositoryService.GetRepository(name);
-        var fileName = (decode ?? repo.Name) + ".zip";
-        var headerValue = ContentDispositionUtil.GetHeaderValue(fileName);
 
         Response.ContentType = "application/zip";
-        Response.Headers["Content-Disposition"] = $"attachment; filename={headerValue}";
+        Response.Headers["Content-Disposition"] = $"attachment; filename={repo.Name}.zip";
 
-        using var memoryStream = new MemoryStream();
-        using var zipStream = new ZipOutputStream(memoryStream);
+        await using var zipStream = new ZipOutputStream(Response.Body);
         zipStream.IsStreamOwner = false;
         zipStream.UseZip64 = UseZip64.On;
-
         zipStream.SetLevel(9);
 
-        using (var browser = _repositoryBrowserFactory.Create(repo.Name))
+        using var browser = _repositoryBrowserFactory.Create(repo.Name);
+        try
         {
-            AddTreeToZip(browser, decode, path, zipStream);
+            await AddTreeToZip(browser, decode, path, zipStream, HttpContext.RequestAborted);
+            await zipStream.FinishAsync(HttpContext.RequestAborted);
+            return Empty;
         }
-
-        zipStream.Finish();
-        memoryStream.Position = 0;
-
-        return File(memoryStream.ToArray(), "application/zip", fileName);
+        catch (OperationCanceledException)
+        {
+            return StatusCode(StatusCodes.Status499ClientClosedRequest);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while creating zip file");
+            return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while creating the zip file.");
+        }
     }
 
     [HttpGet("Repositories/{name}/Tags/{encodedName?}")]
@@ -570,7 +575,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
         return RedirectToAction("Index");
     }
 
-    private static void AddTreeToZip(IRepositoryBrowser browser, string name, string path, ZipOutputStream zipStream)
+    private static async Task AddTreeToZip(IRepositoryBrowser browser, string name, string path, ZipOutputStream zipStream, CancellationToken cancellationToken)
     {
         var treeNode = browser.BrowseTree(name, path, out _);
 
@@ -584,8 +589,8 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
                     DateTime = DateTime.Now,
                     Size = 0
                 };
-                zipStream.PutNextEntry(entry);
-                zipStream.CloseEntry();
+                await zipStream.PutNextEntryAsync(entry, cancellationToken);
+                await zipStream.CloseEntryAsync(cancellationToken);
             }
             else if (!item.IsTree)
             {
@@ -598,14 +603,14 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
                     Size = model.Data.Length
                 };
 
-                zipStream.PutNextEntry(entry);
-                zipStream.Write(model.Data, 0, model.Data.Length);
-                zipStream.CloseEntry();
+                await zipStream.PutNextEntryAsync(entry, cancellationToken);
+                await zipStream.WriteAsync(model.Data, 0, model.Data.Length, cancellationToken);
+                await zipStream.CloseEntryAsync(cancellationToken);
             }
             else
             {
                 // Rekursiver Aufruf für Unterverzeichnisse
-                AddTreeToZip(browser, item.TreeName, item.Path, zipStream);
+                await AddTreeToZip(browser, item.TreeName, item.Path, zipStream, cancellationToken);
             }
         }
     }
