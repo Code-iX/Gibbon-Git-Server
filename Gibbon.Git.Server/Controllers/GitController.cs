@@ -40,10 +40,11 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
         if (!_repositoryPermissionService.HasPermission(User.Id(), repositoryName, requiredLevel))
         {
             _logger.LogWarning("SecureGetInfoRefs unauth because User {UserId} doesn't have permission {Permission} on  repo {RepositoryName}", User.Id(), requiredLevel, repositoryName);
-            return GitForbidden();
+            return GitForbid();
         }
 
-        Response.StatusCode = 200;
+        string input = $"# service={service}\n";
+        var formattedServiceMessage = $"{(input.Length + 4).ToString("X").PadLeft(4, '0')}{input}0000";
 
         return new GitCmdResult(
             $"application/x-{service}-advertisement",
@@ -54,7 +55,7 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
                 outStream,
                 HttpContext.User.Id()
             ),
-            CreateFormattedServiceMessage(service));
+            formattedServiceMessage);
     }
 
     [HttpPost("{repositoryName}.git/git-upload-pack")]
@@ -67,7 +68,7 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
 
         if (!_repositoryPermissionService.HasPermission(User.Id(), repositoryName, RepositoryAccessLevel.Pull))
         {
-            return GitForbidden();
+            return GitForbid();
         }
 
         return new GitCmdResult(
@@ -92,7 +93,7 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
 
         if (!_repositoryPermissionService.HasPermission(User.Id(), repositoryName, RepositoryAccessLevel.Push))
         {
-            return GitForbidden();
+            return GitForbid();
         }
 
         return new GitCmdResult(
@@ -121,21 +122,10 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
         return RedirectToAction("Detail", "Repositories", new { name = repositoryName });
     }
 
-    private static string CreateFormattedServiceMessage(string service)
-    {
-        string input = $"# service={service}\n";
-        return $"{(input.Length + 4).ToString("X").PadLeft(4, '0')}{input}0000";
-    }
-
-    private DirectoryInfo GetDirectoryInfo(string repositoryName)
-    {
-        return new DirectoryInfo(Path.Combine(_pathResolver.GetRepositories(), repositoryName));
-    }
-
     private bool RepositoryIsValid(string repositoryName)
     {
-        var directory = GetDirectoryInfo(repositoryName);
-        var isValid = Repository.IsValid(directory.FullName);
+        var directory = _pathResolver.GetRepositoryPath(repositoryName);
+        var isValid = Repository.IsValid(directory);
         if (!isValid)
         {
             _logger.LogWarning("Invalid repo {RepositoryName}", repositoryName);
@@ -158,7 +148,7 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
     /// Returns a plain text response with status code 403 (Forbidden).
     /// </summary>
     /// <returns>A plain text response indicating the request is forbidden.</returns>
-    private IActionResult GitForbidden()
+    private IActionResult GitForbid()
     {
         Response.StatusCode = 403;
         return Content("Forbidden.", "text/plain; charset=UTF-8");
