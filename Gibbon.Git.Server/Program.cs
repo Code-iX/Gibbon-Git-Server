@@ -139,8 +139,7 @@ services.AddControllersWithViews()
     .AddCookieTempDataProvider();
 
 var app = builder.Build();
-
-app.UseMiddleware<ResponseLoggingMiddleware>();
+ 
 app.UseStatusCodePagesWithReExecute("/Error/{0}");
 app.UseExceptionHandler("/Error");
 
@@ -150,7 +149,6 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
 
@@ -162,6 +160,7 @@ app.UseStaticFiles(new StaticFileOptions
         Mappings = { [".woff2"] = "font/woff2" }
     }
 });
+
 app.UseCookiePolicy();
 
 app.UseRouting();

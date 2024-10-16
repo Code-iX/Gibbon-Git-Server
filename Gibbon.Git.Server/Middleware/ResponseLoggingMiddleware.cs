@@ -10,6 +10,12 @@ public class ResponseLoggingMiddleware(RequestDelegate next, ILogger<ResponseLog
 
     public async Task Invoke(HttpContext context)
     {
+        if (!context.Request.Path.Value.Contains(".git"))
+        {
+            await _next(context);
+            return;
+        }
+
         var originalBodyStream = context.Response.Body;
 
         using var responseBody = new MemoryStream();
