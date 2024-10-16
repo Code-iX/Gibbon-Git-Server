@@ -12,7 +12,7 @@ using Microsoft.Extensions.Options;
 namespace Gibbon.Git.Server.Controllers;
 
 [Authorize(Roles = Roles.Admin)]
-public class AccountController(IAuthenticationProvider authenticationProvider, IRoleProvider roleProvider, IUserService userService, IOptions<ApplicationSettings> options, ServerSettings serverSettings)
+public class UsersController(IAuthenticationProvider authenticationProvider, IRoleProvider roleProvider, IUserService userService, IOptions<ApplicationSettings> options, ServerSettings serverSettings)
     : Controller
 {
     private readonly ServerSettings _serverSettings = serverSettings;

@@ -3,61 +3,87 @@
     Layout = "~/Views/Repositories/_RepositoriesLayout.cshtml";
     ViewBag.Title = Resources.Repository_Tree_Title;
 }
-@if (Model != null)
+
+@if (Model == null)
 {
-    <div class="content">
-        @await Html.PartialAsync("_BranchSwitcher")
-        @await Html.PartialAsync("_AddressBar")
-
-        <table id="files" class="pure-table">
-            <thead>
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.Files.First().Name)</th>
-                    <th>@Html.DisplayNameFor(model => model.Files.First().CommitMessage)</th>
-                    <th>@Html.DisplayNameFor(model => model.Files.First().CommitDate)</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Files)
-                {
-                    <tr>
-                        <td class="path">
-                            @if (item.IsLink)
-                            {
-                                <span class="directory">@item.Name</span>
-                            }
-                            else if (item.IsTree)
-                            {
-                                @Html.ActionLink(item.Name, "Tree", new { name = Model.Name, version =  Model.Branch, path = item.Path }, new { @class = "directory" })
-                            }
-                            else
-                            {
-                                @Html.ActionLink(item.Name, "Blob", new { name = Model.Name, version =  Model.Branch, path = item.Path }, new { @class = item.IsImage ? "image" : "file" })
-                            }
-                        </td>
-                        <td class="message">
-                            @item.CommitMessage
-                        </td>
-                        <td class="date">
-                            @item.CommitDateString
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-        @if (!string.IsNullOrEmpty(Model.Readme))
-        {
-            <div class="markdown">@Html.Raw(Model.Readme)</div>
-        }
-
-        <div class="pure-menu pure-menu-open pure-menu-horizontal repository-menu">
-            <ul>
-                <li><a href="@Url.Action("Download", new { version =  Model.Branch, path = Model.Path })"><i class="fa fa-download"></i>@Resources.Repository_Tree_Zip</a></li>
-            </ul>
-        </div>
-    </div>
+    @await Html.PartialAsync("~/Views/Shared/_ItemNotFound.cshtml")
+    return;
 }
+<div class="content">
+    @await Html.PartialAsync("_BranchSwitcher")
+    @await Html.PartialAsync("_AddressBar")
+
+    <table id="files" class="pure-table">
+        <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Files.First().Name)</th>
+            <th>@Html.DisplayNameFor(model => model.Files.First().CommitMessage)</th>
+            <th>@Html.DisplayNameFor(model => model.Files.First().CommitDate)</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Files)
+        {
+            <tr>
+                <td class="path">
+                    @if (item.IsLink)
+                    {
+                        <span class="directory">@item.Name</span>
+                    }
+                    else
+                    {
+                        if (item.IsTree)
+                        {
+                            @Html.ActionLink(item.Name, "Tree", new
+                            {
+                                name = Model.Name,
+                                version = Model.Branch,
+                                path = item.Path
+                            }, new
+                            {
+                                @class = "directory"
+                            })
+                        }
+                        else
+                        {
+                            @Html.ActionLink(item.Name, "Blob", new
+                            {
+                                name = Model.Name,
+                                version = Model.Branch,
+                                path = item.Path
+                            }, new
+                            {
+                                @class = item.IsImage ? "image" : "file"
+                            })
+                        }
+                    }
+                </td>
+                <td class="message">
+                    @item.CommitMessage
+                </td>
+                <td class="date">
+                    @item.CommitDateString
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    @if (!string.IsNullOrEmpty(Model.Readme))
+    {
+        <div class="markdown">@Html.Raw(Model.Readme)</div>
+    }
+
+    <div class="pure-menu pure-menu-open pure-menu-horizontal repository-menu">
+        <ul>
+            <li>
+                <a href="@Url.Action("Download", new { version = Model.Branch, path = Model.Path })">
+                    <i class="fa fa-download"></i>@Resources.Repository_Tree_Zip
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
 
 
 @section scripts

@@ -3,38 +3,41 @@
     Layout = "~/Views/Repositories/_RepositoriesLayout.cshtml";
     ViewBag.Title = Resources.Repository_Tags_Title;
 }
-@if (Model != null)
-{
-    <div class="repositoryContent">
-        @await Html.PartialAsync("_BranchSwitcher")
 
-        @if (Model.Commits != null && Model.Commits.Any())
-        {
-            <table class="pure-table pure-table-striped">
-                <thead>
-                <tr>
-                    <th>@Resources.Repository_Tags_Title</th>
-                    <th>@Resources.Repository_Commit_Message</th>
-                    <th>@Resources.Repository_Commit_Author</th>
-                    <th>@Resources.Repository_Commit_Date</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach (var commit in Model.Commits)
-                {
-                    <tr>
-                        <td>@await Html.PartialAsync("_Tag", commit)</td>
-                        <td>@commit.Message</td>
-                        <td>@commit.Author</td>
-                        <td>@commit.Date.ToString("yyyy-MM-dd")</td>
-                    </tr>
-                }
-                </tbody>
-            </table>
-        }
-        else
-        {
-            <p>@Resources.No_Tags_Found</p>
-        }
-    </div>
+@if (Model == null)
+{
+    @await Html.PartialAsync("~/Views/Shared/_ItemNotFound.cshtml")
+    return;
 }
+<div class="repositoryContent">
+    @await Html.PartialAsync("_BranchSwitcher")
+
+    @if (Model.Commits != null && Model.Commits.Any())
+    {
+        <table class="pure-table pure-table-striped">
+            <thead>
+            <tr>
+                <th>@Resources.Repository_Tags_Title</th>
+                <th>@Resources.Repository_Commit_Message</th>
+                <th>@Resources.Repository_Commit_Author</th>
+                <th>@Resources.Repository_Commit_Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var commit in Model.Commits)
+            {
+                <tr>
+                    <td>@await Html.PartialAsync("_Tag", commit)</td>
+                    <td>@commit.Message</td>
+                    <td>@commit.Author</td>
+                    <td>@commit.Date.ToString("yyyy-MM-dd")</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>@Resources.No_Tags_Found</p>
+    }
+</div>

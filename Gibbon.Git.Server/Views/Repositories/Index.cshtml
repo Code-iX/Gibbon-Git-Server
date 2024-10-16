@@ -11,21 +11,13 @@
 
 @functions
 {
-    string GetNameToDisplay(string name, RepositoryDetailStatus status)
+    static string GetNameToDisplay(string name, RepositoryDetailStatus status) => status switch
     {
-        switch (status)
-        {
-            case RepositoryDetailStatus.Valid:
-                return name;
-
-            case RepositoryDetailStatus.Missing:
-                return name + " (Missing)";
-
-            case RepositoryDetailStatus.Unknown:
-            default:
-                return name + " (Status Unknown)";
-        }
-    }
+        RepositoryDetailStatus.Valid => name,
+        RepositoryDetailStatus.Missing => name + " (Missing)",
+        RepositoryDetailStatus.Unknown => name + " (Status Unknown)",
+        _ => name + " (Status Unknown)"
+    };
 }
 
 <div class="pure-g">
