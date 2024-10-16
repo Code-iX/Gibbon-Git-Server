@@ -5,12 +5,12 @@
     ViewBag.Name = Model.Name;
 }
 
-
 @if (Model == null)
 {
+    @await Html.PartialAsync("~/Views/Shared/_ItemNotFound.cshtml")
     return;
-
 }
+
 <div class="repositoryContent">
     @await Html.PartialAsync("_BranchSwitcher")
 

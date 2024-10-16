@@ -5,7 +5,7 @@
 
 <h1>@Resources.Account_Create_Title</h1>
 
-@using (Html.BeginForm("Create", "Account", FormMethod.Post, new { @class = "pure-form pure-form-aligned" }))
+@using (Html.BeginForm("Create", "Users", FormMethod.Post, new { @class = "pure-form pure-form-aligned" }))
 {    
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(false, Resources.Account_Create_Unsuccessfull)
