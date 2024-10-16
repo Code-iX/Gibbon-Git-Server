@@ -6,63 +6,63 @@
 @if (Model == null)
 {
     @await Html.PartialAsync("~/Views/Shared/_ItemNotFound.cshtml")
+    return;
 }
-else
-{
-    <h1>@Model.Name</h1>
+<h1>@Model.Name</h1>
 
-    <div class="pure-form pure-form-aligned detail">
-        <fieldset>
-            <div class="pure-control-group">
-                @Html.LabelFor(m => m.Name)
-                <span>@Model.Name</span>
-            </div>
-            <div class="pure-control-group">
-                @Html.LabelFor(m => m.Description)
-                <span>@Model.Description</span>
-            </div>
-            <div class="pure-control-group">
-                @Html.LabelFor(m => m.Members)
-                <span>
-                    @foreach (var member in Model.Members)
-                    {
-                        @Html.ActionLink(member.DisplayName, "Detail", "Account", new { id = member.Id }, new { title = member.Username })
-                        if (member != Model.Members.Last())
-                        {
-                            <text>, </text>
-                             
-                        }
-                    }
-                </span>
-            </div>
-            <div class="pure-control-group">
-                @Html.LabelFor(m => m.Repositories)
-                <span>
-                    @foreach (var repository in Model.Repositories)
-                    {
-                        @Html.ActionLink(repository.Name, "Detail", "Repositories", new { name = repository.Name }, null)
-                        if (repository != Model.Repositories.Last())
-                        {
-                            <text>, </text>
-                             
-                        }
-                    }
-                </span>
-            </div>
-            <div class="pure-controls">
-                <a class="pure-button" href="@Url.Action("Index")">
-                    <i class="fa fa-long-arrow-left"></i> @Resources.Team_Detail_Back
-                </a>
-                @if (User.IsInRole(Roles.Admin))
+<div class="pure-form pure-form-aligned detail">
+    <fieldset>
+        <div class="pure-control-group">
+            @Html.LabelFor(m => m.Name)
+            <span>@Model.Name</span>
+        </div>
+        <div class="pure-control-group">
+            @Html.LabelFor(m => m.Description)
+            <span>@Model.Description</span>
+        </div>
+        <div class="pure-control-group">
+            @Html.LabelFor(m => m.Members)
+            <span>
+                @foreach (var member in Model.Members)
                 {
-                    <a class="pure-button" href="@Url.Action("Edit", new { id = Model.Id })">
-                        <i class="fa fa-pencil-square-o"></i> @Resources.Team_Detail_Edit
-                    </a>
-                    <a class="pure-button" href="@Url.Action("Delete", new { id = Model.Id })">
-                        <i class="fa fa-trash-o"></i> @Resources.Team_Detail_Delete
-                    </a>
+                    @Html.ActionLink(member.DisplayName, "Detail", "Users", new { id = member.Id }, new { title = member.Username })
+                    if (member != Model.Members.Last())
+                    {
+                        @:,
+                         
+                             
+                    }
                 }
-            </div>
-        </fieldset>
-    </div>
-}
+            </span>
+        </div>
+        <div class="pure-control-group">
+            @Html.LabelFor(m => m.Repositories)
+            <span>
+                @foreach (var repository in Model.Repositories)
+                {
+                    @Html.ActionLink(repository.Name, "Detail", "Repositories", new { name = repository.Name }, null)
+                    if (repository != Model.Repositories.Last())
+                    {
+                        @:,
+                         
+                             
+                    }
+                }
+            </span>
+        </div>
+        <div class="pure-controls">
+            <a class="pure-button" href="@Url.Action("Index")">
+                <i class="fa fa-long-arrow-left"></i> @Resources.Team_Detail_Back
+            </a>
+            @if (User.IsInRole(Roles.Admin))
+            {
+                <a class="pure-button" href="@Url.Action("Edit", new { id = Model.Id })">
+                    <i class="fa fa-pencil-square-o"></i> @Resources.Team_Detail_Edit
+                </a>
+                <a class="pure-button" href="@Url.Action("Delete", new { id = Model.Id })">
+                    <i class="fa fa-trash-o"></i> @Resources.Team_Detail_Delete
+                </a>
+            }
+        </div>
+    </fieldset>
+</div>

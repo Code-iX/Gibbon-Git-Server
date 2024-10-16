@@ -3,53 +3,69 @@
     Layout = "~/Views/Repositories/_RepositoriesLayout.cshtml";
     ViewBag.Title = Resources.Repository_Blame_Title;
 }
-@if (Model != null)
-{
-    @await Html.PartialAsync("_BranchSwitcher")
-    @await Html.PartialAsync("_AddressBar")
 
-    <div class="blob">
-        @{
-            <div class="controls">
-                <span>@Model.LineCount lines | @FileDisplayHandler.GetFileSizeString(Model.FileSize)</span>
-                <a href="@Url.Action("Blob", new { name = ViewBag.Name, version =  Model.TreeName, path = Model.Path})"><i class="fa fa-code"></i> @Resources.Repository_Tree_Blob</a>
-                <a href="@Url.Action("History", new { name = ViewBag.Name, version =  Model.TreeName, path = Model.Path})"><i class="fa fa-history"></i> @Resources.Repository_Tree_History</a>
-                <a href="@Url.Action("Raw", new { name = ViewBag.Name, version =  Model.TreeName, path = Model.Path, display = true })"><i class="fa fa-file-text"></i> @Resources.Repository_Tree_RawDisplay</a>
-                <a href="@Url.Action("Raw", new { name = ViewBag.Name, version =  Model.TreeName, path = Model.Path })"><i class="fa fa-download"></i> @Resources.Repository_Tree_Download</a>
-            </div>
-            <div class="blame">
-                <table id="blame_table">
-                    <colgroup>
-                        <col width="1" />
-                        <col width="1" />
-                        <col />
-                    </colgroup>
-                    <tbody>
-                        @{ var line = 1; var even = true; }
-                        @foreach (var hunk in Model.Hunks)
-                        {
-                            even = !even;
-                            for (int i = 0, length = hunk.Lines.Length; i < length; i++, line++)
-                            {
-                                <tr id="l@(line)" class="@(even ? "even" : "odd")">
-                                    @if (i == 0)
-                                    {
-                                        <td class="commit" rowspan="@length">
-                                            @await Html.PartialAsync("_Commit", hunk.Commit)
-                                        </td>
-                                    }
-                                    <td class="line_nr">
-                                        <a href="#l@(line)">@line</a>
-                                    </td>
-                                    <td class="line">
-                                        <pre>@hunk.Lines[i]</pre>
-                                    </td>
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
-            </div>
-        }
-    </div>
+@if (Model == null)
+{
+    @await Html.PartialAsync("~/Views/Shared/_ItemNotFound.cshtml")
+    return;
 }
+@await Html.PartialAsync("_BranchSwitcher")
+@await Html.PartialAsync("_AddressBar")
+
+<div class="blob">
+
+    <div class="controls">
+        <span>@Model.LineCount lines | @FileDisplayHandler.GetFileSizeString(Model.FileSize)</span>
+        <a href="@Url.Action("Blob", new { name = ViewBag.Name, version = Model.TreeName, path = Model.Path })">
+            <i class="fa fa-code"></i> @Resources.Repository_Tree_Blob
+        </a>
+        <a href="@Url.Action("History", new { name = ViewBag.Name, version = Model.TreeName, path = Model.Path })">
+            <i class="fa fa-history"></i> @Resources.Repository_Tree_History
+        </a>
+        <a href="@Url.Action("Raw", new { name = ViewBag.Name, version = Model.TreeName, path = Model.Path, display = true })">
+            <i class="fa fa-file-text"></i> @Resources.Repository_Tree_RawDisplay
+        </a>
+        <a href="@Url.Action("Raw", new { name = ViewBag.Name, version = Model.TreeName, path = Model.Path })">
+            <i class="fa fa-download"></i> @Resources.Repository_Tree_Download
+        </a>
+    </div>
+    <div class="blame">
+        <table id="blame_table">
+            <colgroup>
+                <col width="1"/>
+                <col width="1"/>
+                <col/>
+            </colgroup>
+            <tbody>
+            @{
+                var line = 1;
+            }
+            @{
+                var even = true;
+                foreach (var hunk in Model.Hunks)
+                {
+                    even = !even;
+                    for (int i = 0, length = hunk.Lines.Length; i < length; i++, line++)
+                    {
+                        <tr id="l@(line)" class="@(even ? "even" : "odd")">
+                            @if (i == 0)
+                            {
+                                <td class="commit" rowspan="@length">
+                                    @await Html.PartialAsync("_Commit", hunk.Commit)
+                                </td>
+                            }
+                            <td class="line_nr">
+                                <a href="#l@(line)">@line</a>
+                            </td>
+                            <td class="line">
+                                <pre>@hunk.Lines[i]</pre>
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+
+</div>
