@@ -13,11 +13,11 @@ internal class HomeControllerTests : IntegrationTestBase
             AllowAutoRedirect = false
         });
 
-        var response = await client.GetAsync("/Home/Index");
+        var response = await client.GetAsync("/Index");
 
         Assert.AreEqual(HttpStatusCode.Redirect, response.StatusCode);
         Assert.IsNotNull(response.Headers.Location);
-        Assert.IsTrue(response.Headers.Location.ToString().Contains("/Home/Login"), "Expected redirect to login page for unauthenticated users.");
+        Assert.IsTrue(response.Headers.Location.ToString().Contains("/Login"), "Expected redirect to login page for unauthenticated users.");
     }
 
     [TestMethod]
@@ -25,7 +25,7 @@ internal class HomeControllerTests : IntegrationTestBase
     {
         using var client = await CreateClientAsync(true, false);
 
-        var response = await client.GetAsync("/Home/Index");
+        var response = await client.GetAsync("/Index");
 
         Assert.AreEqual(HttpStatusCode.Redirect, response.StatusCode);
         Assert.IsNotNull(response.Headers.Location);
@@ -37,14 +37,13 @@ internal class HomeControllerTests : IntegrationTestBase
     {
         using var client = Application.CreateClient();
 
-        var response = await client.GetAsync("/Home/Error");
+        var response = await client.GetAsync("/Error/404");
 
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
-#pragma warning disable SYSLIB1045 // Convert to 'GeneratedRegexAttribute'.
         Assert.IsTrue(Regex.IsMatch(content, "<h1>\\s*An Error Occurred\\s*</h1>"));
-#pragma warning restore SYSLIB1045 // Convert to 'GeneratedRegexAttribute'.
     }
+
     [TestMethod]
     public async Task Error_404_ShouldReturnNotFoundPage()
     {
@@ -63,18 +62,19 @@ internal class HomeControllerTests : IntegrationTestBase
         using var client = Application.CreateClient();
         var returnUrl = "/Repository/Index";
 
-        var response = await client.GetAsync($"/Home/Login?returnUrl={returnUrl}");
+        var response = await client.GetAsync($"/Login?returnUrl={returnUrl}");
 
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
 
         Assert.IsTrue(content.Contains(returnUrl));
     }
+
     [TestMethod]
     public async Task Login_InvalidModelState_ShouldReturnView()
     {
         // Arrange
-        const string requestUri = "/Home/Login";
+        const string requestUri = "/Login";
         using var client = Application.CreateClient(new WebApplicationFactoryClientOptions
         {
             AllowAutoRedirect = false
@@ -99,7 +99,7 @@ internal class HomeControllerTests : IntegrationTestBase
     public async Task Login_InvalidCredentials_ShouldReturnViewWithError()
     {
         // Arrange
-        const string requestUri = "/Home/Login";
+        const string requestUri = "/Login";
         using var client = Application.CreateClient();
         var postData = new Dictionary<string, string>(await GetAntiForgeryToken(client, requestUri))
         {
@@ -121,7 +121,7 @@ internal class HomeControllerTests : IntegrationTestBase
         // Arrange
         using var client = await CreateClientAsync(true, false);
         // Act
-        var response = await client.GetAsync("/Home/Logout");
+        var response = await client.GetAsync("/Logout");
 
         // Assert
         Assert.AreEqual(HttpStatusCode.Redirect, response.StatusCode);
@@ -134,33 +134,32 @@ internal class HomeControllerTests : IntegrationTestBase
     {
         using var client = Application.CreateClient();
         const string username = "admin";
-        var postData = new Dictionary<string, string>(await GetAntiForgeryToken(client, "/Home/ForgotPassword"))
+        var postData = new Dictionary<string, string>(await GetAntiForgeryToken(client, "/ForgotPassword"))
         {
             { "Username", username }
         };
 
-        var response = await client.PostAsync("/Home/ForgotPassword", new FormUrlEncodedContent(postData));
+        var response = await client.PostAsync("/ForgotPassword", new FormUrlEncodedContent(postData));
 
         Application.MailService.Received(1).SendForgotPasswordEmail(Arg.Is<UserModel>(u => u.Username == username), Arg.Any<string>());
         response.EnsureSuccessStatusCode();
     }
 
     [TestMethod]
-    //[Ignore("This test results in NotFound while we actually should have Forbidden.")]
     public async Task ResetPassword_EmptyToken_ShouldNotSuccess()
     {
         using var client = Application.CreateClient();
-        var response = await client.GetAsync("/Home/ResetPassword");
+        var response = await client.GetAsync("/ResetPassword");
         Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
     }
+
     [TestMethod]
-    //[Ignore("This test results in NotFound while we actually should have Forbidden.")]
     public async Task ResetPassword_InvalidToken_ShouldNotSuccess()
     {
         using var client = Application.CreateClient();
         const string resetToken = "InvalidToken";
 
-        var response = await client.GetAsync($"/Home/ResetPassword?digest={resetToken}");
+        var response = await client.GetAsync($"/ResetPassword?digest={resetToken}");
         Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
     }
 
@@ -173,12 +172,12 @@ internal class HomeControllerTests : IntegrationTestBase
 
         Application.MailService.SendForgotPasswordEmail(Arg.Any<UserModel>(), Arg.Do<string>(x => resetToken = x));
 
-        var postData = new Dictionary<string, string>(await GetAntiForgeryToken(client, "/Home/ForgotPassword"))
+        var postData = new Dictionary<string, string>(await GetAntiForgeryToken(client, "/ForgotPassword"))
         {
             { "Username", username }
         };
 
-        await client.PostAsync("/Home/ForgotPassword", new FormUrlEncodedContent(postData));
+        await client.PostAsync("/ForgotPassword", new FormUrlEncodedContent(postData));
 
         postData = new Dictionary<string, string>(await GetAntiForgeryToken(client, resetToken))
         {
@@ -187,7 +186,7 @@ internal class HomeControllerTests : IntegrationTestBase
             { "Digest", resetToken }
         };
 
-        var response = await client.PostAsync("/Home/ResetPassword", new FormUrlEncodedContent(postData));
+        var response = await client.PostAsync("/ResetPassword", new FormUrlEncodedContent(postData));
         response.EnsureSuccessStatusCode();
     }
 }

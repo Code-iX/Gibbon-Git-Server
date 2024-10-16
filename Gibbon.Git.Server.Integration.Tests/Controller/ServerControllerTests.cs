@@ -106,6 +106,6 @@ internal class ServerControllerTests : IntegrationTestBase
 
         Assert.AreEqual(HttpStatusCode.Redirect, response.StatusCode);
         Assert.IsNotNull(response.Headers.Location);
-        Assert.IsTrue(response.Headers.Location.ToString().Contains("/Home/Login"));
+        Assert.IsTrue(response.Headers.Location.ToString().Contains("/Login"));
     }
 }
