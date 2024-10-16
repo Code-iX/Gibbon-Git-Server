@@ -100,7 +100,7 @@
                 {
                     @Html.ActionLink(user.DisplayName, "Detail", "Users", new
                     {
-                        id = user.Id
+                        username = user.Username
                     }, new
                     {
                         title = user.Username
@@ -120,7 +120,7 @@
                 {
                     @Html.ActionLink(admin.DisplayName, "Detail", "Users", new
                     {
-                        id = admin.Id
+                        username = admin.Username
                     }, new
                     {
                         title = admin.Username

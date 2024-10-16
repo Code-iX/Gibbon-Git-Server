@@ -25,7 +25,7 @@
             <span>
                 @foreach (var member in Model.Members)
                 {
-                    @Html.ActionLink(member.DisplayName, "Detail", "Users", new { id = member.Id }, new { title = member.Username })
+                    @Html.ActionLink(member.DisplayName, "Detail", "Users", new { username = member.Username }, new { title = member.Username })
                     if (member != Model.Members.Last())
                     {
                         @:,
