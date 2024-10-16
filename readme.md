@@ -63,72 +63,22 @@ Before each update please read carefully the information about **compatibility i
 - Copy the files from the downloaded archive to the server location.
 - **Start the server**.
 
-## FAQ
-
-### How do I clone a repository?
-
-1. Go to the **Repository Details** page.
-1. Copy the **Git Repository Location**.
-1. Run the following in your terminal:
-   `git clone http://your-server-name/repository-name.git`
-
-### How do I change the password?
-
-1. Navigate to the **Account Settings** under your username in the top right corner.
-1. Go to the **Password** tab.
-1. Enter your old password as well as the new one with confirmation.
-1. Click **Save**.
-
-### How do I back up my data?
-
-- Copy the **App_Data** folder and your repositories into a backup directory.
-- Alternatively, you can use the **Database Backup** feature in the **Server Site**.
-
-#### How to change repositories folder?
-
-1. **Stop the server**.
-1. Edit the **`appsettings.json`** file.
-1. Update the **`RepositoryPath`** key with the new path.
-1. If there are existing repositories, move them to the new folder.
-1. **Restart the server**.
-
-#### Can I allow anonymous access to a repository?
-
-- For allowing anonymous access to a repository, follow these steps:
-  * Edit the desired repository (or do this when creating the repository).
-  * Check **Anonymous** check box.
-  * Save.
-- For allowing anonymous push you have to modify global settings.
-  * Log in as an administrator.
-  * Go to **Server Settings**.
-  * Check the value **Allow push for anonymous repositories**
-  * Save changes.
-                          
-#### I'd like to use git hooks to restrict access. How do I access the web frontend usernam?
-
-Bonobo provides the following environment variables:
-
-* `AUTH_USER`: The username used to login. Empty if it was an anonymous operation (clone/push/pull)
-* `REMOTE_USER`: Same as `AUTH_USER`
-* `AUTH_USER_TEAMS`: A comma-separated list containing all the teams the user belongs to. 
-* `AUTH_USER_ROLES`: A comma-separated list containing all the roles the user belongs to. 
-* `AUTH_USER_DISPLAYNAME`: Given Name + Surname if available. Else the username.
-
-**Beware that due to the way HTTP basic authentication works, if anonymous operations (push/pull) are enabled the variables above will always be empty!**
-
 ## Changelog
 
-You can see the [changelog](https://code-ix.github.io/Gibbon-Git-Server/changelog) on the [official website](https://code-ix.github.io/Gibbon-Git-Server).
-
-See the old Bonobo Git Server changelog [here](https://github.com/Code-iX/Gibbon-Git-Server/blob/40135135d314ef25b9f82a9e5664366bc6995c4d/changelog.md).
+Stay updated with the latest changes by visiting the [Changelog](https://code-ix.github.io/Gibbon-Git-Server/changelog) on our website.  
+You can also view the legacy Bonobo Git Server changelog [here](https://github.com/Code-iX/Gibbon-Git-Server/blob/40135135d314ef25b9f82a9e5664366bc6995c4d/changelog.md).
 
 ## Contributing
 
-Pull requests are welcome. For significant changes, please open an issue first to discuss what you'd like to change.
+We welcome contributions! If you plan to make significant changes, please open an issue first to discuss your ideas. Pull requests are always appreciated.
 
 ## License
 
 This project is licensed under the MIT License.
+
+## Still have questions?
+
+If you have any further questions, feel free to check out [Questions](https://code-ix.github.io/Gibbon-Git-Server/questions) on our website.
 
 ## Key changes to Bonobo Git Server
 
