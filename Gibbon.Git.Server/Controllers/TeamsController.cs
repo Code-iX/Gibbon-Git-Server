@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Gibbon.Git.Server.Controllers;
 
 [Authorize]
-public class TeamController(IUserService userService, IRepositoryService repositoryService, ITeamService teamRepository)
+public class TeamsController(IUserService userService, IRepositoryService repositoryService, ITeamService teamRepository)
     : Controller
 {
     private readonly IUserService _userService = userService;
@@ -18,21 +18,44 @@ public class TeamController(IUserService userService, IRepositoryService reposit
 
     public IActionResult Index()
     {
-        return View(ConvertTeamModels(_teamRepository.GetAllTeams()));
+        var teams = _teamRepository
+            .GetAllTeams()
+            .Select(model => new TeamDetailModel
+            {
+                Id = model.Id,
+                Name = model.Name,
+                Description = model.Description,
+                Members = model.Members.ToArray(),
+                Repositories = _repositoryService.GetTeamRepositories(model.Id).ToArray(),
+            })
+            .ToList();
+
+        return View(teams);
     }
 
-    public IActionResult Detail(int id)
+    [HttpGet("Teams/{teamname}")]
+    public IActionResult Detail(string teamname)
     {
-        return View(ConvertDetailTeamModel(_teamRepository.GetTeam(id)));
-    }
-
-    public IActionResult Edit(int id)
-    {
-        var model = ConvertEditTeamModel(_teamRepository.GetTeam(id));
+        var team = _teamRepository.GetTeam(teamname);
+        var model = new TeamDetailModel
+        {
+            Id = team.Id,
+            Name = team.Name,
+            Description = team.Description,
+            Members = team.Members.ToArray(),
+            Repositories = _repositoryService.GetTeamRepositories(team.Id).ToArray(),
+        };
         return View(model);
     }
 
-    [HttpPost]
+    [HttpGet("Teams/{teamname}/Edit")]
+    public IActionResult Edit(string teamname)
+    {
+        var model = ConvertEditTeamModel(_teamRepository.GetTeam(teamname));
+        return View(model);
+    }
+
+    [HttpPost("Teams/{teamname}/Edit")]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(TeamEditModel model)
     {
@@ -46,18 +69,19 @@ public class TeamController(IUserService userService, IRepositoryService reposit
         return RedirectToAction("Edit");
     }
 
+    [HttpGet("Teams/Create")]
     [Authorize(Roles = Roles.Admin)]
     public IActionResult Create()
     {
         var model = new TeamEditModel
         {
             AllUsers = _userService.GetAllUsers().ToArray(),
-            SelectedUsers = new UserModel[] { }
+            SelectedUsers = []
         };
         return View(model);
     }
 
-    [HttpPost]
+    [HttpPost("Teams/Create")]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = Roles.Admin)]
     public IActionResult Create(TeamEditModel model)
@@ -84,13 +108,14 @@ public class TeamController(IUserService userService, IRepositoryService reposit
         return RedirectToAction("Index");
     }
 
+    [HttpGet("Teams/{teamname}/Delete")]
     [Authorize(Roles = Roles.Admin)]
-    public IActionResult Delete(int id)
+    public IActionResult Delete(string teamname)
     {
-        return View(ConvertEditTeamModel(_teamRepository.GetTeam(id)));
+        return View(ConvertEditTeamModel(_teamRepository.GetTeam(teamname)));
     }
 
-    [HttpPost]
+    [HttpPost("Teams/{teamname}/Delete")]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = Roles.Admin)]
     public IActionResult Delete(TeamEditModel model)
@@ -105,16 +130,6 @@ public class TeamController(IUserService userService, IRepositoryService reposit
         return RedirectToAction("Index");
     }
 
-    private List<TeamDetailModel> ConvertTeamModels(IEnumerable<TeamModel> models)
-    {
-        var result = new List<TeamDetailModel>();
-        foreach (var item in models)
-        {
-            result.Add(ConvertDetailTeamModel(item));
-        }
-        return result;
-    }
-
     private TeamEditModel ConvertEditTeamModel(TeamModel model)
     {
         return model == null ? null : new TeamEditModel
@@ -124,18 +139,6 @@ public class TeamController(IUserService userService, IRepositoryService reposit
             Description = model.Description,
             AllUsers = _userService.GetAllUsers().ToArray(),
             SelectedUsers = model.Members.ToArray(),
-        };
-    }
-
-    private TeamDetailModel ConvertDetailTeamModel(TeamModel model)
-    {
-        return model == null ? null : new TeamDetailModel
-        {
-            Id = model.Id,
-            Name = model.Name,
-            Description = model.Description,
-            Members = model.Members.ToArray(),
-            Repositories = _repositoryService.GetTeamRepositories(model.Id).ToArray(),
         };
     }
 

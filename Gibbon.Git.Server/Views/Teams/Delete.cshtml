@@ -8,7 +8,7 @@
     <p class="summary-error">@string.Format(Resources.Delete_ConfirmationText, Model.Name)</p>
 </div>
 
-@using (Html.BeginForm("Delete", "Team", FormMethod.Post, new { @class = "pure-form" }))
+@using (Html.BeginForm("Delete", "Teams", FormMethod.Post, new { @class = "pure-form" }))
 {
     @Html.AntiForgeryToken()
     <fieldset class="deleteForm">
