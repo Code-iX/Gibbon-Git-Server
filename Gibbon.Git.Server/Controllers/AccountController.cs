@@ -7,12 +7,13 @@ using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Gibbon.Git.Server.Controllers;
 
 [Authorize]
-public class MeController(IUserService userService, IRoleProvider roleProvider, ICultureService cultureService, IUserSettingsService userSettingsService)
+public class AccountController(IUserService userService, IRoleProvider roleProvider, ICultureService cultureService, IUserSettingsService userSettingsService)
     : Controller
 {
     private readonly IUserService _userService = userService;
@@ -20,22 +21,31 @@ public class MeController(IUserService userService, IRoleProvider roleProvider, 
     private readonly ICultureService _cultureService = cultureService;
     private readonly IUserSettingsService _userSettingsService = userSettingsService;
 
+    public UserModel UserModel { get; set; }
+
+    public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+    {
+        var username = User.Identity.Name;
+        UserModel = _userService.GetUserModel(username);
+
+        if (UserModel == null)
+        {
+            context.Result = BadRequest();
+            return;
+        }
+
+        await base.OnActionExecutionAsync(context, next);
+    }
     [HttpGet]
     public IActionResult Index()
     {
-        var user = GetCurrentUser();
-        if (user == null)
-        {
-            return NotFound();
-        }
-
         var model = new MeDetailModel
         {
-            Username = user.Username,
-            Name = user.GivenName,
-            Surname = user.Surname,
-            Email = user.Email,
-            Roles = _roleProvider.GetRolesForUser(user.Id)
+            Username = UserModel.Username,
+            Name = UserModel.GivenName,
+            Surname = UserModel.Surname,
+            Email = UserModel.Email,
+            Roles = _roleProvider.GetRolesForUser(UserModel.Id)
         };
         return View(model);
     }
@@ -43,21 +53,12 @@ public class MeController(IUserService userService, IRoleProvider roleProvider, 
     [HttpGet]
     public IActionResult Edit()
     {
-        var username = User.Identity.Name;
-
-        var user = _userService.GetUserModel(username);
-
-        if (user == null)
-        {
-            return NotFound();
-        }
-
         var model = new MeEditModel
         {
-            Username = user.Username,
-            Name = user.GivenName,
-            Surname = user.Surname,
-            Email = user.Email,
+            Username = UserModel.Username,
+            Name = UserModel.GivenName,
+            Surname = UserModel.Surname,
+            Email = UserModel.Email,
         };
 
         return View(model);
@@ -72,14 +73,7 @@ public class MeController(IUserService userService, IRoleProvider roleProvider, 
             return View(model);
         }
 
-        var user = GetCurrentUser();
-
-        if (user == null)
-        {
-            return NotFound();
-        }
-
-        _userService.UpdateUser(user.Id, model.Name, model.Surname, model.Email);
+        _userService.UpdateUser(UserModel.Id, model.Name, model.Surname, model.Email);
 
         TempData["EditSuccess"] = true;
         return RedirectToAction("Edit");
@@ -88,15 +82,6 @@ public class MeController(IUserService userService, IRoleProvider roleProvider, 
     [HttpGet]
     public IActionResult Password()
     {
-        var username = User.Identity.Name;
-
-        var user = _userService.GetUserModel(username);
-
-        if (user == null)
-        {
-            return NotFound();
-        }
-
         var model = new MePasswordModel();
 
         return View(model);
@@ -151,9 +136,7 @@ public class MeController(IUserService userService, IRoleProvider roleProvider, 
             Value = ""
         });
 
-        var user = GetCurrentUser();
-
-        var settings = await _userSettingsService.GetSettings(user.Id);
+        var settings = await _userSettingsService.GetSettings(UserModel.Id);
 
         return View(new MeSettingsModel
         {
@@ -180,19 +163,11 @@ public class MeController(IUserService userService, IRoleProvider roleProvider, 
             return View(settings);
         }
 
-        var user = GetCurrentUser();
-
-        await _userSettingsService.SaveSettings(user.Id, new UserSettings
+        await _userSettingsService.SaveSettings(UserModel.Id, new UserSettings
         {
             PreferredLanguage = settings.PreferredLanguage
         });
 
         return RedirectToAction("Settings");
-    }
-
-    private UserModel GetCurrentUser()
-    {
-        var username = User.Identity.Name;
-        return _userService.GetUserModel(username);
     }
 }

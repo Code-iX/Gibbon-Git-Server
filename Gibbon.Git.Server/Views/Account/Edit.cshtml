@@ -1,13 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Rendering
 @model MeEditModel
 @{
-    Layout = "~/Views/Me/_MeLayout.cshtml";
+    Layout = "~/Views/Account/_Layout.cshtml";
     ViewBag.Title = Resources.Account_Edit_Title;
 }
 
 @Html.SummaryMessage("update-success", Resources.Account_Edit_UpdateSuccess)
 
-@using (Html.BeginForm("Edit", "Me", FormMethod.Post, new { @class = "pure-form pure-form-aligned" }))
+@using (Html.BeginForm("Edit", "Account", FormMethod.Post, new { @class = "pure-form pure-form-aligned" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(false, Resources.Account_Edit_Unsuccessfull)
