@@ -116,6 +116,12 @@ Bonobo provides the following environment variables:
 
 **Beware that due to the way HTTP basic authentication works, if anonymous operations (push/pull) are enabled the variables above will always be empty!**
 
+## Changelog
+
+You can see the [changelog](https://code-ix.github.io/Gibbon-Git-Server/changelog) on the [official website](https://code-ix.github.io/Gibbon-Git-Server).
+
+See the old Bonobo Git Server changelog [here](https://github.com/Code-iX/Gibbon-Git-Server/blob/40135135d314ef25b9f82a9e5664366bc6995c4d/changelog.md).
+
 ## Contributing
 
 Pull requests are welcome. For significant changes, please open an issue first to discuss what you'd like to change.
