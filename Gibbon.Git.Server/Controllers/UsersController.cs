@@ -22,17 +22,9 @@ public class UsersController(IAuthenticationProvider authenticationProvider, IRo
 
     public IActionResult Index()
     {
-        return View(GetDetailUsers());
-    }
-
-    private readonly ApplicationSettings _applicationSettings = options.Value;
-
-    public IActionResult Detail(int id)
-    {
-        var user = _userService.GetUserModel(id);
-        if (user != null)
-        {
-            var model = new UserDetailModel
+        var users = _userService
+            .GetAllUsers()
+            .Select(user => new UserDetailModel
             {
                 Id = user.Id,
                 Username = user.Username,
@@ -40,77 +32,93 @@ public class UsersController(IAuthenticationProvider authenticationProvider, IRo
                 Surname = user.Surname,
                 Email = user.Email,
                 Roles = _roleProvider.GetRolesForUser(user.Id)
-            };
-            return View(model);
+            })
+            .ToList();
+        return View(users);
+    }
+
+    private readonly ApplicationSettings _applicationSettings = options.Value;
+
+    [HttpGet("Users/{username}")]
+    public IActionResult Detail(string username)
+    {
+        var user = _userService.GetUserModel(username);
+        if (user == null)
+        {
+            return View();
         }
+
+        var model = new UserDetailModel
+        {
+            Id = user.Id,
+            Username = user.Username,
+            Name = user.GivenName,
+            Surname = user.Surname,
+            Email = user.Email,
+            Roles = _roleProvider.GetRolesForUser(user.Id)
+        };
+        return View(model);
+    }
+
+    [HttpGet("Users/Create")]
+    public IActionResult Create()
+    {
         return View();
     }
 
-    public IActionResult Delete(int id)
-    {
-        var user = _userService.GetUserModel(id);
-        if (user != null)
-        {
-            return View(user);
-        }
-
-        return RedirectToAction("Index");
-    }
-
-    [HttpPost]
+    [HttpPost("Users/Create")]
     [ValidateAntiForgeryToken]
-    public IActionResult Delete(UserDetailModel model)
+    public async Task<IActionResult> Create(UserCreateModel model)
     {
-        if (model?.Id != null)
-        {
-            if (model.Id != User.Id())
-            {
-                var user = _userService.GetUserModel(model.Id);
-                _userService.DeleteUser(user.Id);
-                TempData["DeleteSuccess"] = true;
-            }
-            else
-            {
-                TempData["DeleteSuccess"] = false;
-            }
-        }
-        return RedirectToAction("Index");
-    }
+        model.Username = model.Username?.TrimEnd();
 
-    public IActionResult Edit(int id)
-    {
-        if (id != User.Id() && !User.IsInRole(Roles.Admin))
-        {
-            return Unauthorized();
-        }
+        if (!ModelState.IsValid)
+            return View(model);
 
-        var user = _userService.GetUserModel(id);
-        if (user != null)
+        if (!_userService.CreateUser(model.Username, model.Password, model.Name, model.Surname, model.Email))
         {
-            var model = new UserEditModel
-            {
-                Id = user.Id,
-                Username = user.Username,
-                Name = user.GivenName,
-                Surname = user.Surname,
-                Email = user.Email,
-                Roles = _roleProvider.GetAllRoles(),
-                SelectedRoles = _roleProvider.GetRolesForUser(user.Id)
-            };
+            ModelState.AddModelError(nameof(model.Username), Resources.Account_Create_AccountAlreadyExists);
             return View(model);
         }
-        return View();
+
+        if (!User.IsInRole(Roles.Admin))
+        {
+            await _authenticationProvider.SignIn(model.Username, false);
+            return RedirectToAction("Index", "Home");
+        }
+
+        TempData["CreateSuccess"] = true;
+        TempData["NewUserId"] = _userService.GetUserModel(model.Username).Id;
+        return RedirectToAction("Index");
+
     }
 
-    [HttpPost]
+    [HttpGet("Users/{username}/Edit")]
+    public IActionResult Edit(string username)
+    {
+        var user = _userService.GetUserModel(username);
+        if (user == null)
+        {
+            return View();
+        }
+
+        var model = new UserEditModel
+        {
+            Id = user.Id,
+            Username = user.Username,
+            Name = user.GivenName,
+            Surname = user.Surname,
+            Email = user.Email,
+            Roles = _roleProvider.GetAllRoles(),
+            SelectedRoles = _roleProvider.GetRolesForUser(user.Id)
+        };
+        return View(model);
+    }
+
+    [HttpPost("Users/{username}/Edit")]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(UserEditModel model)
     {
-        if (User.Id() != model.Id && !User.IsInRole(Roles.Admin))
-        {
-            return Unauthorized();
-        }
-
         if (_applicationSettings.DemoModeActive && User.IsInRole(Roles.Admin) && User.Id() == model.Id)
         {
             // Don't allow the admin user to be changed in demo mode
@@ -149,83 +157,38 @@ public class UsersController(IAuthenticationProvider authenticationProvider, IRo
         return View(model);
     }
 
-    public IActionResult Create()
+    [HttpGet("Users/{username}/Delete")]
+    public IActionResult Delete(string username)
     {
-        if (UserIsUnauthorized())
+        var user = _userService.GetUserModel(username);
+        if (user == null)
         {
-            return Unauthorized();
+            return RedirectToAction("Index");
         }
 
-        return View();
+        return View(user);
+
     }
 
-    private bool UserIsUnauthorized()
+    [HttpPost("Users/{username}/Delete")]
+    [ValidateAntiForgeryToken]
+    public IActionResult Delete(UserDetailModel model)
     {
-        if (User.Identity.IsAuthenticated)
+        if (model?.Id == null)
         {
-            if (!User.IsInRole(Roles.Admin))
-                return true;
+            return BadRequest();
+        }
+
+        if (model.Id != User.Id())
+        {
+            var user = _userService.GetUserModel(model.Id);
+            _userService.DeleteUser(user.Id);
+            TempData["DeleteSuccess"] = true;
         }
         else
         {
-            if (!_serverSettings.AllowAnonymousRegistration)
-                return true;
+            TempData["DeleteSuccess"] = false;
         }
-
-        return false;
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(UserCreateModel model)
-    {
-        if (UserIsUnauthorized())
-        {
-            return Unauthorized();
-        }
-
-        model.Username = model.Username?.TrimEnd();
-
-        if (!ModelState.IsValid)
-            return View(model);
-
-        if (!_userService.CreateUser(model.Username, model.Password, model.Name, model.Surname, model.Email))
-        {
-            ModelState.AddModelError(nameof(model.Username), Resources.Account_Create_AccountAlreadyExists);
-            return View(model);
-        }
-
-        if (!User.IsInRole(Roles.Admin))
-        {
-            await _authenticationProvider.SignIn(model.Username, false);
-            return RedirectToAction("Index", "Home");
-        }
-
-        TempData["CreateSuccess"] = true;
-        TempData["NewUserId"] = _userService.GetUserModel(model.Username).Id;
         return RedirectToAction("Index");
-
     }
-
-    private List<UserDetailModel> GetDetailUsers()
-    {
-        var users = _userService.GetAllUsers();
-        var model = new List<UserDetailModel>
-        {
-        };
-        foreach (var user in users)
-        {
-            model.Add(new UserDetailModel
-            {
-                Id = user.Id,
-                Username = user.Username,
-                Name = user.GivenName,
-                Surname = user.Surname,
-                Email = user.Email,
-                Roles = _roleProvider.GetRolesForUser(user.Id)
-            });
-        }
-        return model;
-    }
-
 }

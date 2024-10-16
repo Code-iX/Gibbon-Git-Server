@@ -64,7 +64,7 @@ public class UserService(ILogger<UserService> logger, IMemoryCache memoryCache, 
         return true;
     }
 
-    public IList<UserModel> GetAllUsers()
+    public List<UserModel> GetAllUsers()
     {
         return _context.Users
             .Select(item => new UserModel
