@@ -300,11 +300,11 @@ public sealed class RepositoryBrowser(IAvatarService avatarService, ILogger<Repo
             return _repository.Head.Tip;
         }
 
-        var branch = _repository.Branches[name];
-        if (branch != null && branch.Tip != null)
+        var repositoryBranch = _repository.Branches[name];
+        if (repositoryBranch != null && repositoryBranch.Tip != null)
         {
-            referenceName = branch.FriendlyName;
-            return branch.Tip;
+            referenceName = repositoryBranch.FriendlyName;
+            return repositoryBranch.Tip;
         }
 
         var tag = _repository.Tags[name];

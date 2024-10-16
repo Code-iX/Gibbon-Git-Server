@@ -23,7 +23,6 @@ public class ResponseLoggingMiddleware(RequestDelegate next, ILogger<ResponseLog
 
         await _next(context);
 
-
         if (context.Response.StatusCode != 200)
         {
             await _next(context);

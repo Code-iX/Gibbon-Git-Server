@@ -1,4 +1,6 @@
-﻿using System.Security.Principal;
+﻿using System.IO;
+using System.Security.Principal;
+using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,6 +21,7 @@ using LibGit2Sharp;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -78,7 +81,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
         using (var browser = _repositoryBrowserFactory.Create(model.Name))
         {
             browser.BrowseTree(null, null, out var defaultReferenceName);
-            RouteData.Values.Add("encodedName", defaultReferenceName);
+            RouteData.Values.Add("version", defaultReferenceName);
         }
 
         return View(model);
@@ -229,32 +232,30 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
         return RedirectToAction("Index");
     }
 
-    [HttpGet("Repositories/{name}/Tree/{encodedName?}/{*encodedPath}")]
+    [HttpGet("Repositories/{name}/Tree/{**path}")]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult Tree(string name, string encodedName, string encodedPath)
+    public IActionResult Tree(string name, string version, string path)
     {
         var isApiRequest = HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
 
         ViewBag.Name = name;
-        var decodedName = PathEncoder.Decode(encodedName);
-        var path = PathEncoder.Decode(encodedPath);
 
         var repo = _repositoryService.GetRepository(name);
 
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
-        var files = browser.BrowseTree(decodedName, path, out var referenceName, isApiRequest).ToList();
+        var files = browser.BrowseTree(version, path, out var referenceName, true).ToList();
 
         var readme = files.FirstOrDefault(x => x.Name.Equals("readme.md", StringComparison.OrdinalIgnoreCase));
         var readmeTxt = string.Empty;
         if (readme != null)
         {
-            var blob = browser.BrowseBlob(decodedName, readme.Path, out _);
+            var blob = browser.BrowseBlob(version, readme.Path, out _);
             readmeTxt = blob.Text;
         }
         var model = new RepositoryTreeModel
         {
             Name = repo.Name,
-            Branch = decodedName ?? referenceName,
+            Branch = version ?? referenceName,
             Path = path,
             Readme = readmeTxt,
             Logo = new RepositoryLogoDetailModel(repo.Logo),
@@ -266,37 +267,33 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
             return Json(model);
         }
 
-        PopulateBranchesData(browser, decodedName ?? referenceName);
+        PopulateBranchesData(browser, version ?? referenceName);
         PopulateAddressBarData(path);
         return View(model);
     }
 
-    [HttpGet("Repositories/{name}/Blob/{encodedName?}/{*encodedPath}")]
+    [HttpGet("Repositories/{name}/Blob/{**path}")]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult Blob(string name, string encodedName, string encodedPath)
+    public IActionResult Blob(string name, string version, string path)
     {
         ViewBag.Name = name;
         var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
-        var decode = PathEncoder.Decode(encodedName);
-        var path = PathEncoder.Decode(encodedPath);
-        var model = browser.BrowseBlob(decode, path, out var referenceName);
+        var model = browser.BrowseBlob(version, path, out var referenceName);
         model.Logo = new RepositoryLogoDetailModel(repo.Logo);
-        PopulateBranchesData(browser, referenceName);
+        PopulateBranchesData(browser, referenceName ?? version);
         PopulateAddressBarData(path);
 
         return View(model);
     }
 
-    [HttpGet("Repositories/{name}/Raw/{encodedName?}/{*encodedPath}")]
+    [HttpGet("Repositories/{name}/Raw/{**path}")]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult Raw(string name, string encodedName, string encodedPath, bool display = false)
+    public IActionResult Raw(string name, string version, string path, bool display = false)
     {
         var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
-        var decode = PathEncoder.Decode(encodedName);
-        var path = PathEncoder.Decode(encodedPath);
-        var model = browser.BrowseBlob(decode, path, out _);
+        var model = browser.BrowseBlob(version, path, out _);
 
         if (!display)
         {
@@ -316,17 +313,15 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
         return NotFound();
     }
 
-    [HttpGet("Repositories/{name}/Blame/{encodedName?}/{*encodedPath}")]
+    [HttpGet("Repositories/{name}/Blame/{**path}")]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult Blame(string name, string encodedName, string encodedPath)
+    public IActionResult Blame(string name, string version, string path)
     {
         ViewBag.Name = name;
         ViewBag.ShowShortMessageOnly = true;
         var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
-        var decode = PathEncoder.Decode(encodedName);
-        var path = PathEncoder.Decode(encodedPath);
-        var model = browser.GetBlame(decode, path, out var referenceName);
+        var model = browser.GetBlame(version, path, out var referenceName);
         model.Logo = new RepositoryLogoDetailModel(repo.Logo);
         PopulateBranchesData(browser, referenceName);
         PopulateAddressBarData(path);
@@ -334,13 +329,10 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
         return View(model);
     }
 
-    [HttpGet("Repositories/{name}/Download/{encodedName?}/{*encodedPath}")]
+    [HttpGet("Repositories/{name}/Download/{**path}")]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public async Task<IActionResult> Download(string name, string encodedName, string encodedPath)
+    public async Task<IActionResult> Download(string name, string version, string path)
     {
-        var decode = PathEncoder.Decode(encodedName);
-        var path = PathEncoder.Decode(encodedPath);
-
         var repo = _repositoryService.GetRepository(name);
 
         Response.ContentType = "application/zip";
@@ -354,7 +346,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
         try
         {
-            await AddTreeToZip(browser, decode, path, zipStream, HttpContext.RequestAborted);
+            await AddTreeToZip(browser, version, path, zipStream, HttpContext.RequestAborted);
             await zipStream.FinishAsync(HttpContext.RequestAborted);
             return Empty;
         }
@@ -369,9 +361,9 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
         }
     }
 
-    [HttpGet("Repositories/{name}/Tags/{encodedName?}")]
+    [HttpGet("Repositories/{name}/Tags/{branch?}")]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult Tags(string name, string encodedName, int page = 1)
+    public IActionResult Tags(string name, string branch, int page = 1)
     {
         page = page >= 1 ? page : 1;
 
@@ -379,8 +371,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
         ViewBag.ShowShortMessageOnly = true;
         var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
-        var decode = PathEncoder.Decode(encodedName);
-        var commits = browser.GetTags(decode, page, 10, out var referenceName, out var totalCount);
+        var commits = browser.GetTags(branch, page, 10, out var referenceName, out var totalCount);
         PopulateBranchesData(browser, referenceName);
         ViewBag.TotalCount = totalCount;
         return View(new RepositoryCommitsModel
@@ -391,17 +382,16 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
         });
     }
 
-    [HttpGet("Repositories/{name}/Commits/{encodedName?}")]
+    [HttpGet("Repositories/{name}/Commits/{branch?}")]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult Commits(string name, string encodedName, int? page = null)
+    public IActionResult Commits(string name, string branch, int? page = null)
     {
         page = page >= 1 ? page : 1;
 
         ViewBag.ShowShortMessageOnly = true;
         var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
-        var decode = PathEncoder.Decode(encodedName);
-        var commits = browser.GetCommits(decode, page.Value, 10, out var referenceName, out var totalCount);
+        var commits = browser.GetCommits(branch, page.Value, 10, out var referenceName, out var totalCount);
         PopulateBranchesData(browser, referenceName);
         ViewBag.TotalCount = totalCount;
 
@@ -548,17 +538,15 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
         return RedirectToAction("Index");
     }
 
-    [HttpGet("Repositories/{name}/{encodedName?}/History/{*encodedPath}")]
+    [HttpGet("Repositories/{name}/History/{**path}")]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult History(string name, string encodedPath, string encodedName)
+    public IActionResult History(string name, string version, string path)
     {
         ViewBag.Name = name;
         ViewBag.ShowShortMessageOnly = true;
         var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
-        var path = PathEncoder.Decode(encodedPath);
-        var decode = PathEncoder.Decode(encodedName);
-        var commits = browser.GetHistory(path, decode, out _);
+        var commits = browser.GetHistory(path, version, out _);
         return View(new RepositoryCommitsModel
         {
             Commits = commits,
