@@ -140,6 +140,7 @@ services.AddControllersWithViews()
 
 var app = builder.Build();
 
+app.UseMiddleware<ResponseLoggingMiddleware>();
 app.UseStatusCodePagesWithReExecute("/Error/{0}");
 app.UseExceptionHandler("/Error");
 
