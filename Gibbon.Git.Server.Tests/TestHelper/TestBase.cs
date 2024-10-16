@@ -30,9 +30,7 @@ public abstract class TestBase
         ServiceProvider.Dispose();
     }
 
-    // Abstrakte Methode, die von den abgeleiteten Klassen implementiert wird
     protected abstract void ConfigureServices(ServiceCollection services);
 
-    // Abstrakte Methode, die von den abgeleiteten Klassen implementiert wird
     protected abstract void UseServices(IServiceProvider serviceProvider);
 }

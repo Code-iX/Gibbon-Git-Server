@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Gibbon.Git.Server.Middleware.Attributes;
 
 namespace Gibbon.Git.Server.Models;
 

@@ -151,13 +151,11 @@ public class AccountController(IAuthenticationProvider authenticationProvider, I
 
     public IActionResult Create()
     {
-        // Überprüfe, ob der Benutzer authentifiziert ist und nicht Administrator oder ob anonyme Registrierung deaktiviert ist
         if (UserIsUnauthorized())
         {
             return Unauthorized();
         }
 
-        // Wenn der Benutzer berechtigt ist, zeige das View
         return View();
     }
 

@@ -5,7 +5,6 @@ namespace Gibbon.Git.Server.Security;
 
 public interface IRepositoryPermissionService
 {
-    // Used by bonobo
     bool HasPermission(int userId, int repositoryId, RepositoryAccessLevel requiredLevel);
     bool HasPermission(int userId, string repositoryName, RepositoryAccessLevel requiredLevel);
     bool HasCreatePermission(int userId);

@@ -1,5 +1,4 @@
-﻿using Gibbon.Git.Server.Data.Entities;
-using Gibbon.Git.Server.Extensions;
+﻿using Gibbon.Git.Server.Extensions;
 using Gibbon.Git.Server.Models;
 using Gibbon.Git.Server.Security;
 using Microsoft.AspNetCore.Mvc.Rendering;

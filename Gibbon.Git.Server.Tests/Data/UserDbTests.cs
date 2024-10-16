@@ -44,14 +44,13 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
     [TestMethod]
     public void CannotCreateUserWithoutRequiredFields()
     {
-        // Arrange: User ohne Required-Felder
+        // Arrange
         var user = new User
-        {
-            
-            // Keine GivenName, Surname, Username, Password, Email gesetzt
+        {            
+            // empty
         };
 
-        // Act & Assert: Erwartet Exception, da Required-Felder fehlen
+        // Act & Assert
         Context.Users.Add(user);
         Assert.ThrowsException<DbUpdateException>(() => Context.SaveChanges());
     }
@@ -59,7 +58,7 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
     [TestMethod]
     public void UsernameMustBeUnique()
     {
-        // Arrange: Zwei Benutzer mit dem gleichen Username
+        // Arrange
         var user1 = new User
         {
             
@@ -76,7 +75,7 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
             
             GivenName = "Test2",
             Surname = "User2",
-            Username = "duplicateUser", // Gleicher Username
+            Username = "duplicateUser",
             Password = "password",
             PasswordSalt = "salt",
             Email = "user2@example.com"
@@ -86,7 +85,7 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         Context.Users.Add(user1);
         Context.SaveChanges();
 
-        // Assert: Der zweite Benutzer mit gleichem Username darf nicht hinzugefügt werden.
+        // Assert
         Context.Users.Add(user2);
         Assert.ThrowsException<DbUpdateException>(() => Context.SaveChanges());
     }
@@ -109,13 +108,13 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         Context.Users.Add(user);
         Context.SaveChanges();
 
-        // Act: Aktualisiere den Benutzer
+        // Act
         user.GivenName = "NewName";
         user.Surname = "NewSurname";
         Context.Users.Update(user);
         Context.SaveChanges();
 
-        // Assert: Überprüfe, ob der Benutzer aktualisiert wurde
+        // Assert
         var updatedUser = Context.Users.FirstOrDefault(u => u.Username == "testuser");
         Assert.IsNotNull(updatedUser);
         Assert.AreEqual("NewName", updatedUser.GivenName);
@@ -140,11 +139,11 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         Context.Users.Add(user);
         Context.SaveChanges();
 
-        // Act: Lösche den Benutzer
+        // Act
         Context.Users.Remove(user);
         Context.SaveChanges();
 
-        // Assert: Überprüfe, ob der Benutzer gelöscht wurde
+        // Assert
         var deletedUser = Context.Users.FirstOrDefault(u => u.Username == "deleteuser");
         Assert.IsNull(deletedUser);
     }
@@ -152,13 +151,13 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
     [TestMethod]
     public void HasData_SeedUserExists()
     {
-        // Arrange: Id des Seed-Users
+        // Arrange
         var seedUserId = 1;
 
-        // Act: Hole den Seed-Benutzer
+        // Act
         var seedUser = Context.Users.FirstOrDefault(u => u.Id == seedUserId);
 
-        // Assert: Seed-Benutzer existiert und hat die korrekten Daten
+        // Assert
         Assert.IsNotNull(seedUser);
         Assert.AreEqual("admin", seedUser.GivenName);
         Assert.AreEqual("admin", seedUser.Username);
@@ -208,7 +207,7 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         Context.Users.Add(user);
         Context.SaveChanges();
 
-        // Assert: Überprüfe, ob die Benutzer-Rollen- und Benutzer-Team-Beziehungen korrekt gespeichert wurden
+        // Assert
         var savedUser = Context.Users
             .Include(u => u.Roles)
             .Include(u => u.Teams)
@@ -250,32 +249,29 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
             Email = "transaction2@example.com"
         };
 
-        // Act: Beide Benutzer hinzufügen
+        // Act
         Context.Users.Add(user1);
         Context.SaveChanges();
 
-        // Füge den zweiten Benutzer mit einem Fehler hinzu (z.B. fehlendes Required-Feld)
-        user2.Username = null; // Dieser Fehler wird einen DbUpdateException auslösen
+        user2.Username = null;
 
         try
         {
             Context.Users.Add(user2);
-            Context.SaveChanges(); // Erwartet Exception
+            Context.SaveChanges();
         }
         catch (DbUpdateException)
         {
-            // Rollback, wenn ein Fehler auftritt
             transaction.Rollback();
         }
 
-        // Assert: Überprüfe, ob der erste Benutzer ebenfalls nicht mehr vorhanden ist (Rollback)
+        // Assert
         var savedUser1 = Context.Users.FirstOrDefault(u => u.Email == "transaction1@example.com");
         Assert.IsNull(savedUser1);
     }
     [TestMethod]
     public void CompleteUserLifecycleTest()
     {
-        // 1. User erstellen und speichern
         var user = new User
         {
             
@@ -290,27 +286,22 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         Context.Users.Add(user);
         Context.SaveChanges();
 
-        // 2. Überprüfe, ob der User gespeichert wurde
         var savedUser = Context.Users.FirstOrDefault(u => u.Username == "lifecycleuser");
         Assert.IsNotNull(savedUser);
 
-        // 3. User aktualisieren (z.B. Name und Passwort ändern)
         savedUser.GivenName = "Updated";
         savedUser.Password = "newpassword";
         Context.Users.Update(savedUser);
         Context.SaveChanges();
 
-        // 4. Überprüfen, ob die Aktualisierungen erfolgreich waren
         var updatedUser = Context.Users.FirstOrDefault(u => u.Username == "lifecycleuser");
         Assert.IsNotNull(updatedUser);
         Assert.AreEqual("Updated", updatedUser.GivenName);
         Assert.AreEqual("newpassword", updatedUser.Password);
 
-        // 5. User löschen
         Context.Users.Remove(updatedUser);
         Context.SaveChanges();
 
-        // 6. Überprüfen, ob der User erfolgreich gelöscht wurde
         var deletedUser = Context.Users.FirstOrDefault(u => u.Username == "lifecycleuser");
         Assert.IsNull(deletedUser);
     }

@@ -14,14 +14,11 @@ public class FileResult(string data, string name) : IActionResult
 
         if (!string.IsNullOrEmpty(_name))
         {
-            // Füge den Content-Disposition Header hinzu, um den Download zu initiieren
             response.Headers["Content-Disposition"] = $"attachment; filename={_name}";
         }
 
-        // Setze den richtigen Content-Type, z. B. als Text-Datei
-        response.ContentType = "application/octet-stream"; // Oder ein anderer passender ContentType
+        response.ContentType = "application/octet-stream";
 
-        // Schreibe die Daten in die Antwort
         if (!string.IsNullOrEmpty(_data))
         {
             var buffer = Encoding.UTF8.GetBytes(_data);

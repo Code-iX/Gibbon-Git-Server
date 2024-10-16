@@ -47,7 +47,7 @@ public abstract class TeamDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         var team2 = new Team
         {
             
-            Name = "DuplicateTeam", // Gleicher Name
+            Name = "DuplicateTeam",
             Description = "Second team with duplicate name"
         };
 

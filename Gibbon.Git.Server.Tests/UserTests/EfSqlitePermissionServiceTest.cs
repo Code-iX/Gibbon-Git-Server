@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Gibbon.Git.Server.Configuration;
 using Gibbon.Git.Server.Data;

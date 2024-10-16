@@ -13,13 +13,11 @@ public class ProcessService : IProcessService
         {
             using var process = Process.Start(startInfo) ?? throw new InvalidOperationException("Failed to start process.");
 
-            // Schreibe Eingabestream zum Prozess, aber mit einem Buffer
             if (inStream != null)
             {
                 await inStream.CopyToAsync(process.StandardInput.BaseStream, bufferSize);
             }
 
-            // Schließe den Eingabestream, wenn gewünscht
             if (endStreamWithClose)
             {
                 process.StandardInput.Close();
@@ -29,10 +27,8 @@ public class ProcessService : IProcessService
                 await process.StandardInput.WriteAsync('\0');
             }
 
-            // Kopiere den Ausgabestream des Prozesses, ebenfalls mit einem Buffer
             await process.StandardOutput.BaseStream.CopyToAsync(outStream, bufferSize);
 
-            // Warte auf das Ende des Prozesses
             await process.WaitForExitAsync();
 
             result.IsSuccess = process.ExitCode == 0;

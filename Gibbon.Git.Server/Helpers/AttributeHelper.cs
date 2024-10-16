@@ -8,7 +8,7 @@ public static class AttributeHelper
 
         foreach (var attribute in attributes)
         {
-            attributeDictionary[attribute] = attribute; // Setze den Attributnamen als Key und Value
+            attributeDictionary[attribute] = attribute;
         }
 
         return attributeDictionary;

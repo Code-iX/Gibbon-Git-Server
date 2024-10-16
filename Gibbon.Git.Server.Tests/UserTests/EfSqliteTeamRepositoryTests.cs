@@ -24,7 +24,7 @@ public class EfSqliteTeamRepositoryTests : DbTestBase<SqliteConnectionFactory>
     {
         _userService = services.AddSubstitute<IUserService>();
         services.AddSubstitute<IRepositoryService>();
-        services.AddSingleton<ITeamService, TeamService>(); // Verwende echten TeamService statt Substitute
+        services.AddSingleton<ITeamService, TeamService>();
     }
 
     protected override void UseServices(IServiceProvider serviceProvider)
