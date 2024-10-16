@@ -43,25 +43,6 @@ public class ProcessService : IProcessService
         return result;
     }
 
-    public async Task<bool> RunProcessAsync(ProcessStartInfo startInfo)
-    {
-        try
-        {
-            using var process = Process.Start(startInfo);
-            if (process == null)
-            {
-                return false;
-            }
-
-            await process.WaitForExitAsync();
-            return process.ExitCode == 0;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
     public async Task<ProcessResult> StartProcessAsync(ProcessStartInfo startInfo)
     {
         var result = new ProcessResult();
