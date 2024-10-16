@@ -28,15 +28,19 @@
                             }
                             else if (item.IsTree)
                             {
-                                @Html.ActionLink(item.Name, "Tree", new { name = Model.Name, encodedName = PathEncoder.Encode(Model.Branch), encodedPath = PathEncoder.Encode(item.Path, allowSlash: true) }, new { @class = "directory" })
+                                @Html.ActionLink(item.Name, "Tree", new { name = Model.Name, version =  Model.Branch, path = item.Path }, new { @class = "directory" })
                             }
                             else
                             {
-                                @Html.ActionLink(item.Name, "Blob", new { name = Model.Name, encodedName = PathEncoder.Encode(Model.Branch), encodedPath = PathEncoder.Encode(item.Path, allowSlash: true) }, new { @class = item.IsImage ? "image" : "file" })
+                                @Html.ActionLink(item.Name, "Blob", new { name = Model.Name, version =  Model.Branch, path = item.Path }, new { @class = item.IsImage ? "image" : "file" })
                             }
                         </td>
-                        <td class="message"></td>
-                        <td class="date"></td>
+                        <td class="message">
+                            @item.CommitMessage
+                        </td>
+                        <td class="date">
+                            @item.CommitDateString
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -49,7 +53,7 @@
 
         <div class="pure-menu pure-menu-open pure-menu-horizontal repository-menu">
             <ul>
-                <li><a href="@Url.Action("Download", new { encodedName = PathEncoder.Encode(Model.Branch), encodedPath = PathEncoder.Encode(Model.Path, allowSlash: true) })"><i class="fa fa-download"></i>@Resources.Repository_Tree_Zip</a></li>
+                <li><a href="@Url.Action("Download", new { version =  Model.Branch, path = Model.Path })"><i class="fa fa-download"></i>@Resources.Repository_Tree_Zip</a></li>
             </ul>
         </div>
     </div>
@@ -58,20 +62,6 @@
 
 @section scripts
 {
-    <script>
-        $(function () {
-            var url = '@Url.Action("Tree", ViewContext.RouteData.Values)';
-            $.ajax({ url: url, success: detailsLoaded, type: 'GET', dataType: 'json', cache: false });
-
-            function detailsLoaded(model) {
-                $("#files tbody > tr").each(function (index) {
-                    $(this).find(".message").html(model.Files[index].CommitMessage);
-                    $(this).find(".date").html(model.Files[index].CommitDateString);
-                });
-            }
-        });
-    </script>
-
     @if (!string.IsNullOrEmpty(Model.Readme))
     {
         <script>hljs.configure({ tabReplace: '    ' }); hljs.initHighlightingOnLoad();</script>

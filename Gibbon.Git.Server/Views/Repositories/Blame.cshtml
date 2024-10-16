@@ -1,4 +1,4 @@
-﻿@model Gibbon.Git.Server.Models.RepositoryBlameModel
+﻿@model RepositoryBlameModel
 @{
     Layout = "~/Views/Repositories/_RepositoriesLayout.cshtml";
     ViewBag.Title = Resources.Repository_Blame_Title;
@@ -12,10 +12,10 @@
         @{
             <div class="controls">
                 <span>@Model.LineCount lines | @FileDisplayHandler.GetFileSizeString(Model.FileSize)</span>
-                <a href="@Url.Action("Blob", new { name = ViewBag.Name, encodedName = PathEncoder.Encode(Model.TreeName), encodedPath = PathEncoder.Encode(Model.Path, allowSlash: true)})"><i class="fa fa-code"></i> @Resources.Repository_Tree_Blob</a>
-                <a href="@Url.Action("History", new { name = ViewBag.Name, encodedName = PathEncoder.Encode(Model.TreeName), encodedPath = PathEncoder.Encode(Model.Path, allowSlash: true)})"><i class="fa fa-history"></i> @Resources.Repository_Tree_History</a>
-                <a href="@Url.Action("Raw", new { name = ViewBag.Name, encodedName = PathEncoder.Encode(Model.TreeName), encodedPath = PathEncoder.Encode(Model.Path, allowSlash: true), display = true })"><i class="fa fa-file-text"></i> @Resources.Repository_Tree_RawDisplay</a>
-                <a href="@Url.Action("Raw", new { name = ViewBag.Name, encodedName = PathEncoder.Encode(Model.TreeName), encodedPath = PathEncoder.Encode(Model.Path, allowSlash: true) })"><i class="fa fa-download"></i> @Resources.Repository_Tree_Download</a>
+                <a href="@Url.Action("Blob", new { name = ViewBag.Name, version =  Model.TreeName, path = Model.Path})"><i class="fa fa-code"></i> @Resources.Repository_Tree_Blob</a>
+                <a href="@Url.Action("History", new { name = ViewBag.Name, version =  Model.TreeName, path = Model.Path})"><i class="fa fa-history"></i> @Resources.Repository_Tree_History</a>
+                <a href="@Url.Action("Raw", new { name = ViewBag.Name, version =  Model.TreeName, path = Model.Path, display = true })"><i class="fa fa-file-text"></i> @Resources.Repository_Tree_RawDisplay</a>
+                <a href="@Url.Action("Raw", new { name = ViewBag.Name, version =  Model.TreeName, path = Model.Path })"><i class="fa fa-download"></i> @Resources.Repository_Tree_Download</a>
             </div>
             <div class="blame">
                 <table id="blame_table">

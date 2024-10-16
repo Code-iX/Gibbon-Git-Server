@@ -3,7 +3,7 @@
 }
 
 <p class="breadcrumbs">
-    <em>@Html.ActionLink(Resources.Repository_AddressBar_Root, "Tree", new { name = Model.Name, encodedPath = "", encodedName = (string)ViewData["ReferenceName"] })</em>
+    <em>@Html.ActionLink(Resources.Repository_AddressBar_Root, "Tree", new { name = Model.Name, path = "", version =  (string)ViewData["ReferenceName"] })</em>
     @if (path != null)
     {
         <text>/</text>
@@ -23,7 +23,7 @@
             }
             else
             {
-                @Html.ActionLink(dirs[i], "Tree", new { name = Model.Name, encodedName = PathEncoder.Encode((string)ViewData["referenceName"]), encodedPath = PathEncoder.Encode(currentPath, allowSlash: true) })
+                @Html.ActionLink(dirs[i], "Tree", new { name = Model.Name, version =  (string)ViewData["referenceName"], path = currentPath })
             }
 
             if (i + 1 != dirs.Length)
