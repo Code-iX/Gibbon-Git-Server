@@ -15,7 +15,6 @@ public class ColorGenerator
         return $"#{r:X2}{g:X2}{b:X2}";
     }
 
-    // SHA-256 Hash-Berechnung
     private static byte[] ComputeSha256Hash(string input)
     {
         using var sha256 = SHA256.Create();

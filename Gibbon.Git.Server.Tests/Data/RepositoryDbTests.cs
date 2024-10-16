@@ -33,7 +33,7 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
     {
         // Arrange
         var repo1 = new Repository {  Name = "UniqueRepo" };
-        var repo2 = new Repository {  Name = "UniqueRepo" }; // Gleicher Name
+        var repo2 = new Repository {  Name = "UniqueRepo" };
 
         // Act
         Context.Repositories.Add(repo1);
@@ -187,26 +187,24 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
         Context.Repositories.Add(repository);
         Context.SaveChanges();
 
-        // Act: Versuch, ein Team hinzuzufügen, aber absichtlich einen Fehler einbauen
+        // Act
         try
         {
             team.Repositories.Add(repository);
             Context.Teams.Add(team);
 
-            // Dieser Fehler führt zum Abbruch, da ein ungültiges Feld gesetzt wird (z.B. kein Name)
-            repository.Name = null; // Invalidiert das Repository
+            repository.Name = null; 
 
             Context.SaveChanges();
         }
         catch (DbUpdateException)
         {
-            // Rollback bei einem Fehler
             transaction.Rollback();
         }
 
-        // Assert: Überprüfe, ob die Änderungen wirklich zurückgerollt wurden
+        // Assert
         var savedRepo = Context.Repositories.FirstOrDefault(r => r.Name == "RollbackRepo");
-        Assert.IsNull(savedRepo); // Repository sollte nicht gespeichert sein
+        Assert.IsNull(savedRepo);
     }
     [TestMethod]
     public void DeleteRepositoryRemovesOnlyRelationsNotUsersOrTeams()
@@ -222,21 +220,19 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
         Context.Repositories.Add(repository);
         Context.SaveChanges();
 
-        // Act: Lösche das Repository
+        // Act
         Context.Repositories.Remove(repository);
         Context.SaveChanges();
 
-        // Assert: Überprüfe, ob das Repository gelöscht wurde
+        // Assert
         var deletedRepo = Context.Repositories.FirstOrDefault(r => r.Name == "RelationTestRepo");
-        Assert.IsNull(deletedRepo); // Repository sollte gelöscht sein
+        Assert.IsNull(deletedRepo);
 
-        // Überprüfe, ob der Administrator und das Team NICHT gelöscht wurden
         var existingAdmin = Context.Users.FirstOrDefault(u => u.Username == "AdminUser");
         var existingTeam = Context.Teams.FirstOrDefault(t => t.Name == "RelationTestTeam");
-        Assert.IsNotNull(existingAdmin); // Admin sollte nicht gelöscht sein
-        Assert.IsNotNull(existingTeam);  // Team sollte nicht gelöscht sein
+        Assert.IsNotNull(existingAdmin);
+        Assert.IsNotNull(existingTeam);
 
-        // Überprüfe, ob die Beziehungen entfernt wurden
         var remainingAdminRelation = Context.Set<Dictionary<string, object>>("UserRepository_Administrator")
             .FirstOrDefault(relation => relation["User_Id"].Equals(admin.Id));
         var remainingTeamRelation = Context.Set<Dictionary<string, object>>("TeamRepository_Permission")
@@ -261,23 +257,22 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
         Context.Teams.Add(team);
         Context.SaveChanges();
 
-        // Act: Lösche den Benutzer und das Team
+        // Act
         Context.Users.Remove(user);
         Context.Teams.Remove(team);
         Context.SaveChanges();
 
-        // Assert: Das Repository sollte noch vorhanden sein
+        // Assert
         var remainingRepo = Context.Repositories.FirstOrDefault(r => r.Name == "TestRepo");
         Assert.IsNotNull(remainingRepo);
 
-        // Überprüfe, dass die Beziehungen zu den gelöschten Usern/Teams entfernt wurden
         var remainingUserRelation = Context.Set<Dictionary<string, object>>("UserRepository_Permission")
             .FirstOrDefault(relation => relation["User_Id"].Equals(user.Id));
         var remainingTeamRelation = Context.Set<Dictionary<string, object>>("TeamRepository_Permission")
             .FirstOrDefault(relation => relation["Team_Id"].Equals(team.Id));
 
-        Assert.IsNull(remainingUserRelation); // Beziehung zwischen User und Repository sollte gelöscht sein
-        Assert.IsNull(remainingTeamRelation); // Beziehung zwischen Team und Repository sollte gelöscht sein
+        Assert.IsNull(remainingUserRelation);
+        Assert.IsNull(remainingTeamRelation);
     }
 
     [TestMethod]
@@ -296,14 +291,14 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
         Context.Repositories.Add(repository);
         Context.SaveChanges();
 
-        // Act: Lade das Repository mit den verknüpften Entitäten
+        // Act
         var savedRepo = Context.Repositories
             .Include(r => r.Users)
             .Include(r => r.Teams)
             .Include(r => r.Administrators)
             .FirstOrDefault(r => r.Name == "DataIntegrityRepo");
 
-        // Assert: Überprüfe, ob alle Beziehungen korrekt sind
+        // Assert
         Assert.IsNotNull(savedRepo);
         Assert.AreEqual(1, savedRepo.Users.Count);
         Assert.AreEqual(1, savedRepo.Teams.Count);

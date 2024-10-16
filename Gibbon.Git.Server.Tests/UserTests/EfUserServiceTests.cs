@@ -3,8 +3,6 @@ using System.Linq;
 
 using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Tests.TestHelper;
-
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Gibbon.Git.Server.Tests.UserTests;

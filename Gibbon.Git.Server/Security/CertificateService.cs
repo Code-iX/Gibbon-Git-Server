@@ -1,6 +1,5 @@
 ﻿using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-
 using Gibbon.Git.Server.Services;
 
 namespace Gibbon.Git.Server.Security;
@@ -22,20 +21,17 @@ public class CertificateService(IPathResolver pathResolver) : ICertificateServic
         certificateRequest.CertificateExtensions.Add(new X509KeyUsageExtension(X509KeyUsageFlags.DigitalSignature, false));
         certificateRequest.CertificateExtensions.Add(new X509SubjectKeyIdentifierExtension(certificateRequest.PublicKey, false));
 
-        // Subject Alternative Name (SAN) hinzufügen
         var sanBuilder = new SubjectAlternativeNameBuilder();
         sanBuilder.AddDnsName("localhost");
         certificateRequest.CertificateExtensions.Add(sanBuilder.Build());
 
         var certificate = certificateRequest.CreateSelfSigned(DateTimeOffset.Now.AddDays(-1), DateTimeOffset.Now.AddYears(1));
 
-        // Exportiere das Zertifikat als PFX (inkl. private key)
         var pfxBytes = certificate.Export(X509ContentType.Pfx);
-        System.IO.File.WriteAllBytes(privateKeyPath, pfxBytes);
+        File.WriteAllBytes(privateKeyPath, pfxBytes);
 
-        // Exportiere das öffentliche Zertifikat
         var certBytes = certificate.Export(X509ContentType.Cert);
-        System.IO.File.WriteAllBytes(certificatePath, certBytes);
+        File.WriteAllBytes(certificatePath, certBytes);
     }
 
     public X509Certificate2 GetPrivateCertificate()

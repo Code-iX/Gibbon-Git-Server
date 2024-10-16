@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Gibbon.Git.Server.Data;
-using Gibbon.Git.Server.Helpers;
 using Gibbon.Git.Server.Middleware.Attributes;
 using Microsoft.AspNetCore.Mvc;
 

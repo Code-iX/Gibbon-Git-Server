@@ -609,7 +609,6 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
             }
             else
             {
-                // Rekursiver Aufruf für Unterverzeichnisse
                 await AddTreeToZip(browser, item.TreeName, item.Path, zipStream, cancellationToken);
             }
         }
@@ -711,7 +710,6 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
 
     private RepositoryDetailStatus GetRepositoryStatus(RepositoryModel model)
     {
-        // TODO we are missing invalid here
         var repositoryPath = _pathResolver.GetRepositoryPath(model.Name);
         if (!Directory.Exists(repositoryPath))
         {

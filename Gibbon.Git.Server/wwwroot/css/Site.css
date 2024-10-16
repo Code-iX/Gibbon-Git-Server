@@ -51,7 +51,7 @@ table.repositories button.copy-to-clip-button {
         font-weight: 300;
         font-size: 1.2em;
         background: url('/images/logo.png') no-repeat 0 4px;
-        background-size: 30px 30px; /* Größe des Logos anpassen (Breite x Höhe) */
+        background-size: 30px 30px;
         padding-left: 40px;
         float: left;
         margin-left: 0.5em;     

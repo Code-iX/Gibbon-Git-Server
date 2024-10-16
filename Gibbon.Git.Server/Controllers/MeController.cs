@@ -2,7 +2,6 @@
 
 using Gibbon.Git.Server.Configuration;
 using Gibbon.Git.Server.Extensions;
-using Gibbon.Git.Server.Middleware.Authorize;
 using Gibbon.Git.Server.Models;
 using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Services;
