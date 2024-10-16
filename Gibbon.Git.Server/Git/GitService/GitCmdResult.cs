@@ -16,6 +16,7 @@ public class GitCmdResult(string contentType, Func<Stream, Task> executeGitComma
 
         var response = context.HttpContext.Response;
 
+        response.StatusCode = 200;
         response.Headers.Expires = "Fri, 01 Jan 1980 00:00:00 GMT";
         response.Headers.Pragma = "no-cache";
         response.Headers.CacheControl = "no-cache, max-age=0, must-revalidate";
