@@ -74,23 +74,23 @@
         <div class="pure-control-group">
             @Html.LabelFor(m => m.LinksUseGlobal)
             @Html.CheckBoxFor(m => m.LinksUseGlobal, new
-            {
-                disabled = "disabled"
-            })
+                {
+                    disabled = "disabled"
+                })
         </div>
         <div class="pure-control-group">
             @Html.LabelFor(m => m.LinksRegex)
             @Html.TextBoxFor(m => m.LinksRegex, new
-            {
-                @readonly = "readonly"
-            })
+                {
+                    @readonly = "readonly"
+                })
         </div>
         <div class="pure-control-group">
             @Html.LabelFor(m => m.LinksUrl)
             @Html.TextBoxFor(m => m.LinksUrl, new
-            {
-                @readonly = "readonly"
-            })
+                {
+                    @readonly = "readonly"
+                })
         </div>
 
         <div class="pure-control-group">
@@ -99,12 +99,12 @@
                 @foreach (var user in Model.Users)
                 {
                     @Html.ActionLink(user.DisplayName, "Detail", "Users", new
-                    {
-                        username = user.Username
-                    }, new
-                    {
-                        title = user.Username
-                    })
+                        {
+                            username = user.Username
+                        }, new
+                        {
+                            title = user.Username
+                        })
                     if (user != Model.Users.Last())
                     {
                         @:,
@@ -119,12 +119,12 @@
                 @foreach (var admin in Model.Administrators)
                 {
                     @Html.ActionLink(admin.DisplayName, "Detail", "Users", new
-                    {
-                        username = admin.Username
-                    }, new
-                    {
-                        title = admin.Username
-                    })
+                        {
+                            username = admin.Username
+                        }, new
+                        {
+                            title = admin.Username
+                        })
                     if (admin != Model.Administrators.Last())
                     {
                         @:,
@@ -138,10 +138,10 @@
             <span>
                 @foreach (var team in Model.Teams)
                 {
-                    @Html.ActionLink(team.DisplayName, "Detail", "Team", new
-                    {
-                        id = team.Id
-                    }, null)
+                    @Html.ActionLink(team.DisplayName, "Detail", "Teams", new
+                        {
+                            teamname = team.Name
+                        }, null)
                     if (team != Model.Teams.Last())
                     {
                         @:,

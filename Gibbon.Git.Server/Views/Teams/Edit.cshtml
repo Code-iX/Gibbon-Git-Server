@@ -1,4 +1,4 @@
-﻿@model Gibbon.Git.Server.Models.TeamEditModel
+﻿@model TeamEditModel
 @{
     ViewBag.Title = Resources.Team_Edit_Title;
 }
@@ -16,7 +16,7 @@
     </div>
 }
 
-@using (Html.BeginForm("Edit", "Team", FormMethod.Post, new { @class = "pure-form pure-form-aligned" }))
+@using (Html.BeginForm("Edit", "Teams", FormMethod.Post, new { @class = "pure-form pure-form-aligned" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(false, Resources.Team_Edit_Failure)
