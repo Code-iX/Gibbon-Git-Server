@@ -9,32 +9,26 @@ namespace Gibbon.Git.Server.Controllers;
 
 [Route("Validation/[action]")]
 [OutputCache(NoStore = true)]
-public class ValidationController(IRepositoryService repoRepo, IUserService userService, ITeamService teamRepo)
+public class ValidationController
     : Controller
 {
-    public IRepositoryService RepoRepo { get; set; } = repoRepo;
-
-    public IUserService UserService { get; set; } = userService;
-
-    public ITeamService TeamRepo { get; set; } = teamRepo;
-
     [AcceptVerbs("GET", "POST")]
-    public IActionResult UniqueNameRepo(string name, int? id)
+    public IActionResult UniqueNameRepo(string name, int? id, [FromServices] IRepositoryService repositoryService)
     {
-        var isUnique = RepoRepo.NameIsUnique(name, id ?? 0);
+        var isUnique = repositoryService.NameIsUnique(name, id ?? 0);
         return Json(isUnique);
     }
 
-    public IActionResult UniqueNameUser(string username, int? id)
+    public IActionResult UniqueNameUser(string username, int? id, [FromServices] IUserService userService)
     {
-        var possiblyExistentUser = UserService.GetUserModel(username);
+        var possiblyExistentUser = userService.GetUserModel(username);
         var exists = (possiblyExistentUser != null) && (id != possiblyExistentUser.Id);
         return Json(!exists);
     }
 
-    public IActionResult UniqueNameTeam(string name, int? id)
+    public IActionResult UniqueNameTeam(string name, int? id, [FromServices] ITeamService teamService)
     {
-        var result = TeamRepo.IsTeamNameUnique(name, id);
+        var result = teamService.IsTeamNameUnique(name, id);
         return Json(result);
     }
 
@@ -44,7 +38,7 @@ public class ValidationController(IRepositoryService repoRepo, IUserService user
         var isValidRegexAttr = new IsValidRegexAttribute();
         var result = isValidRegexAttr.GetValidationResult(linksRegex, validationContext);
 
-        if (result == System.ComponentModel.DataAnnotations.ValidationResult.Success)
+        if (result == ValidationResult.Success)
         {
             return Json(true);
         }
