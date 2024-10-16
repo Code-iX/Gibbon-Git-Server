@@ -42,11 +42,11 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@Html.ActionLink(item.Name, "Detail", new { id = item.Id }, new { @class = "detail" })</td>
+                    <td>@Html.ActionLink(item.Name, "Detail", new { teamname = item.Name }, new { @class = "detail" })</td>
                     <td>@(item.Description is { Length: > 100 } ? item.Description[..100] + " (...) " : item.Description)</td>
                     <td class="pull-right">
-                        <a class="edit" href="@Url.Action("Edit", new { id = item.Id })" title="@Resources.Grid_Edit"><i class="fa fa-pencil"></i></a>
-                        <a class="delete" href="@Url.Action("Delete", new { id = item.Id })" title="@Resources.Grid_Delete"><i class="fa fa-trash"></i></a>
+                        <a class="edit" href="@Url.Action("Edit", new { teamname = item.Name })" title="@Resources.Grid_Edit"><i class="fa fa-pencil"></i></a>
+                        <a class="delete" href="@Url.Action("Delete", new { teamname = item.Name })" title="@Resources.Grid_Delete"><i class="fa fa-trash"></i></a>
                     </td>
                 </tr>
             }

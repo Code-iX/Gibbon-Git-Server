@@ -1,5 +1,5 @@
 ﻿@using Gibbon.Git.Server.Security
-@model Gibbon.Git.Server.Models.TeamDetailModel
+@model TeamDetailModel
 @{
     ViewBag.Title = Resources.Team_Detail_Title;
 }
@@ -56,10 +56,10 @@
             </a>
             @if (User.IsInRole(Roles.Admin))
             {
-                <a class="pure-button" href="@Url.Action("Edit", new { id = Model.Id })">
+                <a class="pure-button" href="@Url.Action("Edit", new { teamname = Model.Name })">
                     <i class="fa fa-pencil-square-o"></i> @Resources.Team_Detail_Edit
                 </a>
-                <a class="pure-button" href="@Url.Action("Delete", new { id = Model.Id })">
+                <a class="pure-button" href="@Url.Action("Delete", new { teamname = Model.Name })">
                     <i class="fa fa-trash-o"></i> @Resources.Team_Detail_Delete
                 </a>
             }

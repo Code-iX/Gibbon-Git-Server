@@ -6,6 +6,7 @@ public interface ITeamService
 {
     List<TeamModel> GetAllTeams();
     TeamModel GetTeam(int id);
+    TeamModel GetTeam(string teamname);
     List<TeamModel> GetTeamsForUser(int userId);
     bool IsTeamNameUnique(string name, int? existingTeamId = null);
     bool Create(TeamModel team);

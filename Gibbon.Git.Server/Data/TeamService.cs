@@ -31,6 +31,15 @@ public class TeamService(GibbonGitServerContext context) : ITeamService
         }).ToList();
     }
 
+    public TeamModel GetTeam(string teamname)
+    {
+        var team = _context.Teams
+            .Include(x => x.Users)
+            .FirstOrDefault(i => i.Name == teamname);
+
+        return GetTeamModel(team);
+    }
+
     public List<TeamModel> GetTeamsForUser(int userId)
     {
         return GetAllTeams().Where(i => i.Members.Any(x => x.Id == userId)).ToList();
