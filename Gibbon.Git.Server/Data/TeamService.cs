@@ -13,6 +13,7 @@ public class TeamService(GibbonGitServerContext context) : ITeamService
     {
         var dbTeams = _context.Teams
             .AsSplitQuery()
+            .OrderBy(x => x.Name)
             .Select(team => new
             {
                 Id = team.Id,
