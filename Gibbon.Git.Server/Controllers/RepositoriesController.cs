@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Security.Principal;
-using System.Text.Encodings.Web;
+﻿using System.Security.Principal;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,8 +19,8 @@ using LibGit2Sharp;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Logging;
 
 namespace Gibbon.Git.Server.Controllers;
@@ -44,13 +42,14 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
 
     public IActionResult Index(string sortGroup = null, string searchString = null)
     {
-        var firstList = GetIndexModel();
+        var firstList = _repositoryPermissionService
+            .GetAllPermittedRepositories(User.Id(), RepositoryAccessLevel.Pull)
+            .Select(x => ConvertRepositoryModel(x, User))
+            .ToList();
         if (!string.IsNullOrEmpty(searchString))
         {
             var search = searchString.ToLower();
-            firstList = firstList.Where(a => a.Name.ToLower().Contains(search) ||
-                                             (!string.IsNullOrEmpty(a.Group) && a.Group.ToLower().Contains(search)) ||
-                                             (!string.IsNullOrEmpty(a.Description) && a.Description.ToLower().Contains(search)))
+            firstList = firstList.Where(a => a.Name.ToLower().Contains(search) || (!string.IsNullOrEmpty(a.Group) && a.Group.ToLower().Contains(search)) || (!string.IsNullOrEmpty(a.Description) && a.Description.ToLower().Contains(search)))
                 .ToList();
         }
 
@@ -651,12 +650,6 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
         ViewData["referenceName"] = referenceName;
         ViewData["branches"] = browser.GetBranches();
         ViewData["tags"] = browser.GetTags();
-    }
-
-    private List<RepositoryDetailModel> GetIndexModel()
-    {
-        return _repositoryPermissionService.GetAllPermittedRepositories(User.Id(), RepositoryAccessLevel.Pull)
-            .Select(x => ConvertRepositoryModel(x, User)).ToList();
     }
 
     public RepositoryDetailModel ConvertRepositoryModel(RepositoryModel model, IPrincipal user)
