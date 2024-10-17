@@ -1,40 +1,41 @@
 ---
 title: Features
 ---
-
-Gibbon Git Server for Windows is a web application you can install on your IIS. It provides an easy management tool and access to your Git repositories that are self-hosted on your server.
+Gibbon Git Server is a web-based application designed for easy self-hosting on your IIS server. It provides a streamlined interface for managing Git repositories, allowing full control over access and collaboration for your development teams.
 
 ### Access Control
-- Manage access to your repositories
-- Teams/groups support
-- Handy user management
+- **Manage repository access**: Easily configure who can view or modify your repositories.
+- **Teams and groups support**: Organize users into teams for simplified access management.
+- **User-friendly administration**: Intuitive tools for adding, removing, and managing users.
 
-### Nice UI
-- Beautiful modern design
-- Focused on great user experience
-- Functional
+### Modern UI
+- **Beautiful, modern design**: A clean, attractive interface that enhances usability.
+- **User-centric**: Focused on delivering an excellent user experience with clear, functional layouts.
+- **Functional and responsive**: Optimized for quick navigation and ease of use across devices.
 
 ### Repository Browser
-- Nice way to browse your project
-- Available for every commit and file in history
-- Very fast
+- **Effortless project browsing**: Navigate through your project files and history with ease.
+- **Access every commit**: View the entire commit history and explore changes to any file.
+- **Fast and efficient**: Quickly browse large repositories without performance issues.
 
 ### Commit Browser
-- View your history
-- Sweet diff for files
-- Browse the content
+- **Comprehensive history**: Review your project’s commit history in an organized manner.
+- **Detailed diffs**: Easily compare changes between commits with intuitive diff views.
+- **Browse content**: Dive into the specifics of each commit, file by file.
 
 ### Optional Active Directory Integration
-- Setup users, teams, and roles using the standard Active Directory users tool
-- Supports Windows, Cookies, and ADFS authentication modes
+- **Streamlined setup**: Use your existing Active Directory users, teams, and roles for Gibbon Git Server access.
+- **Flexible authentication**: Supports Windows, Cookies, and ADFS authentication modes for seamless integration.
 
 ### Localization
-- Multiple language support
-- Different cultures
-- Easily extensible for other translations
+- **Multi-language support**: Gibbon Git Server is available in multiple languages for global teams.
+- **Cultural adaptability**: Customize the user experience for different cultures and locales.
+- **Easily extensible**: Add new translations with minimal effort.
 
 ### Demo
-I created a simple demo running on a Windows Azure virtual machine. You can find it [here](#).  
-The username and password are **admin:admin**.
+You can try a live demo of Gibbon Git Server, hosted on a Windows Azure virtual machine [here](#).  
+Use the following credentials to log in:  
+**Username**: `admin`  
+**Password**: `admin`
 
-Please, don’t use it in an inappropriate way—thank you.
+Please be respectful and refrain from any inappropriate usage. Thank you!
