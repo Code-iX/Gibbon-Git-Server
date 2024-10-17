@@ -7,4 +7,5 @@ public sealed record ApplicationSettings
     public string DataPath { get; set; }
     public string RepositoryPath { get; set; }
     public bool AllowDatabaseMigration { get; set; }
+    public DatabaseProviderTypes DatabaseProvider { get; set; }
 }

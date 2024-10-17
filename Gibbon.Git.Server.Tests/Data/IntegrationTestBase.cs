@@ -15,9 +15,9 @@ public abstract class GibbonDbContextTestsBase<TConnectionFactory>
     public void Initialize()
     {
         _connectionFactory = new TConnectionFactory();
-        var optionsBuilder = new DbContextOptionsBuilder<GibbonGitServerContext>();
+        var optionsBuilder = new DbContextOptionsBuilder<SqliteGibbonContext>();
         _connectionFactory.ConfigureDbContext(optionsBuilder);
-        _dbContext = new GibbonGitServerContext(optionsBuilder.Options);
+        _dbContext = new SqliteGibbonContext(optionsBuilder.Options);
         _dbContext.Database.EnsureCreated();
     }
 
