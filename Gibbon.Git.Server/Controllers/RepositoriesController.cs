@@ -295,23 +295,31 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
         var model = browser.BrowseBlob(version, path, out _);
 
-        if (!display)
-        {
-            return File(model.Data, "application/octet-stream", model.Name);
-        }
-
-        if (model.IsText)
+        if (model.IsText && display)
         {
             return Content(model.Text, "text/plain", model.Encoding);
         }
 
-        if (model.IsImage)
+        if (model.IsText && !display)
         {
-            return File(model.Data, MimeTypes.GetMimeType(model.Name), model.Name);
+            var textData = System.Text.Encoding.UTF8.GetBytes(model.Text);
+            return File(textData, "application/octet-stream", model.Name);
+        }
+
+        if (model.IsImage && display)
+        {
+            Response.Headers.Add("Content-Disposition", "inline");
+            return File(model.Data, MimeTypes.GetMimeType(model.Name));
+        }
+
+        if (model.IsImage && !display)
+        {
+            return File(model.Data, "application/octet-stream", model.Name);
         }
 
         return NotFound();
     }
+
 
     [HttpGet("Repositories/{name}/Blame/{**path}")]
     [Authorize(Policy = Policies.RepositoryPush)]
