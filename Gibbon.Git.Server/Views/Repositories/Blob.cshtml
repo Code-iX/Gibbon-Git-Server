@@ -32,7 +32,7 @@
 
     @if (Model.IsImage)
     {
-        <img class="fileImage" alt="@Model.Name" src="@Url.Action("Raw", new { name = ViewBag.Name, version = Model.TreeName, path = Model.Path })"/>
+        <img class="fileImage" width="100%" alt="@Model.Name" src="@Url.Action("Raw", new { name = ViewBag.Name, version = Model.TreeName, path = Model.Path })"/>
     }
     else
     {
