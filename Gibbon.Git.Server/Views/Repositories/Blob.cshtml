@@ -38,7 +38,7 @@
     {
         if (Model.IsText && Model.IsMarkdown)
         {
-            <div class="markdown">@Html.MarkdownToHtml(Model.Text)</div>
+            <div class="markdown">@Html.MarkdownToHtml(Url, Model.Text)</div>
         }
         else {if (Model.IsText)
             {
