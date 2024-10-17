@@ -71,7 +71,7 @@
 
     @if (!string.IsNullOrEmpty(Model.Readme))
     {
-        <div class="markdown">@Html.Raw(Model.Readme)</div>
+        <div class="markdown">@Html.MarkdownToHtml(Url, Model.Readme)</div>
     }
 
     <div class="pure-menu pure-menu-open pure-menu-horizontal repository-menu">
