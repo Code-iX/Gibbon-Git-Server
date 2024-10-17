@@ -55,7 +55,7 @@ server solution. You can find the key changes [below](#key-changes-to-bonobo-git
   
 ## Update
 
-Before each update please read carefully the information about **compatibility issues** between your version and the latest one in [changelog](https://https://code-ix.github.io/Gibbon-Git-Server/changelog).
+Before each update please read carefully the information about **compatibility issues** between your version and the latest one in [changelog](https://code-ix.github.io/Gibbon-Git-Server/changelog).
 
 - **Backup** your data.
 - **Stop the server**.
@@ -70,7 +70,7 @@ You can also view the legacy Bonobo Git Server changelog [here](https://github.c
 
 ## Contributing
 
-We welcome contributions! If you plan to make significant changes, please open an issue first to discuss your ideas. Pull requests are always appreciated.
+We welcome contributions! If you plan to make significant changes, please open an issue first to discuss your ideas. Pull requests are always appreciated. For more details, check out our [Contributing Guidelines](./CONTRIBUTING.md).
 
 ## License
 
