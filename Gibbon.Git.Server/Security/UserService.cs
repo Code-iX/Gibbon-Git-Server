@@ -2,6 +2,7 @@
 using Gibbon.Git.Server.Data.Entities;
 using Gibbon.Git.Server.Models;
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
@@ -67,6 +68,7 @@ public class UserService(ILogger<UserService> logger, IMemoryCache memoryCache, 
     public List<UserModel> GetAllUsers()
     {
         return _context.Users
+            .AsNoTracking()
             .Select(item => new UserModel
             {
                 Id = item.Id,
@@ -75,6 +77,8 @@ public class UserService(ILogger<UserService> logger, IMemoryCache memoryCache, 
                 Surname = item.Surname,
                 Email = item.Email,
             })
+            .AsEnumerable()
+            .OrderBy(x => x.SortName)
             .ToList();
     }
 
