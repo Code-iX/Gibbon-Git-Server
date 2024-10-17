@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gibbon.Git.Server.Models;
@@ -27,8 +28,8 @@ public class UserEditModel
     public string Email { get; set; }
 
     [Display(ResourceType = typeof(Resources), Name = "Account_Edit_Roles")]
-    public string[] Roles { get; set; }
+    public string[] Roles { get; set; } = [];
 
-    public string[] SelectedRoles { get; set; }
-    public string[] PostedSelectedRoles { get; set; }
+    public string[] SelectedRoles { get; set; } = [];
+    public string[] PostedSelectedRoles { get; set; } = [];
 }
