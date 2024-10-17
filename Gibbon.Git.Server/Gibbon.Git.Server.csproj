@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-	  <Title>Gibbon Git Server</Title>
-	  <ServerGarbageCollection>true</ServerGarbageCollection>	 
-  </PropertyGroup>
+	<PropertyGroup>
+		<Title>Gibbon Git Server</Title>
+		<ServerGarbageCollection>true</ServerGarbageCollection>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<InternalsVisibleTo Include="Gibbon.Git.Server.Tests" />
@@ -11,56 +11,57 @@
 	</ItemGroup>
 
 	<ItemGroup>
-    <None Remove="App_Data\.gitconfig" />
-    <None Remove="App_Data\Git\*" />
-    <None Remove="App_Data\Repositories\note.txt" />
-    <None Remove="Monikers.imagemanifest" />
-  </ItemGroup>
+		<None Remove="App_Data\.gitconfig" />
+		<None Remove="App_Data\Git\*" />
+		<None Remove="App_Data\Repositories\note.txt" />
+		<None Remove="Monikers.imagemanifest" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Include="App_Data\Git\*" />
-    <Content Include="App_Data\Repositories\note.txt" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="App_Data\Git\*" />
+		<Content Include="App_Data\Repositories\note.txt" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="MailKit" />
-    <PackageReference Include="Markdig" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="MimeKit" />
-    <PackageReference Include="SharpZipLib" />
-    <PackageReference Include="LibGit2Sharp" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
-    <PackageReference Include="MimeTypes">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="SixLabors.ImageSharp" />
-    <PackageReference Include="Ude.NetStandard" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="MailKit" />
+		<PackageReference Include="Markdig" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="MimeKit" />
+		<PackageReference Include="SharpZipLib" />
+		<PackageReference Include="LibGit2Sharp" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+		<PackageReference Include="MimeTypes">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="SixLabors.ImageSharp" />
+		<PackageReference Include="Ude.NetStandard" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="App_Resources\Resources.Designer.cs">
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="App_Resources\Resources.Designer.cs">
+			<DependentUpon>Resources.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="App_Resources\Resources.resx">
-      <SubType>Designer</SubType>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="App_Resources\Resources.resx">
+			<SubType>Designer</SubType>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+			<Generator>PublicResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Helpers\Components\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Helpers\Components\" />
+	</ItemGroup>
 
 </Project>

@@ -20,8 +20,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.Property(t => t.Name)  
             .HasColumnName("Name")
             .IsRequired()
-            .HasMaxLength(255)
-            .UseCollation("NOCASE");
+            .HasMaxLength(255);
 
         builder.HasIndex(t => t.Name)
             .IsUnique();

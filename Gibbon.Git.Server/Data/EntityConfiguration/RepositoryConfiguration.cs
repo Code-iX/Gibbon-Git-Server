@@ -9,7 +9,7 @@ public class RepositoryConfiguration : IEntityTypeConfiguration<Repository>
 {
     public void Configure(EntityTypeBuilder<Repository> builder)
     {
-        ((EntityTypeBuilder)builder).ToTable("Repository");
+        builder.ToTable("Repository");
 
         builder.HasKey(t => t.Id);
 
@@ -31,8 +31,7 @@ public class RepositoryConfiguration : IEntityTypeConfiguration<Repository>
         builder.Property(t => t.Name)
             .HasColumnName("Name")
             .IsRequired()
-            .HasMaxLength(255)
-            .UseCollation("NOCASE");
+            .HasMaxLength(255);
         
         builder.Property(t => t.Anonymous)
             .HasColumnName("Anonymous");
