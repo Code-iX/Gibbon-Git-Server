@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommonMark.NET" />
     <PackageReference Include="MailKit" />
+    <PackageReference Include="Markdig" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
