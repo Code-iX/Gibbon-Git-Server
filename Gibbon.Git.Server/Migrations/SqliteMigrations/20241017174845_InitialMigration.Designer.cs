@@ -2,16 +2,19 @@
 using Gibbon.Git.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Gibbon.Git.Server.Migrations
+namespace Gibbon.Git.Server.Migrations.SqliteMigrations
 {
-    [DbContext(typeof(GibbonGitServerContext))]
-    partial class GibbonGitServerContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(SqliteGibbonContext))]
+    [Migration("20241017174845_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
@@ -287,7 +290,7 @@ namespace Gibbon.Git.Server.Migrations
 
                     b.HasIndex("Team_Id");
 
-                    b.ToTable("TeamRepository_Permission", (string)null);
+                    b.ToTable("TeamRepository_Permission");
                 });
 
             modelBuilder.Entity("UserRepository_Administrator", b =>
@@ -302,7 +305,7 @@ namespace Gibbon.Git.Server.Migrations
 
                     b.HasIndex("User_Id");
 
-                    b.ToTable("UserRepository_Administrator", (string)null);
+                    b.ToTable("UserRepository_Administrator");
                 });
 
             modelBuilder.Entity("UserRepository_Permission", b =>
@@ -317,7 +320,7 @@ namespace Gibbon.Git.Server.Migrations
 
                     b.HasIndex("User_Id");
 
-                    b.ToTable("UserRepository_Permission", (string)null);
+                    b.ToTable("UserRepository_Permission");
                 });
 
             modelBuilder.Entity("UserRole_InRole", b =>
@@ -332,7 +335,7 @@ namespace Gibbon.Git.Server.Migrations
 
                     b.HasIndex("User_Id");
 
-                    b.ToTable("UserRole_InRole", (string)null);
+                    b.ToTable("UserRole_InRole");
 
                     b.HasData(
                         new
@@ -354,7 +357,7 @@ namespace Gibbon.Git.Server.Migrations
 
                     b.HasIndex("User_Id");
 
-                    b.ToTable("UserTeam_Member", (string)null);
+                    b.ToTable("UserTeam_Member");
                 });
 
             modelBuilder.Entity("TeamRepository_Permission", b =>

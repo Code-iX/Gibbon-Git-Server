@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Gibbon.Git.Server.Migrations
+namespace Gibbon.Git.Server.Migrations.SqliteMigrations
 {
     /// <inheritdoc />
     public partial class InitialMigration : Migration
@@ -22,7 +22,6 @@ namespace Gibbon.Git.Server.Migrations
                     Anonymous = table.Column<bool>(type: "INTEGER", nullable: false),
                     Logo = table.Column<byte[]>(type: "BLOB", nullable: true),
                     AllowAnonymousPush = table.Column<int>(type: "INTEGER", nullable: false),
-                    AuditPushUser = table.Column<bool>(type: "INTEGER", nullable: false),
                     LinksRegex = table.Column<string>(type: "TEXT", nullable: true),
                     LinksUrl = table.Column<string>(type: "TEXT", nullable: true),
                     LinksUseGlobal = table.Column<bool>(type: "INTEGER", nullable: false)
@@ -54,7 +53,6 @@ namespace Gibbon.Git.Server.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     AllowAnonymousPush = table.Column<bool>(type: "INTEGER", nullable: false),
                     AllowUserRepositoryCreation = table.Column<bool>(type: "INTEGER", nullable: false),
-                    AllowPushToCreate = table.Column<bool>(type: "INTEGER", nullable: false),
                     AllowAnonymousRegistration = table.Column<bool>(type: "INTEGER", nullable: false),
                     DefaultLanguage = table.Column<string>(type: "TEXT", maxLength: 10, nullable: false),
                     SiteTitle = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),

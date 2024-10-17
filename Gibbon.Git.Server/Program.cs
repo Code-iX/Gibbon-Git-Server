@@ -40,11 +40,30 @@ services.Configure<MailSettings>(config.GetSection("MailSettings"));
 
 services.AddScoped(serviceProvider => serviceProvider.GetRequiredService<IServerSettingsService>().GetSettings());
 
-services.AddDbContext<GibbonGitServerContext>(options =>
+
+var connectionString = builder.Configuration.GetConnectionString("GibbonContext");
+
+var databaseProvider = builder.Configuration.GetSection("AppSettings").Get<ApplicationSettings>().DatabaseProvider;
+
+switch (databaseProvider)
 {
-    options.UseSqlite(builder.Configuration.GetConnectionString("GibbonGitServerContext"));
-    options.ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
-});
+    case DatabaseProviderTypes.Sqlite:
+        connectionString ??= builder.Configuration.GetConnectionString("SqliteGibbonContext");
+        services.AddDbContext<GibbonGitServerContext, SqliteGibbonContext>(options =>
+        {
+            options.UseSqlite(connectionString);
+            options.ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
+        });
+        break;
+    case DatabaseProviderTypes.SqlServer:
+        connectionString ??= builder.Configuration.GetConnectionString("SqlServerGibbonContext");
+        services.AddDbContext<GibbonGitServerContext, SqlServerGibbonContext>(options =>
+        {
+            options.UseSqlServer(connectionString);
+            options.ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
+        });
+        break;
+}
 
 services.AddLogging();
 services.AddMemoryCache();

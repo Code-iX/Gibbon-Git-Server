@@ -30,8 +30,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(t => t.Username)
             .HasColumnName("Username")
             .IsRequired()
-            .HasMaxLength(255)
-            .UseCollation("NOCASE");
+            .HasMaxLength(255);
 
         builder.HasIndex(t => t.Username)
             .IsUnique();
