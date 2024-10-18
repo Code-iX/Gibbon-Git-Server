@@ -9,7 +9,7 @@ public class UserModel
     public string Email { get; set; }
 
     public string DisplayName => !string.IsNullOrWhiteSpace(GivenName) || !string.IsNullOrWhiteSpace(Surname)
-        ? $"{Surname}, {GivenName}".Trim()
+        ? $"{Surname}, {GivenName}".Trim(' ', ',')
         : Username;
 
     /// <summary>

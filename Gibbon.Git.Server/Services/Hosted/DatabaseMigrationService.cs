@@ -21,11 +21,6 @@ public class DatabaseMigrationService(ILogger<DatabaseMigrationService> logger, 
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        using IServiceScope scope = _serviceProvider.CreateScope();
-        await using var context = scope.ServiceProvider.GetRequiredService<GibbonGitServerContext>();
-
-        await context.Database.EnsureCreatedAsync(cancellationToken);
-
         if (!_options.AllowMigration)
         {
             _logger.LogInformation("Database migration is disabled.");
@@ -33,6 +28,14 @@ public class DatabaseMigrationService(ILogger<DatabaseMigrationService> logger, 
         }
 
         _logger.LogInformation("Migrating database...");
+        using IServiceScope scope = _serviceProvider.CreateScope();
+        await using var context = scope.ServiceProvider.GetRequiredService<GibbonGitServerContext>();
+        if (context.Database.IsInMemory())
+        {
+            await context.Database.EnsureCreatedAsync(cancellationToken);
+            return;
+        }
+
         var migrations = await context.Database.GetPendingMigrationsAsync(cancellationToken);
         var count = 0;
         foreach (var migration in migrations)

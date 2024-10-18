@@ -12,7 +12,7 @@ public abstract class DbTestBase<TDbConnectionFactory>
 
     protected override void ConfigureServicesBase(ServiceCollection services)
     {
-        services.AddDbContext<GibbonGitServerContext>(_dbConnectionFactory.ConfigureDbContext);
+        _dbConnectionFactory.ConfigureService(services);
     }
 
     protected override void UseServicesBase(ServiceProvider serviceProvider)

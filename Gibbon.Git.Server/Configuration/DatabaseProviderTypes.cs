@@ -2,7 +2,8 @@
 
 public enum DatabaseProviderTypes
 {
-    Memory = 0,
+    Unknown = 0,
     Sqlite = 1,
-    SqlServer = 2
+    SqlServer = 2,
+    Memory = 10
 }
