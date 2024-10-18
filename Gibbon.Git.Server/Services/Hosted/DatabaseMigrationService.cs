@@ -12,32 +12,36 @@ using Microsoft.Extensions.Options;
 
 namespace Gibbon.Git.Server.Services.Hosted;
 
-public class DatabaseMigrationService(ILogger<DatabaseMigrationService> logger, IOptions<ApplicationSettings> options, IServiceProvider serviceProvider)
+public class DatabaseMigrationService(ILogger<DatabaseMigrationService> logger, IOptions<DatabaseSettings> options, IServiceProvider serviceProvider)
     : IHostedService
 {
     private readonly ILogger<DatabaseMigrationService> _logger = logger;
-    private readonly ApplicationSettings _options = options.Value;
+    private readonly DatabaseSettings _options = options.Value;
     private readonly IServiceProvider _serviceProvider = serviceProvider;
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        if (!_options.AllowDatabaseMigration)
+        using IServiceScope scope = _serviceProvider.CreateScope();
+        await using var context = scope.ServiceProvider.GetRequiredService<GibbonGitServerContext>();
+
+        await context.Database.EnsureCreatedAsync(cancellationToken);
+
+        if (!_options.AllowMigration)
         {
             _logger.LogInformation("Database migration is disabled.");
             return;
         }
 
-        _logger.LogInformation("Migrating database...");         
-        using IServiceScope scope = _serviceProvider.CreateScope();
-        await using var context = scope.ServiceProvider.GetRequiredService<GibbonGitServerContext>();
-
-        var migrations = (await context.Database.GetPendingMigrationsAsync(cancellationToken)).ToList();
+        _logger.LogInformation("Migrating database...");
+        var migrations = await context.Database.GetPendingMigrationsAsync(cancellationToken);
+        var count = 0;
         foreach (var migration in migrations)
         {
+            count++;
             _logger.LogInformation("Pending migration: {Migration}", migration);
         }
 
-        if (migrations.Count == 0)
+        if (count == 0)
         {
             _logger.LogInformation("No pending migrations.");
             return;
