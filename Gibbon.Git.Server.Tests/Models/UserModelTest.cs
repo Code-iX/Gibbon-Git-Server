@@ -9,7 +9,7 @@ public sealed class UserModelTest
     [TestMethod]
     public void DisplayNameFormation()
     {
-        Assert.AreEqual("John Smith", new UserModel { GivenName = "John", Surname = "Smith" }.DisplayName);
+        Assert.AreEqual("Smith, John", new UserModel { GivenName = "John", Surname = "Smith" }.DisplayName);
         Assert.AreEqual("John", new UserModel { GivenName = "John", Surname = null }.DisplayName);
         Assert.AreEqual("John", new UserModel { GivenName = "John", Surname = "" }.DisplayName);
         Assert.AreEqual("Smith", new UserModel { GivenName = null, Surname = "Smith" }.DisplayName);

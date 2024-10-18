@@ -15,7 +15,8 @@ public abstract class GibbonGitServerContext(DbContextOptions options) : DbConte
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(GibbonGitServerContext).Assembly);
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(GibbonGitServerContext).Assembly);
     }
 }
