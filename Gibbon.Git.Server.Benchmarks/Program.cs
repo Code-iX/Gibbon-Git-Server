@@ -39,14 +39,14 @@ public class SqliteBenchmark
     public class TestIntEntity
     {
         public int Id { get; set; }
-        public string Data { get; set; }
+        public string? Data { get; set; }
     }
 
     public class TestGuidEntity
     {
         [Key]
         public Guid Id { get; set; }
-        public string Data { get; set; }
+        public string? Data { get; set; }
     }
 
     [Benchmark]
@@ -73,7 +73,7 @@ public class SqliteBenchmark
 
         for (int i = 0; i < LoopCount; i++)
         {
-            context.TestGuidEntities.Add(new TestGuidEntity {  Data = $"data_{i}" });
+            context.TestGuidEntities.Add(new TestGuidEntity { Data = $"data_{i}" });
         }
 
         context.SaveChanges();
@@ -101,6 +101,7 @@ public class SqliteBenchmark
                 totalLength += testEntity.Data.Length;
             }
         }
+        _ = totalLength + 1;
     }
 
     [Benchmark]
@@ -125,9 +126,10 @@ public class SqliteBenchmark
             var testEntity = context.TestGuidEntities.Find(guids[i]);
             if (testEntity != null)
             {
-                totalLength += testEntity.Data.Length;
+                totalLength += testEntity.Data!.Length;
             }
         }
+        _ = totalLength + 1;
     }
 
     public static void Main(string[] args)

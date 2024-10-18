@@ -47,6 +47,13 @@ var databaseProvider = builder.Configuration.GetSection("AppSettings").Get<Appli
 
 switch (databaseProvider)
 {
+    case DatabaseProviderTypes.Memory:
+        services.AddDbContext<GibbonGitServerContext, SqlServerGibbonContext>(options =>
+        {
+            options.UseInMemoryDatabase(databaseName: connectionString ?? "InMemory");
+            options.ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
+        });
+        break;
     case DatabaseProviderTypes.Sqlite:
         connectionString ??= builder.Configuration.GetConnectionString("SqliteGibbonContext");
         services.AddDbContext<GibbonGitServerContext, SqliteGibbonContext>(options =>
