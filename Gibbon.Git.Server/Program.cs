@@ -34,45 +34,41 @@ config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
     .AddEnvironmentVariables()
     .AddCommandLine(args);
 
-services.Configure<ApplicationSettings>(config.GetSection("AppSettings"));
-services.Configure<GitSettings>(config.GetSection("GitSettings"));
-services.Configure<MailSettings>(config.GetSection("MailSettings"));
+var databaseSection = config.GetSection("Database");
+services.Configure<DatabaseSettings>(databaseSection);
+services.Configure<ApplicationSettings>(config.GetSection("Application"));
+services.Configure<GitSettings>(config.GetSection("Git"));
+services.Configure<MailSettings>(config.GetSection("Mail"));
 
 services.AddScoped(serviceProvider => serviceProvider.GetRequiredService<IServerSettingsService>().GetSettings());
 
+var databaseProvider = databaseSection.GetValue<DatabaseProviderTypes>("Provider");
+var connectionString = databaseSection.GetConnectionString($"{databaseProvider}") ?? databaseSection.GetConnectionString("Default");
 
-var connectionString = builder.Configuration.GetConnectionString("GibbonContext");
-
-var databaseProvider = builder.Configuration.GetSection("AppSettings").Get<ApplicationSettings>().DatabaseProvider;
+DbContextOptionsBuilder ConfigureOptions(DbContextOptionsBuilder options)
+{
+    options.ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
+    return options;
+}
 
 switch (databaseProvider)
 {
     case DatabaseProviderTypes.Memory:
         services.AddDbContext<GibbonGitServerContext, SqlServerGibbonContext>(options =>
         {
-            options.UseInMemoryDatabase(databaseName: connectionString ?? "InMemory");
-            options.ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
-        }); 
-        using (var scope = services.BuildServiceProvider().CreateScope())
-        {
-            var context = scope.ServiceProvider.GetRequiredService<GibbonGitServerContext>();
-            context.Database.EnsureCreated();
-        }
+            ConfigureOptions(options).UseInMemoryDatabase(connectionString ?? "Data Source=InMemory;");
+        });
         break;
     case DatabaseProviderTypes.Sqlite:
-        connectionString ??= builder.Configuration.GetConnectionString("SqliteGibbonContext");
         services.AddDbContext<GibbonGitServerContext, SqliteGibbonContext>(options =>
         {
-            options.UseSqlite(connectionString);
-            options.ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
+            ConfigureOptions(options).UseSqlite(connectionString);
         });
         break;
     case DatabaseProviderTypes.SqlServer:
-        connectionString ??= builder.Configuration.GetConnectionString("SqlServerGibbonContext");
         services.AddDbContext<GibbonGitServerContext, SqlServerGibbonContext>(options =>
         {
-            options.UseSqlServer(connectionString);
-            options.ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
+            ConfigureOptions(options).UseSqlServer(connectionString);
         });
         break;
 }
