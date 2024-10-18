@@ -40,8 +40,9 @@ internal class GibbonGitServerApplication : WebApplicationFactory<Program>
         {
             var inMemorySettings = new Dictionary<string, string?>
             {
-                { "ConnectionStrings:GibbonGitServerContext", $"Data Source={_fileName}" },
-                { "AppSettings:AllowDatabaseMigration", "true" }
+                { "Database:Provider", "Sqlite" },
+                { "Database:AllowMigration", "true" },
+                { "Database:ConnectionStrings:Default", $"Data Source={_fileName}" }
             };
             config.AddInMemoryCollection(inMemorySettings);
         });
