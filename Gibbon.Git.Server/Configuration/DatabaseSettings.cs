@@ -2,6 +2,6 @@
 
 public sealed record DatabaseSettings
 {
-    public bool AllowReset { get; set; }
+    public DatabaseProviderTypes DatabaseProvider { get; set; }
     public bool AllowMigration { get; set; }
 }

@@ -124,7 +124,7 @@ public class EfSqliteRepositoryRepositoryTest : DbTestBase<SqliteConnectionFacto
 
         _repositoryService.Create(newRepo);
 
-        Assert.AreEqual("Fred Blogs", _repositoryService.GetAllRepositories().Single().Users.Single().DisplayName);
+        Assert.AreEqual("Blogs, Fred", _repositoryService.GetAllRepositories().Single().Users.Single().DisplayName);
     }
 
     [TestMethod]
@@ -140,7 +140,7 @@ public class EfSqliteRepositoryRepositoryTest : DbTestBase<SqliteConnectionFacto
 
         _repositoryService.Create(newRepo);
 
-        Assert.AreEqual("Fred Blogs", _repositoryService.GetAllRepositories().Single().Administrators.Single().DisplayName);
+        Assert.AreEqual("Blogs, Fred", _repositoryService.GetAllRepositories().Single().Administrators.Single().DisplayName);
     }
 
     [TestMethod]

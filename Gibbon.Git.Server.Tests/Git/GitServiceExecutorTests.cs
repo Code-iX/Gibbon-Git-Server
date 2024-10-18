@@ -136,8 +136,8 @@ public class GitServiceExecutorTests
     }
 
     [TestMethod]
-    [DataRow("TeamA", "Role1", "Test User")]
-    [DataRow("TeamB", "Role2", "Test User")]
+    [DataRow("TeamA", "Role1", "User, Test")]
+    [DataRow("TeamB", "Role2", "User, Test")]
     public async Task ExecuteServiceByName_WithUserTeamsAndRoles_SetsCorrectEnvironmentVariables(string teamName, string roleName, string displayName)
     {
         // Arrange
