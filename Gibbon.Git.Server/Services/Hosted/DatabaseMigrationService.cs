@@ -27,9 +27,9 @@ public class DatabaseMigrationService(ILogger<DatabaseMigrationService> logger, 
             return;
         }
 
-        _logger.LogInformation("Migrating database...");
+        _logger.LogInformation("Migrating database...");         
         using IServiceScope scope = _serviceProvider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<GibbonGitServerContext>();
+        await using var context = scope.ServiceProvider.GetRequiredService<GibbonGitServerContext>();
 
         var migrations = (await context.Database.GetPendingMigrationsAsync(cancellationToken)).ToList();
         foreach (var migration in migrations)

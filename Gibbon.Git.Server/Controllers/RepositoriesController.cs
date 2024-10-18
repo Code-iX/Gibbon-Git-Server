@@ -307,7 +307,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
 
         if (model.IsImage && display)
         {
-            Response.Headers.Add("Content-Disposition", "inline");
+            Response.Headers.ContentDisposition = "inline";
             return File(model.Data, MimeTypes.GetMimeType(model.Name));
         }
 

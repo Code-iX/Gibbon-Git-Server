@@ -24,7 +24,11 @@
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     </environment>
     <environment include="Production">
-        <link rel="stylesheet" href="~/css/bundled.css" />
+        <link rel="stylesheet" href="~/lib/pure/pure-min.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="~/lib/highlight/styles/github.css" />
+        <link rel="stylesheet" href="~/css/fonts.css" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     </environment>
     @if (ServerSettings.HasCustomSiteCss())
     {
@@ -87,7 +91,11 @@
         <script src="~/js/clipboard.min.js"></script>
     </environment>
     <environment include="Production">
-        <script src="~/js/bundled.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.js"></script>
+        <script src="~/js/highlight.pack.js"></script>
+        <script src="~/js/clipboard.min.js"></script>
     </environment>
     @await RenderSectionAsync("scripts", required: false)
 </body>

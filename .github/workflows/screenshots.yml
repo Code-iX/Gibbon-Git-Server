@@ -1,0 +1,56 @@
+name: Take Screenshots
+
+on:
+  workflow_dispatch:
+
+jobs:
+  take_screenshots:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Install wait-on
+        run: npm install -g wait-on
+
+      - name: Install .NET dependencies
+        run: dotnet restore
+
+      - name: Publish app                              
+        run: dotnet publish Gibbon.Git.Server/Gibbon.Git.Server.csproj --configuration Release --output ./publish
+
+      - name: Start ASP.NET Core app                                                   
+        run: |
+          cd publish
+          dotnet Gibbon.Git.Server.dll --urls "http://localhost:5000" &
+          wait-on http://localhost:5000
+        env:
+          ASPNETCORE_ENVIRONMENT: Production   
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Playwright locally
+        run: |
+          cd .github/scripts
+          npm init -y
+          npm install playwright
+          npx playwright install
+
+      - name: Run Playwright Script
+        run: node take_screenshots.js
+        working-directory: .github/scripts
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: .github/scripts/screenshots/

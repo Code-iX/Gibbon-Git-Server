@@ -5,7 +5,7 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    <li class="separator"><a href="@Url.Action("Index", "Account")"><i class="fa fa-male"></i> @Model.GivenName @Model.Surname</a></li>
+    <li class="separator"><a href="@Url.Action("Index", "Account")"><i class="fa fa-male"></i> @Model?.GivenName @Model?.Surname</a></li>
 
     @if (!User.IsWindowsAuthenticated())
     {
@@ -16,7 +16,7 @@ else
 {
     <li><a href="@Url.Action("Login", "Home")"><i class="fa fa-sign-in"></i> @Resources.Layout_Login</a></li>
     @if (ServerSettings.AllowAnonymousRegistration)
-    { 
+    {
         //TODO We want a Account/Register
         <li><a href="@Url.Action("Create", "Users")"><i class="fa fa-pencil"></i> @Resources.Layout_Register</a></li>
     }
