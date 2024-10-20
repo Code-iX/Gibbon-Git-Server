@@ -20,6 +20,8 @@
 	<ItemGroup>
 		<Content Include="App_Data\Git\*" />
 		<Content Include="App_Data\Repositories\note.txt" />
+		<Content Include="Styles\fonts.scss" />
+		<Content Include="Styles\site.scss" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -64,6 +66,10 @@
 
 	<ItemGroup>
 		<Folder Include="Helpers\Components\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Styles\site.scss" />
 	</ItemGroup>
 
 </Project>
