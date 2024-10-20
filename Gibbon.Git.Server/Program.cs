@@ -103,6 +103,7 @@ services.AddScoped<IAvatarService, AvatarService>();
 services.AddScoped<IRepositoryBrowserFactory, RepositoryBrowserFactory>();
 services.AddScoped<IAuthorizationHandler, RepositoryPermissionHandler>();
 
+services.AddScoped<IUserOutputService, UserOutputService>();
 services.AddTransient<IRepositoryBrowser, RepositoryBrowser>();
 
 services.AddTransient<IStartupService, RepositoryStartupService>();
