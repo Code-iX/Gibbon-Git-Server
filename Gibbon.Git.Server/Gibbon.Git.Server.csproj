@@ -18,11 +18,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="App_Data\Git\*" />
-		<Content Include="App_Data\Repositories\note.txt" />
+		<Content Include="Styles\fonts.scss" />
+		<Content Include="Styles\site.scss" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AspNetCore.SassCompiler" />
 		<PackageReference Include="MailKit" />
 		<PackageReference Include="Markdig" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" />
@@ -63,6 +64,16 @@
 
 	<ItemGroup>
 		<Folder Include="Helpers\Components\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Styles\site.scss" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="App_Data\note.txt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>
