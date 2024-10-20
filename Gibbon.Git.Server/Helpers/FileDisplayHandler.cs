@@ -6,124 +6,86 @@ public static class FileDisplayHandler
 {
     public const string NoBrush = "nohighlight";
 
+    private static readonly IReadOnlyDictionary<string, string> BrushMaps;
+
+    static FileDisplayHandler()
+    {
+        var brushMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+        Add(brushMap, "html", ".html", ".htm", ".xhtml", ".xslt", ".xml", ".asp", ".aspx", ".cshtml", ".xaml", ".csproj", ".config");
+        Add(brushMap, "cpp", ".h", ".c", ".cpp");
+        Add(brushMap, "diff", ".diff", ".patch");
+        Add(brushMap, "erlang", ".erl", ".xlr", ".hlr");
+        Add(brushMap, "js", ".js", ".jscript", ".javascript");
+        Add(brushMap, "perl", ".pir", ".pm", ".pl");
+        Add(brushMap, "ps", ".ps1", ".psm1");
+
+        Add(brushMap, "vb", ".vb");
+        Add(brushMap, "csharp", ".cs");
+        Add(brushMap, "as3", ".as");
+        Add(brushMap, "bash", ".sh");
+        Add(brushMap, "cf", ".cf");
+        Add(brushMap, "css", ".css");
+        Add(brushMap, "delphi", ".pas");
+        Add(brushMap, "groovy", ".groovy");
+        Add(brushMap, "json", ".json");
+        Add(brushMap, "java", ".java");
+        Add(brushMap, "jfx", ".fx");
+        Add(brushMap, "php", ".php");
+        Add(brushMap, "python", ".py");
+        Add(brushMap, "ruby", ".rb");
+        Add(brushMap, "scala", ".scala");
+        Add(brushMap, "sql", ".sql");
+        Add(brushMap, "typescript", ".ts");
+
+        BrushMaps = brushMap;
+    }
+
     public static bool IsImage(string fileName)
     {
-        return MimeTypes.GetMimeType(Path.GetExtension(fileName.ToLower())).Contains("image");
+        if (string.IsNullOrWhiteSpace(fileName))
+        {
+            return false;
+        }
+
+        var extension = Path.GetExtension(fileName);
+        if (string.IsNullOrEmpty(extension))
+        {
+            return false;
+        }
+
+        try
+        {
+            return MimeTypes.GetMimeType(extension).Contains("image", StringComparison.OrdinalIgnoreCase);
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     public static string GetBrush(string fileName)
     {
-        if (string.IsNullOrWhiteSpace(fileName))
-        {
-            throw new ArgumentNullException(nameof(fileName));
-        }
+        ArgumentNullException.ThrowIfNull(fileName, nameof(fileName));
 
-        var extension = Path.GetExtension(fileName).ToLower();
-        switch (extension)
-        {
-            case ".vb":
-                return "vb";
+        var extension = Path.GetExtension(fileName);
 
-            case ".cs":
-                return "csharp";
-
-            case ".as":
-                return "as3";
-
-            case ".sh":
-                return "bash";
-
-            case ".html":
-            case ".htm":
-            case ".xhtml":
-            case ".xslt":
-            case ".xml":
-            case ".asp":
-            case ".aspx":
-            case ".cshtml":
-            case ".xaml":
-            case ".csproj":
-            case ".config":
-                return "html";
-
-            case ".cf":
-                return "cf";
-
-            case ".h":
-            case ".c":
-            case ".cpp":
-                return "cpp";
-
-            case ".css":
-                return "css";
-
-            case ".pas":
-                return "delphi";
-
-            case ".diff":
-            case ".patch":
-                return "diff";
-
-            case ".erl":
-            case ".xlr":
-            case ".hlr":
-                return "erlang";
-
-            case ".groovy":
-                return "groovy";
-
-            case ".js":
-            case ".jscript":
-            case ".javascript":
-                return "js";
-            case ".json":
-                return "json";
-
-            case ".java":
-                return "java";
-
-            case ".fx":
-                return "jfx";
-
-            case ".pir":
-            case ".pm":
-            case ".pl":
-                return "perl";
-
-            case ".php":
-                return "php";
-
-            case ".ps1":
-            case ".psm1":
-                return "ps";
-
-            case ".py":
-                return "python";
-
-            case ".rb":
-                return "ruby";
-
-            case ".scala":
-                return "scala";
-
-            case ".sql":
-                return "sql";
-
-            case ".ts":
-                return "typescript";
-
-            default:
-                return NoBrush;
-        }
+        return string.IsNullOrEmpty(extension) || !BrushMaps.TryGetValue(extension, out var brush)
+            ? NoBrush
+            : brush;
     }
 
     public static string GetText(byte[] data, Encoding encoding)
     {
-        if (data.Length == 0)
+        if (data == null || data.Length == 0)
         {
             return string.Empty;
         }
-        return new StreamReader(new MemoryStream(data), encoding, true).ReadToEnd();
+
+        using var memoryStream = new MemoryStream(data);
+        using var reader = new StreamReader(memoryStream, encoding, detectEncodingFromByteOrderMarks: true);
+
+        return reader.ReadToEnd();
     }
 
     public static bool TryGetEncoding(byte[] data, out Encoding encoding)
@@ -133,7 +95,7 @@ public static class FileDisplayHandler
         cdet.DataEnd();
         if (cdet.Charset != null)
         {
-            if (cdet.Charset.ToLowerInvariant() == "big-5")
+            if (string.Equals(cdet.Charset, "big-5", StringComparison.OrdinalIgnoreCase))
             {
                 encoding = Encoding.GetEncoding("big5");
                 return true;
@@ -155,38 +117,11 @@ public static class FileDisplayHandler
         return false;
     }
 
-    /// <summary>
-    /// <para>Returns the human-readable file size for an arbitrary, 64-bit file size</para>
-    /// <para>The default format is "0.### XB", e.g. "4.2 KB" or "1.434 GB"</para>
-    /// </summary>
-    public static string GetFileSizeString(long i)
+    private static void Add(IDictionary<string, string> map, string brush, params string[] extensions)
     {
-        var absolute_i = i < 0 ? -i : i;
-        string suffix;
-        double readable;
-
-        // GB is enough for a VCS I think
-        if (absolute_i >= 0x40000000)
+        foreach (var ext in extensions)
         {
-            suffix = "GB";
-            readable = i >> 20;
+            map[ext] = brush;
         }
-        else if (absolute_i >= 0x100000)
-        {
-            suffix = "MB";
-            readable = i >> 10;
-        }
-        else if (absolute_i >= 0x400)
-        {
-            suffix = "kB";
-            readable = i;
-        }
-        else
-        {
-            return i.ToString("0 B");
-        }
-        // Divide by 1024 to get fractional value
-        readable /= 1024;
-        return readable.ToString("0.### ") + suffix;
     }
 }

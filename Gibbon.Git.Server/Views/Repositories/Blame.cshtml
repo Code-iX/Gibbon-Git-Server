@@ -1,4 +1,6 @@
-﻿@model RepositoryBlameModel
+﻿@using Gibbon.Git.Server.Services
+@model RepositoryBlameModel
+@inject IUserOutputService UserOutputService
 @{
     Layout = "~/Views/Repositories/_RepositoriesLayout.cshtml";
     ViewBag.Title = Resources.Repository_Blame_Title;
@@ -15,7 +17,7 @@
 <div class="blob">
 
     <div class="controls">
-        <span>@Model.LineCount lines | @FileDisplayHandler.GetFileSizeString(Model.FileSize)</span>
+        <span>@Model.LineCount lines | @UserOutputService.GetFileSizeString(Model.FileSize)</span>
         <a href="@Url.Action("Blob", new { name = ViewBag.Name, version = Model.TreeName, path = Model.Path })">
             <i class="fa fa-code"></i> @Resources.Repository_Tree_Blob
         </a>

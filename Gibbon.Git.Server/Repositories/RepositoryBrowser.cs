@@ -131,10 +131,7 @@ public sealed class RepositoryBrowser(IAvatarService avatarService, ILogger<Repo
 
     public RepositoryTreeDetailModel BrowseBlob(string name, string path, out string referenceName)
     {
-        if (path == null)
-        {
-            path = string.Empty;
-        }
+        path ??= string.Empty;
 
         var commit = GetCommitByName(name, out referenceName);
         if (commit == null)
