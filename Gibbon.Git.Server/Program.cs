@@ -165,6 +165,10 @@ services.AddAuthorization(options =>
 services.AddControllersWithViews()
     .AddCookieTempDataProvider();
 
+#if DEBUG
+services.AddSassCompiler();
+#endif
+
 var app = builder.Build();
 
 app.UseStatusCodePagesWithReExecute("/Error/{0}");
