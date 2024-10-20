@@ -287,3 +287,5 @@ Gits/
 
 !**/note.txt
 appsettings.Development.json
+
+**/wwwroot/css
