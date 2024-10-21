@@ -38,6 +38,7 @@ internal class GibbonGitServerApplication : WebApplicationFactory<Program>
 
     protected override IHost CreateHost(IHostBuilder builder)
     {
+        builder.UseEnvironment("Testing");
         builder.ConfigureHostConfiguration(config =>
         {
             var inMemorySettings = new Dictionary<string, string?>
