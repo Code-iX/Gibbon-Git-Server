@@ -166,8 +166,11 @@ services.AddAuthorization(options =>
 services.AddControllersWithViews()
     .AddCookieTempDataProvider();
 
-#if DEBUG
-services.AddSassCompiler();
+#if DEBUG         
+if (env.IsDevelopment())
+{
+    services.AddSassCompiler();
+}
 #endif
 
 var app = builder.Build();
