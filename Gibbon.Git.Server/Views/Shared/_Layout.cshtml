@@ -17,16 +17,16 @@
     </title>
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/pure/pure-min.css" />
-        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
-        <link rel="stylesheet" href="~/lib/highlight/styles/github.css" />
+        <link rel="stylesheet" href="~/lib/css/pure-min.css" />
+        <link rel="stylesheet" href="~/lib/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="~/lib/css/github.css" />
         <link rel="stylesheet" href="~/css/fonts.css" />
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     </environment>
     <environment include="Production">
-        <link rel="stylesheet" href="~/lib/pure/pure-min.css" />
-        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
-        <link rel="stylesheet" href="~/lib/highlight/styles/github.css" />
+        <link rel="stylesheet" href="~/lib/css/pure-min.css" />
+        <link rel="stylesheet" href="~/lib/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="~/lib/css/github.css" />
         <link rel="stylesheet" href="~/css/fonts.css" />
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     </environment>
@@ -84,18 +84,18 @@
         </div>
     </div>
     <environment include="Development">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.js"></script>
-        <script src="~/js/highlight.pack.js"></script>
-        <script src="~/js/clipboard.min.js"></script>
+        <script src="~/lib/js/jquery.js"></script>
+        <script src="~/lib/js/jquery.validate.js"></script>
+        <script src="~/lib/js/jquery.validate.unobtrusive.js"></script>
+        <script src="~/lib/js/highlight.pack.js"></script>
+        <script src="~/lib/js/clipboard.min.js"></script>
     </environment>
     <environment include="Production">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.js"></script>
-        <script src="~/js/highlight.pack.js"></script>
-        <script src="~/js/clipboard.min.js"></script>
+        <script src="~/lib/js/jquery.min.js"></script>
+        <script src="~/lib/js/jquery.validate.min.js"></script>
+        <script src="~/lib/js/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/lib/js/highlight.pack.js"></script>
+        <script src="~/lib/js/clipboard.min.js"></script>
     </environment>
     @await RenderSectionAsync("scripts", required: false)
 </body>
