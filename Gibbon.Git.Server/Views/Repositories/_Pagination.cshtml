@@ -1,0 +1,12 @@
+﻿@model PaginationModel
+
+<form>
+    <div>
+        @if (Model != null && Model.PageInfo.LastPage > 1)
+        {
+            <div style="text-align: center;white-space: nowrap">
+                @Html.PageLinks(@Model.PageInfo, x => Url.Action("Commits", new { branch = Model.Branch, page = x.ToString() }))
+            </div>
+        }
+    </div>        
+ </form>

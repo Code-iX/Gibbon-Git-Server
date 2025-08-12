@@ -20,6 +20,8 @@
         {
             @await Html.PartialAsync("_Commit", commit)
         }
+
+        @await Html.PartialAsync("_Pagination", Model.Pagination);
     }
     else
     {
