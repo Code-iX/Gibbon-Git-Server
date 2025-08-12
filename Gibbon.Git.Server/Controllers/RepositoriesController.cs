@@ -58,6 +58,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
             SetGitUrls(item);
         }
         var list = firstList
+            .OrderBy(x => x.Name)
             .GroupBy(x => x.Group)
             .OrderBy(x => x.Key, string.IsNullOrEmpty(sortGroup) || sortGroup.Equals("ASC"))
             .ToDictionary(x => x.Key ?? string.Empty, x => x.ToArray());
