@@ -1,6 +1,8 @@
 ﻿@model RepositoryCommitModel
 @{
     ViewBag.Title = Resources.Repository_Commit_Detail;
+    ViewBag.CommitID = Model.ID;
+    ViewBag.ModelName = Model.Name;
     Layout = "~/Views/Repositories/_RepositoriesLayout.cshtml";
 }
 

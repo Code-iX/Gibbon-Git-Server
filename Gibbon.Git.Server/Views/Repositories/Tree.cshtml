@@ -49,7 +49,7 @@
                             @Html.ActionLink(item.Name, "Blob", new
                             {
                                 name = Model.Name,
-                                version = Model.Branch,
+                                version = ViewBag.CommitID,
                                 path = item.Path
                             }, new
                             {

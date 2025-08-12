@@ -70,6 +70,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
     public IActionResult Detail(string name)
     {
         var repository = _repositoryService.GetRepository(name);
+        ViewBag.Name = name;
 
         var model = ConvertRepositoryModel(repository, User);
         if (model != null)
