@@ -3,6 +3,8 @@
 		<ProjectReference Include="..\Gibbon.Git.Server\Gibbon.Git.Server.csproj" />
 	</ItemGroup>
 	<ItemGroup>
+	  <PackageReference Include="NSubstitute" />
+	  <PackageReference Include="NSubstitute.Analyzers.CSharp" />
 	  <PackageReference Update="coverlet.collector">
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
