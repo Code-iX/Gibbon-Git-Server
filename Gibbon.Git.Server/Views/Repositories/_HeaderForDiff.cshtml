@@ -30,7 +30,7 @@
 
         @if (Model.Status != LibGit2Sharp.ChangeKind.Deleted)
         {
-            @Html.ActionLink(Model.Path, "Blob", new { name = Model.Name, path = Model.Path, version =  (string)ViewBag.CommitID })
+            @Html.ActionLink(Model.Path, "Blob", new { name = ViewBag.ModelName, path = Model.Path, version =  (string)ViewBag.CommitID })
         }
         else
         {

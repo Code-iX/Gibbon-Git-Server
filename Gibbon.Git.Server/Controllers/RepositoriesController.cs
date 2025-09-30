@@ -39,6 +39,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
     private readonly IRepositoryPermissionService _repositoryPermissionService = repositoryPermissionService;
     private readonly IRepositorySynchronizer _repositorySynchronizer = repositorySynchronizer;
     private readonly IRepositoryBrowserFactory _repositoryBrowserFactory = repositoryBrowserFactory;
+    private const int _pageSize = 10;
 
     public IActionResult Index(string sortGroup = null, string searchString = null)
     {
@@ -58,6 +59,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
             SetGitUrls(item);
         }
         var list = firstList
+            .OrderBy(x => x.Name)
             .GroupBy(x => x.Group)
             .OrderBy(x => x.Key, string.IsNullOrEmpty(sortGroup) || sortGroup.Equals("ASC"))
             .ToDictionary(x => x.Key ?? string.Empty, x => x.ToArray());
@@ -70,6 +72,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
     public IActionResult Detail(string name)
     {
         var repository = _repositoryService.GetRepository(name);
+        ViewBag.Name = name;
 
         var model = ConvertRepositoryModel(repository, User);
         if (model != null)
@@ -389,21 +392,23 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
         });
     }
 
-    [HttpGet("Repositories/{name}/Commits/{branch?}")]
+    [HttpGet("Repositories/{name}/Commits/")]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult Commits(string name, string branch, int? page = null)
+    public IActionResult Commits(string name, [FromQuery] string branch = "master", [FromQuery] int page = 1)
     {
         page = page >= 1 ? page : 1;
+        ViewBag.Page = page;
 
         ViewBag.ShowShortMessageOnly = true;
         var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
-        var commits = browser.GetCommits(branch, page.Value, 10, out var referenceName, out var totalCount);
+        var commits = browser.GetCommits(branch, page, _pageSize, out var referenceName, out var totalCount);
         PopulateBranchesData(browser, referenceName);
         ViewBag.TotalCount = totalCount;
 
         var linksreg = repo.LinksUseGlobal ? _serverSettings.LinksRegex : repo.LinksRegex;
         var linksurl = repo.LinksUseGlobal ? _serverSettings.LinksUrl : repo.LinksUrl;
+
         foreach (var commit in commits)
         {
             var links = new List<string>();
@@ -438,11 +443,22 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
             }
             commit.Links = links;
         }
+
         return View(new RepositoryCommitsModel
         {
             Commits = commits,
             Name = repo.Name,
-            Logo = new RepositoryLogoDetailModel(repo.Logo)
+            Logo = new RepositoryLogoDetailModel(repo.Logo),
+            Pagination = new PaginationModel()
+            {
+                Branch = branch,
+                PageInfo = new()
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = _pageSize,
+                    TotalItems = totalCount
+                }
+            }
         });
     }
 
