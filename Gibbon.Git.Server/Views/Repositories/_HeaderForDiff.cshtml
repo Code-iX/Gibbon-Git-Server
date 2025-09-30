@@ -5,27 +5,27 @@
         <a href="@("#change-" + Model.ChangeId)"><i class="fa fa-share-square-o" title="Go To Change"></i></a>
         @if (Model.Status == LibGit2Sharp.ChangeKind.Added)
         {
-            <text><i class="fa fa-plus-square-o" title="@Resources.Repository_Commit_Added"></i></text>
+            <text><i class="fa fa-plus-square-o" title="@Localizer["Repository_Commit_Added"]"></i></text>
         }
         else if (Model.Status == LibGit2Sharp.ChangeKind.Modified)
         {
-            <text><i class="fa fa-edit" title="@Resources.Repository_Commit_Modified"></i></text>
+            <text><i class="fa fa-edit" title="@Localizer["Repository_Commit_Modified"]"></i></text>
         }
         else if (Model.Status == LibGit2Sharp.ChangeKind.Deleted)
         {
-            <text><i class="fa fa-minus-square-o" title="@Resources.Repository_Commit_Deleted"></i></text>
+            <text><i class="fa fa-minus-square-o" title="@Localizer["Repository_Commit_Deleted"]"></i></text>
         }
         else if (Model.Status == LibGit2Sharp.ChangeKind.Renamed)
         {
-            <text><i class="fa fa-share-square-o" title="@Resources.Repository_Commit_Renamed"></i></text>
+            <text><i class="fa fa-share-square-o" title="@Localizer["Repository_Commit_Renamed"]"></i></text>
         }
         else if (Model.Status == LibGit2Sharp.ChangeKind.Copied)
         {
-            <text><i class="fa fa-copy" title="@Resources.Repository_Commit_Copied"></i></text>
+            <text><i class="fa fa-copy" title="@Localizer["Repository_Commit_Copied"]"></i></text>
         }
         else if (Model.Status == LibGit2Sharp.ChangeKind.TypeChanged)
         {
-            <text><i class="fa fa-caret-square-o-right" title="@Resources.Repository_Commit_TypeChanged"></i></text>
+            <text><i class="fa fa-caret-square-o-right" title="@Localizer["Repository_Commit_TypeChanged"]"></i></text>
         }
 
         @if (Model.Status != LibGit2Sharp.ChangeKind.Deleted)

@@ -10,6 +10,7 @@ using Gibbon.Git.Server.Helpers;
 using Gibbon.Git.Server.Middleware;
 using Gibbon.Git.Server.Models;
 using Gibbon.Git.Server.Repositories;
+using Gibbon.Git.Server;
 using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Services;
 
@@ -21,18 +22,20 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace Gibbon.Git.Server.Controllers;
 
 [Authorize]
 [TypeFilter(typeof(NormalizeRepositoryNameFilter))]
-public class RepositoriesController(ILogger<RepositoriesController> logger, ITeamService teamRepository, IRepositoryService repositoryService, IUserService userService, IRepositoryPermissionService repositoryPermissionService, IRepositorySynchronizer repositorySynchronizer, ServerSettings serverSettings, IPathResolver pathResolver, IRepositoryBrowserFactory repositoryBrowserFactory)
+public class RepositoriesController(ILogger<RepositoriesController> logger, ITeamService teamRepository, IRepositoryService repositoryService, IUserService userService, IRepositoryPermissionService repositoryPermissionService, IRepositorySynchronizer repositorySynchronizer, ServerSettings serverSettings, IPathResolver pathResolver, IRepositoryBrowserFactory repositoryBrowserFactory, IStringLocalizer<SharedResource> localizer)
     : Controller
 {
     private readonly ServerSettings _serverSettings = serverSettings;
     private readonly IPathResolver _pathResolver = pathResolver;
     private readonly ILogger<RepositoriesController> _logger = logger;
+    private readonly IStringLocalizer<SharedResource> _localizer = localizer;
     private readonly ITeamService _teamRepository = teamRepository;
     private readonly IRepositoryService _repositoryService = repositoryService;
     private readonly IUserService _userService = userService;
@@ -120,7 +123,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
             catch (DbUpdateException ex)
             {
                 _logger.LogError(ex, "Failed to update repo {RepoName}", model.Name);
-                ModelState.AddModelError("Administrators", Resources.Repository_Edit_CantRemoveYourself);
+                ModelState.AddModelError("Administrators", _localizer["Repository_Edit_CantRemoveYourself"]);
                 PopulateCheckboxListData(ref model);
                 return View(model);
             }
@@ -129,7 +132,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
         }
         else
         {
-            ModelState.AddModelError("Administrators", Resources.Repository_Edit_CantRemoveYourself);
+            ModelState.AddModelError("Administrators", _localizer["Repository_Edit_CantRemoveYourself"]);
             PopulateCheckboxListData(ref model);
             return View(model);
         }
@@ -171,13 +174,13 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
 
         if (!_repositoryService.NameIsUnique(model.Name, model.Id))
         {
-            ModelState.AddModelError("Name", Resources.Validation_Duplicate_Name);
+            ModelState.AddModelError("Name", _localizer["Validation_Duplicate_Name"]);
             return View(model);
         }
 
         if (string.IsNullOrEmpty(model.Name))
         {
-            ModelState.AddModelError("Name", Resources.Repository_Create_NameFailure);
+            ModelState.AddModelError("Name", _localizer["Repository_Create_NameFailure"]);
             return View(model);
         }
 
@@ -190,14 +193,14 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
         if (Directory.Exists(path))
         {
             _repositoryService.Delete(model.Id);
-            ModelState.AddModelError("", Resources.Repository_Create_DirectoryExists);
+            ModelState.AddModelError("", _localizer["Repository_Create_DirectoryExists"]);
             return View(model);
         }
 
         var repoModel = ConvertRepositoryDetailModel(model);
         if (!_repositoryService.Create(repoModel))
         {
-            ModelState.AddModelError("", Resources.Repository_Create_Failure);
+            ModelState.AddModelError("", _localizer["Repository_Create_Failure"]);
             return View(model);
         }
 
@@ -508,20 +511,20 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
 
         if (string.IsNullOrEmpty(model.Name))
         {
-            ModelState.AddModelError("Name", Resources.Repository_Create_NameFailure);
+            ModelState.AddModelError("Name", _localizer["Repository_Create_NameFailure"]);
             return View(model);
         }
 
         if (!_repositoryService.NameIsUnique(model.Name, 0))
         {
-            ModelState.AddModelError("Name", Resources.Validation_Duplicate_Name);
+            ModelState.AddModelError("Name", _localizer["Validation_Duplicate_Name"]);
             return View(model);
         }
 
         var targetRepositoryPath = Path.Combine(_pathResolver.GetRepositories(), model.Name);
         if (Directory.Exists(targetRepositoryPath))
         {
-            ModelState.AddModelError("", Resources.Repository_Create_DirectoryExists);
+            ModelState.AddModelError("", _localizer["Repository_Create_DirectoryExists"]);
             return View(model);
         }
 
@@ -533,7 +536,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
         var repoModel = ConvertRepositoryDetailModel(model);
         if (!_repositoryService.Create(repoModel))
         {
-            ModelState.AddModelError("", Resources.Repository_Create_Failure);
+            ModelState.AddModelError("", _localizer["Repository_Create_Failure"]);
             return View(model);
         }
 

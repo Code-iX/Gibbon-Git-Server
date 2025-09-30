@@ -1,7 +1,7 @@
 ﻿@model RepositoryDetailModel
 @{
     Layout = "~/Views/Repositories/_RepositoriesLayout.cshtml";
-    ViewBag.Title = Resources.Repository_Detail_Title;
+    ViewBag.Title = Localizer["Repository_Detail_Title"];
 }
 
 @if (Model == null)
@@ -29,7 +29,7 @@
             }
         </div>
         <div class="pure-control-group">
-            <label>@Resources.Repository_Detail_Location</label>
+            <label>@Localizer["Repository_Detail_Location"]</label>
             <button class="pure-button copy-to-clip-button" data-clipboard-text="@Model.GitUrl">
                 <i class="fa fa-copy"></i>
             </button>
@@ -39,7 +39,7 @@
         @if (User.Identity.IsAuthenticated)
         {
             <div class="pure-control-group">
-                <label>@Resources.Repository_Detail_Location_Personal</label>
+                <label>@Localizer["Repository_Detail_Location_Personal"]</label>
                 <button class="pure-button copy-to-clip-button" data-clipboard-text="@Model.PersonalGitUrl">
                     <i class="fa fa-copy"></i>
                 </button>
@@ -59,11 +59,11 @@
             @Html.LabelFor(m => m.AllowAnonymous)
             @if (Model.AllowAnonymous)
             {
-                @Resources.Repository_Detail_Yes
+                @Localizer["Repository_Detail_Yes"]
             }
             else
             {
-                @Resources.Repository_Detail_No
+                @Localizer["Repository_Detail_No"]
             }
         </div>
         <div class="pure-control-group">
@@ -152,15 +152,15 @@
 
         <div class="pure-controls">
             <a class="pure-button" href="@Url.Action("Index")">
-                <i class="fa fa-long-arrow-left"></i> @Resources.Repository_Detail_Back
+                <i class="fa fa-long-arrow-left"></i> @Localizer["Repository_Detail_Back"]
             </a>
             @if (Model.IsCurrentUserAdministrator)
             {
                 <a class="pure-button" href="@Url.Action("Edit", new { name = Model.Name })">
-                    <i class="fa fa-pencil-square-o"></i> @Resources.Repository_Detail_Edit
+                    <i class="fa fa-pencil-square-o"></i> @Localizer["Repository_Detail_Edit"]
                 </a>
                 <a class="pure-button" href="@Url.Action("Delete", new { name = Model.Name })">
-                    <i class="fa fa-trash-o"></i> @Resources.Repository_Detail_Delete
+                    <i class="fa fa-trash-o"></i> @Localizer["Repository_Detail_Delete"]
                 </a>
             }
         </div>

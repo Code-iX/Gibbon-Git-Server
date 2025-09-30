@@ -4,8 +4,8 @@ namespace Gibbon.Git.Server.Models;
 
 public class ForgotPasswordModel
 {
-    [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Required")]
-    [StringLength(50, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_StringLength")]
-    [Display(ResourceType = typeof(Resources), Name = "Home_ForgotPassword_Username")]
+    [Required(ErrorMessage = "Validation_Required")]
+    [StringLength(50, ErrorMessage = "Validation_StringLength")]
+    [Display(Name = "Home_ForgotPassword_Username")]
     public string Username { get; set; }
 }

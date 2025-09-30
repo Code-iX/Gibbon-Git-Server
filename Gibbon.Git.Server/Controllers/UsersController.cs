@@ -4,22 +4,25 @@ using Gibbon.Git.Server.Configuration;
 using Gibbon.Git.Server.Extensions;
 using Gibbon.Git.Server.Models;
 using Gibbon.Git.Server.Provider;
+using Gibbon.Git.Server;
 using Gibbon.Git.Server.Security;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 
 namespace Gibbon.Git.Server.Controllers;
 
 [Authorize(Roles = Roles.Admin)]
-public class UsersController(IAuthenticationProvider authenticationProvider, IRoleProvider roleProvider, IUserService userService, IOptions<ApplicationSettings> options, ServerSettings serverSettings)
+public class UsersController(IAuthenticationProvider authenticationProvider, IRoleProvider roleProvider, IUserService userService, IOptions<ApplicationSettings> options, ServerSettings serverSettings, IStringLocalizer<SharedResource> localizer)
     : Controller
 {
     private readonly ServerSettings _serverSettings = serverSettings;
     private readonly IUserService _userService = userService;
     private readonly IRoleProvider _roleProvider = roleProvider;
     private readonly IAuthenticationProvider _authenticationProvider = authenticationProvider;
+    private readonly IStringLocalizer<SharedResource> _localizer = localizer;
 
     public IActionResult Index()
     {
@@ -78,7 +81,7 @@ public class UsersController(IAuthenticationProvider authenticationProvider, IRo
 
         if (!_userService.CreateUser(model.Username, model.Password, model.Name, model.Surname, model.Email))
         {
-            ModelState.AddModelError(nameof(model.Username), Resources.Account_Create_AccountAlreadyExists);
+            ModelState.AddModelError(nameof(model.Username), _localizer["Account_Create_AccountAlreadyExists"]);
             return View(model);
         }
 
@@ -132,7 +135,7 @@ public class UsersController(IAuthenticationProvider authenticationProvider, IRo
 
             if (User.IsInRole(Roles.Admin) && model.Id == User.Id() && !(model.PostedSelectedRoles != null && model.PostedSelectedRoles.Contains(Roles.Admin)))
             {
-                ModelState.AddModelError(nameof(model.Roles), Resources.Account_Edit_CannotRemoveYourselfFromAdminRole);
+                ModelState.AddModelError(nameof(model.Roles), _localizer["Account_Edit_CannotRemoveYourselfFromAdminRole"]);
                 valid = false;
             }
 

@@ -4,17 +4,19 @@ using Gibbon.Git.Server.Data;
 using Gibbon.Git.Server.Helpers;
 using Gibbon.Git.Server.Models;
 using Gibbon.Git.Server.Provider;
+using Gibbon.Git.Server;
 using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace Gibbon.Git.Server.Controllers;
 
 [Route("/{action=Index}")]
-public class HomeController(ILogger<HomeController> logger, IUserService userService, IAuthenticationProvider authenticationProvider, IMemoryCache memoryCache, GibbonGitServerContext dbContext, IDiagnosticReporter diagnosticReporter, IMailService mailService)
+public class HomeController(ILogger<HomeController> logger, IUserService userService, IAuthenticationProvider authenticationProvider, IMemoryCache memoryCache, GibbonGitServerContext dbContext, IDiagnosticReporter diagnosticReporter, IMailService mailService, IStringLocalizer<SharedResource> localizer)
     : Controller
 {
     private readonly ILogger<HomeController> _logger = logger;
@@ -24,6 +26,7 @@ public class HomeController(ILogger<HomeController> logger, IUserService userSer
     private readonly GibbonGitServerContext _dbContext = dbContext;
     private readonly IDiagnosticReporter _diagnosticReporter = diagnosticReporter;
     private readonly IMailService _mailService = mailService;
+    private readonly IStringLocalizer<SharedResource> _localizer = localizer;
 
     [Authorize]
     public IActionResult Index() => RedirectToAction("Index", "Repositories");
@@ -58,13 +61,13 @@ public class HomeController(ILogger<HomeController> logger, IUserService userSer
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error during user validation.");
-            ModelState.AddModelError("", Resources.Home_Login_FailureDuringValidation);
+            ModelState.AddModelError("", _localizer["Home_Login_FailureDuringValidation"]);
             return View(model);
         }
 
         if (!validationResult)
         {
-            ModelState.AddModelError("", Resources.Home_Login_UsernamePasswordIncorrect);
+            ModelState.AddModelError("", _localizer["Home_Login_UsernamePasswordIncorrect"]);
             return View(model);
         }
 
@@ -157,7 +160,7 @@ public class HomeController(ILogger<HomeController> logger, IUserService userSer
         var user = _userService.GetUserModel(model.Username);
         if (user == null)
         {
-            ModelState.AddModelError("", Resources.Home_ForgotPassword_UserNameFailure);
+            ModelState.AddModelError("", _localizer["Home_ForgotPassword_UserNameFailure"]);
             return View(model);
         }
 
