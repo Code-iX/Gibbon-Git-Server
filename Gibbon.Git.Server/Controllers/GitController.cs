@@ -122,6 +122,39 @@ public class GitController(ILogger<GitController> logger, IRepositoryPermissionS
         return RedirectToAction("Detail", "Repositories", new { name = repositoryName });
     }
 
+    /// <summary>
+    /// Redirect requests for info/refs without .git to the .git URL
+    /// </summary>
+    [HttpGet("{repositoryName}/info/refs")]
+    public IActionResult RedirectInfoRefs(string repositoryName)
+    {
+        var queryString = HttpContext.Request.QueryString.HasValue 
+            ? HttpContext.Request.QueryString.Value 
+            : string.Empty;
+        var newPath = $"{HttpContext.Request.PathBase}/{repositoryName}.git/info/refs{queryString}";
+        return Redirect(newPath);
+    }
+
+    /// <summary>
+    /// Redirect requests for git-upload-pack without .git to the .git URL
+    /// </summary>
+    [HttpPost("{repositoryName}/git-upload-pack")]
+    public IActionResult RedirectUploadPack(string repositoryName)
+    {
+        var newPath = $"{HttpContext.Request.PathBase}/{repositoryName}.git/git-upload-pack";
+        return Redirect(newPath);
+    }
+
+    /// <summary>
+    /// Redirect requests for git-receive-pack without .git to the .git URL
+    /// </summary>
+    [HttpPost("{repositoryName}/git-receive-pack")]
+    public IActionResult RedirectReceivePack(string repositoryName)
+    {
+        var newPath = $"{HttpContext.Request.PathBase}/{repositoryName}.git/git-receive-pack";
+        return Redirect(newPath);
+    }
+
     private bool RepositoryIsValid(string repositoryName)
     {
         var directory = _pathResolver.GetRepositoryPath(repositoryName);
