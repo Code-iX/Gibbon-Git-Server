@@ -2883,5 +2883,14 @@ namespace Gibbon.Git.Server.App_Resources {
                 return ResourceManager.GetString("Settings_Global_DateFormat_Hint", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use default format.
+        /// </summary>
+        public static string MeController_Settings_UseDefaultDateFormat {
+            get {
+                return ResourceManager.GetString("MeController_Settings_UseDefaultDateFormat", resourceCulture);
+            }
+        }
     }
 }

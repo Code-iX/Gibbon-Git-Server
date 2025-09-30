@@ -143,6 +143,12 @@ public class AccountController(IUserService userService, IRoleProvider roleProvi
             new SelectListItem { Text = "MM/dd/yyyy", Value = "MM/dd/yyyy" }
         };
 
+        dateFormatItems.Insert(0, new SelectListItem
+        {
+            Text = Resources.MeController_Settings_UseDefaultDateFormat,
+            Value = ""
+        });
+
         var settings = await _userSettingsService.GetSettings(UserModel.Id);
 
         return View(new MeSettingsModel
@@ -175,6 +181,12 @@ public class AccountController(IUserService userService, IRoleProvider roleProvi
                 new SelectListItem { Text = "dd.MM.yyyy", Value = "dd.MM.yyyy" },
                 new SelectListItem { Text = "MM/dd/yyyy", Value = "MM/dd/yyyy" }
             };
+            
+            settings.AvailableDateFormats.Insert(0, new SelectListItem
+            {
+                Text = Resources.MeController_Settings_UseDefaultDateFormat,
+                Value = ""
+            });
 
             return View(settings);
         }

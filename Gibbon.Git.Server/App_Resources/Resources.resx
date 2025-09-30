@@ -1081,4 +1081,7 @@ The regular C# string formatting rules apply: To get {} in your link you need to
   <data name="Settings_Global_DateFormat_Hint" xml:space="preserve">
     <value>Preferred date format for displaying dates in the application.</value>
   </data>
+  <data name="MeController_Settings_UseDefaultDateFormat" xml:space="preserve">
+    <value>Use default format</value>
+  </data>
 </root>
