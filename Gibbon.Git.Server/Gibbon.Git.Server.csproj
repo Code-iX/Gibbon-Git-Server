@@ -3,6 +3,9 @@
 	<PropertyGroup>
 		<Title>Gibbon Git Server</Title>
 		<ServerGarbageCollection>true</ServerGarbageCollection>
+		<RazorCompileOnBuild>true</RazorCompileOnBuild>
+		<RazorCompileOnPublish>true</RazorCompileOnPublish>
+		<PreserveCompilationContext>true</PreserveCompilationContext>
 	</PropertyGroup>
 
 	<ItemGroup>
