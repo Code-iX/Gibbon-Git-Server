@@ -14,20 +14,22 @@ namespace Gibbon.Git.Server.Tests.Unit;
 public class PathResolverTests
 {
     private static readonly char DirectorySeparator = Path.DirectorySeparatorChar;
+    private static readonly string RootPath = Path.GetPathRoot(Directory.GetCurrentDirectory()) ?? "/";
     private IPathResolver _pathResolver = null!;
 
     [TestInitialize]
     public void Initialize()
     {
         IWebHostEnvironment webEnvironment = Substitute.For<IWebHostEnvironment>();
-        webEnvironment.ContentRootPath.Returns("C:\\");
+        webEnvironment.ContentRootPath.Returns(RootPath);
 
         IOptions<ApplicationSettings> configuration = Substitute.For<IOptions<ApplicationSettings>>();
         configuration.Value.Returns(new ApplicationSettings
         {
             RepositoryPath = "test",
-            DataPath = "~\\Data"
+            DataPath = $"~{DirectorySeparator}Data"
         });
+
         _pathResolver = new PathResolver(webEnvironment, configuration);
     }
 
@@ -36,6 +38,7 @@ public class PathResolverTests
     {
         var repo = _pathResolver.GetRepoPath("/other/test.git/info/refs", "/other");
         Assert.AreEqual("test", repo);
+
         repo = _pathResolver.GetRepoPath("/test.git/info/refs", "/");
         Assert.AreEqual("test", repo);
     }
@@ -44,11 +47,15 @@ public class PathResolverTests
     public void ResolveTest()
     {
         var path = _pathResolver.Resolve("test");
-        Assert.AreEqual($"C:{DirectorySeparator}Data{DirectorySeparator}test", path);
+        var expected = Path.Combine(RootPath, "Data", "test");
+        Assert.AreEqual(expected, path);
     }
 
     [TestMethod]
     public void ResolveTest_TwoPaths()
     {
+        var path = _pathResolver.Resolve("test", "subdir");
+        var expected = Path.Combine(RootPath, "Data", "test", "subdir");
+        Assert.AreEqual(expected, path);
     }
 }
