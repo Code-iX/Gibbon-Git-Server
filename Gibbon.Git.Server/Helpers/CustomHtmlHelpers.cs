@@ -27,9 +27,6 @@ public static class CustomHtmlHelpers
 
         foreach (var link in document.Descendants<LinkInline>())
         {
-            if (!link.IsImage)
-                continue;
-
             var originalUrl = link.Url?.TrimStart('.', '/');
 
             if (string.IsNullOrWhiteSpace(originalUrl))
@@ -40,7 +37,14 @@ public static class CustomHtmlHelpers
 
             values["path"] = originalUrl;
 
-            link.Url = urlHelper.Action("Raw", "Repositories", values);
+            if (link.IsImage)
+            {
+                link.Url = urlHelper.Action("Raw", "Repositories", values);
+            }
+            else
+            {
+                link.Url = urlHelper.Action("Blob", "Repositories", values);
+            }
         }
 
         var html = document.ToHtml(pipeline);
