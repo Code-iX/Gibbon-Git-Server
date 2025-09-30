@@ -1,4 +1,5 @@
 ﻿@model Gibbon.Git.Server.Models.MeSettingsModel
+@using Gibbon.Git.Server.Data
 @{
     Layout = "~/Views/Account/_Layout.cshtml";
     ViewBag.Title = Resources.Settings_Index_Title;
@@ -18,6 +19,46 @@
             @Html.LabelFor(m => m.PreferredLanguage)
             @Html.DropDownListFor(m => m.PreferredLanguage, Model.AvailableLanguages, new { @class = "medium", autofocus = "" })
             <i class="fa fa-info-circle" title="@Resources.Settings_Global_DefaultLanguage_Hint"></i>
+        </div>
+
+        <div class="pure-control-group">
+            @Html.LabelFor(m => m.DefaultRepositoryView)
+            <select name="DefaultRepositoryView" class="medium">
+                <option value="">@Resources.Settings_User_UseServerDefault</option>
+                @if (Model.DefaultRepositoryView == RepositoryDefaultView.Detail)
+                {
+                    <option value="@((int)RepositoryDefaultView.Detail)" selected="selected">@Resources.Repository_Detail_Detail</option>
+                }
+                else
+                {
+                    <option value="@((int)RepositoryDefaultView.Detail)">@Resources.Repository_Detail_Detail</option>
+                }
+                @if (Model.DefaultRepositoryView == RepositoryDefaultView.Tree)
+                {
+                    <option value="@((int)RepositoryDefaultView.Tree)" selected="selected">@Resources.Repository_Layout_Browse</option>
+                }
+                else
+                {
+                    <option value="@((int)RepositoryDefaultView.Tree)">@Resources.Repository_Layout_Browse</option>
+                }
+                @if (Model.DefaultRepositoryView == RepositoryDefaultView.Commits)
+                {
+                    <option value="@((int)RepositoryDefaultView.Commits)" selected="selected">@Resources.Repository_Layout_Commits</option>
+                }
+                else
+                {
+                    <option value="@((int)RepositoryDefaultView.Commits)">@Resources.Repository_Layout_Commits</option>
+                }
+                @if (Model.DefaultRepositoryView == RepositoryDefaultView.Tags)
+                {
+                    <option value="@((int)RepositoryDefaultView.Tags)" selected="selected">@Resources.Repository_Layout_Tags</option>
+                }
+                else
+                {
+                    <option value="@((int)RepositoryDefaultView.Tags)">@Resources.Repository_Layout_Tags</option>
+                }
+            </select>
+            <i class="fa fa-info-circle" title="@Resources.Settings_User_DefaultRepositoryView_Hint"></i>
         </div>
 
         <div class="pure-controls">

@@ -35,6 +35,44 @@
             @Html.DropDownListFor(m => m.DefaultLanguage, Model.AvailableLanguages, new { @class = "medium", autofocus = "" })
             <i class="fa fa-info-circle" title="@Resources.Settings_Global_DefaultLanguage_Hint"></i>
         </div>
+        <div class="pure-control-group">
+            @Html.LabelFor(m => m.DefaultRepositoryView)
+            <select name="DefaultRepositoryView" class="medium">
+                @if (Model.DefaultRepositoryView == Gibbon.Git.Server.Data.RepositoryDefaultView.Detail)
+                {
+                    <option value="@((int)Gibbon.Git.Server.Data.RepositoryDefaultView.Detail)" selected="selected">@Resources.Repository_Detail_Detail</option>
+                }
+                else
+                {
+                    <option value="@((int)Gibbon.Git.Server.Data.RepositoryDefaultView.Detail)">@Resources.Repository_Detail_Detail</option>
+                }
+                @if (Model.DefaultRepositoryView == Gibbon.Git.Server.Data.RepositoryDefaultView.Tree)
+                {
+                    <option value="@((int)Gibbon.Git.Server.Data.RepositoryDefaultView.Tree)" selected="selected">@Resources.Repository_Layout_Browse</option>
+                }
+                else
+                {
+                    <option value="@((int)Gibbon.Git.Server.Data.RepositoryDefaultView.Tree)">@Resources.Repository_Layout_Browse</option>
+                }
+                @if (Model.DefaultRepositoryView == Gibbon.Git.Server.Data.RepositoryDefaultView.Commits)
+                {
+                    <option value="@((int)Gibbon.Git.Server.Data.RepositoryDefaultView.Commits)" selected="selected">@Resources.Repository_Layout_Commits</option>
+                }
+                else
+                {
+                    <option value="@((int)Gibbon.Git.Server.Data.RepositoryDefaultView.Commits)">@Resources.Repository_Layout_Commits</option>
+                }
+                @if (Model.DefaultRepositoryView == Gibbon.Git.Server.Data.RepositoryDefaultView.Tags)
+                {
+                    <option value="@((int)Gibbon.Git.Server.Data.RepositoryDefaultView.Tags)" selected="selected">@Resources.Repository_Layout_Tags</option>
+                }
+                else
+                {
+                    <option value="@((int)Gibbon.Git.Server.Data.RepositoryDefaultView.Tags)">@Resources.Repository_Layout_Tags</option>
+                }
+            </select>
+            <i class="fa fa-info-circle" title="@Resources.Settings_Global_DefaultRepositoryView_Hint"></i>
+        </div>
         <div class="pure-controls">
             <label for="AllowAnonymousRegistration" class="pure-checkbox">@Html.CheckBoxFor(m => m.AllowAnonymousRegistration) @Model.GetType().GetDisplayValue("AllowAnonymousRegistration") <i class="fa fa-info-circle" title="@Resources.Settings_Global_AllowAnonymousRegistration_Hint"></i></label>
             <label for="AllowUserRepositoryCreation" class="pure-checkbox">@Html.CheckBoxFor(m => m.AllowUserRepositoryCreation) @Model.GetType().GetDisplayValue("AllowUserRepositoryCreation") <i class="fa fa-info-circle" title="@Resources.Settings_Global_AllowUserRepositoryCreation_Hint"></i></label>
