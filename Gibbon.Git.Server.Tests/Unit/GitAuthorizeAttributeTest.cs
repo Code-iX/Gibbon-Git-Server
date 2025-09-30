@@ -1,4 +1,6 @@
-﻿using Gibbon.Git.Server.Configuration;
+using System.IO;
+
+using Gibbon.Git.Server.Configuration;
 using Gibbon.Git.Server.Services;
 
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +13,7 @@ namespace Gibbon.Git.Server.Tests.Unit;
 [TestClass]
 public class PathResolverTests
 {
+    private static readonly char DirectorySeparator = Path.DirectorySeparatorChar;
     private IPathResolver _pathResolver = null!;
 
     [TestInitialize]
@@ -41,7 +44,7 @@ public class PathResolverTests
     public void ResolveTest()
     {
         var path = _pathResolver.Resolve("test");
-        Assert.AreEqual("C:\\Data\\test", path);
+        Assert.AreEqual($"C:{DirectorySeparator}Data{DirectorySeparator}test", path);
     }
 
     [TestMethod]
