@@ -35,6 +35,16 @@
             @Html.DropDownListFor(m => m.DefaultLanguage, Model.AvailableLanguages, new { @class = "medium", autofocus = "" })
             <i class="fa fa-info-circle" title="@Resources.Settings_Global_DefaultLanguage_Hint"></i>
         </div>
+        <div class="pure-control-group">
+            @Html.LabelFor(m => m.DefaultDateFormat)
+            @Html.DropDownListFor(m => m.DefaultDateFormat, Model.AvailableDateFormats, new { @class = "medium" })
+            <i class="fa fa-info-circle" title="@Resources.Settings_Global_DefaultDateFormat_Hint"></i>
+        </div>
+        <div class="pure-control-group">
+            @Html.LabelFor(m => m.DefaultTimeFormat)
+            @Html.DropDownListFor(m => m.DefaultTimeFormat, Model.AvailableTimeFormats, new { @class = "medium" })
+            <i class="fa fa-info-circle" title="@Resources.Settings_Global_DefaultTimeFormat_Hint"></i>
+        </div>
         <div class="pure-controls">
             <label for="AllowAnonymousRegistration" class="pure-checkbox">@Html.CheckBoxFor(m => m.AllowAnonymousRegistration) @Model.GetType().GetDisplayValue("AllowAnonymousRegistration") <i class="fa fa-info-circle" title="@Resources.Settings_Global_AllowAnonymousRegistration_Hint"></i></label>
             <label for="AllowUserRepositoryCreation" class="pure-checkbox">@Html.CheckBoxFor(m => m.AllowUserRepositoryCreation) @Model.GetType().GetDisplayValue("AllowUserRepositoryCreation") <i class="fa fa-info-circle" title="@Resources.Settings_Global_AllowUserRepositoryCreation_Hint"></i></label>

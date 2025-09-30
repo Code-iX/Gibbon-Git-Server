@@ -2928,5 +2928,41 @@ namespace Gibbon.Git.Server.App_Resources {
                 return ResourceManager.GetString("Settings_Global_TimeFormat_Hint", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default Date Format.
+        /// </summary>
+        public static string Settings_Global_DefaultDateFormat {
+            get {
+                return ResourceManager.GetString("Settings_Global_DefaultDateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server default date format for users who don't specify their own preference..
+        /// </summary>
+        public static string Settings_Global_DefaultDateFormat_Hint {
+            get {
+                return ResourceManager.GetString("Settings_Global_DefaultDateFormat_Hint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default Time Format.
+        /// </summary>
+        public static string Settings_Global_DefaultTimeFormat {
+            get {
+                return ResourceManager.GetString("Settings_Global_DefaultTimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server default time format for users who don't specify their own preference..
+        /// </summary>
+        public static string Settings_Global_DefaultTimeFormat_Hint {
+            get {
+                return ResourceManager.GetString("Settings_Global_DefaultTimeFormat_Hint", resourceCulture);
+            }
+        }
     }
 }

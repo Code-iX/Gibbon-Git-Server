@@ -774,4 +774,16 @@
   <data name="Repository_Detail_LastCommitDate" xml:space="preserve">
     <value>Ostatni commit</value>
   </data>
+  <data name="Settings_Global_DefaultDateFormat" xml:space="preserve">
+    <value>Domyślny format daty</value>
+  </data>
+  <data name="Settings_Global_DefaultDateFormat_Hint" xml:space="preserve">
+    <value>Domyślny format daty serwera dla użytkowników, którzy nie określają własnych preferencji.</value>
+  </data>
+  <data name="Settings_Global_DefaultTimeFormat" xml:space="preserve">
+    <value>Domyślny format czasu</value>
+  </data>
+  <data name="Settings_Global_DefaultTimeFormat_Hint" xml:space="preserve">
+    <value>Domyślny format czasu serwera dla użytkowników, którzy nie określają własnych preferencji.</value>
+  </data>
 </root>

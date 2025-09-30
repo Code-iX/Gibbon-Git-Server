@@ -1096,4 +1096,16 @@ The regular C# string formatting rules apply: To get {} in your link you need to
   <data name="Settings_Global_TimeFormat_Hint" xml:space="preserve">
     <value>Preferred time format for displaying times in the application.</value>
   </data>
+  <data name="Settings_Global_DefaultDateFormat" xml:space="preserve">
+    <value>Default Date Format</value>
+  </data>
+  <data name="Settings_Global_DefaultDateFormat_Hint" xml:space="preserve">
+    <value>Server default date format for users who don't specify their own preference.</value>
+  </data>
+  <data name="Settings_Global_DefaultTimeFormat" xml:space="preserve">
+    <value>Default Time Format</value>
+  </data>
+  <data name="Settings_Global_DefaultTimeFormat_Hint" xml:space="preserve">
+    <value>Server default time format for users who don't specify their own preference.</value>
+  </data>
 </root>
