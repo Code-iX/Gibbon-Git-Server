@@ -1,4 +1,4 @@
-﻿using System.Security.Principal;
+using System.Security.Principal;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -321,7 +321,6 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
 
         return NotFound();
     }
-
 
     [HttpGet("Repositories/{name}/Blame/{**path}")]
     [Authorize(Policy = Policies.RepositoryPush)]
