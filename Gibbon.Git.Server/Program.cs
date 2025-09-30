@@ -171,7 +171,7 @@ services.AddControllersWithViews()
     .AddDataAnnotationsLocalization(options =>
     {
         options.DataAnnotationLocalizerProvider = (type, factory) =>
-            factory.Create(typeof(Gibbon.Git.Server.Resources.SharedResource));
+            factory.Create(typeof(Gibbon.Git.Server.SharedResource));
     });
 
 #if DEBUG         

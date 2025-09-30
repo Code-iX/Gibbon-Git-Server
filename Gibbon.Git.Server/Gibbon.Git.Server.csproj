@@ -54,7 +54,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Update="Resources\Resources.resx">
+		<EmbeddedResource Update="Resources\SharedResource.resx">
 			<SubType>Designer</SubType>
 		</EmbeddedResource>
 	</ItemGroup>

@@ -1,4 +1,4 @@
-namespace Gibbon.Git.Server.Resources;
+namespace Gibbon.Git.Server;
 
 /// <summary>
 /// Marker class for shared localization resources.

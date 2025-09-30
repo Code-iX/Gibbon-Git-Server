@@ -29,7 +29,7 @@ internal sealed class CultureService(ServerSettings serverSettings, IUserSetting
     {
         var resourceFilePath = Path.Combine(_webHostEnvironment.ContentRootPath, "Resources");
 
-        return Directory.GetFiles(resourceFilePath, "Resources.*.resx")
+        return Directory.GetFiles(resourceFilePath, "SharedResource.*.resx")
             .Select(f => Path.GetFileNameWithoutExtension(f).Split('.')[1])
             .Append("en")
             .Select(CultureInfo.GetCultureInfo)

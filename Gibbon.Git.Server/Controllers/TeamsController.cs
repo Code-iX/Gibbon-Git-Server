@@ -1,6 +1,6 @@
 ﻿using Gibbon.Git.Server.Data;
 using Gibbon.Git.Server.Models;
-using Gibbon.Git.Server.Resources;
+using Gibbon.Git.Server;
 using Gibbon.Git.Server.Security;
 
 using Microsoft.AspNetCore.Authorization;

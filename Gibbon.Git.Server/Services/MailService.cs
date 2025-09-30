@@ -1,6 +1,6 @@
 ﻿using Gibbon.Git.Server.Configuration;
 using Gibbon.Git.Server.Models;
-using Gibbon.Git.Server.Resources;
+using Gibbon.Git.Server;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;

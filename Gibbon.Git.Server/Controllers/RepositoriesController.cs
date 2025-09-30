@@ -10,7 +10,7 @@ using Gibbon.Git.Server.Helpers;
 using Gibbon.Git.Server.Middleware;
 using Gibbon.Git.Server.Models;
 using Gibbon.Git.Server.Repositories;
-using Gibbon.Git.Server.Resources;
+using Gibbon.Git.Server;
 using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Services;
 
