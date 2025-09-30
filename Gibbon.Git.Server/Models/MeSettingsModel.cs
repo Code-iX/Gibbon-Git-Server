@@ -26,4 +26,15 @@ public class MeSettingsModel
     /// This is just for the user to choose from, why we don't need a display attribute.
     /// </remarks>
     internal List<SelectListItem> AvailableDateFormats { get; set; }
+
+    [Display(ResourceType = typeof(Resources), Name = "Settings_Global_TimeFormat")]
+    public string TimeFormat { get; set; }
+
+    /// <summary>
+    /// This is the list of available time formats for the user to choose from.
+    /// </summary>
+    /// <remarks>
+    /// This is just for the user to choose from, why we don't need a display attribute.
+    /// </remarks>
+    internal List<SelectListItem> AvailableTimeFormats { get; set; }
 }

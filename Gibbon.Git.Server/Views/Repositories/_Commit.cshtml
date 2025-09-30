@@ -17,14 +17,17 @@
         <div class="commitdate">
             @{
                 var dateFormat = ViewBag.DateFormat as string;
-                if (string.IsNullOrEmpty(dateFormat))
-                {
-                    @Model.Date.ToString(CultureInfo.CurrentCulture)
-                }
-                else
-                {
-                    @Model.Date.ToString(dateFormat)
-                }
+                var timeFormat = ViewBag.TimeFormat as string;
+                
+                var formattedDate = string.IsNullOrEmpty(dateFormat)
+                    ? Model.Date.ToShortDateString()
+                    : Model.Date.ToString(dateFormat);
+
+                var formattedTime = string.IsNullOrEmpty(timeFormat)
+                    ? Model.Date.ToShortTimeString()
+                    : Model.Date.ToString(timeFormat);
+
+                @formattedDate <text> </text> @formattedTime
             }
         </div>
 

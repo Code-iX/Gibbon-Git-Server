@@ -14,6 +14,7 @@ public class RepositoryTreeDetailModel
     public DateTime? CommitDate { get; set; }
     
     public string DateFormat { get; set; }
+    public string TimeFormat { get; set; }
     
     public string CommitDateString 
     { 
@@ -24,12 +25,15 @@ public class RepositoryTreeDetailModel
                 return string.Empty;
             }
             
-            if (string.IsNullOrEmpty(DateFormat))
-            {
-                return CommitDate.Value.ToString(System.Globalization.CultureInfo.CurrentCulture);
-            }
-            
-            return CommitDate.Value.ToString(DateFormat);
+            var formattedDate = string.IsNullOrEmpty(DateFormat)
+                ? CommitDate.Value.ToShortDateString()
+                : CommitDate.Value.ToString(DateFormat);
+
+            var formattedTime = string.IsNullOrEmpty(TimeFormat)
+                ? CommitDate.Value.ToShortTimeString()
+                : CommitDate.Value.ToString(TimeFormat);
+
+            return $"{formattedDate} {formattedTime}";
         } 
     }
 

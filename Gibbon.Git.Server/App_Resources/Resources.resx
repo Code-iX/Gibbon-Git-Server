@@ -1084,7 +1084,16 @@ The regular C# string formatting rules apply: To get {} in your link you need to
   <data name="MeController_Settings_UseDefaultDateFormat" xml:space="preserve">
     <value>Use default format</value>
   </data>
+  <data name="MeController_Settings_UseServerDefault" xml:space="preserve">
+    <value>Use server default</value>
+  </data>
   <data name="Repository_Detail_LastCommitDate" xml:space="preserve">
     <value>Last Commit</value>
+  </data>
+  <data name="Settings_Global_TimeFormat" xml:space="preserve">
+    <value>Time Format</value>
+  </data>
+  <data name="Settings_Global_TimeFormat_Hint" xml:space="preserve">
+    <value>Preferred time format for displaying times in the application.</value>
   </data>
 </root>

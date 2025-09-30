@@ -55,31 +55,9 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
                 .ToList();
         }
 
-        // Get user's date format preference
-        var userId = User.Id();
-        var userSettings = await _userSettingsService.GetSettings(userId);
-        ViewBag.DateFormat = userSettings.DateFormat;
-
         foreach (var item in firstList)
         {
             SetGitUrls(item);
-            
-            // Get last commit date for the repository
-            try
-            {
-                using var browser = _repositoryBrowserFactory.Create(item.Name);
-                var commits = browser.GetCommits(null, 1, 1, out _, out _);
-                var lastCommit = commits.FirstOrDefault();
-                if (lastCommit != null)
-                {
-                    item.LastCommitDate = lastCommit.Date;
-                }
-            }
-            catch
-            {
-                // If we can't get the commit date, just skip it
-                item.LastCommitDate = null;
-            }
         }
         var list = firstList
             .OrderBy(x => x.Name)
@@ -274,11 +252,13 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
         var userId = User.Id();
         var userSettings = await _userSettingsService.GetSettings(userId);
         var dateFormat = userSettings.DateFormat;
+        var timeFormat = userSettings.TimeFormat;
 
         // Apply date format to each file
         foreach (var file in files)
         {
             file.DateFormat = dateFormat;
+            file.TimeFormat = timeFormat;
         }
 
         var readme = files.FirstOrDefault(x => x.Name.Equals("readme.md", StringComparison.OrdinalIgnoreCase));
@@ -438,6 +418,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
         var userId = User.Id();
         var userSettings = await _userSettingsService.GetSettings(userId);
         ViewBag.DateFormat = userSettings.DateFormat;
+        ViewBag.TimeFormat = userSettings.TimeFormat;
         
         var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);

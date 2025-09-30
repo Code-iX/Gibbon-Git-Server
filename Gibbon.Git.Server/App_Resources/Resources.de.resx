@@ -1016,4 +1016,22 @@ Die regulären C# String-Formatierungsregeln gelten: Um {} in Ihrem Link zu erha
   <data name="Error_Forbidden_Text" xml:space="preserve">
     <value>Der Zugriff auf die Ressource wurde verweigert.</value>
   </data>
+  <data name="Settings_Global_DateFormat" xml:space="preserve">
+    <value>Datumsformat</value>
+  </data>
+  <data name="Settings_Global_DateFormat_Hint" xml:space="preserve">
+    <value>Bevorzugtes Datumsformat für die Anzeige von Daten in der Anwendung.</value>
+  </data>
+  <data name="Settings_Global_TimeFormat" xml:space="preserve">
+    <value>Zeitformat</value>
+  </data>
+  <data name="Settings_Global_TimeFormat_Hint" xml:space="preserve">
+    <value>Bevorzugtes Zeitformat für die Anzeige von Zeiten in der Anwendung.</value>
+  </data>
+  <data name="MeController_Settings_UseServerDefault" xml:space="preserve">
+    <value>Serverstandard verwenden</value>
+  </data>
+  <data name="Repository_Detail_LastCommitDate" xml:space="preserve">
+    <value>Letzter Commit</value>
+  </data>
 </root>

@@ -2894,11 +2894,38 @@ namespace Gibbon.Git.Server.App_Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use server default.
+        /// </summary>
+        public static string MeController_Settings_UseServerDefault {
+            get {
+                return ResourceManager.GetString("MeController_Settings_UseServerDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Commit.
         /// </summary>
         public static string Repository_Detail_LastCommitDate {
             get {
                 return ResourceManager.GetString("Repository_Detail_LastCommitDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time Format.
+        /// </summary>
+        public static string Settings_Global_TimeFormat {
+            get {
+                return ResourceManager.GetString("Settings_Global_TimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preferred time format for displaying times in the application..
+        /// </summary>
+        public static string Settings_Global_TimeFormat_Hint {
+            get {
+                return ResourceManager.GetString("Settings_Global_TimeFormat_Hint", resourceCulture);
             }
         }
     }

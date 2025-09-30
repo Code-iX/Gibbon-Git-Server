@@ -145,7 +145,21 @@ public class AccountController(IUserService userService, IRoleProvider roleProvi
 
         dateFormatItems.Insert(0, new SelectListItem
         {
-            Text = Resources.MeController_Settings_UseDefaultDateFormat,
+            Text = Resources.MeController_Settings_UseServerDefault,
+            Value = ""
+        });
+
+        var timeFormatItems = new List<SelectListItem>
+        {
+            new SelectListItem { Text = "HH:mm:ss", Value = "HH:mm:ss" },
+            new SelectListItem { Text = "HH:mm", Value = "HH:mm" },
+            new SelectListItem { Text = "hh:mm:ss tt", Value = "hh:mm:ss tt" },
+            new SelectListItem { Text = "hh:mm tt", Value = "hh:mm tt" }
+        };
+
+        timeFormatItems.Insert(0, new SelectListItem
+        {
+            Text = Resources.MeController_Settings_UseServerDefault,
             Value = ""
         });
 
@@ -156,7 +170,9 @@ public class AccountController(IUserService userService, IRoleProvider roleProvi
             PreferredLanguage = settings.PreferredLanguage,
             AvailableLanguages = cultureItems,
             DateFormat = settings.DateFormat,
-            AvailableDateFormats = dateFormatItems
+            AvailableDateFormats = dateFormatItems,
+            TimeFormat = settings.TimeFormat,
+            AvailableTimeFormats = timeFormatItems
         });
     }
 
@@ -184,7 +200,21 @@ public class AccountController(IUserService userService, IRoleProvider roleProvi
             
             settings.AvailableDateFormats.Insert(0, new SelectListItem
             {
-                Text = Resources.MeController_Settings_UseDefaultDateFormat,
+                Text = Resources.MeController_Settings_UseServerDefault,
+                Value = ""
+            });
+
+            settings.AvailableTimeFormats = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "HH:mm:ss", Value = "HH:mm:ss" },
+                new SelectListItem { Text = "HH:mm", Value = "HH:mm" },
+                new SelectListItem { Text = "hh:mm:ss tt", Value = "hh:mm:ss tt" },
+                new SelectListItem { Text = "hh:mm tt", Value = "hh:mm tt" }
+            };
+
+            settings.AvailableTimeFormats.Insert(0, new SelectListItem
+            {
+                Text = Resources.MeController_Settings_UseServerDefault,
                 Value = ""
             });
 
@@ -194,7 +224,8 @@ public class AccountController(IUserService userService, IRoleProvider roleProvi
         await _userSettingsService.SaveSettings(UserModel.Id, new UserSettings
         {
             PreferredLanguage = settings.PreferredLanguage,
-            DateFormat = settings.DateFormat
+            DateFormat = settings.DateFormat,
+            TimeFormat = settings.TimeFormat
         });
 
         return RedirectToAction("Settings");
