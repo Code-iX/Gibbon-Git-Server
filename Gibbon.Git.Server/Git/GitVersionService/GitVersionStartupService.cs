@@ -28,16 +28,19 @@ public class GitVersionStartupService(ILogger<GitVersionStartupService> logger, 
         }
         return;
 
-        var selectedVersion = await SeekVersion();
-
-        if (selectedVersion != null)
-        {
-            _logger.LogInformation($"Selected git version: {selectedVersion.Version}, Path: {selectedVersion.Path}, Architecture: {selectedVersion.Architecture}, Global: {selectedVersion.IsGlobal}");
-        }
-        else
-        {
-            _logger.LogWarning("No suitable git version found.");
-        }
+        // Note: The following code is currently unreachable but preserved for future use.
+        // This code searches for git installations in a "Gits" folder and selects the best version.
+        // It may be needed when supporting multiple git versions or custom git installations.
+        //var selectedVersion = await SeekVersion();
+        //
+        //if (selectedVersion != null)
+        //{
+        //    _logger.LogInformation($"Selected git version: {selectedVersion.Version}, Path: {selectedVersion.Path}, Architecture: {selectedVersion.Architecture}, Global: {selectedVersion.IsGlobal}");
+        //}
+        //else
+        //{
+        //    _logger.LogWarning("No suitable git version found.");
+        //}
     }
 
     private async Task<GitVersionInfo> SeekVersion()
