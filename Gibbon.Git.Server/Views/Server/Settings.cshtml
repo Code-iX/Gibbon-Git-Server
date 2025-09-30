@@ -6,13 +6,13 @@
     ViewBag.Title = Localizer["Settings_Index_Title"];
 }
 
-@Html.SummaryMessage("UpdateSuccess", Localizer["Settings_Index_UpdateSuccess"])
-@Html.SummaryMessage("ResetSuccess", Localizer["Settings_Index_ResetSuccess"])
+@Html.SummaryMessage("UpdateSuccess", Localizer["Settings_Index_UpdateSuccess"].Value)
+@Html.SummaryMessage("ResetSuccess", Localizer["Settings_Index_ResetSuccess"].Value)
 
 @using (Html.BeginForm("Settings", "Server", FormMethod.Post, new { @class = "pure-form pure-form-aligned" }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(false, Localizer["Settings_Index_Failed"])
+    @Html.ValidationSummary(false, Localizer["Settings_Index_Failed"].Value, null)
 
     <fieldset>
         <div class="pure-control-group">

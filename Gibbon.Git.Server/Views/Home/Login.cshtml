@@ -8,7 +8,7 @@
 @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "pure-form pure-form-aligned" }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(false, Localizer["Home_Login_Failed"])
+    @Html.ValidationSummary(false, Localizer["Home_Login_Failed"].Value, null)
 
     <fieldset>
         <div class="pure-control-group">
@@ -35,7 +35,7 @@
             <button type="submit" class="pure-button pure-button-primary"><i class="fa fa-sign-in"></i> @Localizer["Home_Login_Login"]</button>
         </div>
         <div class="pure-controls">
-            @Html.ActionLink(Localizer["Home_Login_ForgotPassword"], "ForgotPassword")
+            @Html.ActionLink(Localizer["Home_Login_ForgotPassword"].Value, "ForgotPassword")
         </div>
     </fieldset>
 }

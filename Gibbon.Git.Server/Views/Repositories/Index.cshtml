@@ -43,7 +43,7 @@
 {
     <div class="summary-success">
         <p>@Localizer["Repository_Create_Success"]</p>
-        <p>@Html.ActionLink(string.Format(Localizer["Repository_Create_Success_Go_To"], TempData["SuccessfullyCreatedRepositoryName"]), "Detail", new { name = TempData["SuccessfullyCreatedRepositoryName"]!.ToString() })</p>
+        <p>@Html.ActionLink(string.Format(Localizer["Repository_Create_Success_Go_To"].Value, TempData["SuccessfullyCreatedRepositoryName"]), "Detail", new { name = TempData["SuccessfullyCreatedRepositoryName"]!.ToString() })</p>
     </div>
 }
 @if (TempData["CloneSuccess"] as bool? == true)

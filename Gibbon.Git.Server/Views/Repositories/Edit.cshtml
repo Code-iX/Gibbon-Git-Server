@@ -29,7 +29,7 @@
 @using (Html.BeginForm("Edit", "Repositories", FormMethod.Post, new { @class = "pure-form pure-form-aligned", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(false, Localizer["Repository_Edit_Fail"])
+    @Html.ValidationSummary(false, Localizer["Repository_Edit_Fail"].Value, null)
     @Html.HiddenFor(m => m.Id)
 
     <fieldset>

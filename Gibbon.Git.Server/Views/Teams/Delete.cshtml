@@ -5,7 +5,7 @@
 
 <h1>@Localizer["Confirm"]</h1>
 <div>
-    <p class="summary-error">@string.Format(Localizer["Delete_ConfirmationText"], Model.Name)</p>
+    <p class="summary-error">@string.Format(Localizer["Delete_ConfirmationText"].Value, Model.Name)</p>
 </div>
 
 @using (Html.BeginForm("Delete", "Teams", FormMethod.Post, new { @class = "pure-form" }))

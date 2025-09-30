@@ -7,7 +7,7 @@
 @using (Html.BeginForm("Clone", "Repositories", new { name = Model.Name }, FormMethod.Post, false, new { @class = "pure-form pure-form-aligned" }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(false, Localizer["Repository_Clone_Fail"])
+    @Html.ValidationSummary(false, Localizer["Repository_Clone_Fail"].Value, null)
 
     <fieldset>
         <div class="pure-control-group">

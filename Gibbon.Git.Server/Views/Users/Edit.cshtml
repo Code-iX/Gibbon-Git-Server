@@ -21,7 +21,7 @@
 @using (Html.BeginForm("Edit", "Users", FormMethod.Post, new { @class = "pure-form pure-form-aligned" }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(false, Localizer["Account_Edit_Unsuccessfull"])
+    @Html.ValidationSummary(false, Localizer["Account_Edit_Unsuccessfull"].Value, null)
     @Html.HiddenFor(m => m.Id)
 
     <fieldset>

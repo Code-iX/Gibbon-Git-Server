@@ -9,7 +9,7 @@
 @using (Html.BeginForm("Create", "Repositories", FormMethod.Post, new { @class = "pure-form pure-form-aligned", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(false, Localizer["Repository_Create_Fail"])
+    @Html.ValidationSummary(false, Localizer["Repository_Create_Fail"].Value, null)
     
     <fieldset>
         <div class="pure-control-group">

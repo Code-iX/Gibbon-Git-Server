@@ -5,12 +5,12 @@
     ViewBag.Title = Localizer["Account_Edit_Title"];
 }
 
-@Html.SummaryMessage("update-success", Localizer["Account_Edit_UpdateSuccess"])
+@Html.SummaryMessage("update-success", Localizer["Account_Edit_UpdateSuccess"].Value)
 
 @using (Html.BeginForm("Edit", "Account", FormMethod.Post, new { @class = "pure-form pure-form-aligned" }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(false, Localizer["Account_Edit_Unsuccessfull"])
+    @Html.ValidationSummary(false, Localizer["Account_Edit_Unsuccessfull"].Value, null)
 
     <fieldset>
         <div class="pure-control-group">

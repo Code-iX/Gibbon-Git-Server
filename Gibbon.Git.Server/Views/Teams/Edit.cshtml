@@ -19,7 +19,7 @@
 @using (Html.BeginForm("Edit", "Teams", FormMethod.Post, new { @class = "pure-form pure-form-aligned" }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(false, Localizer["Team_Edit_Failure"])
+    @Html.ValidationSummary(false, Localizer["Team_Edit_Failure"].Value, null)
     @Html.HiddenFor(m => m.Id)
 
     <fieldset>
