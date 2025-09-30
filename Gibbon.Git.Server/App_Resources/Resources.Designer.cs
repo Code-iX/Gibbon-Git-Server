@@ -2865,5 +2865,23 @@ namespace Gibbon.Git.Server.App_Resources {
                 return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date Format.
+        /// </summary>
+        public static string Settings_Global_DateFormat {
+            get {
+                return ResourceManager.GetString("Settings_Global_DateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preferred date format for displaying dates in the application..
+        /// </summary>
+        public static string Settings_Global_DateFormat_Hint {
+            get {
+                return ResourceManager.GetString("Settings_Global_DateFormat_Hint", resourceCulture);
+            }
+        }
     }
 }

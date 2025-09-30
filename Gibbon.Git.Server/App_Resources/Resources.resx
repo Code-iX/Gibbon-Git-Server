@@ -1075,4 +1075,10 @@ The regular C# string formatting rules apply: To get {} in your link you need to
   <data name="Error_Forbidden_Text" xml:space="preserve">
     <value>Access forbidden</value>
   </data>
+  <data name="Settings_Global_DateFormat" xml:space="preserve">
+    <value>Date Format</value>
+  </data>
+  <data name="Settings_Global_DateFormat_Hint" xml:space="preserve">
+    <value>Preferred date format for displaying dates in the application.</value>
+  </data>
 </root>

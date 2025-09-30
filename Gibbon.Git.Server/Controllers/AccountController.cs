@@ -136,12 +136,21 @@ public class AccountController(IUserService userService, IRoleProvider roleProvi
             Value = ""
         });
 
+        var dateFormatItems = new List<SelectListItem>
+        {
+            new SelectListItem { Text = "yyyy-MM-dd", Value = "yyyy-MM-dd" },
+            new SelectListItem { Text = "dd.MM.yyyy", Value = "dd.MM.yyyy" },
+            new SelectListItem { Text = "MM/dd/yyyy", Value = "MM/dd/yyyy" }
+        };
+
         var settings = await _userSettingsService.GetSettings(UserModel.Id);
 
         return View(new MeSettingsModel
         {
             PreferredLanguage = settings.PreferredLanguage,
-            AvailableLanguages = cultureItems
+            AvailableLanguages = cultureItems,
+            DateFormat = settings.DateFormat,
+            AvailableDateFormats = dateFormatItems
         });
     }
 
@@ -160,12 +169,20 @@ public class AccountController(IUserService userService, IRoleProvider roleProvi
                 })
                 .ToList();
 
+            settings.AvailableDateFormats = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "yyyy-MM-dd", Value = "yyyy-MM-dd" },
+                new SelectListItem { Text = "dd.MM.yyyy", Value = "dd.MM.yyyy" },
+                new SelectListItem { Text = "MM/dd/yyyy", Value = "MM/dd/yyyy" }
+            };
+
             return View(settings);
         }
 
         await _userSettingsService.SaveSettings(UserModel.Id, new UserSettings
         {
-            PreferredLanguage = settings.PreferredLanguage
+            PreferredLanguage = settings.PreferredLanguage,
+            DateFormat = settings.DateFormat
         });
 
         return RedirectToAction("Settings");
