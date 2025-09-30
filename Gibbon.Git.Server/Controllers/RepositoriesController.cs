@@ -27,7 +27,7 @@ namespace Gibbon.Git.Server.Controllers;
 
 [Authorize]
 [TypeFilter(typeof(NormalizeRepositoryNameFilter))]
-public class RepositoriesController(ILogger<RepositoriesController> logger, ITeamService teamRepository, IRepositoryService repositoryService, IUserService userService, IRepositoryPermissionService repositoryPermissionService, IRepositorySynchronizer repositorySynchronizer, ServerSettings serverSettings, IPathResolver pathResolver, IRepositoryBrowserFactory repositoryBrowserFactory)
+public class RepositoriesController(ILogger<RepositoriesController> logger, ITeamService teamRepository, IRepositoryService repositoryService, IUserService userService, IRepositoryPermissionService repositoryPermissionService, IRepositorySynchronizer repositorySynchronizer, ServerSettings serverSettings, IPathResolver pathResolver, IRepositoryBrowserFactory repositoryBrowserFactory, IUserSettingsService userSettingsService)
     : Controller
 {
     private readonly ServerSettings _serverSettings = serverSettings;
@@ -39,9 +39,10 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
     private readonly IRepositoryPermissionService _repositoryPermissionService = repositoryPermissionService;
     private readonly IRepositorySynchronizer _repositorySynchronizer = repositorySynchronizer;
     private readonly IRepositoryBrowserFactory _repositoryBrowserFactory = repositoryBrowserFactory;
+    private readonly IUserSettingsService _userSettingsService = userSettingsService;
     private const int _pageSize = 10;
 
-    public IActionResult Index(string sortGroup = null, string searchString = null)
+    public async Task<IActionResult> Index(string sortGroup = null, string searchString = null)
     {
         var firstList = _repositoryPermissionService
             .GetAllPermittedRepositories(User.Id(), RepositoryAccessLevel.Pull)
@@ -236,7 +237,7 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
 
     [HttpGet("Repositories/{name}/Tree/{**path}")]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult Tree(string name, string version, string path)
+    public async Task<IActionResult> Tree(string name, string version, string path)
     {
         var isApiRequest = HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
 
@@ -246,6 +247,19 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
 
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
         var files = browser.BrowseTree(version, path, out var referenceName, true).ToList();
+
+        // Get user's date format preference with server default fallback
+        var userId = User.Id();
+        var userSettings = await _userSettingsService.GetSettings(userId);
+        var dateFormat = userSettings.DateFormat ?? _serverSettings.DefaultDateFormat;
+        var timeFormat = userSettings.TimeFormat ?? _serverSettings.DefaultTimeFormat;
+
+        // Apply date format to each file
+        foreach (var file in files)
+        {
+            file.DateFormat = dateFormat;
+            file.TimeFormat = timeFormat;
+        }
 
         var readme = files.FirstOrDefault(x => x.Name.Equals("readme.md", StringComparison.OrdinalIgnoreCase));
         var readmeTxt = string.Empty;
@@ -393,12 +407,19 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
 
     [HttpGet("Repositories/{name}/Commits/")]
     [Authorize(Policy = Policies.RepositoryPush)]
-    public IActionResult Commits(string name, [FromQuery] string branch = "master", [FromQuery] int page = 1)
+    public async Task<IActionResult> Commits(string name, [FromQuery] string branch = "master", [FromQuery] int page = 1)
     {
         page = page >= 1 ? page : 1;
         ViewBag.Page = page;
 
         ViewBag.ShowShortMessageOnly = true;
+        
+        // Get user's date format preference with server default fallback
+        var userId = User.Id();
+        var userSettings = await _userSettingsService.GetSettings(userId);
+        ViewBag.DateFormat = userSettings.DateFormat ?? _serverSettings.DefaultDateFormat;
+        ViewBag.TimeFormat = userSettings.TimeFormat ?? _serverSettings.DefaultTimeFormat;
+        
         var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
         var commits = browser.GetCommits(branch, page, _pageSize, out var referenceName, out var totalCount);

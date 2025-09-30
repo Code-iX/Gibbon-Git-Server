@@ -941,4 +941,34 @@
   <data name="Home_About_Title" xml:space="preserve">
     <value>О программе</value>
   </data>
+  <data name="Settings_Global_DateFormat" xml:space="preserve">
+    <value>Формат даты</value>
+  </data>
+  <data name="Settings_Global_DateFormat_Hint" xml:space="preserve">
+    <value>Предпочтительный формат даты для отображения дат в приложении.</value>
+  </data>
+  <data name="Settings_Global_TimeFormat" xml:space="preserve">
+    <value>Формат времени</value>
+  </data>
+  <data name="Settings_Global_TimeFormat_Hint" xml:space="preserve">
+    <value>Предпочтительный формат времени для отображения времени в приложении.</value>
+  </data>
+  <data name="MeController_Settings_UseServerDefault" xml:space="preserve">
+    <value>Использовать значение по умолчанию сервера</value>
+  </data>
+  <data name="Repository_Detail_LastCommitDate" xml:space="preserve">
+    <value>Последний коммит</value>
+  </data>
+  <data name="Settings_Global_DefaultDateFormat" xml:space="preserve">
+    <value>Формат даты по умолчанию</value>
+  </data>
+  <data name="Settings_Global_DefaultDateFormat_Hint" xml:space="preserve">
+    <value>Формат даты по умолчанию сервера для пользователей, которые не указывают свои предпочтения.</value>
+  </data>
+  <data name="Settings_Global_DefaultTimeFormat" xml:space="preserve">
+    <value>Формат времени по умолчанию</value>
+  </data>
+  <data name="Settings_Global_DefaultTimeFormat_Hint" xml:space="preserve">
+    <value>Формат времени по умолчанию сервера для пользователей, которые не указывают свои предпочтения.</value>
+  </data>
 </root>

@@ -8,6 +8,8 @@ public sealed class ServerSettingsEntity
     public bool AllowUserRepositoryCreation { get; set; }
     public bool AllowAnonymousRegistration { get; set; }
     public string DefaultLanguage { get; set; }
+    public string DefaultDateFormat { get; set; }
+    public string DefaultTimeFormat { get; set; }
     public string SiteTitle { get; set; }
     public string SiteLogoUrl { get; set; }
     public string SiteCssUrl { get; set; }

@@ -20,6 +20,12 @@ public class ServerSettingsModel
     [Display(ResourceType = typeof(Resources), Name = "Settings_Global_DefaultLanguage")]
     public string DefaultLanguage { get; set; }
 
+    [Display(ResourceType = typeof(Resources), Name = "Settings_Global_DefaultDateFormat")]
+    public string DefaultDateFormat { get; set; }
+
+    [Display(ResourceType = typeof(Resources), Name = "Settings_Global_DefaultTimeFormat")]
+    public string DefaultTimeFormat { get; set; }
+
     [Display(ResourceType = typeof(Resources), Name = "Settings_Global_SiteTitle")]
     public string SiteTitle { get; set; }
 
@@ -41,4 +47,6 @@ public class ServerSettingsModel
     public string LinksRegex { get; set; }
 
     public List<SelectListItem> AvailableLanguages { get; set; }
+    public List<SelectListItem> AvailableDateFormats { get; set; }
+    public List<SelectListItem> AvailableTimeFormats { get; set; }
 }

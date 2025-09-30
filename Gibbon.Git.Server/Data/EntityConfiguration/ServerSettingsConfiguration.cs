@@ -28,6 +28,12 @@ public class ServerSettingsConfiguration : IEntityTypeConfiguration<ServerSettin
             .IsRequired()
             .HasMaxLength(10);
 
+        builder.Property(s => s.DefaultDateFormat)
+            .HasMaxLength(20);
+
+        builder.Property(s => s.DefaultTimeFormat)
+            .HasMaxLength(20);
+
         builder.Property(s => s.SiteTitle)
             .HasMaxLength(100);
 

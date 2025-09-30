@@ -120,19 +120,40 @@ public class ServerController(IOptions<ApplicationSettings> options, IGitDownloa
             })
             .ToList();
 
+        var dateFormatItems = new List<SelectListItem>
+        {
+            new SelectListItem { Text = "Default (culture-specific)", Value = "" },
+            new SelectListItem { Text = "yyyy-MM-dd", Value = "yyyy-MM-dd" },
+            new SelectListItem { Text = "dd.MM.yyyy", Value = "dd.MM.yyyy" },
+            new SelectListItem { Text = "MM/dd/yyyy", Value = "MM/dd/yyyy" }
+        };
+
+        var timeFormatItems = new List<SelectListItem>
+        {
+            new SelectListItem { Text = "Default (culture-specific)", Value = "" },
+            new SelectListItem { Text = "HH:mm:ss", Value = "HH:mm:ss" },
+            new SelectListItem { Text = "HH:mm", Value = "HH:mm" },
+            new SelectListItem { Text = "hh:mm:ss tt", Value = "hh:mm:ss tt" },
+            new SelectListItem { Text = "hh:mm tt", Value = "hh:mm tt" }
+        };
+
         return View(new ServerSettingsModel
         {
             AllowAnonymousPush = settings.AllowAnonymousPush,
             AllowAnonymousRegistration = settings.AllowAnonymousRegistration,
             AllowUserRepositoryCreation = settings.AllowUserRepositoryCreation,
             DefaultLanguage = settings.DefaultLanguage,
+            DefaultDateFormat = settings.DefaultDateFormat,
+            DefaultTimeFormat = settings.DefaultTimeFormat,
             SiteTitle = settings.SiteTitle,
             SiteLogoUrl = settings.SiteLogoUrl,
             SiteCssUrl = settings.SiteCssUrl,
             IsCommitAuthorAvatarVisible = settings.IsCommitAuthorAvatarVisible,
             LinksRegex = settings.LinksRegex,
             LinksUrl = settings.LinksUrl,
-            AvailableLanguages = cultureItems
+            AvailableLanguages = cultureItems,
+            AvailableDateFormats = dateFormatItems,
+            AvailableTimeFormats = timeFormatItems
         });
     }
 
@@ -163,6 +184,24 @@ public class ServerController(IOptions<ApplicationSettings> options, IGitDownloa
                     Value = cultureInfo.Name
                 })
                 .ToList();
+
+            model.AvailableDateFormats = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Default (culture-specific)", Value = "" },
+                new SelectListItem { Text = "yyyy-MM-dd", Value = "yyyy-MM-dd" },
+                new SelectListItem { Text = "dd.MM.yyyy", Value = "dd.MM.yyyy" },
+                new SelectListItem { Text = "MM/dd/yyyy", Value = "MM/dd/yyyy" }
+            };
+
+            model.AvailableTimeFormats = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Default (culture-specific)", Value = "" },
+                new SelectListItem { Text = "HH:mm:ss", Value = "HH:mm:ss" },
+                new SelectListItem { Text = "HH:mm", Value = "HH:mm" },
+                new SelectListItem { Text = "hh:mm:ss tt", Value = "hh:mm:ss tt" },
+                new SelectListItem { Text = "hh:mm tt", Value = "hh:mm tt" }
+            };
+
             return View(model);
         }
 
@@ -172,6 +211,8 @@ public class ServerController(IOptions<ApplicationSettings> options, IGitDownloa
             AllowAnonymousRegistration = model.AllowAnonymousRegistration,
             AllowUserRepositoryCreation = model.AllowUserRepositoryCreation,
             DefaultLanguage = model.DefaultLanguage,
+            DefaultDateFormat = model.DefaultDateFormat,
+            DefaultTimeFormat = model.DefaultTimeFormat,
             SiteTitle = model.SiteTitle,
             SiteLogoUrl = model.SiteLogoUrl,
             SiteCssUrl = model.SiteCssUrl,

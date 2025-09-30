@@ -83,6 +83,7 @@ services.AddSingleton<IGitVersionService, GitVersionService>();
 services.AddScoped<IDatabaseHelperService, DatabaseHelperService>();
 services.AddScoped<IPasswordService, PasswordService>();
 services.AddScoped<ICultureService, CultureService>();
+services.AddScoped<IDateFormatService, DateFormatService>();
 services.AddScoped<IUserService, UserService>();
 services.AddScoped<IRoleProvider, RoleProvider>();
 services.AddScoped<IAuthenticationProvider, CookieAuthenticationProvider>();
