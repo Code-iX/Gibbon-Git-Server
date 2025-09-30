@@ -1,4 +1,6 @@
-﻿namespace Gibbon.Git.Server.Services;
+﻿using System.Globalization;
+
+namespace Gibbon.Git.Server.Services;
 
 public interface IUserOutputService
 {
@@ -30,14 +32,14 @@ public class UserOutputService : IUserOutputService
 
         if (suffixIndex == 0)
         {
-            return $"{readable:F0} {suffixes[suffixIndex]}";
+            return $"{readable.ToString("F0", CultureInfo.InvariantCulture)} {suffixes[suffixIndex]}";
         }
 
         return readable switch
         {
-            >= 100 => $"{readable:F0} {suffixes[suffixIndex]}",
-            >= 10 => $"{readable:F1} {suffixes[suffixIndex]}",
-            _ => $"{readable:F2} {suffixes[suffixIndex]}"
+            >= 100 => $"{readable.ToString("F0", CultureInfo.InvariantCulture)} {suffixes[suffixIndex]}",
+            >= 10 => $"{readable.ToString("F1", CultureInfo.InvariantCulture)} {suffixes[suffixIndex]}",
+            _ => $"{readable.ToString("F2", CultureInfo.InvariantCulture)} {suffixes[suffixIndex]}"
         };
     }
 }
