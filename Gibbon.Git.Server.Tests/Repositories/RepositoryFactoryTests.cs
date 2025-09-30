@@ -29,7 +29,7 @@ public class RepositoryBrowserFactoryTests : TestBase
     public void Create_ShouldThrowArgumentException_WhenRepositoryPathIsNull()
     {
         // Act
-        Assert.ThrowsException<ArgumentNullException>(() => _factory.Create(null));
+        Assert.ThrowsExactly<ArgumentNullException>(() => _factory.Create(null));
     }
 
     [TestMethod]
@@ -37,7 +37,7 @@ public class RepositoryBrowserFactoryTests : TestBase
     public void Create_ShouldThrowArgumentException_WhenRepositoryPathIsEmpty()
     {
         // Act
-        Assert.ThrowsException<ArgumentException>(() => _factory.Create(string.Empty));
+        Assert.ThrowsExactly<ArgumentException>(() => _factory.Create(string.Empty));
     }
 
     [TestMethod]

@@ -52,7 +52,7 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
 
         // Act & Assert
         Context.Users.Add(user);
-        Assert.ThrowsException<DbUpdateException>(() => Context.SaveChanges());
+        Assert.ThrowsExactly<DbUpdateException>(() => Context.SaveChanges());
     }
 
     [TestMethod]
@@ -87,7 +87,7 @@ public abstract class UserDbTests<TConnectionFactory> : GibbonDbContextTestsBase
 
         // Assert
         Context.Users.Add(user2);
-        Assert.ThrowsException<DbUpdateException>(() => Context.SaveChanges());
+        Assert.ThrowsExactly<DbUpdateException>(() => Context.SaveChanges());
     }
 
     [TestMethod]

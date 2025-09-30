@@ -30,8 +30,8 @@ public class MarkdownHelpersTests
 
         // Assert
         var html = result.ToString();
-        Assert.IsTrue(html.Contains("<a"), "Should generate anchor tag for text link");
-        Assert.IsTrue(html.Contains("Link to file"), "Should preserve link text");
+        Assert.IsTrue(html?.Contains("<a") ?? false, "Should generate anchor tag for text link");
+        Assert.IsTrue(html?.Contains("Link to file") ?? false, "Should preserve link text");
     }
 
     [TestMethod]
@@ -45,8 +45,8 @@ public class MarkdownHelpersTests
 
         // Assert
         var html = result.ToString();
-        Assert.IsTrue(html.Contains("<img"), "Should generate img tag for image link");
-        Assert.IsTrue(html.Contains("Alt text"), "Should preserve alt text");
+        Assert.IsTrue(html?.Contains("<img") ?? false, "Should generate img tag for image link");
+        Assert.IsTrue(html?.Contains("Alt text") ?? false, "Should preserve alt text");
     }
 
     [TestMethod]
@@ -60,9 +60,9 @@ public class MarkdownHelpersTests
 
         // Assert
         var html = result.ToString();
-        Assert.IsTrue(html.Contains("<img"), "Should generate img tag");
-        Assert.IsTrue(html.Contains("<a"), "Should generate anchor tag");
-        Assert.IsTrue(html.Contains("text link"), "Should preserve link text");
+        Assert.IsTrue(html?.Contains("<img") ?? false, "Should generate img tag");
+        Assert.IsTrue(html?.Contains("<a") ?? false, "Should generate anchor tag");
+        Assert.IsTrue(html?.Contains("text link") ?? false, "Should preserve link text");
     }
 
     [TestMethod]
@@ -76,14 +76,14 @@ public class MarkdownHelpersTests
 
         // Assert
         var html = result.ToString();
-        Assert.IsTrue(html.Contains("https://example.com"), "Should preserve absolute URLs");
+        Assert.IsTrue(html?.Contains("https://example.com") ?? false, "Should preserve absolute URLs");
     }
 
     [TestMethod]
     public void MarkdownToHtml_ShouldReturnEmptyForNullOrEmptyInput()
     {
         // Arrange & Act & Assert
-        var result1 = ProcessMarkdown(null);
+        var result1 = ProcessMarkdown(null!);
         var result2 = ProcessMarkdown("");
 
         Assert.AreEqual(HtmlString.Empty, result1);

@@ -15,7 +15,7 @@ public class AvatarServiceTests
         _avatarService = new AvatarService();
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow("  beau@Automattic.com  ")]
     [DataRow("beau@automattic.com")]
     [DataRow("BEAU@AUTOMATTIC.COM")]

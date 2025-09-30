@@ -161,7 +161,7 @@ public class EfSqliteRepositoryRepositoryTest : DbTestBase<SqliteConnectionFacto
     {
         var newRepo1 = MakeRepo("Repo1");
         _repositoryService.Create(newRepo1);
-        Assert.ThrowsException<InvalidOperationException>(() => _repositoryService.GetRepository(17));
+        Assert.ThrowsExactly<InvalidOperationException>(() => _repositoryService.GetRepository(17));
     }
 
     [TestMethod]
