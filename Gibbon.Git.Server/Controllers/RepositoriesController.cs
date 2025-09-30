@@ -248,11 +248,11 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
         using var browser = _repositoryBrowserFactory.Create(repo.Name);
         var files = browser.BrowseTree(version, path, out var referenceName, true).ToList();
 
-        // Get user's date format preference
+        // Get user's date format preference with server default fallback
         var userId = User.Id();
         var userSettings = await _userSettingsService.GetSettings(userId);
-        var dateFormat = userSettings.DateFormat;
-        var timeFormat = userSettings.TimeFormat;
+        var dateFormat = userSettings.DateFormat ?? _serverSettings.DefaultDateFormat;
+        var timeFormat = userSettings.TimeFormat ?? _serverSettings.DefaultTimeFormat;
 
         // Apply date format to each file
         foreach (var file in files)
@@ -414,11 +414,11 @@ public class RepositoriesController(ILogger<RepositoriesController> logger, ITea
 
         ViewBag.ShowShortMessageOnly = true;
         
-        // Get user's date format preference
+        // Get user's date format preference with server default fallback
         var userId = User.Id();
         var userSettings = await _userSettingsService.GetSettings(userId);
-        ViewBag.DateFormat = userSettings.DateFormat;
-        ViewBag.TimeFormat = userSettings.TimeFormat;
+        ViewBag.DateFormat = userSettings.DateFormat ?? _serverSettings.DefaultDateFormat;
+        ViewBag.TimeFormat = userSettings.TimeFormat ?? _serverSettings.DefaultTimeFormat;
         
         var repo = _repositoryService.GetRepository(name);
         using var browser = _repositoryBrowserFactory.Create(repo.Name);

@@ -122,7 +122,7 @@ public class ServerController(IOptions<ApplicationSettings> options, IGitDownloa
 
         var dateFormatItems = new List<SelectListItem>
         {
-            new SelectListItem { Text = Resources.MeController_Settings_UseServerDefault, Value = "" },
+            new SelectListItem { Text = "Default (culture-specific)", Value = "" },
             new SelectListItem { Text = "yyyy-MM-dd", Value = "yyyy-MM-dd" },
             new SelectListItem { Text = "dd.MM.yyyy", Value = "dd.MM.yyyy" },
             new SelectListItem { Text = "MM/dd/yyyy", Value = "MM/dd/yyyy" }
@@ -130,7 +130,7 @@ public class ServerController(IOptions<ApplicationSettings> options, IGitDownloa
 
         var timeFormatItems = new List<SelectListItem>
         {
-            new SelectListItem { Text = Resources.MeController_Settings_UseServerDefault, Value = "" },
+            new SelectListItem { Text = "Default (culture-specific)", Value = "" },
             new SelectListItem { Text = "HH:mm:ss", Value = "HH:mm:ss" },
             new SelectListItem { Text = "HH:mm", Value = "HH:mm" },
             new SelectListItem { Text = "hh:mm:ss tt", Value = "hh:mm:ss tt" },
@@ -187,7 +187,7 @@ public class ServerController(IOptions<ApplicationSettings> options, IGitDownloa
 
             model.AvailableDateFormats = new List<SelectListItem>
             {
-                new SelectListItem { Text = Resources.MeController_Settings_UseServerDefault, Value = "" },
+                new SelectListItem { Text = "Default (culture-specific)", Value = "" },
                 new SelectListItem { Text = "yyyy-MM-dd", Value = "yyyy-MM-dd" },
                 new SelectListItem { Text = "dd.MM.yyyy", Value = "dd.MM.yyyy" },
                 new SelectListItem { Text = "MM/dd/yyyy", Value = "MM/dd/yyyy" }
@@ -195,7 +195,7 @@ public class ServerController(IOptions<ApplicationSettings> options, IGitDownloa
 
             model.AvailableTimeFormats = new List<SelectListItem>
             {
-                new SelectListItem { Text = Resources.MeController_Settings_UseServerDefault, Value = "" },
+                new SelectListItem { Text = "Default (culture-specific)", Value = "" },
                 new SelectListItem { Text = "HH:mm:ss", Value = "HH:mm:ss" },
                 new SelectListItem { Text = "HH:mm", Value = "HH:mm" },
                 new SelectListItem { Text = "hh:mm:ss tt", Value = "hh:mm:ss tt" },
