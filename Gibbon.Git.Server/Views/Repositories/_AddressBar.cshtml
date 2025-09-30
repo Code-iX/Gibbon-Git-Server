@@ -3,7 +3,7 @@
 }
 
 <p class="breadcrumbs">
-    <em>@Html.ActionLink(Resources.Repository_AddressBar_Root, "Tree", new { name = Model.Name, path = "", version =  (string)ViewData["ReferenceName"] })</em>
+    <em>@Html.ActionLink(Localizer["Repository_AddressBar_Root"], "Tree", new { name = Model.Name, path = "", version =  (string)ViewData["ReferenceName"] })</em>
     @if (path != null)
     {
         <text>/</text>

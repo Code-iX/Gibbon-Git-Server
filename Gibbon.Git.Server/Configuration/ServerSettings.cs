@@ -19,6 +19,6 @@ public sealed class ServerSettings
 
     public bool HasLinks() => !string.IsNullOrWhiteSpace(LinksRegex);
 
-    public string GetSiteTitle() => !string.IsNullOrWhiteSpace(SiteTitle) ? SiteTitle : Resources.Product_Name;
+    public string GetSiteTitle() => !string.IsNullOrWhiteSpace(SiteTitle) ? SiteTitle : "Gibbon Git Server";
 
 }

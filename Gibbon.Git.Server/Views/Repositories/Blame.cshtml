@@ -3,7 +3,7 @@
 @inject IUserOutputService UserOutputService
 @{
     Layout = "~/Views/Repositories/_RepositoriesLayout.cshtml";
-    ViewBag.Title = Resources.Repository_Blame_Title;
+    ViewBag.Title = Localizer["Repository_Blame_Title"];
 }
 
 @if (Model == null)
@@ -19,16 +19,16 @@
     <div class="controls">
         <span>@Model.LineCount lines | @UserOutputService.GetFileSizeString(Model.FileSize)</span>
         <a href="@Url.Action("Blob", new { name = ViewBag.Name, version = Model.TreeName, path = Model.Path })">
-            <i class="fa fa-code"></i> @Resources.Repository_Tree_Blob
+            <i class="fa fa-code"></i> @Localizer["Repository_Tree_Blob"]
         </a>
         <a href="@Url.Action("History", new { name = ViewBag.Name, version = Model.TreeName, path = Model.Path })">
-            <i class="fa fa-history"></i> @Resources.Repository_Tree_History
+            <i class="fa fa-history"></i> @Localizer["Repository_Tree_History"]
         </a>
         <a href="@Url.Action("Raw", new { name = ViewBag.Name, version = Model.TreeName, path = Model.Path, display = true })">
-            <i class="fa fa-file-text"></i> @Resources.Repository_Tree_RawDisplay
+            <i class="fa fa-file-text"></i> @Localizer["Repository_Tree_RawDisplay"]
         </a>
         <a href="@Url.Action("Raw", new { name = ViewBag.Name, version = Model.TreeName, path = Model.Path })">
-            <i class="fa fa-download"></i> @Resources.Repository_Tree_Download
+            <i class="fa fa-download"></i> @Localizer["Repository_Tree_Download"]
         </a>
     </div>
     <div class="blame">

@@ -27,7 +27,7 @@ internal sealed class CultureService(ServerSettings serverSettings, IUserSetting
 
     public async Task<List<CultureInfo>> GetSupportedCultures()
     {
-        var resourceFilePath = Path.Combine(_webHostEnvironment.ContentRootPath, "App_Resources");
+        var resourceFilePath = Path.Combine(_webHostEnvironment.ContentRootPath, "Resources");
 
         return Directory.GetFiles(resourceFilePath, "Resources.*.resx")
             .Select(f => Path.GetFileNameWithoutExtension(f).Split('.')[1])

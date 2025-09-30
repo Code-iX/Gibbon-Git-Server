@@ -1,16 +1,16 @@
 ﻿@using Gibbon.Git.Server.Extensions
 @model List<TeamDetailModel>
 @{
-    ViewBag.Title = Resources.Team_Index_Title;
+    ViewBag.Title = Localizer["Team_Index_Title"];
 }
 
 <div class="pure-g">
     <div class="pure-u-3-5">
-        <h1>@Resources.Team_Index_Title</h1>
+        <h1>@Localizer["Team_Index_Title"]</h1>
     </div>
     <div class="pure-u-2-5 add">
         <a class="pure-button pure-button-primary" href="@Url.Action("Create")">
-            <i class="fa fa-plus-circle"></i> @Resources.Team_Index_CreateNew
+            <i class="fa fa-plus-circle"></i> @Localizer["Team_Index_CreateNew"]
         </a>
     </div>
 </div>
@@ -18,13 +18,13 @@
 @if (TempData["CreateSuccess"] != null && (bool)TempData["CreateSuccess"])
 {
     <div class="summary-success">
-        <p id="@TempData["NewTeamId"]">@Resources.Team_Create_Success</p>
+        <p id="@TempData["NewTeamId"]">@Localizer["Team_Create_Success"]</p>
     </div>
 }
 @if (TempData["DeleteSuccess"] != null && (bool)TempData["DeleteSuccess"])
 {
     <div class="summary-success">
-        <p>@Resources.Team_Delete_Success</p>
+        <p>@Localizer["Team_Delete_Success"]</p>
     </div>
 }
 
@@ -45,8 +45,8 @@
                     <td>@Html.ActionLink(item.Name, "Detail", new { teamname = item.Name }, new { @class = "detail" })</td>
                     <td>@(item.Description is { Length: > 100 } ? item.Description[..100] + " (...) " : item.Description)</td>
                     <td class="pull-right">
-                        <a class="edit" href="@Url.Action("Edit", new { teamname = item.Name })" title="@Resources.Grid_Edit"><i class="fa fa-pencil"></i></a>
-                        <a class="delete" href="@Url.Action("Delete", new { teamname = item.Name })" title="@Resources.Grid_Delete"><i class="fa fa-trash"></i></a>
+                        <a class="edit" href="@Url.Action("Edit", new { teamname = item.Name })" title="@Localizer["Grid_Edit"]"><i class="fa fa-pencil"></i></a>
+                        <a class="delete" href="@Url.Action("Delete", new { teamname = item.Name })" title="@Localizer["Grid_Delete"]"><i class="fa fa-trash"></i></a>
                     </td>
                 </tr>
             }

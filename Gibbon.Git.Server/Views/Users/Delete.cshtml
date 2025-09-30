@@ -1,10 +1,10 @@
 ﻿@model Gibbon.Git.Server.Models.UserModel
 @{
-    ViewBag.Title = Resources.Delete_Title;
+    ViewBag.Title = Localizer["Delete_Title"];
 }
-<h1>@Resources.Confirm</h1>
+<h1>@Localizer["Confirm"]</h1>
 <div>
-    <p class="summary-error">@Resources.Delete_ConfirmationText.Replace("{0}", Model.DisplayName)</p>
+    <p class="summary-error">@Localizer["Delete_ConfirmationText"].Replace("{0}", Model.DisplayName)</p>
 </div>
 
 @using (Html.BeginForm("Delete", "Users", FormMethod.Post, new { @class = "pure-form" }))
@@ -13,8 +13,8 @@
     <fieldset class="deleteForm">
         @Html.HiddenFor(m => m.Id)
         <div class="pure-controls">
-            <a class="pure-button" href="@Url.Action("Index")"><i class="fa fa-long-arrow-left"></i> @Resources.Delete_Back</a>
-            <button type="submit" class="pure-button pure-button-primary"><i class="fa fa-trash-o"></i> @Resources.Delete_Confirm</button>
+            <a class="pure-button" href="@Url.Action("Index")"><i class="fa fa-long-arrow-left"></i> @Localizer["Delete_Back"]</a>
+            <button type="submit" class="pure-button pure-button-primary"><i class="fa fa-trash-o"></i> @Localizer["Delete_Confirm"]</button>
         </div>
     </fieldset>
 }

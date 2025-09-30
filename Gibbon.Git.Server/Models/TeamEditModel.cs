@@ -7,16 +7,16 @@ public class TeamEditModel
 {
     public int Id { get; set; }
 
-    [Remote("UniqueNameTeam", "Validation", AdditionalFields = "Id", ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Duplicate_Name")]
-    [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Required")]
-    [StringLength(50, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_StringLength")]
-    [Display(ResourceType = typeof(Resources), Name = "Team_Detail_Name")]
+    [Remote("UniqueNameTeam", "Validation", AdditionalFields = "Id", ErrorMessage = "Validation_Duplicate_Name")]
+    [Required(ErrorMessage = "Validation_Required")]
+    [StringLength(50, ErrorMessage = "Validation_StringLength")]
+    [Display(Name = "Team_Detail_Name")]
     public string Name { get; set; }
 
-    [Display(ResourceType = typeof(Resources), Name = "Team_Detail_Description")]
+    [Display(Name = "Team_Detail_Description")]
     public string Description { get; set; }
 
-    [Display(ResourceType = typeof(Resources), Name = "Team_Detail_Members")]
+    [Display(Name = "Team_Detail_Members")]
     public UserModel[] AllUsers { get; set; }
 
     public UserModel[] SelectedUsers { get; set; }

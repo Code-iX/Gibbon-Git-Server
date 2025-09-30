@@ -3,41 +3,41 @@
 @model Gibbon.Git.Server.Models.ServerSettingsModel
 @{
     Layout = "_ServerLayout";
-    ViewBag.Title = Resources.Settings_Index_Title;
+    ViewBag.Title = Localizer["Settings_Index_Title"];
 }
 
-@Html.SummaryMessage("UpdateSuccess", Resources.Settings_Index_UpdateSuccess)
-@Html.SummaryMessage("ResetSuccess", Resources.Settings_Index_ResetSuccess)
+@Html.SummaryMessage("UpdateSuccess", Localizer["Settings_Index_UpdateSuccess"])
+@Html.SummaryMessage("ResetSuccess", Localizer["Settings_Index_ResetSuccess"])
 
 @using (Html.BeginForm("Settings", "Server", FormMethod.Post, new { @class = "pure-form pure-form-aligned" }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(false, Resources.Settings_Index_Failed)
+    @Html.ValidationSummary(false, Localizer["Settings_Index_Failed"])
 
     <fieldset>
         <div class="pure-control-group">
             @Html.LabelFor(m => m.SiteTitle)
             @Html.TextBoxFor(m => m.SiteTitle, new { @class = "medium", autofocus = "" })
-            <i class="fa fa-info-circle" title="@Resources.Settings_Global_SiteTitle_Hint"></i>
+            <i class="fa fa-info-circle" title="@Localizer["Settings_Global_SiteTitle_Hint"]"></i>
         </div>
         <div class="pure-control-group">
             @Html.LabelFor(m => m.SiteLogoUrl)
             @Html.TextBoxFor(m => m.SiteLogoUrl, new { @class = "medium", autofocus = "" })
-            <i class="fa fa-info-circle" title="@Resources.Settings_Global_SiteLogoUrl_Hint"></i>
+            <i class="fa fa-info-circle" title="@Localizer["Settings_Global_SiteLogoUrl_Hint"]"></i>
         </div>
         <div class="pure-control-group">
             @Html.LabelFor(m => m.SiteCssUrl)
             @Html.TextBoxFor(m => m.SiteCssUrl, new { @class = "medium", autofocus = "" })
-            <i class="fa fa-info-circle" title="@Resources.Settings_Global_SiteCssUrl_Hint"></i>
+            <i class="fa fa-info-circle" title="@Localizer["Settings_Global_SiteCssUrl_Hint"]"></i>
         </div>
         <div class="pure-control-group">
             @Html.LabelFor(m => m.DefaultLanguage)
             @Html.DropDownListFor(m => m.DefaultLanguage, Model.AvailableLanguages, new { @class = "medium", autofocus = "" })
-            <i class="fa fa-info-circle" title="@Resources.Settings_Global_DefaultLanguage_Hint"></i>
+            <i class="fa fa-info-circle" title="@Localizer["Settings_Global_DefaultLanguage_Hint"]"></i>
         </div>
         <div class="pure-controls">
-            <label for="AllowAnonymousRegistration" class="pure-checkbox">@Html.CheckBoxFor(m => m.AllowAnonymousRegistration) @Model.GetType().GetDisplayValue("AllowAnonymousRegistration") <i class="fa fa-info-circle" title="@Resources.Settings_Global_AllowAnonymousRegistration_Hint"></i></label>
-            <label for="AllowUserRepositoryCreation" class="pure-checkbox">@Html.CheckBoxFor(m => m.AllowUserRepositoryCreation) @Model.GetType().GetDisplayValue("AllowUserRepositoryCreation") <i class="fa fa-info-circle" title="@Resources.Settings_Global_AllowUserRepositoryCreation_Hint"></i></label>
+            <label for="AllowAnonymousRegistration" class="pure-checkbox">@Html.CheckBoxFor(m => m.AllowAnonymousRegistration) @Model.GetType().GetDisplayValue("AllowAnonymousRegistration") <i class="fa fa-info-circle" title="@Localizer["Settings_Global_AllowAnonymousRegistration_Hint"]"></i></label>
+            <label for="AllowUserRepositoryCreation" class="pure-checkbox">@Html.CheckBoxFor(m => m.AllowUserRepositoryCreation) @Model.GetType().GetDisplayValue("AllowUserRepositoryCreation") <i class="fa fa-info-circle" title="@Localizer["Settings_Global_AllowUserRepositoryCreation_Hint"]"></i></label>
             <label for="AllowAnonymousPush" class="pure-checkbox">@Html.CheckBoxFor(m => m.AllowAnonymousPush) @Model.GetType().GetDisplayValue("AllowAnonymousPush")</label>
             <label for="IsCommitAuthorAvatarVisible" class="pure-checkbox">@Html.CheckBoxFor(m => m.IsCommitAuthorAvatarVisible) @Model.GetType().GetDisplayValue("IsCommitAuthorAvatarVisible")</label>
         </div>
@@ -49,11 +49,11 @@
         <div class="pure-control-group">
             @Html.LabelFor(m => m.LinksUrl)
             @Html.TextBoxFor(m => m.LinksUrl, new { @class = "medium", autofocus = "" })
-            <i class="fa fa-info-circle" title="@Resources.Settings_Global_LinksUrl_Hint"></i>
+            <i class="fa fa-info-circle" title="@Localizer["Settings_Global_LinksUrl_Hint"]"></i>
         </div>
         <div class="pure-controls">
             <button type="submit" class="pure-button pure-button-primary">
-                <i class="fa fa-save"></i>@Resources.Settings_Index_Save
+                <i class="fa fa-save"></i>@Localizer["Settings_Index_Save"]
             </button>
         </div>
     </fieldset>
@@ -66,7 +66,7 @@
         <form asp-action="ResetSettings" method="post" onsubmit="return confirmReset();" class="inline-form">
             @Html.AntiForgeryToken()
             <button type="submit" class="pure-button">
-                <i class="fa fa-undo"></i> @Resources.Settings_Index_Reset
+                <i class="fa fa-undo"></i> @Localizer["Settings_Index_Reset"]
             </button>
         </form>
 
@@ -77,7 +77,7 @@
 @section Scripts {
     <script>
         function confirmReset() {
-            return confirm("@Html.Raw(Resources.Settings_Index_ResetConfirmation)");
+            return confirm("@Html.Raw(Localizer["Settings_Index_ResetConfirmation"])");
         }
     </script>
 }

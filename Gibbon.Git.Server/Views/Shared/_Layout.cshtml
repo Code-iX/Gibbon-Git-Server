@@ -53,13 +53,13 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         @await Component.InvokeAsync("RepositoryList")
-                        <li><a href="@Url.Action("Index", "Repositories")" class="repository"><i class="fa fa-hdd-o"></i> @Resources.Layout_Repositories</a></li>
+                        <li><a href="@Url.Action("Index", "Repositories")" class="repository"><i class="fa fa-hdd-o"></i> @Localizer["Layout_Repositories"]</a></li>
                     }
                     @if (User.IsInRole(Roles.Admin))
                     {
-                        <li><a href="@Url.Action("Index", "Users")" class="users"><i class="fa fa-user"></i> @Resources.Layout_AdministrationUsers</a></li>
-                        <li><a href="@Url.Action("Index", "Teams")" class="teams"><i class="fa fa-group"></i> @Resources.Layout_AdministrationTeams</a></li>
-                        <li><a href="@Url.Action("Index", "Server")" class="settings"><i class="fa fa-gears"></i> @Resources.Layout_AdministrationServer</a></li>
+                        <li><a href="@Url.Action("Index", "Users")" class="users"><i class="fa fa-user"></i> @Localizer["Layout_AdministrationUsers"]</a></li>
+                        <li><a href="@Url.Action("Index", "Teams")" class="teams"><i class="fa fa-group"></i> @Localizer["Layout_AdministrationTeams"]</a></li>
+                        <li><a href="@Url.Action("Index", "Server")" class="settings"><i class="fa fa-gears"></i> @Localizer["Layout_AdministrationServer"]</a></li>
                     }
                     @await Component.InvokeAsync("UserDisplay")
                 </ul>
@@ -72,9 +72,9 @@
 
         <div class="footer">
             <p>
-                @Resources.Product_Name
+                @Localizer["Product_Name"]
                 &bull; &copy; 2024
-                &bull; <a href="http://code-ix.github.io/Gibbon-Git-Server" target="_blank">@Resources.Home</a>
+                &bull; <a href="http://code-ix.github.io/Gibbon-Git-Server" target="_blank">@Localizer["Home"]</a>
                 &bull; <a href="https://github.com/Code-iX/Gibbon-Git-Server" target="_blank">GitHub</a>
                 @if (User.IsInRole(Roles.Admin))
                 {

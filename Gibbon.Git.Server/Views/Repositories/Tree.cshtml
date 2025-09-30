@@ -1,7 +1,7 @@
 ﻿@model RepositoryTreeModel
 @{
     Layout = "~/Views/Repositories/_RepositoriesLayout.cshtml";
-    ViewBag.Title = Resources.Repository_Tree_Title;
+    ViewBag.Title = Localizer["Repository_Tree_Title"];
 }
 
 @if (Model == null)
@@ -78,7 +78,7 @@
         <ul>
             <li>
                 <a href="@Url.Action("Download", new { version = Model.Branch, path = Model.Path })">
-                    <i class="fa fa-download"></i>@Resources.Repository_Tree_Zip
+                    <i class="fa fa-download"></i>@Localizer["Repository_Tree_Zip"]
                 </a>
             </li>
         </ul>

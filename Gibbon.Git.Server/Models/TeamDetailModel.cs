@@ -6,15 +6,15 @@ public class TeamDetailModel
 {
     public int Id { get; set; }
 
-    [Display(ResourceType = typeof(Resources), Name = "Team_Detail_Name")]
+    [Display(Name = "Team_Detail_Name")]
     public string Name { get; set; }
 
-    [Display(ResourceType = typeof(Resources), Name = "Team_Detail_Description")]
+    [Display(Name = "Team_Detail_Description")]
     public string Description { get; set; }
 
-    [Display(ResourceType = typeof(Resources), Name = "Team_Detail_Members")]
+    [Display(Name = "Team_Detail_Members")]
     public UserModel[] Members { get; set; }
 
-    [Display(ResourceType = typeof(Resources), Name = "Team_Detail_Repositories")]
+    [Display(Name = "Team_Detail_Repositories")]
     public RepositoryModel[] Repositories { get; set; }
 }

@@ -1,7 +1,7 @@
 ﻿@model RepositoryCommitsModel
 @{
     Layout = "~/Views/Repositories/_RepositoriesLayout.cshtml";
-    ViewBag.Title = Resources.Repository_Commits_Title;
+    ViewBag.Title = Localizer["Repository_Commits_Title"];
     ViewBag.Name = Model.Name;
 }
 
@@ -25,6 +25,6 @@
     }
     else
     {
-        <p>@Resources.No_Commits_Found</p>
+        <p>@Localizer["No_Commits_Found"]</p>
     }
 </div>

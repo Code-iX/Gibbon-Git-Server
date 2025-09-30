@@ -6,7 +6,7 @@
 @model Dictionary<string, RepositoryDetailModel[]>
 
 @{
-    ViewBag.Title = Resources.Repository_Index_Title;
+    ViewBag.Title = Localizer["Repository_Index_Title"];
 }
 
 @functions
@@ -22,18 +22,18 @@
 
 <div class="pure-g">
     <div class="pure-u-2-5">
-        <h1>@Resources.Repository_Index_Title</h1>
+        <h1>@Localizer["Repository_Index_Title"]</h1>
     </div>
     <div class="pure-u-3-5 add">
 
         @if (User.IsInRole(Roles.Admin) || ServerSettings.AllowUserRepositoryCreation)
         {
-            <a class="pure-button pure-button-primary" href="@Url.Action("Create")"><i class="fa fa-plus-circle"></i> @Resources.Repository_Index_CreateNew</a>
+            <a class="pure-button pure-button-primary" href="@Url.Action("Create")"><i class="fa fa-plus-circle"></i> @Localizer["Repository_Index_CreateNew"]</a>
         }
         @if (User.IsInRole(Roles.Admin))
         {
             <form action="@Url.Action("Rescan")" method="post" class="inline-form">
-                <button type="submit" class="pure-button pure-button-primary"><i class="fa fa-refresh"></i> @Resources.Repository_Rescan_Directory</button>
+                <button type="submit" class="pure-button pure-button-primary"><i class="fa fa-refresh"></i> @Localizer["Repository_Rescan_Directory"]</button>
             </form>
         }
     </div>
@@ -42,20 +42,20 @@
 @if (TempData["CreateSuccess"] as bool? == true)
 {
     <div class="summary-success">
-        <p>@Resources.Repository_Create_Success</p>
-        <p>@Html.ActionLink(string.Format(Resources.Repository_Create_Success_Go_To, TempData["SuccessfullyCreatedRepositoryName"]), "Detail", new { name = TempData["SuccessfullyCreatedRepositoryName"]!.ToString() })</p>
+        <p>@Localizer["Repository_Create_Success"]</p>
+        <p>@Html.ActionLink(string.Format(Localizer["Repository_Create_Success_Go_To"], TempData["SuccessfullyCreatedRepositoryName"]), "Detail", new { name = TempData["SuccessfullyCreatedRepositoryName"]!.ToString() })</p>
     </div>
 }
 @if (TempData["CloneSuccess"] as bool? == true)
 {
     <div class="summary-success">
-        <p>@Resources.Repository_Clone_Success</p>
+        <p>@Localizer["Repository_Clone_Success"]</p>
     </div>
 }
 @if (TempData["DeleteSuccess"] as bool? == true)
 {
     <div class="summary-success">
-        <p>@Resources.Repository_Delete_Success</p>
+        <p>@Localizer["Repository_Delete_Success"]</p>
     </div>
 }
 
@@ -64,7 +64,7 @@
         <form class="pure-form" method="post">
             <p>
                 <input type="text" name="SearchString" />
-                <input type="submit" value="@Resources.Search" class="pure-button pure-button-primary" />
+                <input type="submit" value="@Localizer["Search"]" class="pure-button pure-button-primary" />
             </p>
         </form>
     </div>
@@ -77,7 +77,7 @@
                 sortGroup = string.IsNullOrEmpty(sortGroupQuery) ? "DESC" : (sortGroupQuery.Equals("ASC") ? "DESC" : "ASC")
             };
         }
-        <a class="pure-button pure-button-primary" href="@Url.Action("Index", sortGroup)"><i class="fa fa-sort"></i> @Resources.Repository_Index_SortGroup</a>
+        <a class="pure-button pure-button-primary" href="@Url.Action("Index", sortGroup)"><i class="fa fa-sort"></i> @Localizer["Repository_Index_SortGroup"]</a>
     </div>
 </div>
 
@@ -102,9 +102,9 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th>@Resources.Repository_Header_Name</th>
+                        <th>@Localizer["Repository_Header_Name"]</th>
                         <th></th>
-                        <th>@Resources.Repository_Header_Description</th>
+                        <th>@Localizer["Repository_Header_Description"]</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -127,7 +127,7 @@
                                 <!-- Start: Hinzufügen der Features für AllowAnonymous und AllowAnonymousPush -->
                                 @{
                                     var anonColor = repo.AllowAnonymous ? "rgba(0, 120, 230, 1)" : "lightblue";
-                                    var anonTitle = Resources.Repository_Detail_Anonymous + ": " + (repo.AllowAnonymous ? Resources.Yes : Resources.No);
+                                    var anonTitle = Localizer["Repository_Detail_Anonymous"] + ": " + (repo.AllowAnonymous ? Localizer["Yes"] : Localizer["No"]);
 
                                     var pushSetting = ServerSettings.AllowAnonymousPush;
                                     if (repo.AllowAnonymousPush != RepositoryPushMode.Global)
@@ -136,7 +136,7 @@
                                     }
 
                                     var pushIcon = repo.AllowAnonymousPush == RepositoryPushMode.Global ? "fa-globe" : "fa-sign-in";
-                                    var pushTitle = Resources.Repository_Detail_AllowAnonymousPush + ": " + (pushSetting ? Resources.Yes : Resources.No);
+                                    var pushTitle = Localizer["Repository_Detail_AllowAnonymousPush"] + ": " + (pushSetting ? Localizer["Yes"] : Localizer["No"]);
                                     var pushColor = pushSetting ? "rgba(0, 120, 230, 1)" : "lightblue";
                                 }
 
@@ -159,14 +159,14 @@
                             </td>
                             <td class="pull-right">
 
-                                <a href="@Url.Action("Edit", new { name = repo.Name })" class="edit" title="@Resources.Grid_Edit">
+                                <a href="@Url.Action("Edit", new { name = repo.Name })" class="edit" title="@Localizer["Grid_Edit"]">
                                     <i class="fa fa-pencil"></i>
                                 </a>
 
-                                <a href="@Url.Action("Delete", new { name = repo.Name })" class="delete" title="@Resources.Grid_Delete">
+                                <a href="@Url.Action("Delete", new { name = repo.Name })" class="delete" title="@Localizer["Grid_Delete"]">
                                     <i class="fa fa-trash-o"></i>
                                 </a>
-                                <button class="pure-button copy-to-clip-button" title="@Resources.Repository_Git_Url_Copy" data-clipboard-text="@repo.GitUrl">
+                                <button class="pure-button copy-to-clip-button" title="@Localizer["Repository_Git_Url_Copy"]" data-clipboard-text="@repo.GitUrl">
                                     <i class="fa fa-copy"></i>
                                 </button>
                             </td>

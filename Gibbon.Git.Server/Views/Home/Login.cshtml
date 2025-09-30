@@ -1,14 +1,14 @@
 ﻿@model LoginModel
 @{
-    ViewBag.Title = @Resources.Home_Login_Title;
+    ViewBag.Title = @Localizer["Home_Login_Title"];
 }
 
-<h1>@Resources.Home_Login_Title</h1>
+<h1>@Localizer["Home_Login_Title"]</h1>
 
 @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "pure-form pure-form-aligned" }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(false, Resources.Home_Login_Failed)
+    @Html.ValidationSummary(false, Localizer["Home_Login_Failed"])
 
     <fieldset>
         <div class="pure-control-group">
@@ -32,10 +32,10 @@
             @Html.TextBoxFor(m => m.DatabaseResetCode)
         }
         <div class="pure-controls">
-            <button type="submit" class="pure-button pure-button-primary"><i class="fa fa-sign-in"></i> @Resources.Home_Login_Login</button>
+            <button type="submit" class="pure-button pure-button-primary"><i class="fa fa-sign-in"></i> @Localizer["Home_Login_Login"]</button>
         </div>
         <div class="pure-controls">
-            @Html.ActionLink(Resources.Home_Login_ForgotPassword, "ForgotPassword")
+            @Html.ActionLink(Localizer["Home_Login_ForgotPassword"], "ForgotPassword")
         </div>
     </fieldset>
 }

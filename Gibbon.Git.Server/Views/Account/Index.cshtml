@@ -1,7 +1,7 @@
 ﻿@model Gibbon.Git.Server.Models.MeDetailModel
 @{
     Layout = "~/Views/Account/_Layout.cshtml";
-    ViewBag.Title = @Resources.Account_Detail_Title;
+    ViewBag.Title = @Localizer["Account_Detail_Title"];
 }
 
 <div class="pure-form pure-form-aligned detail">
@@ -30,6 +30,6 @@
         </div>
     </fieldset>
     <div class="pure-controls">
-        <a class="pure-button" href="@Url.Action("Edit")"><i class="fa fa-pencil-square-o"></i> @Resources.Account_Detail_Edit</a>
+        <a class="pure-button" href="@Url.Action("Edit")"><i class="fa fa-pencil-square-o"></i> @Localizer["Account_Detail_Edit"]</a>
     </div>
 </div>
