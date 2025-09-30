@@ -1075,4 +1075,19 @@ The regular C# string formatting rules apply: To get {} in your link you need to
   <data name="Error_Forbidden_Text" xml:space="preserve">
     <value>Access forbidden</value>
   </data>
+  <data name="Settings_Global_DefaultRepositoryView" xml:space="preserve">
+    <value>Default Repository View</value>
+  </data>
+  <data name="Settings_Global_DefaultRepositoryView_Hint" xml:space="preserve">
+    <value>The default view to show when navigating to a repository.</value>
+  </data>
+  <data name="Settings_User_DefaultRepositoryView" xml:space="preserve">
+    <value>Default Repository View</value>
+  </data>
+  <data name="Settings_User_DefaultRepositoryView_Hint" xml:space="preserve">
+    <value>Your preferred default view when navigating to a repository. Leave empty to use the server default.</value>
+  </data>
+  <data name="Settings_User_UseServerDefault" xml:space="preserve">
+    <value>Use Server Default</value>
+  </data>
 </root>

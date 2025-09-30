@@ -1,4 +1,6 @@
-﻿namespace Gibbon.Git.Server.Configuration;
+﻿using Gibbon.Git.Server.Data;
+
+namespace Gibbon.Git.Server.Configuration;
 
 public sealed class ServerSettings
 {
@@ -12,6 +14,7 @@ public sealed class ServerSettings
     public bool IsCommitAuthorAvatarVisible { get; set; }
     public string LinksRegex { get; set; }
     public string LinksUrl { get; set; }
+    public RepositoryDefaultView DefaultRepositoryView { get; set; }
 
     public bool HasCustomSiteLogo() => !string.IsNullOrWhiteSpace(SiteLogoUrl);
 

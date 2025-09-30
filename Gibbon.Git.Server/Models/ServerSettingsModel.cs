@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Gibbon.Git.Server.Data;
 using Gibbon.Git.Server.Middleware.Attributes;
 
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +40,9 @@ public class ServerSettingsModel
     [IsValidRegex]
     [Display(ResourceType = typeof(Resources), Name = "Settings_Global_LinksRegex")]
     public string LinksRegex { get; set; }
+
+    [Display(ResourceType = typeof(Resources), Name = "Settings_Global_DefaultRepositoryView")]
+    public RepositoryDefaultView DefaultRepositoryView { get; set; }
 
     public List<SelectListItem> AvailableLanguages { get; set; }
 }
