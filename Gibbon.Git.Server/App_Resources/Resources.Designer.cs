@@ -2865,5 +2865,41 @@ namespace Gibbon.Git.Server.App_Resources {
                 return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preferred IDE.
+        /// </summary>
+        public static string Settings_User_PreferredIde {
+            get {
+                return ResourceManager.GetString("Settings_User_PreferredIde", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select your preferred IDE for the "Open with" feature.
+        /// </summary>
+        public static string Settings_User_PreferredIde_Hint {
+            get {
+                return ResourceManager.GetString("Settings_User_PreferredIde_Hint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open with.
+        /// </summary>
+        public static string Repository_Detail_OpenWith {
+            get {
+                return ResourceManager.GetString("Repository_Detail_OpenWith", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download ZIP.
+        /// </summary>
+        public static string Repository_Detail_DownloadZip {
+            get {
+                return ResourceManager.GetString("Repository_Detail_DownloadZip", resourceCulture);
+            }
+        }
     }
 }

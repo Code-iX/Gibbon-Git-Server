@@ -34,6 +34,27 @@
                 <i class="fa fa-copy"></i>
             </button>
             <span class="git-url-text">@Model.GitUrl</span>
+            <span class="git-url-actions">
+                <div class="ide-dropdown">
+                    <button class="pure-button ide-dropdown-button">
+                        <i class="fa fa-code"></i> @Resources.Repository_Detail_OpenWith
+                    </button>
+                    <div class="ide-dropdown-menu">
+                        @foreach (var ide in Enum.GetValues<Gibbon.Git.Server.Configuration.IdeType>())
+                        {
+                            if (ide != Gibbon.Git.Server.Configuration.IdeType.None)
+                            {
+                                <a href="@Gibbon.Git.Server.Helpers.IdeHelper.GetIdeProtocol(ide, Model.GitUrl)">
+                                    @Gibbon.Git.Server.Helpers.IdeHelper.GetIdeDisplayName(ide)
+                                </a>
+                            }
+                        }
+                    </div>
+                </div>
+                <a href="@Url.Action("Download", new { name = Model.Name })" class="pure-button download-zip-button">
+                    <i class="fa fa-download"></i> @Resources.Repository_Detail_DownloadZip
+                </a>
+            </span>
         </div>
 
         @if (User.Identity.IsAuthenticated)
@@ -44,6 +65,24 @@
                     <i class="fa fa-copy"></i>
                 </button>
                 <span class="personal-url-text">@Model.PersonalGitUrl</span>
+                <span class="git-url-actions">
+                    <div class="ide-dropdown">
+                        <button class="pure-button ide-dropdown-button">
+                            <i class="fa fa-code"></i> @Resources.Repository_Detail_OpenWith
+                        </button>
+                        <div class="ide-dropdown-menu">
+                            @foreach (var ide in Enum.GetValues<Gibbon.Git.Server.Configuration.IdeType>())
+                            {
+                                if (ide != Gibbon.Git.Server.Configuration.IdeType.None)
+                                {
+                                    <a href="@Gibbon.Git.Server.Helpers.IdeHelper.GetIdeProtocol(ide, Model.PersonalGitUrl)">
+                                        @Gibbon.Git.Server.Helpers.IdeHelper.GetIdeDisplayName(ide)
+                                    </a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </span>
             </div>
         }
 
@@ -166,3 +205,7 @@
         </div>
     </fieldset>
 </div>
+
+@section scripts {
+    <script src="~/js/ide-dropdown.js"></script>
+}

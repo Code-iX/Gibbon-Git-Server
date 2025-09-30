@@ -136,12 +136,22 @@ public class AccountController(IUserService userService, IRoleProvider roleProvi
             Value = ""
         });
 
+        var ideItems = Enum.GetValues<Configuration.IdeType>()
+            .Select(ide => new SelectListItem
+            {
+                Text = Helpers.IdeHelper.GetIdeDisplayName(ide),
+                Value = ((int)ide).ToString()
+            })
+            .ToList();
+
         var settings = await _userSettingsService.GetSettings(UserModel.Id);
 
         return View(new MeSettingsModel
         {
             PreferredLanguage = settings.PreferredLanguage,
-            AvailableLanguages = cultureItems
+            PreferredIde = settings.PreferredIde,
+            AvailableLanguages = cultureItems,
+            AvailableIdes = ideItems
         });
     }
 
@@ -160,12 +170,21 @@ public class AccountController(IUserService userService, IRoleProvider roleProvi
                 })
                 .ToList();
 
+            settings.AvailableIdes = Enum.GetValues<Configuration.IdeType>()
+                .Select(ide => new SelectListItem
+                {
+                    Text = Helpers.IdeHelper.GetIdeDisplayName(ide),
+                    Value = ((int)ide).ToString()
+                })
+                .ToList();
+
             return View(settings);
         }
 
         await _userSettingsService.SaveSettings(UserModel.Id, new UserSettings
         {
-            PreferredLanguage = settings.PreferredLanguage
+            PreferredLanguage = settings.PreferredLanguage,
+            PreferredIde = settings.PreferredIde
         });
 
         return RedirectToAction("Settings");

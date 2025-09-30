@@ -9,4 +9,5 @@ public class UserSettingsEntity
     public string TimeZone { get; set; }
     public string DateFormat { get; set; }
     public string DefaultHomePage { get; set; }
+    public int PreferredIde { get; set; }
 }
