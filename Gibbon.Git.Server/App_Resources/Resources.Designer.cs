@@ -2892,5 +2892,14 @@ namespace Gibbon.Git.Server.App_Resources {
                 return ResourceManager.GetString("MeController_Settings_UseDefaultDateFormat", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Commit.
+        /// </summary>
+        public static string Repository_Detail_LastCommitDate {
+            get {
+                return ResourceManager.GetString("Repository_Detail_LastCommitDate", resourceCulture);
+            }
+        }
     }
 }

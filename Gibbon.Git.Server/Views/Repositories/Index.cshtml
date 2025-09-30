@@ -105,6 +105,7 @@
                         <th>@Resources.Repository_Header_Name</th>
                         <th></th>
                         <th>@Resources.Repository_Header_Description</th>
+                        <th>@Resources.Repository_Detail_LastCommitDate</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -155,6 +156,20 @@
                                 else
                                 {
                                     @repo.Description
+                                }
+                            </td>
+                            <td>
+                                @if (repo.LastCommitDate.HasValue)
+                                {
+                                    var dateFormat = ViewBag.DateFormat as string;
+                                    if (string.IsNullOrEmpty(dateFormat))
+                                    {
+                                        @repo.LastCommitDate.Value.ToString(System.Globalization.CultureInfo.CurrentCulture)
+                                    }
+                                    else
+                                    {
+                                        @repo.LastCommitDate.Value.ToString(dateFormat)
+                                    }
                                 }
                             </td>
                             <td class="pull-right">

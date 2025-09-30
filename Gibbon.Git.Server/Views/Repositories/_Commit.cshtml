@@ -15,7 +15,17 @@
         </h2>
 
         <div class="commitdate">
-            @Model.Date.ToString(CultureInfo.CurrentCulture)
+            @{
+                var dateFormat = ViewBag.DateFormat as string;
+                if (string.IsNullOrEmpty(dateFormat))
+                {
+                    @Model.Date.ToString(CultureInfo.CurrentCulture)
+                }
+                else
+                {
+                    @Model.Date.ToString(dateFormat)
+                }
+            }
         </div>
 
         @if (Model.Links.Any())

@@ -12,7 +12,26 @@ public class RepositoryTreeDetailModel
 
     [Display(ResourceType = typeof(Resources), Name = "Repository_Tree_CommitDate")]
     public DateTime? CommitDate { get; set; }
-    public string CommitDateString { get { return CommitDate.HasValue ? CommitDate.Value.ToString() : CommitDate.ToString(); } }
+    
+    public string DateFormat { get; set; }
+    
+    public string CommitDateString 
+    { 
+        get 
+        { 
+            if (!CommitDate.HasValue)
+            {
+                return string.Empty;
+            }
+            
+            if (string.IsNullOrEmpty(DateFormat))
+            {
+                return CommitDate.Value.ToString(System.Globalization.CultureInfo.CurrentCulture);
+            }
+            
+            return CommitDate.Value.ToString(DateFormat);
+        } 
+    }
 
     [Display(ResourceType = typeof(Resources), Name = "Repository_Tree_Author")]
     public string Author { get; set; }
