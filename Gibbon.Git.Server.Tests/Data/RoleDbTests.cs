@@ -61,7 +61,7 @@ public abstract class RoleDbTests<TConnectionFactory> : GibbonDbContextTestsBase
         Context.Roles.Add(role2);
 
         // Assert
-        Assert.ThrowsException<DbUpdateException>(() => Context.SaveChanges());
+        Assert.ThrowsExactly<DbUpdateException>(() => Context.SaveChanges());
     }
 
     [TestMethod]

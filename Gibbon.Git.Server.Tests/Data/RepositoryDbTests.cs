@@ -41,7 +41,7 @@ public class SqliteRepositoryDbTests : GibbonDbContextTestsBase<SqliteConnection
 
         // Assert
         Context.Repositories.Add(repo2);
-        Assert.ThrowsException<DbUpdateException>(() => Context.SaveChanges());
+        Assert.ThrowsExactly<DbUpdateException>(() => Context.SaveChanges());
     }
 
     [TestMethod]

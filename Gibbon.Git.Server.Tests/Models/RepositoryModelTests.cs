@@ -5,7 +5,7 @@ namespace Gibbon.Git.Server.Tests.Models;
 [TestClass]
 public class RepositoryModelTests
 {
-    [DataTestMethod]
+    [TestMethod]
     [DataRow("Test", true)]
     [DataRow("Valid-Name123", true)]
     [DataRow("another.valid.name", true)]

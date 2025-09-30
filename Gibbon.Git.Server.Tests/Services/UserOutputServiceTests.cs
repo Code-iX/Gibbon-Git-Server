@@ -13,7 +13,7 @@ public class UserOutputServiceTests
         _userOutputService = new UserOutputService();
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow(-1, "1 B")]
     [DataRow(0, "0 B")]
     [DataRow(2, "2 B")]

@@ -57,7 +57,7 @@ public abstract class TeamDbTests<TConnectionFactory> : GibbonDbContextTestsBase
 
         Context.Teams.Add(team2);
         // Assert
-        Assert.ThrowsException<DbUpdateException>(() => Context.SaveChanges());
+        Assert.ThrowsExactly<DbUpdateException>(() => Context.SaveChanges());
     }
 
     [TestMethod]

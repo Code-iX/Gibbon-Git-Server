@@ -31,7 +31,7 @@
 //        Repository.IsValid(Arg.Any<string>()).Returns(false);
 
 //        // Act & Assert
-//        Assert.ThrowsException<ArgumentException>(() => _repositoryBrowser.SetRepository(invalidRepositoryName));
+//        Assert.ThrowsExactly<ArgumentException>(() => _repositoryBrowser.SetRepository(invalidRepositoryName));
 //    }
 
 //    [TestMethod]
@@ -45,7 +45,7 @@
 //        _repositoryBrowser.SetRepository(repositoryName);
 
 //        // Act & Assert
-//        Assert.ThrowsException<InvalidOperationException>(() => _repositoryBrowser.SetRepository(repositoryName));
+//        Assert.ThrowsExactly<InvalidOperationException>(() => _repositoryBrowser.SetRepository(repositoryName));
 //    }
 
 //    [TestMethod]

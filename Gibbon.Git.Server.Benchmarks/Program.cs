@@ -96,7 +96,7 @@ public class SqliteBenchmark
         for (int i = 0; i < LoopCount; i++)
         {
             var testEntity = context.TestIntEntities.Find(i + 1);
-            if (testEntity != null)
+            if (testEntity?.Data != null)
             {
                 totalLength += testEntity.Data.Length;
             }

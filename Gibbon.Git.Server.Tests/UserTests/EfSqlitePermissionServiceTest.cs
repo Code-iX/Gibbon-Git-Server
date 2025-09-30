@@ -138,7 +138,7 @@ public class EfSqlitePermissionServiceTest : DbTestBase<SqliteConnectionFactory>
     {
         var adminId = 1;
         _roleProvider.GetRolesForUser(adminId).Returns([Roles.Admin]);
-        Assert.ThrowsException<InvalidOperationException>(() => _service.HasPermission(adminId, 17, RepositoryAccessLevel.Pull));
+        Assert.ThrowsExactly<InvalidOperationException>(() => _service.HasPermission(adminId, 17, RepositoryAccessLevel.Pull));
     }
 
     [TestMethod]

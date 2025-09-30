@@ -75,7 +75,7 @@ public class GitServiceExecutorTests
         }
         else
         {
-            await Assert.ThrowsExceptionAsync<InvalidOperationException>(() =>
+            await Assert.ThrowsExactlyAsync<InvalidOperationException>(() =>
                 _executor.ExecuteServiceByName(repositoryName, serviceName, options, inStream, outStream, userId)
             );
         }

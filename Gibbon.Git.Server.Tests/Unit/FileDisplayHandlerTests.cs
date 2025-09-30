@@ -8,7 +8,7 @@ namespace Gibbon.Git.Server.Tests.Unit;
 [TestClass]
 public class FileDisplayHandlerTests
 {
-    [DataTestMethod]
+    [TestMethod]
     [DataRow("test.jpg", true)]
     [DataRow("test.png", true)]
     [DataRow("test.txt", false)]
@@ -20,7 +20,7 @@ public class FileDisplayHandlerTests
         Assert.AreEqual(expected, result);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow("test.cs", "csharp")]
     [DataRow("test.html", "html")]
     [DataRow("test.unknown", "nohighlight")]
@@ -39,7 +39,7 @@ public class FileDisplayHandlerTests
         Assert.AreEqual("Hello, World!", result);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow("Hello, Wörld!", "utf-8", true)]
     [DataRow("Hello, World! 😊", "utf-8", false)] // TODO - why?
     [DataRow("Hello, World!", "us-ascii", true)]
@@ -54,7 +54,7 @@ public class FileDisplayHandlerTests
         Assert.AreEqual(expectedSuccess, success, "Success expectation mismatch.");
         if (expectedSuccess)
         {
-            Assert.AreEqual(expectedEncoding, encoding.WebName, $"Expected encoding: {expectedEncoding}");
+            Assert.AreEqual(expectedEncoding, encoding!.WebName, $"Expected encoding: {expectedEncoding}");
         }
     }
 
