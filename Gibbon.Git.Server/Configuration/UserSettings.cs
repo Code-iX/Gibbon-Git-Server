@@ -3,5 +3,5 @@
 public sealed class UserSettings
 {
     public string PreferredLanguage { get; set; }
-
+    public IdeType PreferredIde { get; set; }
 }
