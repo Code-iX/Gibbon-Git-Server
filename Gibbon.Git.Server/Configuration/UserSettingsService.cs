@@ -24,6 +24,7 @@ public class UserSettingsService(IMemoryCache memoryCache, GibbonGitServerContex
         }
 
         entity.PreferredLanguage = settings.PreferredLanguage;
+        entity.PreferredIde = (int)settings.PreferredIde;
 
         await _context.SaveChangesAsync();
 
@@ -43,7 +44,8 @@ public class UserSettingsService(IMemoryCache memoryCache, GibbonGitServerContex
             .Where(u => u.UserId == userId)
             .Select(entity => new UserSettings
             {
-                PreferredLanguage = entity.PreferredLanguage
+                PreferredLanguage = entity.PreferredLanguage,
+                PreferredIde = (IdeType)entity.PreferredIde
             })
             .SingleOrDefaultAsync();
 
@@ -58,7 +60,8 @@ public class UserSettingsService(IMemoryCache memoryCache, GibbonGitServerContex
     {
         return new UserSettings
         {
-            PreferredLanguage = null
+            PreferredLanguage = null,
+            PreferredIde = IdeType.None
         };
     }
 }

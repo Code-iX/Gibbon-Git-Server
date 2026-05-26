@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Gibbon.Git.Server.Configuration;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Gibbon.Git.Server.Models;
@@ -8,6 +9,9 @@ public class MeSettingsModel
     [Display(ResourceType = typeof(Resources), Name = "Settings_Global_DefaultLanguage")]
     public string PreferredLanguage { get; set; }
 
+    [Display(ResourceType = typeof(Resources), Name = "Settings_User_PreferredIde")]
+    public IdeType PreferredIde { get; set; }
+
     /// <summary>
     /// This is the list of available languages for the user to choose from.
     /// </summary>
@@ -15,4 +19,9 @@ public class MeSettingsModel
     /// This is just for the user to choose from, why we don't need a display attribute.
     /// </remarks>
     internal List<SelectListItem> AvailableLanguages { get; set; }
+
+    /// <summary>
+    /// This is the list of available IDEs for the user to choose from.
+    /// </summary>
+    internal List<SelectListItem> AvailableIdes { get; set; }
 }

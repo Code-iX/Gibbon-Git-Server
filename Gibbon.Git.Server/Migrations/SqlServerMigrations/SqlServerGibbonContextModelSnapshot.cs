@@ -271,6 +271,9 @@ namespace Gibbon.Git.Server.Migrations.SqlServerMigrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int>("PreferredIde")
+                        .HasColumnType("int");
+
                     b.Property<string>("PreferredLanguage")
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");

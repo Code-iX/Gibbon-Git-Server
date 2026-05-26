@@ -1075,4 +1075,16 @@ The regular C# string formatting rules apply: To get {} in your link you need to
   <data name="Error_Forbidden_Text" xml:space="preserve">
     <value>Access forbidden</value>
   </data>
+  <data name="Settings_User_PreferredIde" xml:space="preserve">
+    <value>Preferred IDE</value>
+  </data>
+  <data name="Settings_User_PreferredIde_Hint" xml:space="preserve">
+    <value>Select your preferred IDE for the "Open with" feature</value>
+  </data>
+  <data name="Repository_Detail_OpenWith" xml:space="preserve">
+    <value>Open with</value>
+  </data>
+  <data name="Repository_Detail_DownloadZip" xml:space="preserve">
+    <value>Download ZIP</value>
+  </data>
 </root>
