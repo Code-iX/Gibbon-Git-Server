@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.Collections.Concurrent;
+using System.Security.Cryptography;
 
 namespace Gibbon.Git.Server.Services;
 
@@ -10,7 +11,7 @@ public interface IAvatarService
 public class AvatarService : IAvatarService
 {
     private const string GravatarBaseUrl = "https://www.gravatar.com/avatar/";
-    private static readonly Dictionary<string, string> AvatarCache = new();
+    private static readonly ConcurrentDictionary<string, string> AvatarCache = new();
 
     private int _size = 65;
 
@@ -24,15 +25,7 @@ public class AvatarService : IAvatarService
     {
         var lowerCaseEmail = email.ToLower().Trim();
         var key = $"{lowerCaseEmail}:{_size}";
-
-        if (AvatarCache.TryGetValue(key, out var cachedAvatar))
-        {
-            return cachedAvatar;
-        }
-
-        var avatarUrl = GenerateGravatarUrl(lowerCaseEmail);
-        AvatarCache[key] = avatarUrl;
-        return avatarUrl;
+        return AvatarCache.GetOrAdd(key, _ => GenerateGravatarUrl(lowerCaseEmail));
     }
 
     private string GenerateGravatarUrl(string email)

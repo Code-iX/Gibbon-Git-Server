@@ -1,4 +1,8 @@
-﻿using Gibbon.Git.Server.Services;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+
+using Gibbon.Git.Server.Services;
 
 namespace Gibbon.Git.Server.Tests.Services;
 
@@ -80,5 +84,48 @@ public class AvatarServiceTests
         Assert.AreEqual(avatarUrl1, cachedAvatarUrl, "Cached URL should be returned for the same size and email");
         Assert.AreNotEqual(avatarUrl1, avatarUrl2, "Different size should result in different URL");
         Assert.AreEqual(avatarUrl1, cachedAvatarUrlAgain, "Cached URL should be returned again for size 75");
+    }
+
+    [TestMethod]
+    [Description("Concurrent calls to GetAvatar must not throw or return inconsistent results.")]
+    public void GetAvatar_ConcurrentAccess_DoesNotThrow()
+    {
+        const int threadCount = 50;
+        var emails = Enumerable.Range(0, 10).Select(i => $"user{i}@example.com").ToArray();
+        var results = new string[threadCount];
+        var exceptions = new System.Collections.Concurrent.ConcurrentBag<Exception>();
+
+        Parallel.For(0, threadCount, i =>
+        {
+            try
+            {
+                var svc = new AvatarService();
+                results[i] = svc.GetAvatar(emails[i % emails.Length]);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(ex);
+            }
+        });
+
+        Assert.AreEqual(0, exceptions.Count, $"Unexpected exceptions: {string.Join(", ", exceptions.Select(e => e.Message))}");
+        Assert.IsTrue(results.All(r => r != null), "All results should be non-null");
+    }
+
+    [TestMethod]
+    [Description("Concurrent calls for the same email must return the same URL every time.")]
+    public void GetAvatar_ConcurrentSameEmail_ReturnsConsistentUrl()
+    {
+        const string email = "concurrent@test.com";
+        const int threadCount = 100;
+        var results = new string[threadCount];
+
+        Parallel.For(0, threadCount, i =>
+        {
+            results[i] = _avatarService.GetAvatar(email);
+        });
+
+        var expected = results[0];
+        Assert.IsTrue(results.All(r => r == expected), "All concurrent calls must return the same URL");
     }
 }
