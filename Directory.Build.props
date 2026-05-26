@@ -1,6 +1,6 @@
 <Project>
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
@@ -14,7 +14,7 @@
 		<AssemblyDescription>Git server for IIS.</AssemblyDescription>
 		<AssemblyCompany>Matthias Voigt</AssemblyCompany>
 		<AssemblyProduct>Gibbon Git Server</AssemblyProduct>
-		<AssemblyCopyright>Copyright © Matthias Voigt 2024</AssemblyCopyright>
+		<AssemblyCopyright>Copyright © Matthias Voigt 2024-2026</AssemblyCopyright>
 		<AssemblyVersion>0.5.0.0</AssemblyVersion>
 	</PropertyGroup>
 	<PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
