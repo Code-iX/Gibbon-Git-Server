@@ -47,6 +47,8 @@ public class PasswordService : IPasswordService
     public bool CompareHash(string salt, string password, string knownHash)
     {
         var computedHash = GenerateHash(salt, password);
-        return string.Compare(knownHash, computedHash, StringComparison.Ordinal) == 0;
+        return CryptographicOperations.FixedTimeEquals(
+            Convert.FromBase64String(knownHash),
+            Convert.FromBase64String(computedHash));
     }
 }

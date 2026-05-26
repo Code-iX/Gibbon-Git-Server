@@ -139,4 +139,51 @@ public class PasswordServiceTest
 
         Assert.AreEqual(1 + 128 / 8 + 256 / 8, tokenBytes.Length);
     }
+
+    [TestMethod]
+    public void CompareHash_CorrectPassword_ReturnsTrue()
+    {
+        var salt = _passwordService.GenerateSalt();
+        var hash = _passwordService.GenerateHash(salt, DefaultAdminPassword);
+
+        Assert.IsTrue(_passwordService.CompareHash(salt, DefaultAdminPassword, hash));
+    }
+
+    [TestMethod]
+    public void CompareHash_WrongPassword_ReturnsFalse()
+    {
+        var salt = _passwordService.GenerateSalt();
+        var hash = _passwordService.GenerateHash(salt, DefaultAdminPassword);
+
+        Assert.IsFalse(_passwordService.CompareHash(salt, "wrong", hash));
+    }
+
+    [TestMethod]
+    public void CompareHash_TamperedHash_ReturnsFalse()
+    {
+        var salt = _passwordService.GenerateSalt();
+        var hash = _passwordService.GenerateHash(salt, DefaultAdminPassword);
+
+        // Flip a byte in the stored hash to simulate tampering
+        var hashBytes = Convert.FromBase64String(hash);
+        hashBytes[0] ^= 0xFF;
+        var tamperedHash = Convert.ToBase64String(hashBytes);
+
+        Assert.IsFalse(_passwordService.CompareHash(salt, DefaultAdminPassword, tamperedHash));
+    }
+
+    [TestMethod]
+    public void CompareHash_AllZeroVsAllOneHash_DoesNotShortCircuit()
+    {
+        // Both hashes have the same length; a timing-safe comparison must evaluate all bytes.
+        // We can't measure time in a unit test, but we can verify it still returns the correct result
+        // when the hashes differ only in the last byte.
+        var salt = _passwordService.GenerateSalt();
+        var correctHash = _passwordService.GenerateHash(salt, DefaultAdminPassword);
+        var hashBytes = Convert.FromBase64String(correctHash);
+        hashBytes[^1] ^= 0x01;
+        var offByOneHash = Convert.ToBase64String(hashBytes);
+
+        Assert.IsFalse(_passwordService.CompareHash(salt, DefaultAdminPassword, offByOneHash));
+    }
 }
