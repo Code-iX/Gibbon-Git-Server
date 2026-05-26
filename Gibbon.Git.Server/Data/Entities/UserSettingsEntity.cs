@@ -8,5 +8,6 @@ public class UserSettingsEntity
     public bool ReceiveEmailNotifications { get; set; }
     public string TimeZone { get; set; }
     public string DateFormat { get; set; }
+    public string TimeFormat { get; set; }
     public string DefaultHomePage { get; set; }
 }

@@ -2865,5 +2865,104 @@ namespace Gibbon.Git.Server.App_Resources {
                 return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date Format.
+        /// </summary>
+        public static string Settings_Global_DateFormat {
+            get {
+                return ResourceManager.GetString("Settings_Global_DateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preferred date format for displaying dates in the application..
+        /// </summary>
+        public static string Settings_Global_DateFormat_Hint {
+            get {
+                return ResourceManager.GetString("Settings_Global_DateFormat_Hint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use default format.
+        /// </summary>
+        public static string MeController_Settings_UseDefaultDateFormat {
+            get {
+                return ResourceManager.GetString("MeController_Settings_UseDefaultDateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use server default.
+        /// </summary>
+        public static string MeController_Settings_UseServerDefault {
+            get {
+                return ResourceManager.GetString("MeController_Settings_UseServerDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Commit.
+        /// </summary>
+        public static string Repository_Detail_LastCommitDate {
+            get {
+                return ResourceManager.GetString("Repository_Detail_LastCommitDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time Format.
+        /// </summary>
+        public static string Settings_Global_TimeFormat {
+            get {
+                return ResourceManager.GetString("Settings_Global_TimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preferred time format for displaying times in the application..
+        /// </summary>
+        public static string Settings_Global_TimeFormat_Hint {
+            get {
+                return ResourceManager.GetString("Settings_Global_TimeFormat_Hint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default Date Format.
+        /// </summary>
+        public static string Settings_Global_DefaultDateFormat {
+            get {
+                return ResourceManager.GetString("Settings_Global_DefaultDateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server default date format for users who don't specify their own preference..
+        /// </summary>
+        public static string Settings_Global_DefaultDateFormat_Hint {
+            get {
+                return ResourceManager.GetString("Settings_Global_DefaultDateFormat_Hint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default Time Format.
+        /// </summary>
+        public static string Settings_Global_DefaultTimeFormat {
+            get {
+                return ResourceManager.GetString("Settings_Global_DefaultTimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server default time format for users who don't specify their own preference..
+        /// </summary>
+        public static string Settings_Global_DefaultTimeFormat_Hint {
+            get {
+                return ResourceManager.GetString("Settings_Global_DefaultTimeFormat_Hint", resourceCulture);
+            }
+        }
     }
 }

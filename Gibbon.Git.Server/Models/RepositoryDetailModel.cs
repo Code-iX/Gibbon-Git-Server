@@ -55,6 +55,9 @@ public class RepositoryDetailModel
     public RepositoryLogoDetailModel Logo { get; set; }
     public string GitUrl { get; set; }
     public string PersonalGitUrl { get; set; }
+    
+    [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_LastCommitDate")]
+    public DateTime? LastCommitDate { get; set; }
 
     [Remote("IsValidRegex", "Validation")]
     [IsValidRegex]

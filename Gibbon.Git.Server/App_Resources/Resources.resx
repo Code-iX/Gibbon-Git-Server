@@ -1075,4 +1075,37 @@ The regular C# string formatting rules apply: To get {} in your link you need to
   <data name="Error_Forbidden_Text" xml:space="preserve">
     <value>Access forbidden</value>
   </data>
+  <data name="Settings_Global_DateFormat" xml:space="preserve">
+    <value>Date Format</value>
+  </data>
+  <data name="Settings_Global_DateFormat_Hint" xml:space="preserve">
+    <value>Preferred date format for displaying dates in the application.</value>
+  </data>
+  <data name="MeController_Settings_UseDefaultDateFormat" xml:space="preserve">
+    <value>Use default format</value>
+  </data>
+  <data name="MeController_Settings_UseServerDefault" xml:space="preserve">
+    <value>Use server default</value>
+  </data>
+  <data name="Repository_Detail_LastCommitDate" xml:space="preserve">
+    <value>Last Commit</value>
+  </data>
+  <data name="Settings_Global_TimeFormat" xml:space="preserve">
+    <value>Time Format</value>
+  </data>
+  <data name="Settings_Global_TimeFormat_Hint" xml:space="preserve">
+    <value>Preferred time format for displaying times in the application.</value>
+  </data>
+  <data name="Settings_Global_DefaultDateFormat" xml:space="preserve">
+    <value>Default Date Format</value>
+  </data>
+  <data name="Settings_Global_DefaultDateFormat_Hint" xml:space="preserve">
+    <value>Server default date format for users who don't specify their own preference.</value>
+  </data>
+  <data name="Settings_Global_DefaultTimeFormat" xml:space="preserve">
+    <value>Default Time Format</value>
+  </data>
+  <data name="Settings_Global_DefaultTimeFormat_Hint" xml:space="preserve">
+    <value>Server default time format for users who don't specify their own preference.</value>
+  </data>
 </root>

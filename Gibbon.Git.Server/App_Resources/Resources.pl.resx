@@ -756,4 +756,34 @@
   <data name="Validation_StringLength" xml:space="preserve">
     <value>"{0}" powinno być krótsze niż {1} znaków.</value>
   </data>
+  <data name="Settings_Global_DateFormat" xml:space="preserve">
+    <value>Format daty</value>
+  </data>
+  <data name="Settings_Global_DateFormat_Hint" xml:space="preserve">
+    <value>Preferowany format daty do wyświetlania dat w aplikacji.</value>
+  </data>
+  <data name="Settings_Global_TimeFormat" xml:space="preserve">
+    <value>Format czasu</value>
+  </data>
+  <data name="Settings_Global_TimeFormat_Hint" xml:space="preserve">
+    <value>Preferowany format czasu do wyświetlania czasu w aplikacji.</value>
+  </data>
+  <data name="MeController_Settings_UseServerDefault" xml:space="preserve">
+    <value>Użyj domyślnej wartości serwera</value>
+  </data>
+  <data name="Repository_Detail_LastCommitDate" xml:space="preserve">
+    <value>Ostatni commit</value>
+  </data>
+  <data name="Settings_Global_DefaultDateFormat" xml:space="preserve">
+    <value>Domyślny format daty</value>
+  </data>
+  <data name="Settings_Global_DefaultDateFormat_Hint" xml:space="preserve">
+    <value>Domyślny format daty serwera dla użytkowników, którzy nie określają własnych preferencji.</value>
+  </data>
+  <data name="Settings_Global_DefaultTimeFormat" xml:space="preserve">
+    <value>Domyślny format czasu</value>
+  </data>
+  <data name="Settings_Global_DefaultTimeFormat_Hint" xml:space="preserve">
+    <value>Domyślny format czasu serwera dla użytkowników, którzy nie określają własnych preferencji.</value>
+  </data>
 </root>

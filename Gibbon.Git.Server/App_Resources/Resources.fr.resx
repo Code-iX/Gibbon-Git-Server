@@ -899,4 +899,34 @@ The regular C# string formatting rules apply: To get {} in your link you need to
   <data name="Yes" xml:space="preserve">
     <value>Oui</value>
   </data>
+  <data name="Settings_Global_DateFormat" xml:space="preserve">
+    <value>Format de date</value>
+  </data>
+  <data name="Settings_Global_DateFormat_Hint" xml:space="preserve">
+    <value>Format de date préféré pour l'affichage des dates dans l'application.</value>
+  </data>
+  <data name="Settings_Global_TimeFormat" xml:space="preserve">
+    <value>Format d'heure</value>
+  </data>
+  <data name="Settings_Global_TimeFormat_Hint" xml:space="preserve">
+    <value>Format d'heure préféré pour l'affichage des heures dans l'application.</value>
+  </data>
+  <data name="MeController_Settings_UseServerDefault" xml:space="preserve">
+    <value>Utiliser le paramètre par défaut du serveur</value>
+  </data>
+  <data name="Repository_Detail_LastCommitDate" xml:space="preserve">
+    <value>Dernier commit</value>
+  </data>
+  <data name="Settings_Global_DefaultDateFormat" xml:space="preserve">
+    <value>Format de date par défaut</value>
+  </data>
+  <data name="Settings_Global_DefaultDateFormat_Hint" xml:space="preserve">
+    <value>Format de date par défaut du serveur pour les utilisateurs qui ne spécifient pas leur propre préférence.</value>
+  </data>
+  <data name="Settings_Global_DefaultTimeFormat" xml:space="preserve">
+    <value>Format d'heure par défaut</value>
+  </data>
+  <data name="Settings_Global_DefaultTimeFormat_Hint" xml:space="preserve">
+    <value>Format d'heure par défaut du serveur pour les utilisateurs qui ne spécifient pas leur propre préférence.</value>
+  </data>
 </root>

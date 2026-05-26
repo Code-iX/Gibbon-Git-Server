@@ -31,6 +31,9 @@ public class UserSettingsEntityConfiguration : IEntityTypeConfiguration<UserSett
         builder.Property(e => e.DateFormat)
             .HasMaxLength(20);
 
+        builder.Property(e => e.TimeFormat)
+            .HasMaxLength(20);
+
         builder.Property(e => e.DefaultHomePage)
             .HasMaxLength(100);
     }
