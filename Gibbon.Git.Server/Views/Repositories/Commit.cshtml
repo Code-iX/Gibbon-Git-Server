@@ -1,6 +1,6 @@
 ﻿@model RepositoryCommitModel
 @{
-    ViewBag.Title = Resources.Repository_Commit_Detail;
+    ViewBag.Title = Localizer["Repository_Commit_Detail"];
     ViewBag.CommitID = Model.ID;
     ViewBag.ModelName = Model.Name;
     Layout = "~/Views/Repositories/_RepositoriesLayout.cshtml";
@@ -23,7 +23,7 @@
     </div>
 
     <div class="diff">
-        <h3>@Resources.Repository_Commit_Details</h3>
+        <h3>@Localizer["Repository_Commit_Details"]</h3>
         @foreach (var item in Model.Changes.Where(i => i.Status is LibGit2Sharp.ChangeKind.Modified or LibGit2Sharp.ChangeKind.Added))
         {
             <div class="blob" id="@("change-" + item.ChangeId)">

@@ -76,6 +76,8 @@ switch (databaseProvider)
 services.AddLogging();
 services.AddMemoryCache();
 
+services.AddLocalization(options => options.ResourcesPath = "Resources");
+
 services.AddSingleton<IPathResolver, PathResolver>();
 services.AddSingleton<IGitVersionService, GitVersionService>();
 //services.AddSingleton<ICertificateService, CertificateService>();
@@ -164,7 +166,13 @@ services.AddAuthorization(options =>
 });
 
 services.AddControllersWithViews()
-    .AddCookieTempDataProvider();
+    .AddCookieTempDataProvider()
+    .AddViewLocalization()
+    .AddDataAnnotationsLocalization(options =>
+    {
+        options.DataAnnotationLocalizerProvider = (type, factory) =>
+            factory.Create(typeof(Gibbon.Git.Server.SharedResource));
+    });
 
 #if DEBUG         
 if (env.IsDevelopment())

@@ -4,10 +4,10 @@ namespace Gibbon.Git.Server.Data;
 
 public enum RepositoryPushMode
 {
-    [Display(ResourceType = typeof(Resources), Name = "No")]
+    [Display(Name = "No")]
     No = 0,
-    [Display(ResourceType = typeof(Resources), Name = "Yes")]
+    [Display(Name = "Yes")]
     Yes,
-    [Display(ResourceType = typeof(Resources), Name = "Global")]
+    [Display(Name = "Global")]
     Global,
 }

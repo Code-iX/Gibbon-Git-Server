@@ -5,7 +5,7 @@ namespace Gibbon.Git.Server.Models;
 
 public class MeSettingsModel
 {
-    [Display(ResourceType = typeof(Resources), Name = "Settings_Global_DefaultLanguage")]
+    [Display(Name = "Settings_Global_DefaultLanguage")]
     public string PreferredLanguage { get; set; }
 
     /// <summary>

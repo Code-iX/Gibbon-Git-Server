@@ -5,22 +5,22 @@ namespace Gibbon.Git.Server.Models;
 
 public class ResetPasswordModel
 {
-    [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Required")]
-    [StringLength(50, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_StringLength")]
-    [Display(ResourceType = typeof(Resources), Name = "Home_ResetPassword_Username")]
+    [Required(ErrorMessage = "Validation_Required")]
+    [StringLength(50, ErrorMessage = "Validation_StringLength")]
+    [Display(Name = "Home_ResetPassword_Username")]
     public string Username { get; set; }
 
-    [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Required")]
-    [StringLength(50, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_StringLength")]
+    [Required(ErrorMessage = "Validation_Required")]
+    [StringLength(50, ErrorMessage = "Validation_StringLength")]
     [DataType(DataType.Password)]
-    [Display(ResourceType = typeof(Resources), Name = "Home_ResetPassword_Password")]
+    [Display(Name = "Home_ResetPassword_Password")]
     public string Password { get; set; }
 
-    [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Required")]
-    [StringLength(50, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_StringLength")]
-    [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Compare")]
+    [Required(ErrorMessage = "Validation_Required")]
+    [StringLength(50, ErrorMessage = "Validation_StringLength")]
+    [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Validation_Compare")]
     [DataType(DataType.Password)]
-    [Display(ResourceType = typeof(Resources), Name = "Home_ResetPassword_ConfirmPassword")]
+    [Display(Name = "Home_ResetPassword_ConfirmPassword")]
     public string ConfirmPassword { get; set; }
 
     [HiddenInput]

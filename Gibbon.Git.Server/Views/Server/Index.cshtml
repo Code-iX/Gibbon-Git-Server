@@ -1,14 +1,14 @@
 ﻿@model ServerOverviewModel
 @{
     Layout = "_ServerLayout";
-    ViewBag.Title = Resources.Settings_Index_Title;
+    ViewBag.Title = Localizer["Settings_Index_Title"];
 }
 
 <div class="pure-form pure-form-aligned detail">
     <fieldset>
         <div class="pure-control-group">
             @Html.LabelFor(m => m.IsDemoActive)           
-            <span>@(Model.IsDemoActive ? @Resources.Yes : @Resources.No)</span>
+            <span>@(Model.IsDemoActive ? @Localizer["Yes"] : @Localizer["No"])</span>
         </div>
 
 

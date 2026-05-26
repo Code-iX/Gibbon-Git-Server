@@ -1,6 +1,8 @@
 ﻿using Gibbon.Git.Server.Configuration;
 using Gibbon.Git.Server.Models;
+using Gibbon.Git.Server;
 using MailKit.Net.Smtp;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
@@ -11,11 +13,13 @@ public class MailService : IMailService
 {
     private readonly ILogger<MailService> _logger;
     private readonly MailSettings _mailSettings;
+    private readonly IStringLocalizer<SharedResource> _localizer;
 
-    public MailService(ILogger<MailService> logger, IOptions<MailSettings> mailSettings)
+    public MailService(ILogger<MailService> logger, IOptions<MailSettings> mailSettings, IStringLocalizer<SharedResource> localizer)
     {
         _mailSettings = mailSettings.Value;
         _logger = logger;
+        _localizer = localizer;
     }
 
     public bool SendForgotPasswordEmail(UserModel user, string passwordResetUrl)
@@ -28,11 +32,11 @@ public class MailService : IMailService
             MailboxAddress emailTo = new MailboxAddress(user.Username, user.Email);
             message.From.Add(emailFrom);
             message.To.Add(emailTo);
-            message.Subject = $"{Resources.Product_Name} - {Resources.Email_PasswordReset_Title}";
+            message.Subject = $"{_localizer["Product_Name"]} - {_localizer["Email_PasswordReset_Title"]}";
 
             var bodyBuilder = new BodyBuilder
             {
-                HtmlBody = $"{Resources.Email_PasswordReset_Body}<a href='{passwordResetUrl}'>{passwordResetUrl}</a>"
+                HtmlBody = $"{_localizer["Email_PasswordReset_Body"]}<a href='{passwordResetUrl}'>{passwordResetUrl}</a>"
             };
             message.Body = bodyBuilder.ToMessageBody();
 

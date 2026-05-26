@@ -50,18 +50,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Update="App_Resources\Resources.Designer.cs">
-			<DependentUpon>Resources.resx</DependentUpon>
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-		</Compile>
+		<Compile Remove="**\*.Designer.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Update="App_Resources\Resources.resx">
+		<EmbeddedResource Update="Resources\SharedResource.resx">
 			<SubType>Designer</SubType>
-			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-			<Generator>PublicResXFileCodeGenerator</Generator>
 		</EmbeddedResource>
 	</ItemGroup>
 

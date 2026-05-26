@@ -9,15 +9,15 @@
 
     @if (!User.IsWindowsAuthenticated())
     {
-        <li><a href="@Url.Action("Logout", "Home")"><i class="fa fa-sign-out"></i> @Resources.Layout_Logout</a></li>
+        <li><a href="@Url.Action("Logout", "Home")"><i class="fa fa-sign-out"></i> @Localizer["Layout_Logout"]</a></li>
     }
 }
 else
 {
-    <li><a href="@Url.Action("Login", "Home")"><i class="fa fa-sign-in"></i> @Resources.Layout_Login</a></li>
+    <li><a href="@Url.Action("Login", "Home")"><i class="fa fa-sign-in"></i> @Localizer["Layout_Login"]</a></li>
     @if (ServerSettings.AllowAnonymousRegistration)
     {
         //TODO We want a Account/Register
-        <li><a href="@Url.Action("Create", "Users")"><i class="fa fa-pencil"></i> @Resources.Layout_Register</a></li>
+        <li><a href="@Url.Action("Create", "Users")"><i class="fa fa-pencil"></i> @Localizer["Layout_Register"]</a></li>
     }
 }

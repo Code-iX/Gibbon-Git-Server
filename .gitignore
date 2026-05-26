@@ -270,6 +270,11 @@ FakesAssemblies/
 # Microsoft Roslyn
 *.sln.ide/
 
+# Resource designer files (auto-generated from .resx)
+# Exclude resource designer files but keep migration designers
+**/Resources/*.Designer.cs
+**/App_Resources/*.Designer.cs
+
 # =========================
 # Windows detritus
 # =========================

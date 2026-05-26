@@ -1,7 +1,7 @@
 ﻿@model RepositoryCommitsModel
 @{
     Layout = "~/Views/Repositories/_RepositoriesLayout.cshtml";
-    ViewBag.Title = Resources.Repository_Tags_Title;
+    ViewBag.Title = Localizer["Repository_Tags_Title"];
 }
 
 @if (Model == null)
@@ -17,10 +17,10 @@
         <table class="pure-table pure-table-striped">
             <thead>
             <tr>
-                <th>@Resources.Repository_Tags_Title</th>
-                <th>@Resources.Repository_Commit_Message</th>
-                <th>@Resources.Repository_Commit_Author</th>
-                <th>@Resources.Repository_Commit_Date</th>
+                <th>@Localizer["Repository_Tags_Title"]</th>
+                <th>@Localizer["Repository_Commit_Message"]</th>
+                <th>@Localizer["Repository_Commit_Author"]</th>
+                <th>@Localizer["Repository_Commit_Date"]</th>
             </tr>
             </thead>
             <tbody>
@@ -38,6 +38,6 @@
     }
     else
     {
-        <p>@Resources.No_Tags_Found</p>
+        <p>@Localizer["No_Tags_Found"]</p>
     }
 </div>

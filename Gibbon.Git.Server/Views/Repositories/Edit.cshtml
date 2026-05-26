@@ -2,7 +2,7 @@
 @model RepositoryDetailModel
 
 @{
-    ViewBag.Title = Resources.Repository_Edit_Title;
+    ViewBag.Title = Localizer["Repository_Edit_Title"];
 }
 
 @if (Model == null)
@@ -22,14 +22,14 @@
 @if (ViewBag.UpdateSuccess != null && ViewBag.UpdateSuccess)
 {
     <div class="summary-success">
-        <p>@Resources.Repository_Edit_UpdateSuccess</p>
+        <p>@Localizer["Repository_Edit_UpdateSuccess"]</p>
     </div>
 }
 
 @using (Html.BeginForm("Edit", "Repositories", FormMethod.Post, new { @class = "pure-form pure-form-aligned", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(false, Resources.Repository_Edit_Fail)
+    @Html.ValidationSummary(false, Localizer["Repository_Edit_Fail"].Value, null)
     @Html.HiddenFor(m => m.Id)
 
     <fieldset>
@@ -61,7 +61,7 @@
         <div class="pure-control-group">
             @Html.LabelFor(m => m.AllowAnonymous)
             @Html.CheckBoxFor(m => m.AllowAnonymous, new { @onClick = "document.getElementById('AllowAnonymousPush').disabled = !this.checked" })
-            <i class="fa fa-info-circle" title="@Resources.Repository_AllowAnonymousHint"></i>
+            <i class="fa fa-info-circle" title="@Localizer["Repository_AllowAnonymousHint"]"></i>
         </div>
 
         <div class="pure-control-group">
@@ -80,7 +80,7 @@
                     <option value="@value" selected="@isSelected">@value</option>
                 }
             </select>
-            <i class="fa fa-info-circle" title="@Resources.Repository_AllowAnonymousPushHint"></i>
+            <i class="fa fa-info-circle" title="@Localizer["Repository_AllowAnonymousPushHint"]"></i>
         </div>
 
         <div class="pure-control-group">
@@ -107,7 +107,7 @@
         <div class="pure-control-group">
             @Html.LabelFor(m => m.LinksUrl)
             @Html.TextBoxFor(m => m.LinksUrl, attribs)
-            <i class="fa fa-info-circle" title="@Resources.Settings_Global_LinksUrl_Hint"></i>
+            <i class="fa fa-info-circle" title="@Localizer["Settings_Global_LinksUrl_Hint"]"></i>
         </div>
 
         <!-- Benutzer-Auswahl -->
@@ -122,7 +122,7 @@
                     </div>
                 }
             </span>
-            <i class="fa fa-info-circle" title="@Resources.Repository_UsersHint"></i>
+            <i class="fa fa-info-circle" title="@Localizer["Repository_UsersHint"]"></i>
         </div>
 
         <!-- Administratoren-Auswahl -->
@@ -137,7 +137,7 @@
                     </div>
                 }
             </span>
-            <i class="fa fa-info-circle" title="@Resources.Repository_AdministratorsHint"></i>
+            <i class="fa fa-info-circle" title="@Localizer["Repository_AdministratorsHint"]"></i>
             @Html.ValidationMessageFor(m => m.Administrators)
         </div>
 
@@ -153,12 +153,12 @@
                     </div>
                 }
             </span>
-            <i class="fa fa-info-circle" title="@Resources.Repository_TeamsHint"></i>
+            <i class="fa fa-info-circle" title="@Localizer["Repository_TeamsHint"]"></i>
         </div>
 
         <div class="pure-controls">
-            <a class="pure-button" href="@Url.Action("Detail", new { name = Model.Name })"><i class="fa fa-long-arrow-left"></i> @Resources.Repository_Edit_Back</a>
-            <button type="submit" class="pure-button pure-button-primary"><i class="fa fa-save"></i> @Resources.Repository_Edit_Submit</button>
+            <a class="pure-button" href="@Url.Action("Detail", new { name = Model.Name })"><i class="fa fa-long-arrow-left"></i> @Localizer["Repository_Edit_Back"]</a>
+            <button type="submit" class="pure-button pure-button-primary"><i class="fa fa-save"></i> @Localizer["Repository_Edit_Submit"]</button>
         </div>
     </fieldset>
 }

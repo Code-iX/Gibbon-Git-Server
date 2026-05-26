@@ -3,11 +3,11 @@
 
     ViewBag.Title = statusCode switch
     {
-        401 => Resources.Home_Unauthorized_Title,
-        403 => Resources.Error_Forbidden_Title,
-        404 => Resources.Home_PageNotFound_Title,
-        500 => Resources.Home_ServerError_Title,
-        _ => Resources.Home_Error_Title
+        401 => Localizer["Home_Unauthorized_Title"],
+        403 => Localizer["Error_Forbidden_Title"],
+        404 => Localizer["Home_PageNotFound_Title"],
+        500 => Localizer["Home_ServerError_Title"],
+        _ => Localizer["Home_Error_Title"]
     };
 }
 
@@ -20,19 +20,19 @@
         @switch (statusCode)
         {
             case 401:
-                @Resources.Home_Unauthorized_Text
+                @Localizer["Home_Unauthorized_Text"]
                 break;
             case 403:
-                @Resources.Error_Forbidden_Text
+                @Localizer["Error_Forbidden_Text"]
                 break;
             case 404:
-                @Resources.Home_PageNotFound_Text
+                @Localizer["Home_PageNotFound_Text"]
                 break;
             case 500:
-                @Resources.Home_ServerError_Text
+                @Localizer["Home_ServerError_Text"]
                 break;
             default:
-                @Resources.Home_Error_Text
+                @Localizer["Home_Error_Text"]
                 break;
         }
     </p>

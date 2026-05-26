@@ -17,11 +17,11 @@ public class RepositoryLogoDetailModel
         _data = data;
     }
 
-    [FileExtensions(Extensions = "png,jpg,jpeg,gif", ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "FileUploadAttribute_ErrorMessage")]
-    [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_Logo_PostedFile")]
+    [FileExtensions(Extensions = "png,jpg,jpeg,gif", ErrorMessage = "FileUploadAttribute_ErrorMessage")]
+    [Display(Name = "Repository_Detail_Logo_PostedFile")]
     public IFormFile PostedFile { get; set; }
 
-    [Display(ResourceType = typeof(Resources), Name = "Repository_Detail_RemoveLogo")]
+    [Display(Name = "Repository_Detail_RemoveLogo")]
     public bool RemoveLogo { get; set; }
 
     public bool Exists => BinaryData != null;

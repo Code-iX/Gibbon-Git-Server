@@ -3,23 +3,26 @@
 using Gibbon.Git.Server.Configuration;
 using Gibbon.Git.Server.Extensions;
 using Gibbon.Git.Server.Models;
+using Gibbon.Git.Server;
 using Gibbon.Git.Server.Security;
 using Gibbon.Git.Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Localization;
 
 namespace Gibbon.Git.Server.Controllers;
 
 [Authorize]
-public class AccountController(IUserService userService, IRoleProvider roleProvider, ICultureService cultureService, IUserSettingsService userSettingsService)
+public class AccountController(IUserService userService, IRoleProvider roleProvider, ICultureService cultureService, IUserSettingsService userSettingsService, IStringLocalizer<SharedResource> localizer)
     : Controller
 {
     private readonly IUserService _userService = userService;
     private readonly IRoleProvider _roleProvider = roleProvider;
     private readonly ICultureService _cultureService = cultureService;
     private readonly IUserSettingsService _userSettingsService = userSettingsService;
+    private readonly IStringLocalizer<SharedResource> _localizer = localizer;
 
     public UserModel UserModel { get; set; }
 
@@ -98,7 +101,7 @@ public class AccountController(IUserService userService, IRoleProvider roleProvi
 
         if (string.Equals(model.OldPassword, model.NewPassword, StringComparison.Ordinal))
         {
-            ModelState.AddModelError(nameof(model.NewPassword), Resources.MeController_Password_MustBeDifferent);
+            ModelState.AddModelError(nameof(model.NewPassword), _localizer["MeController_Password_MustBeDifferent"]);
             return View(model);
         }
 
@@ -106,7 +109,7 @@ public class AccountController(IUserService userService, IRoleProvider roleProvi
 
         if (!_userService.IsPasswordValid(username, model.OldPassword))
         {
-            ModelState.AddModelError(nameof(model.OldPassword), Resources.Account_Edit_OldPasswordIncorrect);
+            ModelState.AddModelError(nameof(model.OldPassword), _localizer["Account_Edit_OldPasswordIncorrect"]);
             return View(model);
         }
 
@@ -132,7 +135,7 @@ public class AccountController(IUserService userService, IRoleProvider roleProvi
 
         cultureItems.Insert(0, new SelectListItem
         {
-            Text = Resources.MeController_Settings_UseServerLanguage,
+            Text = _localizer["MeController_Settings_UseServerLanguage"],
             Value = ""
         });
 

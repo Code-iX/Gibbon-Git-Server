@@ -1,20 +1,23 @@
 ﻿using Gibbon.Git.Server.Data;
 using Gibbon.Git.Server.Models;
+using Gibbon.Git.Server;
 using Gibbon.Git.Server.Security;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace Gibbon.Git.Server.Controllers;
 
 [Authorize]
-public class TeamsController(IUserService userService, IRepositoryService repositoryService, ITeamService teamRepository)
+public class TeamsController(IUserService userService, IRepositoryService repositoryService, ITeamService teamRepository, IStringLocalizer<SharedResource> localizer)
     : Controller
 {
     private readonly IUserService _userService = userService;
     private readonly IRepositoryService _repositoryService = repositoryService;
 
     private readonly ITeamService _teamRepository = teamRepository;
+    private readonly IStringLocalizer<SharedResource> _localizer = localizer;
 
     public IActionResult Index()
     {
@@ -99,7 +102,7 @@ public class TeamsController(IUserService userService, IRepositoryService reposi
         var teammodel = ConvertTeamDetailModel(model);
         if (!_teamRepository.Create(teammodel))
         {
-            ModelState.AddModelError("", Resources.Team_Create_Failure);
+            ModelState.AddModelError("", _localizer["Team_Create_Failure"]);
             return View(model);
         }
 

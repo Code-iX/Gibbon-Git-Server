@@ -5,6 +5,10 @@ namespace Gibbon.Git.Server.Middleware.Attributes;
 
 public class IsValidRegexAttribute : ValidationAttribute
 {
+    public IsValidRegexAttribute() : base("Validation_Invalid_Regex")
+    {
+    }
+
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
         if (value == null)
@@ -21,10 +25,10 @@ public class IsValidRegexAttribute : ValidationAttribute
             }
             catch (ArgumentException)
             {
-                return new ValidationResult(Resources.Validation_Invalid_Regex);
+                return new ValidationResult(FormatErrorMessage(validationContext.DisplayName));
             }
         }
 
-        return new ValidationResult(Resources.Validation_Invalid_Regex);
+        return new ValidationResult(FormatErrorMessage(validationContext.DisplayName));
     }
 }

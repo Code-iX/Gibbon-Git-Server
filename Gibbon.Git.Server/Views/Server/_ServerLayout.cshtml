@@ -7,13 +7,13 @@
 </h1>
 <div class="pure-menu pure-menu-open pure-menu-horizontal repository-menu">
     <ul>
-        <li><a href="@Url.Action("Index", new { id = ViewBag.ID })" class="@Html.IsActive("Index")"><i class="fa fa-hdd-o"></i> @Resources.ServerLayout_Header_Overview
+        <li><a href="@Url.Action("Index", new { id = ViewBag.ID })" class="@Html.IsActive("Index")"><i class="fa fa-hdd-o"></i> @Localizer["ServerLayout_Header_Overview"]
         </a></li>
-        <li><a href="@Url.Action("Git", new { id = ViewBag.ID })" class="@Html.IsActive("Password")"><i class="fa fa-random"></i> @Resources.ServerLayout_Header_Git
+        <li><a href="@Url.Action("Git", new { id = ViewBag.ID })" class="@Html.IsActive("Password")"><i class="fa fa-random"></i> @Localizer["ServerLayout_Header_Git"]
         </a></li>
-        <li><a href="@Url.Action("Database", new { id = ViewBag.ID })" class="@Html.IsActive("Database")"><i class="fa fa-random"></i> @Resources.ServerLayout_Header_Database
+        <li><a href="@Url.Action("Database", new { id = ViewBag.ID })" class="@Html.IsActive("Database")"><i class="fa fa-random"></i> @Localizer["ServerLayout_Header_Database"]
         </a></li>
-        <li><a href="@Url.Action("Settings", new { id = ViewBag.ID })" class="@Html.IsActive("Settings")"><i class="fa fa-tag"></i> @Resources.Settings_Index_Title</a></li>
+        <li><a href="@Url.Action("Settings", new { id = ViewBag.ID })" class="@Html.IsActive("Settings")"><i class="fa fa-tag"></i> @Localizer["Settings_Index_Title"]</a></li>
     </ul>
 </div>
 
