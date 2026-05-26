@@ -2367,6 +2367,51 @@ namespace Gibbon.Git.Server.App_Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name Format.
+        /// </summary>
+        public static string Settings_NameFormat {
+            get {
+                return ResourceManager.GetString("Settings_NameFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose how names are displayed throughout the application..
+        /// </summary>
+        public static string Settings_NameFormat_Hint {
+            get {
+                return ResourceManager.GetString("Settings_NameFormat_Hint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to First Last (e.g., John Smith).
+        /// </summary>
+        public static string Settings_NameFormat_FirstLast {
+            get {
+                return ResourceManager.GetString("Settings_NameFormat_FirstLast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last, First (e.g., Smith, John).
+        /// </summary>
+        public static string Settings_NameFormat_LastCommaFirst {
+            get {
+                return ResourceManager.GetString("Settings_NameFormat_LastCommaFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last First (e.g., Smith John).
+        /// </summary>
+        public static string Settings_NameFormat_LastFirst {
+            get {
+                return ResourceManager.GetString("Settings_NameFormat_LastFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All repositories are stored in this directory..
         /// </summary>
         public static string Settings_Global_DirectoryHint {

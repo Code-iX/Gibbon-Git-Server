@@ -136,12 +136,33 @@ public class AccountController(IUserService userService, IRoleProvider roleProvi
             Value = ""
         });
 
+        var nameFormatItems = new List<SelectListItem>
+        {
+            new SelectListItem
+            {
+                Text = Resources.Settings_NameFormat_FirstLast,
+                Value = ((int)Data.Entities.NameFormat.FirstLast).ToString()
+            },
+            new SelectListItem
+            {
+                Text = Resources.Settings_NameFormat_LastCommaFirst,
+                Value = ((int)Data.Entities.NameFormat.LastCommaFirst).ToString()
+            },
+            new SelectListItem
+            {
+                Text = Resources.Settings_NameFormat_LastFirst,
+                Value = ((int)Data.Entities.NameFormat.LastFirst).ToString()
+            }
+        };
+
         var settings = await _userSettingsService.GetSettings(UserModel.Id);
 
         return View(new MeSettingsModel
         {
             PreferredLanguage = settings.PreferredLanguage,
-            AvailableLanguages = cultureItems
+            PreferredNameFormat = settings.PreferredNameFormat,
+            AvailableLanguages = cultureItems,
+            AvailableNameFormats = nameFormatItems
         });
     }
 
@@ -160,12 +181,32 @@ public class AccountController(IUserService userService, IRoleProvider roleProvi
                 })
                 .ToList();
 
+            settings.AvailableNameFormats = new List<SelectListItem>
+            {
+                new SelectListItem
+                {
+                    Text = Resources.Settings_NameFormat_FirstLast,
+                    Value = ((int)Data.Entities.NameFormat.FirstLast).ToString()
+                },
+                new SelectListItem
+                {
+                    Text = Resources.Settings_NameFormat_LastCommaFirst,
+                    Value = ((int)Data.Entities.NameFormat.LastCommaFirst).ToString()
+                },
+                new SelectListItem
+                {
+                    Text = Resources.Settings_NameFormat_LastFirst,
+                    Value = ((int)Data.Entities.NameFormat.LastFirst).ToString()
+                }
+            };
+
             return View(settings);
         }
 
         await _userSettingsService.SaveSettings(UserModel.Id, new UserSettings
         {
-            PreferredLanguage = settings.PreferredLanguage
+            PreferredLanguage = settings.PreferredLanguage,
+            PreferredNameFormat = settings.PreferredNameFormat
         });
 
         return RedirectToAction("Settings");

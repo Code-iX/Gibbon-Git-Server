@@ -700,6 +700,21 @@
   <data name="Settings_Global_DefaultLanguage_Hint" xml:space="preserve">
     <value>Language set by default in the application.</value>
   </data>
+  <data name="Settings_NameFormat" xml:space="preserve">
+    <value>Name Format</value>
+  </data>
+  <data name="Settings_NameFormat_Hint" xml:space="preserve">
+    <value>Choose how names are displayed throughout the application.</value>
+  </data>
+  <data name="Settings_NameFormat_FirstLast" xml:space="preserve">
+    <value>First Last (e.g., John Smith)</value>
+  </data>
+  <data name="Settings_NameFormat_LastCommaFirst" xml:space="preserve">
+    <value>Last, First (e.g., Smith, John)</value>
+  </data>
+  <data name="Settings_NameFormat_LastFirst" xml:space="preserve">
+    <value>Last First (e.g., Smith John)</value>
+  </data>
   <data name="Repository_Detail_Status" xml:space="preserve">
     <value>Status</value>
   </data>
