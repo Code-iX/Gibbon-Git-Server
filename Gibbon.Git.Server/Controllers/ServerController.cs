@@ -132,6 +132,7 @@ public class ServerController(IOptions<ApplicationSettings> options, IGitDownloa
             IsCommitAuthorAvatarVisible = settings.IsCommitAuthorAvatarVisible,
             LinksRegex = settings.LinksRegex,
             LinksUrl = settings.LinksUrl,
+            DefaultRepositoryView = settings.DefaultRepositoryView,
             AvailableLanguages = cultureItems
         });
     }
@@ -177,7 +178,8 @@ public class ServerController(IOptions<ApplicationSettings> options, IGitDownloa
             SiteCssUrl = model.SiteCssUrl,
             IsCommitAuthorAvatarVisible = model.IsCommitAuthorAvatarVisible,
             LinksRegex = model.LinksRegex,
-            LinksUrl = model.LinksUrl
+            LinksUrl = model.LinksUrl,
+            DefaultRepositoryView = model.DefaultRepositoryView
         };
         await _serverSettingsService.SaveSettings(settings);
         TempData["UpdateSuccess"] = true;

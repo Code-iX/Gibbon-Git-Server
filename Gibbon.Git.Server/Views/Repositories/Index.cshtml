@@ -1,12 +1,19 @@
 ﻿@using Gibbon.Git.Server.Configuration
 @using Gibbon.Git.Server.Data
+@using Gibbon.Git.Server.Extensions
+@using Gibbon.Git.Server.Helpers
 @using Gibbon.Git.Server.Security
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @inject ServerSettings ServerSettings
+@inject IUserSettingsService UserSettingsService
 @model Dictionary<string, RepositoryDetailModel[]>
 
 @{
     ViewBag.Title = Resources.Repository_Index_Title;
+    var userId = User.Id();
+    var userSettings = await UserSettingsService.GetSettings(userId);
+    var defaultView = userSettings.DefaultRepositoryView ?? ServerSettings.DefaultRepositoryView;
+    var defaultAction = RepositoryViewHelper.GetActionName(defaultView);
 }
 
 @functions
@@ -120,7 +127,7 @@
                             </td>
                             <td>
 
-                                @Html.ActionLink(GetNameToDisplay(repo.Name, repo.Status), "Detail", new { name = repo.Name }, new { @class = "RepositoryName detail" + (repo.Logo.Exists ? " customLogo" : ""), @id = "repo_" + repo.Id })
+                                @Html.ActionLink(GetNameToDisplay(repo.Name, repo.Status), defaultAction, new { name = repo.Name }, new { @class = "RepositoryName detail" + (repo.Logo.Exists ? " customLogo" : ""), @id = "repo_" + repo.Id })
 
                             </td>
                             <td>

@@ -33,5 +33,8 @@ public class UserSettingsEntityConfiguration : IEntityTypeConfiguration<UserSett
 
         builder.Property(e => e.DefaultHomePage)
             .HasMaxLength(100);
+
+        builder.Property(e => e.DefaultRepositoryView)
+            .HasConversion<int?>();
     }
 }

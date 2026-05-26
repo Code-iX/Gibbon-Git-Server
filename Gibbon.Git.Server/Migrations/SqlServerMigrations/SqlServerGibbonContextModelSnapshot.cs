@@ -137,6 +137,9 @@ namespace Gibbon.Git.Server.Migrations.SqlServerMigrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
+                    b.Property<int>("DefaultRepositoryView")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsCommitAuthorAvatarVisible")
                         .HasColumnType("bit");
 
@@ -270,6 +273,9 @@ namespace Gibbon.Git.Server.Migrations.SqlServerMigrations
                     b.Property<string>("DefaultHomePage")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<int?>("DefaultRepositoryView")
+                        .HasColumnType("int");
 
                     b.Property<string>("PreferredLanguage")
                         .HasMaxLength(10)

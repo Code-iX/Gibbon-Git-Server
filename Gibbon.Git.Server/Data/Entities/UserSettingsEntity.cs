@@ -1,4 +1,6 @@
-﻿namespace Gibbon.Git.Server.Data.Entities;
+﻿using Gibbon.Git.Server.Data;
+
+namespace Gibbon.Git.Server.Data.Entities;
 
 public class UserSettingsEntity
 {
@@ -9,4 +11,5 @@ public class UserSettingsEntity
     public string TimeZone { get; set; }
     public string DateFormat { get; set; }
     public string DefaultHomePage { get; set; }
+    public RepositoryDefaultView? DefaultRepositoryView { get; set; }
 }

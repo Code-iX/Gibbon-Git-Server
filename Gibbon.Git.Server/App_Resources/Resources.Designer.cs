@@ -2865,5 +2865,50 @@ namespace Gibbon.Git.Server.App_Resources {
                 return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default Repository View.
+        /// </summary>
+        public static string Settings_Global_DefaultRepositoryView {
+            get {
+                return ResourceManager.GetString("Settings_Global_DefaultRepositoryView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The default view to show when navigating to a repository..
+        /// </summary>
+        public static string Settings_Global_DefaultRepositoryView_Hint {
+            get {
+                return ResourceManager.GetString("Settings_Global_DefaultRepositoryView_Hint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default Repository View.
+        /// </summary>
+        public static string Settings_User_DefaultRepositoryView {
+            get {
+                return ResourceManager.GetString("Settings_User_DefaultRepositoryView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your preferred default view when navigating to a repository. Leave empty to use the server default..
+        /// </summary>
+        public static string Settings_User_DefaultRepositoryView_Hint {
+            get {
+                return ResourceManager.GetString("Settings_User_DefaultRepositoryView_Hint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Server Default.
+        /// </summary>
+        public static string Settings_User_UseServerDefault {
+            get {
+                return ResourceManager.GetString("Settings_User_UseServerDefault", resourceCulture);
+            }
+        }
     }
 }
